@@ -1,0 +1,16 @@
+export * from "./adjunct/index.js"
+export * from "./affix/index.js"
+export * from "./ca/index.js"
+export * from "./formative/index.js"
+export * from "./helpers/deep-freeze.js"
+export * from "./helpers/dipthongs.js"
+export * from "./helpers/fill-defaults.js"
+export * from "./helpers/insert-glottal-stop.js"
+export * from "./helpers/permutations.js"
+export * from "./helpers/stress.js"
+export * from "./helpers/vowel-table.js"
+export * from "./helpers/with-wy-alternative.js"
+export * from "./phonotactics/index.js"
+export * from "./referential/index.js"
+
+// TODO: Slot IV/VI shortcuts

@@ -1,0 +1,13 @@
+{
+  "name": "ithkuil",
+  "version": "0.1.0",
+  "description": "Utilities allowing for easy generation of romanized Ithkuilic text.",
+  "main": "index.js",
+  "author": "Zachary Sakowitz",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "prettier": "^2.8.8",
+    "typescript": "^5.0.4"
+  }
+}
