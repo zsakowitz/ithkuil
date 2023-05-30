@@ -6,6 +6,24 @@
   "author": "Zachary Sakowitz",
   "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zsakowitz/ithkuil.git"
+  },
+  "keywords": [
+    "conlang",
+    "generator",
+    "ithkuil",
+    "ithkuil-iv",
+    "new-ithkuil",
+    "text",
+    "text-generator",
+    "tnil"
+  ],
+  "bugs": {
+    "url": "https://github.com/zsakowitz/ithkuil/issues"
+  },
+  "homepage": "https://github.com/zsakowitz/ithkuil#readme",
   "devDependencies": {
     "prettier": "^2.8.8",
     "typescript": "^5.0.4"
