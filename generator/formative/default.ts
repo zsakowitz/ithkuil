@@ -1,3 +1,5 @@
+import { deepFreeze } from "../helpers/deep-freeze.js"
+import { fillDefaults } from "../helpers/fill-defaults.js"
 import type {
   Formative,
   FramedVerbalFormative,
@@ -5,8 +7,6 @@ import type {
   PartialFormative,
   UnframedVerbalFormative,
 } from "./index.js"
-import { deepFreeze } from "../helpers/deep-freeze.js"
-import { fillDefaults } from "../helpers/fill-defaults.js"
 
 /** The default nominal formative. */
 export const DEFAULT_NOMINAL_FORMATIVE: NominalFormative =
@@ -40,6 +40,8 @@ export const DEFAULT_NOMINAL_FORMATIVE: NominalFormative =
     caseScope: "CCN",
 
     case: "THM",
+
+    shortcut: false,
   })
 
 /** The default unframed verbal formative. */
@@ -72,6 +74,8 @@ export const DEFAULT_UNFRAMED_VERBAL_FORMATIVE: UnframedVerbalFormative =
     mood: "FAC",
 
     illocutionValidation: "OBS",
+
+    shortcut: false,
   })
 
 /** The default framed verbal formative. */
@@ -104,6 +108,8 @@ export const DEFAULT_FRAMED_VERBAL_FORMATIVE: FramedVerbalFormative =
     caseScope: "CCN",
 
     case: "THM",
+
+    shortcut: false,
   })
 
 /** An object mapping from formative types to their default objects. */
@@ -119,11 +125,11 @@ export const DEFAULT_FORMATIVES_BY_TYPE = /* @__PURE__ */ deepFreeze({
  * @returns A complete formative.
  */
 export function fillInDefaultFormativeSlots(
-  formative: PartialFormative
+  formative: PartialFormative,
 ): Formative {
   if (formative == null || formative.type == null) {
     throw new Error(
-      "You must provide the type of a formative: UNF/C, UNF/K, or FRM."
+      "You must provide the type of a formative: UNF/C, UNF/K, or FRM.",
     )
   }
 
@@ -137,7 +143,7 @@ export function fillInDefaultFormativeSlots(
   // `Omit<Formative, "ca"> as Formative` is okay.
   const output = fillDefaults<Omit<Formative, "ca">>(
     defaultValue,
-    formative
+    formative,
   ) as Formative
 
   // Safety: We own `output`, so mutation is okay.

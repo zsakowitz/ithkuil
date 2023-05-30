@@ -107,6 +107,12 @@ export type Affix =
 export type AffixMetadata = {
   /** Whether or not the affix is in reversed form. */
   reversed: boolean
+
+  /** Whether to insert a glottal stop in the vowel form. */
+  insertGlottalStop?: boolean
+
+  /** Whether the inserted glottal stop will be in word-final position. */
+  isGlottalStopWordFinal?: boolean
 }
 
 /**
@@ -117,7 +123,7 @@ export type AffixMetadata = {
  */
 export function affixToIthkuil(
   affix: Affix,
-  metadata: AffixMetadata
+  metadata: AffixMetadata,
 ): WithWYAlternative {
   let vowel = WithWYAlternative.of(
     "ca" in affix && affix.ca
@@ -126,8 +132,12 @@ export function affixToIthkuil(
       ? REFERENTIAL_AFFIX_CASE_TO_ITHKUIL_MAP[affix.case ?? "THM"]
       : ONE_INDEXED_STANDARD_VOWEL_TABLE[(affix.type - 1) as 0 | 1 | 2][
           affix.degree
-        ]
+        ],
   )
+
+  if (metadata.insertGlottalStop) {
+    vowel = vowel.insertGlottalStop(metadata.isGlottalStopWordFinal ?? false)
+  }
 
   const consonant =
     "ca" in affix && affix.ca

@@ -78,6 +78,17 @@ export const SLOT_II_MAP = /* @__PURE__ */ deepFreeze({
 })
 
 /**
+ * An object mapping stems and versions to their indices in the standard vowel
+ * table when an a+Ca shortcut is used.
+ */
+export const SLOT_II_SHORTCUT_MAP = /* @__PURE__ */ deepFreeze({
+  1: { PRC: 0, CPT: 1 },
+  2: { PRC: 2, CPT: 3 },
+  3: { PRC: 5, CPT: 6 },
+  0: { PRC: 7, CPT: 8 },
+})
+
+/**
  * Converts Slot II into Ithkuil.
  * @param slot The stem and version of the formative.
  * @param metadata Additional information relevant to Slot II.
@@ -85,7 +96,7 @@ export const SLOT_II_MAP = /* @__PURE__ */ deepFreeze({
  */
 export function slotIIToIthkuil(
   slot: SlotII,
-  metadata: SlotIIMetadata
+  metadata: SlotIIMetadata,
 ): string {
   if (Array.isArray(metadata.slotIII)) {
     return slot.version == "CPT" ? "ea" : "ae"

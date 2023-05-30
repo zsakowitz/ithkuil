@@ -158,3 +158,24 @@ const result14 = formativeToIthkuil({
 })
 
 strictEqual(result14, "ëiceloařouwa")
+
+const result15 = formativeToIthkuil({
+  type: "UNF/C",
+  root: "l",
+  shortcut: true,
+  version: "CPT",
+  stem: 2,
+  slotVAffixes: [{ type: 1, degree: 4, cs: "r" }],
+})
+
+strictEqual(result15, "wili'ra")
+
+const result16 = formativeToIthkuil({
+  type: "FRM",
+  root: "l",
+  shortcut: true,
+  slotVAffixes: [{ cs: "c", degree: 3, type: 1 }],
+  slotVIIAffixes: [{ cs: "k", degree: 8, type: 2 }],
+})
+
+console.log(result16)

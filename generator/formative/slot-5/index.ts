@@ -25,22 +25,21 @@ export type SlotVMetadata = {
  */
 export function slotVToIthkuil(
   slot: SlotV,
-  metadata: SlotVMetadata
+  metadata: SlotVMetadata,
 ): WithWYAlternative {
   if (slot.affixes.length == 0) {
     return EMPTY
   }
 
   if (metadata.isSlotVIElided) {
-    const affixes = slot.affixes.map((affix) =>
-      affixToIthkuil(affix, { reversed: false })
-    )
-
-    affixes[affixes.length - 1] = affixes[
-      affixes.length - 1
-    ]!.insertGlottalStop(metadata.isAtEndOfWord)
-
-    return affixes.reduce((a, b) => a.add(b))
+    return slot.affixes
+      .map((affix, index) =>
+        affixToIthkuil(affix, {
+          reversed: false,
+          insertGlottalStop: index == slot.affixes.length - 1,
+        }),
+      )
+      .reduce((a, b) => a.add(b))
   } else {
     return slot.affixes
       .map((affix) => affixToIthkuil(affix, { reversed: true }))
