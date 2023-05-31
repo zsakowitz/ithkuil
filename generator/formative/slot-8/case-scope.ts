@@ -1,12 +1,17 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
+import { Enum } from "../../helpers/enum.js"
+import type { VNType } from "./vn-type.js"
 
 /** A case-scope. */
 export type CaseScope = "CCN" | "CCA" | "CCS" | "CCQ" | "CCP" | "CCV"
 
 /** An array containing all case-scopes. */
 export const ALL_CASE_SCOPES: readonly CaseScope[] = /* @__PURE__ */ deepFreeze(
-  ["CCN", "CCA", "CCS", "CCQ", "CCP", "CCV"]
+  ["CCN", "CCA", "CCS", "CCQ", "CCP", "CCV"],
 )
+
+/** A Zod validator matching case scopes. */
+export const zodCaseScope = /* @__PURE__ */ new Enum(ALL_CASE_SCOPES)
 
 /** An object mapping case-scopes to their Ithkuilic counterparts. */
 export const CASE_SCOPE_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
@@ -56,10 +61,7 @@ export const CASE_SCOPE_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({
  * valence.
  * @returns Romanized Ithkuilic text representing the case-scope.
  */
-export function caseScopeToIthkuil(
-  caseScope: CaseScope,
-  vnType: "aspect" | "non-aspect" | "empty"
-) {
+export function caseScopeToIthkuil(caseScope: CaseScope, vnType: VNType) {
   const value = CASE_SCOPE_TO_ITHKUIL_MAP[`${vnType == "aspect"}`][caseScope]
 
   if (value == "h" && vnType == "empty") {

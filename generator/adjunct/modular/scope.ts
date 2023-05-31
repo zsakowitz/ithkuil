@@ -1,4 +1,5 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
+import { Enum } from "../../helpers/enum.js"
 
 /** The scope of a modular adjunct. */
 export type ModularAdjunctScope =
@@ -15,6 +16,11 @@ export const ALL_MODULAR_ADJUNCT_SCOPES: readonly ModularAdjunctScope[] =
     "FORMATIVE",
     "ADJACENT",
   ])
+
+/** A Zod validator matching modular adjunct scopes. */
+export const zodModularAdjunctScope = /* @__PURE__ */ new Enum(
+  ALL_MODULAR_ADJUNCT_SCOPES,
+)
 
 /**
  * An object mapping from modular adjunct scopes to their Ithkuilic

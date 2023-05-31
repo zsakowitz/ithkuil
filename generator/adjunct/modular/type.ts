@@ -1,4 +1,5 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
+import { Enum } from "../../helpers/enum.js"
 
 /**
  * The type of a modular adjunct, indicating whether it has scope over the
@@ -10,6 +11,11 @@ export type ModularAdjunctType = "WHOLE" | "PARENT" | "CONCAT"
 /** An array containing all modular adjunct types. */
 export const ALL_MODULAR_ADJUNCT_TYPES: readonly ModularAdjunctType[] =
   /* @__PURE__ */ deepFreeze(["WHOLE", "PARENT", "CONCAT"])
+
+/** A Zod validator matching modular adjunct types. */
+export const zodModularAdjunctType = /* @__PURE__ */ new Enum(
+  ALL_MODULAR_ADJUNCT_TYPES,
+)
 
 /**
  * An object mapping from modular adjunct types to their Ithkuilic translations.

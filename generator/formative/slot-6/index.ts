@@ -1,16 +1,22 @@
-import { caToIthkuil, geminateCA, type CA } from "../../ca/index.js"
+import { boolean, object } from "zod"
+import { caToIthkuil, geminateCA, zodCa, type CA } from "../../ca/index.js"
 
 /** Information directly pertaining to Slot VI. */
-export type SlotVI = {
-  /** The Ca of the formative. */
-  readonly ca: CA
-}
+export type SlotVI = CA
+
+/** A Zod validator matching Slot VI data. */
+export const zodSlotVI = zodCa
 
 /** Additional information relevant to Slot VI. */
 export type SlotVIMetadata = {
   /** Whether Slot V contains any affixes. */
   readonly isSlotVFilled: boolean
 }
+
+/** A Zod validator matching Slot VI metadata. */
+export const slotVIMetadata = /* @__PURE__ */ object({
+  isSlotVFilled: /* @__PURE__ */ boolean(),
+})
 
 /**
  * Converts Slot VI into Ithkuil.
@@ -20,9 +26,9 @@ export type SlotVIMetadata = {
  */
 export function slotVIToIthkuil(
   slot: SlotVI,
-  metadata: SlotVIMetadata
+  metadata: SlotVIMetadata,
 ): string {
-  let value = caToIthkuil(slot.ca)
+  let value = caToIthkuil(slot)
 
   if (metadata.isSlotVFilled) {
     value = geminateCA(value)

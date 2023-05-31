@@ -1,4 +1,5 @@
 import { deepFreeze } from "../helpers/deep-freeze.js"
+import { Enum } from "../helpers/enum.js"
 
 /** A register adjunct. */
 export type RegisterAdjunct =
@@ -13,6 +14,11 @@ export type RegisterAdjunct =
 /** An array containing all register adjuncts. */
 export const ALL_REGISTER_ADJUNCTS: readonly RegisterAdjunct[] =
   /* @__PURE__ */ deepFreeze(["NRR", "DSV", "PNT", "SPF", "EXM", "CGT", "END"])
+
+/** A Zod validator matching register adjuncts. */
+export const zodRegisterAdjunct = /* @__PURE__ */ new Enum(
+  ALL_REGISTER_ADJUNCTS,
+)
 
 /**
  * An object mapping from all register adjuncts to their Ithkuilic translations.
@@ -56,7 +62,7 @@ export const REGISTER_ADJUNCT_TO_DESCRIPTION_MAP = /* @__PURE__ */ deepFreeze({
  * the beginning adjunct; the second is the final adjunct.
  */
 export function registerAdjunctToIthkuil(
-  adjunct: RegisterAdjunct
+  adjunct: RegisterAdjunct,
 ): readonly [start: string, end: string] {
   return REGISTER_ADJUNCT_TO_ITHKUIL_MAP[adjunct]
 }

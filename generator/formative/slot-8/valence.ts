@@ -1,4 +1,5 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
+import { Enum } from "../../helpers/enum.js"
 
 /** A valence. */
 export type Valence =
@@ -24,6 +25,9 @@ export const ALL_VALENCES: readonly Valence[] = [
   "CNG",
   "PTI",
 ]
+
+/** A Zod validator matching valences. */
+export const zodValence = /* @__PURE__ */ new Enum(ALL_VALENCES)
 
 /** An object mapping from valences to their Ithkuilic translations. */
 export const VALENCE_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
@@ -59,7 +63,7 @@ export const VALENCE_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({
  */
 export function valenceToIthkuil(
   valence: Valence,
-  omitDefaultValence: boolean
+  omitDefaultValence: boolean,
 ): string {
   if (omitDefaultValence && valence == "MNO") {
     return ""

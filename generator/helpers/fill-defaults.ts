@@ -1,3 +1,8 @@
+/**
+ * A Partial type that allows undefined values when `exactOptionalPropertyTypes`
+ * is `true`. This is mainly so that this project works in environments with
+ * that flag enabled.
+ */
 export type Partial<T> = { [K in keyof T]?: T[K] | undefined }
 
 /**

@@ -1,3 +1,4 @@
+import { boolean, object, string } from "zod"
 import { deepFreeze } from "../../helpers/deep-freeze.js"
 import { insertGlottalStop } from "../../helpers/insert-glottal-stop.js"
 import {
@@ -11,11 +12,14 @@ import {
   UÖ_ÖË,
   WithWYAlternative,
 } from "../../helpers/with-wy-alternative.js"
-import type { SlotIII } from "../slot-3/index.js"
-import type { Function } from "../slot-4/index.js"
+import { zodSlotIII, type SlotIII } from "../slot-3/index.js"
+import { zodFunction, type Function } from "../slot-4/index.js"
+import { zodAffixShortcut, type AffixShortcut } from "./affix-shortcut.js"
 import type { Stem } from "./stem.js"
-import type { Version } from "./version.js"
+import { zodStem } from "./stem.js"
+import { zodVersion, type Version } from "./version.js"
 
+export * from "./affix-shortcut.js"
 export * from "./stem.js"
 export * from "./version.js"
 
@@ -28,6 +32,12 @@ export type SlotII = {
   readonly version: Version
 }
 
+/** A Zod validator matching Slot II data. */
+export const zodSlotII = /* @__PURE__ */ object({
+  stem: zodStem,
+  version: zodVersion,
+})
+
 /** Additional information relevant to Slot II. */
 export type SlotIIMetadata = {
   /** The codified contents of Slot I. */
@@ -37,7 +47,7 @@ export type SlotIIMetadata = {
   readonly slotIII: SlotIII
 
   /** The affix shortcut (if any) indicated by Slot II. */
-  readonly affixShortcut?: "NEG/4" | "DCD/4" | "DCD/5" | undefined
+  readonly affixShortcut?: AffixShortcut | undefined
 
   /** Whether Slot V contains at least two affixes. */
   readonly doesSlotVHaveAtLeastTwoAffixes: boolean
@@ -45,6 +55,15 @@ export type SlotIIMetadata = {
   /** The function of the formative. */
   readonly function: Function
 }
+
+/** A Zod validator matching Slot II metadata. */
+export const zodSlotIIMetadata = /* @__PURE__ */ object({
+  slotI: /* @__PURE__ */ string(),
+  slotIII: zodSlotIII,
+  affixShortcut: /* @__PURE__ */ zodAffixShortcut.optional(),
+  doesSlotVHaveAtLeastTwoAffixes: /* @__PURE__ */ boolean(),
+  function: zodFunction,
+})
 
 /**
  * An object mapping affix shortcuts, stems, and versions to their Ithkuilic

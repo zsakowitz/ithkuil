@@ -1,4 +1,6 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
+import { Enum } from "../../helpers/enum.js"
+import type { VNType } from "./vn-type.js"
 
 /** A mood. */
 export type Mood = "FAC" | "SUB" | "ASM" | "SPC" | "COU" | "HYP"
@@ -12,6 +14,9 @@ export const ALL_MOODS: readonly Mood[] = /* @__PURE__ */ deepFreeze([
   "COU",
   "HYP",
 ])
+
+/** A Zod validator matching moods. */
+export const zodMood = /* @__PURE__ */ new Enum(ALL_MOODS)
 
 /** An object mapping moods to their Ithkuilic translations. */
 export const MOOD_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
@@ -59,10 +64,7 @@ export const MOOD_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({
  * "empty" when it has been elided due to the use of MNO valence.
  * @returns Romanized Ithkuilic text representing the mood.
  */
-export function moodToIthkuil(
-  mood: Mood,
-  vnType: "aspect" | "non-aspect" | "empty"
-) {
+export function moodToIthkuil(mood: Mood, vnType: VNType) {
   const value = MOOD_TO_ITHKUIL_MAP[`${vnType == "aspect"}`][mood]
 
   if (value == "h" && vnType == "empty") {

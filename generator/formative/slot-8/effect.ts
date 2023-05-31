@@ -1,4 +1,5 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
+import { Enum } from "../../helpers/enum.js"
 import {
   IA_UÄ,
   IE_UË,
@@ -35,6 +36,9 @@ export const ALL_EFFECTS: readonly Effect[] = /* @__PURE__ */ deepFreeze([
   "2:DET",
   "1:DET",
 ])
+
+/** A Zod validator matching effects. */
+export const zodEffect = /* @__PURE__ */ new Enum(ALL_EFFECTS)
 
 /**
  * An object mapping effects to their `WithWYAlternative` Ithkuilic
@@ -76,7 +80,7 @@ export function effectToIthkuil(effect: Effect) {
 }
 
 /** An effect represented as an object. */
-export type EffectAsObject =
+export type EffectObject =
   | {
       /** The effect: beneficial, detrimental, or unknown. */
       readonly effect: "BEN" | "DET"
@@ -109,7 +113,7 @@ export const EFFECT_TO_EFFECT_OBJECT_MAP = /* @__PURE__ */ deepFreeze({
  * @param effect The effect to be deconstructed.
  * @returns An object containing the effect and target of the original effect.
  */
-export function effectToEffectObject(effect: Effect): EffectAsObject {
+export function effectToEffectObject(effect: Effect): EffectObject {
   return EFFECT_TO_EFFECT_OBJECT_MAP[effect]
 }
 
@@ -118,7 +122,7 @@ export function effectToEffectObject(effect: Effect): EffectAsObject {
  * @param effectObject The effect to be reconstructed.
  * @returns A string representing the effect and target of the object.
  */
-export function effectObjectToEffect(effectObject: EffectAsObject): Effect {
+export function effectObjectToEffect(effectObject: EffectObject): Effect {
   if (effectObject.effect == "UNK") {
     return "UNK"
   }

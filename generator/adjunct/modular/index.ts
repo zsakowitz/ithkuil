@@ -1,8 +1,13 @@
+import { object, undefined, union } from "zod"
 import {
   ALL_ASPECTS,
   aspectToIthkuil,
   slotVIIIToIthkuil,
   vnToIthkuil,
+  zodAspect,
+  zodCn,
+  zodNonAspectualVn,
+  zodVn,
   type Aspect,
   type CaseScope,
   type Effect,
@@ -16,12 +21,45 @@ import { VOWEL_TO_STRESSED_VOWEL_MAP } from "../../helpers/stress.js"
 import { EMPTY, WithWYAlternative } from "../../helpers/with-wy-alternative.js"
 import {
   modularAdjunctScopeToIthkuil,
+  zodModularAdjunctScope,
   type ModularAdjunctScope,
 } from "./scope.js"
-import { modularAdjunctTypeToIthkuil, type ModularAdjunctType } from "./type.js"
+import {
+  modularAdjunctTypeToIthkuil,
+  zodModularAdjunctType,
+  type ModularAdjunctType,
+} from "./type.js"
 
 export * from "./scope.js"
 export * from "./type.js"
+
+/** A Zod validator matching modular adjuncts. */
+export const zodModularAdjunct = /* @__PURE__ */ union([
+  /* @__PURE__ */ object({
+    type: /* @__PURE__ */ zodModularAdjunctType.optional(),
+    cn: /* @__PURE__ */ undefined().optional(),
+    vn1: zodAspect,
+    vn2: /* @__PURE__ */ undefined().optional(),
+    vn3: /* @__PURE__ */ undefined().optional(),
+    scope: /* @__PURE__ */ undefined().optional(),
+  }),
+  /* @__PURE__ */ object({
+    type: /* @__PURE__ */ zodModularAdjunctType.optional(),
+    cn: zodCn,
+    vn1: zodVn,
+    vn2: /* @__PURE__ */ zodVn.optional(),
+    vn3: zodNonAspectualVn,
+    scope: /* @__PURE__ */ undefined().optional(),
+  }),
+  /* @__PURE__ */ object({
+    type: /* @__PURE__ */ zodModularAdjunctType.optional(),
+    cn: zodCn,
+    vn1: zodVn,
+    vn2: /* @__PURE__ */ zodVn.optional(),
+    vn3: /* @__PURE__ */ undefined().optional(),
+    scope: zodModularAdjunctScope,
+  }),
+])
 
 /** A modular adjunct. */
 export type ModularAdjunct =
@@ -108,7 +146,7 @@ export function modularAdjunctToIthkuil(adjunct: ModularAdjunct): string {
 
   if (adjunct.cn == null) {
     const aspect = WithWYAlternative.of(
-      aspectToIthkuil(adjunct.vn1)
+      aspectToIthkuil(adjunct.vn1),
     ).withPreviousText(type)
 
     return type + aspect
@@ -116,7 +154,7 @@ export function modularAdjunctToIthkuil(adjunct: ModularAdjunct): string {
 
   const vn1 = slotVIIIToIthkuil(
     { cn: adjunct.cn, vn: adjunct.vn1 },
-    { omitDefaultValence: false }
+    { omitDefaultValence: false },
   ).withPreviousText(type)
 
   const second = adjunct.vn2

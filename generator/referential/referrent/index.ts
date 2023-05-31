@@ -1,6 +1,8 @@
+import { object } from "zod"
 import { deepFreeze } from "../../helpers/deep-freeze.js"
-import type { ReferrentEffect } from "./effect.js"
-import type { ReferrentTarget } from "./target.js"
+import { Enum } from "../../helpers/enum.js"
+import { zodReferrentEffect, type ReferrentEffect } from "./effect.js"
+import { zodReferrentTarget, type ReferrentTarget } from "./target.js"
 
 export * from "./effect.js"
 export * from "./list.js"
@@ -41,6 +43,46 @@ export type Referrent =
   | "Rdp:DET"
   | "Obv:DET"
   | "PVS:DET"
+
+/** An array containing all referrents. */
+export const ALL_REFERRENTS: readonly Referrent[] = /* @__PURE__ */ deepFreeze([
+  "1m:NEU",
+  "2m:NEU",
+  "2p:NEU",
+  "ma:NEU",
+  "pa:NEU",
+  "mi:NEU",
+  "pi:NEU",
+  "Mx:NEU",
+  "Rdp:NEU",
+  "Obv:NEU",
+  "PVS:NEU",
+  "1m:BEN",
+  "2m:BEN",
+  "2p:BEN",
+  "ma:BEN",
+  "pa:BEN",
+  "mi:BEN",
+  "pi:BEN",
+  "Mx:BEN",
+  "Rdp:BEN",
+  "Obv:BEN",
+  "PVS:BEN",
+  "1m:DET",
+  "2m:DET",
+  "2p:DET",
+  "ma:DET",
+  "pa:DET",
+  "mi:DET",
+  "pi:DET",
+  "Mx:DET",
+  "Rdp:DET",
+  "Obv:DET",
+  "PVS:DET",
+])
+
+/** A Zod validator matching referrents. */
+export const zodReferrent = /* @__PURE__ */ new Enum(ALL_REFERRENTS)
 
 /** An object mapping referrents into their Ithkuilic counterparts. */
 export const REFERRENT_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
@@ -121,18 +163,36 @@ export const REFERRENT_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
   },
 })
 
+/**
+ * Converts a referrent into Ithkuil.
+ * @param referrent The referrent to be converted.
+ * @param isReferentialAffix Whether this referrent is used in a referential
+ * affix.
+ * @returns Romanized Ithkuilic text representing the referrent.
+ */
 export function referrentToIthkuil(
   referrent: Referrent,
-  isReferentialAffix: boolean
+  isReferentialAffix: boolean,
 ): string {
   return REFERRENT_TO_ITHKUIL_MAP[`${isReferentialAffix}`][referrent]
 }
 
-export type ReferrentAsObject = {
+/** A deconstructed referrent expressed as an object. */
+export type ReferrentObject = {
+  /** The target of the referrent. */
   readonly target: ReferrentTarget
+
+  /** The effect of the referrent. */
   readonly effect: ReferrentEffect
 }
 
+/** A Zod validator matching referrent objects. */
+export const zodReferrentObject = /* @__PURE__ */ object({
+  target: zodReferrentTarget,
+  effect: zodReferrentEffect,
+})
+
+/** An object mapping from referrents to their referrent objects. */
 export const REFERRENT_TO_REFERRENT_OBJECT_MAP = /* @__PURE__ */ deepFreeze({
   "1m:NEU": { target: "1m", effect: "NEU" },
   "2m:NEU": { target: "2m", effect: "NEU" },
@@ -176,8 +236,8 @@ export const REFERRENT_TO_REFERRENT_OBJECT_MAP = /* @__PURE__ */ deepFreeze({
  * referrent.
  */
 export function referrentToReferrentObject(
-  referrent: Referrent
-): ReferrentAsObject {
+  referrent: Referrent,
+): ReferrentObject {
   return REFERRENT_TO_REFERRENT_OBJECT_MAP[referrent]
 }
 
@@ -187,7 +247,7 @@ export function referrentToReferrentObject(
  * @returns A string representing the effect and target of the object.
  */
 export function referrentObjectToReferrent(
-  referrentObject: ReferrentAsObject
+  referrentObject: ReferrentObject,
 ): Referrent {
   return `${referrentObject.target}:${referrentObject.effect}`
 }

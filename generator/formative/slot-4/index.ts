@@ -1,4 +1,5 @@
-import type { AffixDegree } from "../../affix/index.js"
+import { object, string } from "zod"
+import { zodAffixDegree, type AffixDegree } from "../../affix/index.js"
 import { deepFreeze } from "../../helpers/deep-freeze.js"
 import { ONE_INDEXED_STANDARD_VOWEL_TABLE } from "../../helpers/vowel-table.js"
 import {
@@ -11,9 +12,9 @@ import {
   UO_ÖÄ,
   UÖ_ÖË,
 } from "../../helpers/with-wy-alternative.js"
-import type { Context } from "./context.js"
-import type { Function } from "./function.js"
-import type { Specification } from "./specification.js"
+import { zodContext, type Context } from "./context.js"
+import { zodFunction, type Function } from "./function.js"
+import { zodSpecification, type Specification } from "./specification.js"
 
 export * from "./context.js"
 export * from "./function.js"
@@ -31,6 +32,13 @@ export type SlotIV = {
   readonly context: Context
 }
 
+/** A Zod validator matching Slot IV data. */
+export const zodSlotIV = /* @__PURE__ */ object({
+  function: zodFunction,
+  specification: zodSpecification,
+  context: zodContext,
+})
+
 /** Additional information relevant to Slot IV. */
 export type SlotIVMetadata = {
   /** The codified contents of Slot III. */
@@ -42,6 +50,12 @@ export type SlotIVMetadata = {
    */
   readonly affixualFormativeDegree?: AffixDegree | undefined
 }
+
+/** A Zod validator matching Slot IV metadata. */
+export const zodSlotIVMetadata = /* @__PURE__ */ object({
+  slotIII: /* @__PURE__ */ string(),
+  affixualFormativeDegree: /* @__PURE__ */ zodAffixDegree.optional(),
+})
 
 /**
  * An object mapping from contexts, functions, and specifications to their
@@ -84,7 +98,7 @@ export const CONTEXT_TO_INDEX_MAP = /* @__PURE__ */ deepFreeze({
  */
 export function slotIVToIthkuil(
   slot: SlotIV,
-  metadata: SlotIVMetadata
+  metadata: SlotIVMetadata,
 ): string {
   const value =
     metadata.affixualFormativeDegree != null

@@ -1,9 +1,37 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
+import { Enum } from "../../helpers/enum.js"
 import type { Illocution } from "./illocution.js"
 import type { Validation } from "./validation.js"
 
 /** A non-ASR illocution or validation. */
 export type IllocutionOrValidation = Exclude<Illocution, "ASR"> | Validation
+
+/** An array containing all non-ASR illocutions and validations. */
+export const ALL_ILLOCUTION_OR_VALIDATIONS = /* @__PURE__ */ deepFreeze([
+  "DIR",
+  "DEC",
+  "IRG",
+  "VRF",
+  "ADM",
+  "POT",
+  "HOR",
+  "CNJ",
+
+  "OBS",
+  "REC",
+  "PUP",
+  "RPR",
+  "USP",
+  "IMA",
+  "CVN",
+  "ITU",
+  "INF",
+])
+
+/** A Zod validator matching non-ASR illocutions and validations. */
+export const zodIllocutionOrValidation = /* @__PURE__ */ new Enum(
+  ALL_ILLOCUTION_OR_VALIDATIONS,
+)
 
 /**
  * An object mapping from illocutions and validations to their Ithkuilic
@@ -42,7 +70,7 @@ export const ILLOCUTION_AND_VALIDATION_TO_ITHKUIL_MAP =
  */
 export function illocutionAndValidationToIthkuil(
   illocutionOrValidation: IllocutionOrValidation,
-  elideIfPossible: boolean
+  elideIfPossible: boolean,
 ): string {
   if (elideIfPossible && illocutionOrValidation == "OBS") {
     return ""

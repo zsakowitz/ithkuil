@@ -1,11 +1,11 @@
-import { affixToIthkuil, type Affix } from "../../affix/index.js"
+import { affixToIthkuil, zodAffix, type Affix } from "../../affix/index.js"
 import { EMPTY, WithWYAlternative } from "../../helpers/with-wy-alternative.js"
 
 /** Information directly pertaining to Slot VII. */
-export type SlotVII = {
-  /** The Slot VII affixes of the formative. */
-  readonly affixes: readonly Affix[]
-}
+export type SlotVII = readonly Affix[]
+
+/** A Zod validator matching Slot V data. */
+export const zodSlotVII = /* @__PURE__ */ zodAffix.array()
 
 /**
  * Converts Slot VII into Ithkuil.
@@ -14,11 +14,11 @@ export type SlotVII = {
  * representing Slot VII.
  */
 export function slotVIIToIthkuil(slot: SlotVII): WithWYAlternative {
-  if (slot.affixes.length == 0) {
+  if (slot.length == 0) {
     return EMPTY
   }
 
-  return slot.affixes
+  return slot
     .map((affix) => affixToIthkuil(affix, { reversed: false }))
     .reduce((a, b) => a.add(b))
 }

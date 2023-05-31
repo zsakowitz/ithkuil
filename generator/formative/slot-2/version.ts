@@ -1,4 +1,5 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
+import { Enum } from "../../helpers/enum.js"
 
 /** The version of a formative. */
 export type Version = "PRC" | "CPT"
@@ -14,3 +15,6 @@ export const VERSION_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({
   PRC: "Processual",
   CPT: "Completive",
 })
+
+/** A Zod validator matching versions. */
+export const zodVersion = /* @__PURE__ */ new Enum(ALL_VERSIONS)

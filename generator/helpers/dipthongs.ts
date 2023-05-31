@@ -1,4 +1,5 @@
 import { deepFreeze } from "./deep-freeze.js"
+import { Enum } from "./enum.js"
 
 /** A dipthong permissible in Ithkuil. */
 export type Dipthong =
@@ -26,3 +27,6 @@ export const ALL_DIPTIONGS: readonly Dipthong[] = /* @__PURE__ */ deepFreeze([
   "ou",
   "iu",
 ])
+
+/** A Zod validator matching dipthongs. */
+export const zodDipthong = /* @__PURE__ */ new Enum(ALL_DIPTIONGS)

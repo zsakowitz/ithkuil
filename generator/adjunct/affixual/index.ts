@@ -1,12 +1,16 @@
-import { affixToIthkuil, type Affix } from "../../affix/index.js"
+import { object, oboolean } from "zod"
+import { affixToIthkuil, zodAffix, type Affix } from "../../affix/index.js"
 import { applyStress, countVowelForms } from "../../helpers/stress.js"
 import {
   extractAllConsonants,
   isLegalWordFinalConsonantForm,
   isLegalWordInitialConsonantForm,
 } from "../../phonotactics/index.js"
-import type { AffixualAdjunctScope } from "./scope.js"
-import { affixualAdjunctScopeToIthkuil } from "./scope.js"
+import {
+  affixualAdjunctScopeToIthkuil,
+  zodAffixualAdjunctScope,
+  type AffixualAdjunctScope,
+} from "./scope.js"
 
 export * from "./scope.js"
 
@@ -50,6 +54,14 @@ export type AffixualAdjunct = {
   readonly appliesToConcatenatedStemOnly?: boolean | undefined
 }
 
+/** A Zod validator matching affixual adjuncts. */
+export const zodAffixualAdjunct = /* @__PURE__ */ object({
+  affixes: /* @__PURE__ */ zodAffix.array().nonempty(),
+  scope: /* @__PURE__ */ zodAffixualAdjunctScope.optional(),
+  scope2: /* @__PURE__ */ zodAffixualAdjunctScope.optional(),
+  appliesToConcatenatedStemOnly: /* @__PURE__ */ oboolean(),
+})
+
 /**
  * Converts an affixual adjunct into Ithkuil.
  * @param adjunct The affixual adjunct to be converted.
@@ -73,7 +85,7 @@ export function affixualAdjunctToIthkuil(adjunct: AffixualAdjunct) {
       adjunct.scope ?? "V:DOM",
       "vs",
       (adjunct.appliesToConcatenatedStemOnly ?? false) &&
-        isLegalWordFinalConsonantForm(extractAllConsonants(affix))
+        isLegalWordFinalConsonantForm(extractAllConsonants(affix)),
     )
 
     if (adjunct.appliesToConcatenatedStemOnly) {
@@ -94,7 +106,7 @@ export function affixualAdjunctToIthkuil(adjunct: AffixualAdjunct) {
   }).defaultValue
 
   const affix1 = isLegalWordInitialConsonantForm(
-    extractAllConsonants(rawAffix1)
+    extractAllConsonants(rawAffix1),
   )
     ? rawAffix1
     : "ë" + rawAffix1
@@ -102,7 +114,7 @@ export function affixualAdjunctToIthkuil(adjunct: AffixualAdjunct) {
   const cz = affixualAdjunctScopeToIthkuil(
     adjunct.scope ?? "V:DOM",
     "cz",
-    false
+    false,
   )
 
   const main = adjunct.affixes

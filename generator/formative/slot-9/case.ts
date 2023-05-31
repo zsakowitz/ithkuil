@@ -1,4 +1,5 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
+import { Enum } from "../../helpers/enum.js"
 import {
   IA_UÄ,
   IE_UË,
@@ -160,6 +161,9 @@ export const ALL_CASES: readonly Case[] = /* @__PURE__ */ deepFreeze([
   "ELP",
   "PLM",
 ])
+
+/** A Zod validator matching cases. */
+export const zodCase = /* @__PURE__ */ new Enum(ALL_CASES)
 
 /** An object mapping cases to their Ithkuilic translations. */
 export const CASE_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
@@ -413,7 +417,7 @@ export const CASE_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({
 export function caseToIthkuil(
   case_: Case,
   elideIfPossible: boolean,
-  isPartOfConcatenatedFormative: boolean
+  isPartOfConcatenatedFormative: boolean,
 ): string | WithWYAlternative {
   if (elideIfPossible && case_ == "THM") {
     return ""

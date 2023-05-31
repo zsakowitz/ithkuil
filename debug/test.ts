@@ -6,7 +6,7 @@ import {
   referentialToIthkuil,
   registerAdjunctToIthkuil,
   suppletiveAdjunctToIthkuil,
-} from "./index.js"
+} from "../generator/index.js"
 
 function strictEqual(a: string, b: string) {
   if (a !== b) {

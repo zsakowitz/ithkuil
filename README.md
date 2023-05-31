@@ -31,10 +31,42 @@ It also has many, many more functions. It can:
 - Check whether a consonant form is phonotactically legal
 - Insert glottal stops into vowel forms
 - Compute Ca forms and their geminated counterparts
+- Validate incoming objects containing Ithkuilic word data
 
 `ithkuil` has many more functions. However, these are too numerous to place into
 a single document. To experiment with all of `ithkuil`'s functionality, install
 it and use your code editor's tools to see the available functions it exports.
+
+## IMPORTANT NOTE
+
+Before using this project, be aware that **_arguments are not validated_**.
+Objects passed into functions such as `formativeToIthkuil` are not automatically
+validated, and will produce unexpected results or throw errors when given
+invalid input.
+
+If you're not 100% sure that you're passing in valid input, validate it with the
+Zod validators provided, such as `zodFormative` and `zodAffixualAdjunct`.
+Alternatively, enable TypeScript on your application, which will give you full
+type safety when using `ithkuil` (and is probably good practice anyway).
+
+The behavior of functions when invalid input is passed in is undefined. As of
+0.1.5, this function call...
+
+```ts
+import { formativeToIthkuil } from "ithkuil"
+
+const result = formativeToIthkuil({
+  type: "UNF/C",
+  root: "c",
+  case: "greeting",
+})
+
+console.log(result)
+```
+
+...logs "calundefined", but it may change in the future.
+
+---
 
 Let us now see `ithkuil` in action. Note that all exports are documented using
 JSDoc and types with TypeScript, so developers comfortable using those features
@@ -155,7 +187,7 @@ console.log(result)
 
 ## Example 4
 
-For our final example, let's create a referential.
+This example creates a referential (1m.BEN-CTE-GID₁/3)
 
 ```ts
 import { referentialToIthkuil } from "ithkuil"
@@ -176,4 +208,19 @@ console.log(result)
 // raxtec
 ```
 
-Done!
+## Example 5
+
+This example validates that an object is, in fact, an Ithkuilic adjunct. This
+can be useful when integrating this project with external sources.
+
+```ts
+import { adjunctToIthkuil, zodAdjunct } from "ithkuil"
+
+const adjunct = getAdjunctFromSomeInternetSource()
+
+const realAdjunct = zodAdjunct.parse(adjunct)
+
+const result = adjunctToIthkuil(realAdjunct)
+
+console.log(result)
+```

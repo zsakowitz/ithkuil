@@ -1,4 +1,5 @@
 import { deepFreeze } from "../helpers/deep-freeze.js"
+import { Enum } from "../helpers/enum.js"
 
 /** A parsing adjunct. */
 export type ParsingAdjunct =
@@ -15,6 +16,9 @@ export const ALL_PARSING_ADJUNCTS: readonly ParsingAdjunct[] =
     "penultimate",
     "antepenultimate",
   ])
+
+/** A Zod validator matching parsing adjuncts. */
+export const zodParsingAdjunct = /* @__PURE__ */ new Enum(ALL_PARSING_ADJUNCTS)
 
 /** An object mapping from parsing adjuncts to their Ithkuilic translations. */
 export const PARSING_ADJUNCT_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({

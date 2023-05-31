@@ -14,7 +14,7 @@ export function perspectiveAndEssenceToIthkuil(
   perspective: Perspective,
   essence: Essence,
   isStandalone: boolean,
-  isPrecededByKPT: boolean
+  isPrecededByKPT: boolean,
 ): string {
   if (perspective == "G") {
     return essence == "RPV" ? "ř" : "r"

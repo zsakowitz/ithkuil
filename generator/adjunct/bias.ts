@@ -1,4 +1,5 @@
 import { deepFreeze } from "../helpers/deep-freeze.js"
+import { Enum } from "../helpers/enum.js"
 
 /** A bias adjunct. */
 export type BiasAdjunct =
@@ -129,6 +130,9 @@ export const ALL_BIAS_ADJUNCTS: readonly BiasAdjunct[] =
     "TRP",
     "VEX",
   ])
+
+/** A Zod validator matching bias adjuncts. */
+export const zodBiasAdjunct = /* @__PURE__ */ new Enum(ALL_BIAS_ADJUNCTS)
 
 /** An object mapping from bias adjuncts to their Ithkuilic translations. */
 export const BIAS_ADJUNCT_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({

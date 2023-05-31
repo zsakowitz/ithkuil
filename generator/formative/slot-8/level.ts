@@ -1,4 +1,5 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
+import { Enum } from "../../helpers/enum.js"
 
 /** A level. */
 export type Level =
@@ -24,6 +25,9 @@ export const ALL_LEVELS: readonly Level[] = /* @__PURE__ */ deepFreeze([
   "SPQ",
   "MAX",
 ])
+
+/** A Zod validator matching levels. */
+export const zodLevel = /* @__PURE__ */ new Enum(ALL_LEVELS)
 
 /** An object mapping levels to their Ithkuilic translations. */
 export const LEVEL_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({

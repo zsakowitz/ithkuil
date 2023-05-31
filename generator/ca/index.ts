@@ -1,10 +1,23 @@
+import { object } from "zod"
 import { deepFreeze, fillDefaults } from "../index.js"
-import { affiliationToIthkuil, type Affiliation } from "./affiliation.js"
-import { configurationToIthkuil, type Configuration } from "./configuration.js"
-import type { Essence } from "./essence.js"
-import { extensionToIthkuil, type Extension } from "./extension.js"
+import {
+  affiliationToIthkuil,
+  zodAffiliation,
+  type Affiliation,
+} from "./affiliation.js"
+import {
+  configurationToIthkuil,
+  zodConfiguration,
+  type Configuration,
+} from "./configuration.js"
+import { zodEssence, type Essence } from "./essence.js"
+import {
+  extensionToIthkuil,
+  zodExtension,
+  type Extension,
+} from "./extension.js"
 import { perspectiveAndEssenceToIthkuil } from "./perspective-and-essence.js"
-import type { Perspective } from "./perspective.js"
+import { zodPerspective, type Perspective } from "./perspective.js"
 
 export * from "./affiliation.js"
 export * from "./configuration.js"
@@ -32,6 +45,16 @@ export type CA = {
   readonly essence: Essence
 }
 
+/** A Zod validator matching Ca forms. */
+export const zodCa = /* @__PURE__ */ object({
+  affiliation: zodAffiliation,
+  configuration: zodConfiguration,
+  extension: zodExtension,
+  perspective: zodPerspective,
+  essence: zodEssence,
+})
+
+/** A partially filled Ca affix complex. */
 export type PartialCA = {
   /** The affiliation of the Ca form. */
   readonly affiliation?: Affiliation | undefined
@@ -48,6 +71,9 @@ export type PartialCA = {
   /** The essence of the Ca form. */
   readonly essence?: Essence | undefined
 }
+
+/** A Zod validator matching partial Ca forms. */
+export const zodPartialCA = /* @__PURE__ */ zodCa.partial()
 
 /**
  * Makes allomorphic substitutions within Ca forms to make the pronounceble and
@@ -90,7 +116,7 @@ export function caToIthkuil(ca: PartialCA) {
 
   const extension = extensionToIthkuil(
     ca2.extension,
-    ca2.configuration == "UPX"
+    ca2.configuration == "UPX",
   )
 
   const affiliation = affiliationToIthkuil(
@@ -99,14 +125,14 @@ export function caToIthkuil(ca: PartialCA) {
     configuration == "" &&
       extension == "" &&
       ca2.perspective == "M" &&
-      ca2.essence == "NRM"
+      ca2.essence == "NRM",
   )
 
   const perspectiveAndEssence = perspectiveAndEssenceToIthkuil(
     ca2.perspective,
     ca2.essence,
     affiliation == "" && configuration == "" && extension == "",
-    !!(affiliation + configuration + extension).match(/[kpt]$/)
+    !!(affiliation + configuration + extension).match(/[kpt]$/),
   )
 
   const core = affiliation + configuration + extension + perspectiveAndEssence
@@ -115,7 +141,7 @@ export function caToIthkuil(ca: PartialCA) {
 }
 
 /** The default Ca form. */
-export const DEFAULT_CA: CA = deepFreeze({
+export const DEFAULT_CA: CA = /* @__PURE__ */ deepFreeze({
   affiliation: "CSL",
   configuration: "UPX",
   extension: "DEL",

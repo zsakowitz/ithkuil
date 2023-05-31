@@ -1,4 +1,5 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
+import { Enum } from "../../helpers/enum.js"
 
 /** The scope of an affixual adjunct. */
 export type AffixualAdjunctScope =
@@ -20,9 +21,14 @@ export const ALL_AFFIXUAL_ADJUNCT_SCOPES: readonly AffixualAdjunctScope[] =
     "ADJACENT",
   ])
 
+/** A Zod validator matching affixual adjunct scopes. */
+export const zodAffixualAdjunctScope = /* @__PURE__ */ new Enum(
+  ALL_AFFIXUAL_ADJUNCT_SCOPES,
+)
+
 /**
  * An object mapping from affixual adjunct scopes to their Ithkuilic
-translations.
+ * translations.
  */
 export const AFFIXUAL_ADJUNCT_SCOPE_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze(
   {
@@ -42,7 +48,7 @@ export const AFFIXUAL_ADJUNCT_SCOPE_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze(
       FORMATIVE: "hw",
       ADJACENT: "'hw",
     },
-  }
+  },
 )
 
 /** An object mapping from affixual adjunct scopes to their names. */
@@ -65,7 +71,7 @@ export const AFFIXUAL_ADJUNCT_SCOPE_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({
 export function affixualAdjunctScopeToIthkuil(
   scope: AffixualAdjunctScope,
   type: "vs" | "cz" | "vz",
-  omitWhenPossible: boolean
+  omitWhenPossible: boolean,
 ): string {
   if (type == "vs" && scope == "V:DOM" && omitWhenPossible) {
     return ""

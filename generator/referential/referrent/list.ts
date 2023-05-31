@@ -1,4 +1,3 @@
-import { referrentToIthkuil, type Referrent } from "./index.js"
 import type { Perspective } from "../../ca/index.js"
 import { allPermutationsOf } from "../../helpers/permutations.js"
 import {
@@ -9,9 +8,13 @@ import {
   referentialPerspectiveToIthkuil,
   referentialPerspectiveToIthkuilAlt,
 } from "../perspective.js"
+import { referrentToIthkuil, zodReferrent, type Referrent } from "./index.js"
 
 /** A list of referrents. */
 export type ReferrentList = readonly [Referrent, ...Referrent[]]
+
+/** A Zod validator matching a list of referrents. */
+export const zodReferrentList = /* @__PURE__ */ zodReferrent.array().nonempty()
 
 /**
  * Converts a list of referrents into Ithkuil. Does not attempt to change the
@@ -29,10 +32,10 @@ export type ReferrentList = readonly [Referrent, ...Referrent[]]
 export function assembleReferrentList(
   referrents: ReferrentList,
   perspective: Perspective,
-  isReferentialAffix: boolean
+  isReferentialAffix: boolean,
 ) {
   const text = referrents.map((referrent) =>
-    referrentToIthkuil(referrent, isReferentialAffix)
+    referrentToIthkuil(referrent, isReferentialAffix),
   )
 
   let output = ""
@@ -99,16 +102,16 @@ export function assembleReferrentList(
  */
 export function referrentListToIthkuil(
   referrents: ReferrentList,
-  perspective: Perspective
+  perspective: Perspective,
 ): string {
   const all = allPermutationsOf(referrents)
     .map((referrentList) =>
-      assembleReferrentList(referrentList, perspective, false)
+      assembleReferrentList(referrentList, perspective, false),
     )
     .sort((a, b) => (a.length < b.length ? -1 : a.length > b.length ? 1 : 0))
 
   const valid = all.filter(
-    (text) => text.startsWith("ë") || isLegalWordInitialConsonantForm(text)
+    (text) => text.startsWith("ë") || isLegalWordInitialConsonantForm(text),
   )
 
   if (valid.length > 0) {
@@ -126,14 +129,14 @@ export function referrentListToIthkuil(
  */
 export function referentialAffixToIthkuil(
   referrent: Referrent,
-  perspective: "M" | "G" | "N"
+  perspective: "M" | "G" | "N",
 ) {
   if (
     // @ts-ignore
     perspective == "A"
   ) {
     throw new Error(
-      "Referrents may not be marked Abstract in referential affixes."
+      "Referrents may not be marked Abstract in referential affixes.",
     )
   }
 

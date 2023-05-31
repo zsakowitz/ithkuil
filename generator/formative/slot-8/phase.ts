@@ -1,4 +1,5 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
+import { Enum } from "../../helpers/enum.js"
 
 /** A phase. */
 export type Phase =
@@ -24,6 +25,9 @@ export const ALL_PHASES: readonly Phase[] = /* @__PURE__ */ deepFreeze([
   "VAC",
   "FLC",
 ])
+
+/** A Zod validator matching phases. */
+export const zodPhase = /* @__PURE__ */ new Enum(ALL_PHASES)
 
 /** An object mapping phases to their Ithkuilic translations. */
 export const PHASE_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
