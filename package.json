@@ -6,6 +6,9 @@
   "author": "Zachary Sakowitz",
   "license": "MIT",
   "type": "module",
+  "scripts": {
+    "prepublishOnly": "tsc -b"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zsakowitz/ithkuil.git"
