@@ -126,8 +126,8 @@ const result = formativeToIthkuil({
   slotVAffixes: [
     // Referential Affix
     {
-      // 1m:BEN Referrent
-      referrent: "1m:BEN",
+      // 1m:BEN Referent
+      referent: "1m:BEN",
 
       // Ergative Case
       case: "ERG",
@@ -193,7 +193,7 @@ This example creates a referential (1m.BEN-CTE-GID₁/3)
 import { referentialToIthkuil } from "ithkuil"
 
 const result = referentialToIthkuil({
-  referrents: ["1m:BEN"],
+  referents: ["1m:BEN"],
   specification: "CTE",
   affixes: [
     {

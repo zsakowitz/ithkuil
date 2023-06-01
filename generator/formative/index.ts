@@ -5,7 +5,7 @@ import { deepFreeze } from "../helpers/deep-freeze.js"
 import { applyStress, countVowelForms } from "../helpers/stress.js"
 import { WithWYAlternative } from "../helpers/with-wy-alternative.js"
 import { ZERO_INDEXED_STANDARD_VOWEL_TABLE } from "../index.js"
-import { referrentListToPersonalReferenceRoot } from "../referential/index.js"
+import { referentListToPersonalReferenceRoot } from "../referential/index.js"
 import { fillInDefaultFormativeSlots } from "./default.js"
 import { zodShortcutType, type ShortcutType } from "./shortcut-type.js"
 import {
@@ -380,7 +380,7 @@ function completeFormativeToIthkuil(formative: Formative) {
     typeof formative.root == "string"
       ? formative.root
       : isArray(formative.root)
-      ? referrentListToPersonalReferenceRoot(formative.root)
+      ? referentListToPersonalReferenceRoot(formative.root)
       : formative.root.cs
 
   let slot4 = slotIVToIthkuil(formative, {

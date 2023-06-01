@@ -16,8 +16,8 @@ import {
 } from "../helpers/with-wy-alternative.js"
 import {
   referentialAffixToIthkuil,
-  zodReferrent,
-  type Referrent,
+  zodReferent,
+  type Referent,
 } from "../referential/index.js"
 import { zodAffixDegree, type AffixDegree } from "./degree.js"
 import { zodAffixType, type AffixType } from "./type.js"
@@ -113,19 +113,19 @@ export type Affix =
       readonly cs: string
 
       readonly ca?: undefined
-      readonly referrent?: undefined
+      readonly referent?: undefined
     }
   | {
       /** The Ca complex of this affix. */
       readonly ca: PartialCA
 
-      readonly referrent?: undefined
+      readonly referent?: undefined
     }
   | {
-      /** The referrent of this affix. */
-      readonly referrent: Referrent
+      /** The referent of this affix. */
+      readonly referent: Referent
 
-      /** The perspective of the referrent. */
+      /** The perspective of the referent. */
       readonly perspective?: "M" | "G" | "N" | undefined
 
       /** The case of the affix. */
@@ -141,14 +141,14 @@ export const zodAffix = /* @__PURE__ */ union([
     degree: zodAffixDegree,
     cs: /* @__PURE__ */ string(),
     ca: /* @__PURE__ */ undefined().optional(),
-    referrent: /* @__PURE__ */ undefined().optional(),
+    referent: /* @__PURE__ */ undefined().optional(),
   }),
   /* @__PURE__ */ object({
     ca: zodPartialCA,
-    referrent: /* @__PURE__ */ undefined().optional(),
+    referent: /* @__PURE__ */ undefined().optional(),
   }),
   /* @__PURE__ */ object({
-    referrent: zodReferrent,
+    referent: zodReferent,
     perspective: /* @__PURE__ */ new Enum(["M", "G", "N"]).optional(),
     case: zodReferentialAffixCase,
     ca: /* @__PURE__ */ undefined().optional(),
@@ -187,7 +187,7 @@ export function affixToIthkuil(
   let vowel = WithWYAlternative.of(
     "ca" in affix && affix.ca
       ? "üö"
-      : "referrent" in affix && affix.referrent
+      : "referent" in affix && affix.referent
       ? REFERENTIAL_AFFIX_CASE_TO_ITHKUIL_MAP[affix.case ?? "THM"]
       : ONE_INDEXED_STANDARD_VOWEL_TABLE[(affix.type - 1) as 0 | 1 | 2][
           affix.degree
@@ -201,8 +201,8 @@ export function affixToIthkuil(
   const consonant =
     "ca" in affix && affix.ca
       ? caToIthkuil(affix.ca)
-      : "referrent" in affix && affix.referrent
-      ? referentialAffixToIthkuil(affix.referrent, affix.perspective ?? "M")
+      : "referent" in affix && affix.referent
+      ? referentialAffixToIthkuil(affix.referent, affix.perspective ?? "M")
       : affix.cs
 
   if (metadata.reversed) {

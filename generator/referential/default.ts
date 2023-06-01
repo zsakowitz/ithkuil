@@ -10,7 +10,7 @@ import { fillDefaults } from "../helpers/fill-defaults.js"
 /** The default referential (1m:NEU, M, THM, NRM). */
 export const DEFAULT_REFERENTIAL: ReferentialReferentialCore =
   /* @__PURE__ */ deepFreeze({
-    referrents: ["1m:NEU"],
+    referents: ["1m:NEU"],
     perspective: "M",
     case: "THM",
     essence: "NRM",
@@ -30,16 +30,16 @@ export const DEFAULT_SUPPLETIVE_REFERENTIAL: SuppletiveReferentialCore =
  * @returns A complete referential, with all default slots filled.
  */
 export function fillInDefaultReferentialSlots(
-  referential: PartialReferential
+  referential: PartialReferential,
 ): Referential {
-  if (referential.perspective2 || referential.referrent2) {
+  if (referential.perspective2 || referential.referent2) {
     if (
       referential.specification ||
       (referential.affixes && (referential as Referential).affixes!.length)
     ) {
       throw new Error(
-        "A referential cannot specify a second referrent/perspective and a specification or affix at the same time.",
-        { cause: referential }
+        "A referential cannot specify a second referent/perspective and a specification or affix at the same time.",
+        { cause: referential },
       )
     }
 
@@ -49,18 +49,18 @@ export function fillInDefaultReferentialSlots(
             ...DEFAULT_SUPPLETIVE_REFERENTIAL,
             perspective2: "M",
             // @ts-ignore
-            referrent2: "1m:NEU",
+            referent2: "1m:NEU",
           },
-          referential
+          referential,
         )
       : fillDefaults<Referential>(
           {
             ...DEFAULT_REFERENTIAL,
             perspective2: "M",
             // @ts-ignore
-            referrent2: "1m:NEU",
+            referent2: "1m:NEU",
           },
-          referential
+          referential,
         )
   }
 
@@ -68,10 +68,10 @@ export function fillInDefaultReferentialSlots(
     referential.specification ||
     (referential.affixes && referential.affixes.length)
   ) {
-    if (referential.perspective2 || referential.referrent2) {
+    if (referential.perspective2 || referential.referent2) {
       throw new Error(
-        "A referential cannot specify a second referrent/perspective and a specification or affix at the same time.",
-        { cause: referential }
+        "A referential cannot specify a second referent/perspective and a specification or affix at the same time.",
+        { cause: referential },
       )
     }
 
@@ -82,7 +82,7 @@ export function fillInDefaultReferentialSlots(
             specification: "BSC",
             affixes: [],
           },
-          referential
+          referential,
         )
       : fillDefaults<Referential>(
           {
@@ -90,7 +90,7 @@ export function fillInDefaultReferentialSlots(
             specification: "BSC",
             affixes: [],
           },
-          referential
+          referential,
         )
   }
 

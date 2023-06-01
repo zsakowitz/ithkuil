@@ -1,7 +1,7 @@
 import type { Perspective } from "../ca/index.js"
 import { deepFreeze } from "../helpers/deep-freeze.js"
 
-/** An object mapping from perspectives to letters used in referrents. */
+/** An object mapping from perspectives to letters used in referents. */
 export const REFERENTIAL_PERSPECTIVE_TO_ITHKUIL_MAP =
   /* @__PURE__ */ deepFreeze({
     M: "",
@@ -11,7 +11,7 @@ export const REFERENTIAL_PERSPECTIVE_TO_ITHKUIL_MAP =
   })
 
 /**
- * An object mapping from perspectives to alternate letters used in referrents.
+ * An object mapping from perspectives to alternate letters used in referents.
  */
 export const REFERENTIAL_PERSPECTIVE_TO_ITHKUIL_MAP_ALT =
   /* @__PURE__ */ deepFreeze({
@@ -28,7 +28,7 @@ export const REFERENTIAL_PERSPECTIVE_TO_ITHKUIL_MAP_ALT =
  * @returns Romanized Ithkuilic text representing the perspective.
  */
 export function referentialPerspectiveToIthkuil(
-  perspective: Perspective
+  perspective: Perspective,
 ): string {
   return REFERENTIAL_PERSPECTIVE_TO_ITHKUIL_MAP[perspective]
 }
@@ -40,7 +40,7 @@ export function referentialPerspectiveToIthkuil(
  * @returns Romanized Ithkuilic text representing the perspective.
  */
 export function referentialPerspectiveToIthkuilAlt(
-  perspective: Perspective
+  perspective: Perspective,
 ): string {
   return REFERENTIAL_PERSPECTIVE_TO_ITHKUIL_MAP_ALT[perspective]
 }

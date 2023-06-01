@@ -31,21 +31,21 @@ import {
   referentialPerspectiveToIthkuilAlt,
 } from "./perspective.js"
 import {
-  referrentToIthkuil,
-  zodReferrent,
-  type Referrent,
-} from "./referrent/index.js"
+  referentToIthkuil,
+  zodReferent,
+  type Referent,
+} from "./referent/index.js"
 import {
-  referrentListToIthkuil,
-  zodReferrentList,
-  type ReferrentList,
-} from "./referrent/list.js"
+  referentListToIthkuil,
+  zodReferentList,
+  type ReferentList,
+} from "./referent/list.js"
 import { referentialSpecificationToIthkuil } from "./specification.js"
 
 export * from "./default.js"
 export * from "./essence.js"
 export * from "./perspective.js"
-export * from "./referrent/index.js"
+export * from "./referent/index.js"
 export * from "./specification.js"
 
 /**
@@ -53,7 +53,7 @@ export * from "./specification.js"
  * referentials.
  */
 export type ReferentialReferentialCore = {
-  readonly referrents: ReferrentList
+  readonly referents: ReferentList
   readonly perspective: Perspective
   readonly type?: undefined
   readonly case: Case
@@ -63,7 +63,7 @@ export type ReferentialReferentialCore = {
 
 /** A Zod validator matching {@link ReferentialReferentialCore}s. */
 export const zodReferentialReferentialCore = /* @__PURE__ */ object({
-  referrents: zodReferrentList,
+  referents: zodReferentList,
   perspective: zodPerspective,
   type: /* @__PURE__ */ undefined().optional(),
   case: zodCase,
@@ -73,7 +73,7 @@ export const zodReferentialReferentialCore = /* @__PURE__ */ object({
 
 /** The structure shared between all suppletive referentials. */
 export type SuppletiveReferentialCore = {
-  readonly referrents?: undefined
+  readonly referents?: undefined
   readonly perspective?: undefined
   readonly type: SuppletiveAdjunctType
   readonly case: Case
@@ -83,7 +83,7 @@ export type SuppletiveReferentialCore = {
 
 /** A Zod validator matching {@link SuppletiveReferentialCore}s. */
 export const zodSuppletiveReferentialCore = /* @__PURE__ */ object({
-  referrents: /* @__PURE__ */ undefined().optional(),
+  referents: /* @__PURE__ */ undefined().optional(),
   perspective: /* @__PURE__ */ undefined().optional(),
   type: zodSuppletiveAdjunctType,
   case: zodCase,
@@ -105,10 +105,10 @@ export const zodReferentialCore = /* @__PURE__ */ union([
 /**
  * The structure shared between all single-, dual-, and combination
  * referentials, with all optional slots properly marked optional.
- * Note that the `referrents` slot is still required.
+ * Note that the `referents` slot is still required.
  */
 export type PartialReferentialReferentialCore = {
-  readonly referrents: ReferrentList
+  readonly referents: ReferentList
   readonly perspective?: Perspective | undefined
   readonly type?: undefined
   readonly case?: Case | undefined
@@ -118,7 +118,7 @@ export type PartialReferentialReferentialCore = {
 
 /** A Zod validator matching {@link PartialReferentialReferentialCore}s. */
 export const zodPartialReferentialReferentialCore = /* @__PURE__ */ object({
-  referrents: zodReferrentList,
+  referents: zodReferentList,
   perspective: /* @__PURE__ */ zodPerspective.optional(),
   type: /* @__PURE__ */ undefined().optional(),
   case: /* @__PURE__ */ zodCase.optional(),
@@ -131,7 +131,7 @@ export const zodPartialReferentialReferentialCore = /* @__PURE__ */ object({
  * properly marked optional. Note that the `type` slot is still required.
  */
 export type PartialSuppletiveReferentialCore = {
-  readonly referrents?: undefined
+  readonly referents?: undefined
   readonly perspective?: undefined
   readonly type: SuppletiveAdjunctType
   readonly case?: Case | undefined
@@ -141,7 +141,7 @@ export type PartialSuppletiveReferentialCore = {
 
 /** A Zod validator matching {@link PartialSuppletiveReferentialCore}s. */
 export const zodPartialSuppletiveReferentialCore = /* @__PURE__ */ object({
-  referrents: /* @__PURE__ */ undefined().optional(),
+  referents: /* @__PURE__ */ undefined().optional(),
   perspective: /* @__PURE__ */ undefined().optional(),
   type: zodSuppletiveAdjunctType,
   case: /* @__PURE__ */ zodCase.optional(),
@@ -150,8 +150,8 @@ export const zodPartialSuppletiveReferentialCore = /* @__PURE__ */ object({
 })
 
 /**
- * The core structure of a referrent, with optional slots properly marked
- * optional. Note that either the `referrents` slot or `type` slot must be
+ * The core structure of a referent, with optional slots properly marked
+ * optional. Note that either the `referents` slot or `type` slot must be
  * present in instances of this type.
  */
 export type PartialReferentialCore =
@@ -167,19 +167,19 @@ export const zodPartialReferentialCore = /* @__PURE__ */ union([
 /** A referential. */
 export type Referential =
   | (ReferentialCore & {
-      readonly referrent2?: undefined
+      readonly referent2?: undefined
       readonly perspective2?: undefined
       readonly specification?: undefined
       readonly affixes?: undefined
     })
   | (ReferentialCore & {
-      readonly referrent2: Referrent
+      readonly referent2: Referent
       readonly perspective2: Perspective
       readonly specification?: undefined
       readonly affixes?: undefined
     })
   | (ReferentialCore & {
-      readonly referrent2?: undefined
+      readonly referent2?: undefined
       readonly perspective2?: undefined
       readonly specification: Specification
       readonly affixes: readonly Affix[]
@@ -189,7 +189,7 @@ export type Referential =
 export const zodReferential = /* @__PURE__ */ union([
   /* @__PURE__ */ zodReferentialCore.and(
     /* @__PURE__ */ object({
-      referrent2: /* @__PURE__ */ undefined().optional(),
+      referent2: /* @__PURE__ */ undefined().optional(),
       perspective2: /* @__PURE__ */ undefined().optional(),
       specification: /* @__PURE__ */ undefined().optional(),
       affixes: /* @__PURE__ */ undefined().optional(),
@@ -197,7 +197,7 @@ export const zodReferential = /* @__PURE__ */ union([
   ),
   /* @__PURE__ */ zodReferentialCore.and(
     /* @__PURE__ */ object({
-      referrent2: zodReferrent,
+      referent2: zodReferent,
       perspective2: zodPerspective,
       specification: /* @__PURE__ */ undefined().optional(),
       affixes: /* @__PURE__ */ undefined().optional(),
@@ -205,7 +205,7 @@ export const zodReferential = /* @__PURE__ */ union([
   ),
   /* @__PURE__ */ zodReferentialCore.and(
     /* @__PURE__ */ object({
-      referrent2: /* @__PURE__ */ undefined().optional(),
+      referent2: /* @__PURE__ */ undefined().optional(),
       perspective2: /* @__PURE__ */ undefined().optional(),
       specification: zodSpecification,
       affixes: /* @__PURE__ */ zodAffix.array(),
@@ -216,19 +216,19 @@ export const zodReferential = /* @__PURE__ */ union([
 /** A referential, with optional slots properly marked optional. */
 export type PartialReferential =
   | (PartialReferentialCore & {
-      readonly referrent2?: undefined
+      readonly referent2?: undefined
       readonly perspective2?: undefined
       readonly specification?: undefined
       readonly affixes?: undefined
     })
   | (PartialReferentialCore & {
-      readonly referrent2: Referrent
+      readonly referent2: Referent
       readonly perspective2?: Perspective | undefined
       readonly specification?: undefined
       readonly affixes?: undefined
     })
   | (PartialReferentialCore & {
-      readonly referrent2?: undefined
+      readonly referent2?: undefined
       readonly perspective2?: undefined
       readonly specification?: Specification | undefined
       readonly affixes?: readonly Affix[] | undefined
@@ -238,7 +238,7 @@ export type PartialReferential =
 export const zodPartialReferential = /* @__PURE__ */ union([
   /* @__PURE__ */ zodPartialReferentialCore.and(
     /* @__PURE__ */ object({
-      referrent2: /* @__PURE__ */ undefined().optional(),
+      referent2: /* @__PURE__ */ undefined().optional(),
       perspective2: /* @__PURE__ */ undefined().optional(),
       specification: /* @__PURE__ */ undefined().optional(),
       affixes: /* @__PURE__ */ undefined().optional(),
@@ -246,7 +246,7 @@ export const zodPartialReferential = /* @__PURE__ */ union([
   ),
   /* @__PURE__ */ zodPartialReferentialCore.and(
     /* @__PURE__ */ object({
-      referrent2: zodReferrent,
+      referent2: zodReferent,
       perspective2: /* @__PURE__ */ zodPerspective.optional(),
       specification: /* @__PURE__ */ undefined().optional(),
       affixes: /* @__PURE__ */ undefined().optional(),
@@ -254,7 +254,7 @@ export const zodPartialReferential = /* @__PURE__ */ union([
   ),
   /* @__PURE__ */ zodPartialReferentialCore.and(
     /* @__PURE__ */ object({
-      referrent2: /* @__PURE__ */ undefined().optional(),
+      referent2: /* @__PURE__ */ undefined().optional(),
       perspective2: /* @__PURE__ */ undefined().optional(),
       specification: /* @__PURE__ */ zodSpecification.optional(),
       affixes: /* @__PURE__ */ zodAffix.array().optional(),
@@ -268,8 +268,8 @@ export const zodPartialReferential = /* @__PURE__ */ union([
  * @returns Romanized Ithkuilic text representing the referential.
  */
 function completeReferentialToIthkuil(referential: Referential) {
-  const slot1 = referential.referrents
-    ? referrentListToIthkuil(referential.referrents, referential.perspective)
+  const slot1 = referential.referents
+    ? referentListToIthkuil(referential.referents, referential.perspective)
     : (referential.specification && referential.affixes ? "a" : "üo") +
       suppletiveAdjunctTypeToIthkuil(referential.type)
 
@@ -301,7 +301,7 @@ function completeReferentialToIthkuil(referential: Referential) {
     return applyReferentialEssence(word, referential.essence)
   }
 
-  if (referential.case2 || referential.perspective2 || referential.referrent2) {
+  if (referential.case2 || referential.perspective2 || referential.referent2) {
     const slot3 =
       "w" +
       WithWYAlternative.of(
@@ -310,36 +310,36 @@ function completeReferentialToIthkuil(referential: Referential) {
 
     let slot4 = ""
 
-    if (referential.referrent2) {
-      const referrent = referrentToIthkuil(referential.referrent2, false)
+    if (referential.referent2) {
+      const referent = referentToIthkuil(referential.referent2, false)
 
       const perspective = referentialPerspectiveToIthkuil(
         referential.perspective2,
       )
 
-      if (isLegalWordFinalConsonantForm(perspective + referrent)) {
-        slot4 = perspective + referrent
-      } else if (isLegalWordFinalConsonantForm(referrent + perspective)) {
-        slot4 = referrent + perspective
-      } else if (isLegalConsonantForm(perspective + referrent)) {
-        slot4 = perspective + referrent + "ë"
-      } else if (isLegalConsonantForm(referrent + perspective)) {
-        slot4 = referrent + perspective + "ë"
+      if (isLegalWordFinalConsonantForm(perspective + referent)) {
+        slot4 = perspective + referent
+      } else if (isLegalWordFinalConsonantForm(referent + perspective)) {
+        slot4 = referent + perspective
+      } else if (isLegalConsonantForm(perspective + referent)) {
+        slot4 = perspective + referent + "ë"
+      } else if (isLegalConsonantForm(referent + perspective)) {
+        slot4 = referent + perspective + "ë"
       }
 
       const perspective2 = referentialPerspectiveToIthkuilAlt(
         referential.perspective2,
       )
 
-      if (isLegalWordFinalConsonantForm(referrent + perspective2)) {
-        slot4 = referrent + perspective2
-      } else if (isLegalWordFinalConsonantForm(perspective2 + referrent)) {
-        slot4 = perspective2 + referrent
-      } else if (isLegalConsonantForm(referrent + perspective2)) {
-        slot4 = referrent + perspective2 + "ë"
+      if (isLegalWordFinalConsonantForm(referent + perspective2)) {
+        slot4 = referent + perspective2
+      } else if (isLegalWordFinalConsonantForm(perspective2 + referent)) {
+        slot4 = perspective2 + referent
+      } else if (isLegalConsonantForm(referent + perspective2)) {
+        slot4 = referent + perspective2 + "ë"
       } else {
         // The following may be phonotactically invalid.
-        slot4 = perspective2 + referrent + "ë"
+        slot4 = perspective2 + referent + "ë"
       }
     }
 

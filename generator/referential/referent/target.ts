@@ -1,8 +1,8 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
 import { Enum } from "../../helpers/enum.js"
 
-/** A referrent target. */
-export type ReferrentTarget =
+/** A referent target. */
+export type ReferentTarget =
   | "1m"
   | "2m"
   | "2p"
@@ -15,8 +15,8 @@ export type ReferrentTarget =
   | "Obv"
   | "PVS"
 
-/** An array containing all referrent targets. */
-export const ALL_REFERRENT_TARGETS: readonly ReferrentTarget[] =
+/** An array containing all referent targets. */
+export const ALL_REFERENT_TARGETS: readonly ReferentTarget[] =
   /* @__PURE__ */ deepFreeze([
     "1m",
     "2m",
@@ -31,13 +31,11 @@ export const ALL_REFERRENT_TARGETS: readonly ReferrentTarget[] =
     "PVS",
   ])
 
-/** A Zod validator matching referrent targets. */
-export const zodReferrentTarget = /* @__PURE__ */ new Enum(
-  ALL_REFERRENT_TARGETS,
-)
+/** A Zod validator matching referent targets. */
+export const zodReferentTarget = /* @__PURE__ */ new Enum(ALL_REFERENT_TARGETS)
 
-/** An object mapping referrent targets to descriptions of them. */
-export const REFERRENT_TARGET_TO_DESCRIPTION_MAP = /* @__PURE__ */ deepFreeze({
+/** An object mapping referent targets to descriptions of them. */
+export const REFERENT_TARGET_TO_DESCRIPTION_MAP = /* @__PURE__ */ deepFreeze({
   "1m": "monadic speaker",
   "2m": "monadic addressee",
   "2p": "polyadic addressee",

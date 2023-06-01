@@ -8,34 +8,34 @@ import {
   referentialPerspectiveToIthkuil,
   referentialPerspectiveToIthkuilAlt,
 } from "../perspective.js"
-import { referrentToIthkuil, zodReferrent, type Referrent } from "./index.js"
+import { referentToIthkuil, zodReferent, type Referent } from "./index.js"
 
-/** A list of referrents. */
-export type ReferrentList = readonly [Referrent, ...Referrent[]]
+/** A list of referents. */
+export type ReferentList = readonly [Referent, ...Referent[]]
 
-/** A Zod validator matching a list of referrents. */
-export const zodReferrentList = /* @__PURE__ */ zodReferrent.array().nonempty()
+/** A Zod validator matching a list of referents. */
+export const zodReferentList = /* @__PURE__ */ zodReferent.array().nonempty()
 
 /**
- * Converts a list of referrents into Ithkuil. Does not attempt to change the
- * order of the referrents to create phonotactically permissible consonant
+ * Converts a list of referents into Ithkuil. Does not attempt to change the
+ * order of the referents to create phonotactically permissible consonant
  * clusters. As such, the generated clusters may be phonotactically invalid.
  *
- * To automatically rearrange the referrents to optimize for phonotactically
- * correct consonant clusters, use {@link referrentListToIthkuil} instead.
+ * To automatically rearrange the referents to optimize for phonotactically
+ * correct consonant clusters, use {@link referentListToIthkuil} instead.
  *
- * @param referrents A list of referrents.
- * @param perspective The perspective to attach to said referrents.
+ * @param referents A list of referents.
+ * @param perspective The perspective to attach to said referents.
  * @param isReferentialAffix Whether this is used in a referential affix.
- * @returns Romanized Ithkuilic text representing the referrent list.
+ * @returns Romanized Ithkuilic text representing the referent list.
  */
-export function assembleReferrentList(
-  referrents: ReferrentList,
+export function assembleReferentList(
+  referents: ReferentList,
   perspective: Perspective,
   isReferentialAffix: boolean,
 ) {
-  const text = referrents.map((referrent) =>
-    referrentToIthkuil(referrent, isReferentialAffix),
+  const text = referents.map((referent) =>
+    referentToIthkuil(referent, isReferentialAffix),
   )
 
   let output = ""
@@ -88,25 +88,25 @@ export function assembleReferrentList(
 }
 
 /**
- * Converts a list of referrents into Ithkuil. Will automatically rearrange the
- * order of the referrents to create phonotactically permissible consonant
+ * Converts a list of referents into Ithkuil. Will automatically rearrange the
+ * order of the referents to create phonotactically permissible consonant
  * clusters. As such, the generated clusters will most often be phonotactically
  * valid.
  *
- * To avoid automatically rearranging the referrents, use
- * {@link assembleReferrentList} instead.
+ * To avoid automatically rearranging the referents, use
+ * {@link assembleReferentList} instead.
  *
- * @param referrents A list of referrents.
- * @param perspective The perspective to attach to said referrents.
- * @returns Romanized Ithkuilic text representing the referrent list.
+ * @param referents A list of referents.
+ * @param perspective The perspective to attach to said referents.
+ * @returns Romanized Ithkuilic text representing the referent list.
  */
-export function referrentListToIthkuil(
-  referrents: ReferrentList,
+export function referentListToIthkuil(
+  referents: ReferentList,
   perspective: Perspective,
 ): string {
-  const all = allPermutationsOf(referrents)
-    .map((referrentList) =>
-      assembleReferrentList(referrentList, perspective, false),
+  const all = allPermutationsOf(referents)
+    .map((referentList) =>
+      assembleReferentList(referentList, perspective, false),
     )
     .sort((a, b) => (a.length < b.length ? -1 : a.length > b.length ? 1 : 0))
 
@@ -122,13 +122,13 @@ export function referrentListToIthkuil(
 }
 
 /**
- * Converts a referrent into an Ithkuilic referential affix.
- * @param referrent The referrent to be converted.
- * @param perspective The perspective to be attatched to the referrent.
- * @returns Romanized Ithkuilic text representing the referrent.
+ * Converts a referent into an Ithkuilic referential affix.
+ * @param referent The referent to be converted.
+ * @param perspective The perspective to be attatched to the referent.
+ * @returns Romanized Ithkuilic text representing the referent.
  */
 export function referentialAffixToIthkuil(
-  referrent: Referrent,
+  referent: Referent,
   perspective: "M" | "G" | "N",
 ) {
   if (
@@ -136,11 +136,11 @@ export function referentialAffixToIthkuil(
     perspective == "A"
   ) {
     throw new Error(
-      "Referrents may not be marked Abstract in referential affixes.",
+      "Referents may not be marked Abstract in referential affixes.",
     )
   }
 
-  const ref = referrentToIthkuil(referrent, true)
+  const ref = referentToIthkuil(referent, true)
   const persp = referentialPerspectiveToIthkuil(perspective)
   const persp2 = referentialPerspectiveToIthkuilAlt(perspective)
 
@@ -164,23 +164,23 @@ export function referentialAffixToIthkuil(
   return ref + persp2
 }
 
-function nonReferentialAffixReferrentToIthkuil(referrent: Referrent) {
-  return referrentToIthkuil(referrent, false)
+function nonReferentialAffixReferentToIthkuil(referent: Referent) {
+  return referentToIthkuil(referent, false)
 }
 
 /**
- * Converts a list of referrents to an Ithkuilic personal reference root.
- * @param list The referrents to be converted.
- * @returns Romanized Ithkuilic text representing the referrent list.
+ * Converts a list of referents to an Ithkuilic personal reference root.
+ * @param list The referents to be converted.
+ * @returns Romanized Ithkuilic text representing the referent list.
  */
-export function referrentListToPersonalReferenceRoot(list: ReferrentList) {
+export function referentListToPersonalReferenceRoot(list: ReferentList) {
   const sorted = list.slice().sort().reverse()
 
-  const fallback = sorted.map(nonReferentialAffixReferrentToIthkuil).join("")
+  const fallback = sorted.map(nonReferentialAffixReferentToIthkuil).join("")
 
   for (const permututation of allPermutationsOf(sorted)) {
     const output = permututation
-      .map(nonReferentialAffixReferrentToIthkuil)
+      .map(nonReferentialAffixReferentToIthkuil)
       .join("")
 
     if (isLegalConsonantForm(output)) {

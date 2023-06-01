@@ -1,15 +1,15 @@
 import { object } from "zod"
 import { deepFreeze } from "../../helpers/deep-freeze.js"
 import { Enum } from "../../helpers/enum.js"
-import { zodReferrentEffect, type ReferrentEffect } from "./effect.js"
-import { zodReferrentTarget, type ReferrentTarget } from "./target.js"
+import { zodReferentEffect, type ReferentEffect } from "./effect.js"
+import { zodReferentTarget, type ReferentTarget } from "./target.js"
 
 export * from "./effect.js"
 export * from "./list.js"
 export * from "./target.js"
 
-/** A referrent. */
-export type Referrent =
+/** A referent. */
+export type Referent =
   | "1m:NEU"
   | "2m:NEU"
   | "2p:NEU"
@@ -44,8 +44,8 @@ export type Referrent =
   | "Obv:DET"
   | "PVS:DET"
 
-/** An array containing all referrents. */
-export const ALL_REFERRENTS: readonly Referrent[] = /* @__PURE__ */ deepFreeze([
+/** An array containing all referents. */
+export const ALL_REFERENTS: readonly Referent[] = /* @__PURE__ */ deepFreeze([
   "1m:NEU",
   "2m:NEU",
   "2p:NEU",
@@ -81,11 +81,11 @@ export const ALL_REFERRENTS: readonly Referrent[] = /* @__PURE__ */ deepFreeze([
   "PVS:DET",
 ])
 
-/** A Zod validator matching referrents. */
-export const zodReferrent = /* @__PURE__ */ new Enum(ALL_REFERRENTS)
+/** A Zod validator matching referents. */
+export const zodReferent = /* @__PURE__ */ new Enum(ALL_REFERENTS)
 
-/** An object mapping referrents into their Ithkuilic counterparts. */
-export const REFERRENT_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
+/** An object mapping referents into their Ithkuilic counterparts. */
+export const REFERENT_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
   /**
    * The `false` branch is used in referentials and personal-reference roots.
    */
@@ -164,36 +164,36 @@ export const REFERRENT_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
 })
 
 /**
- * Converts a referrent into Ithkuil.
- * @param referrent The referrent to be converted.
- * @param isReferentialAffix Whether this referrent is used in a referential
+ * Converts a referent into Ithkuil.
+ * @param referent The referent to be converted.
+ * @param isReferentialAffix Whether this referent is used in a referential
  * affix.
- * @returns Romanized Ithkuilic text representing the referrent.
+ * @returns Romanized Ithkuilic text representing the referent.
  */
-export function referrentToIthkuil(
-  referrent: Referrent,
+export function referentToIthkuil(
+  referent: Referent,
   isReferentialAffix: boolean,
 ): string {
-  return REFERRENT_TO_ITHKUIL_MAP[`${isReferentialAffix}`][referrent]
+  return REFERENT_TO_ITHKUIL_MAP[`${isReferentialAffix}`][referent]
 }
 
-/** A deconstructed referrent expressed as an object. */
-export type ReferrentObject = {
-  /** The target of the referrent. */
-  readonly target: ReferrentTarget
+/** A deconstructed referent expressed as an object. */
+export type ReferentObject = {
+  /** The target of the referent. */
+  readonly target: ReferentTarget
 
-  /** The effect of the referrent. */
-  readonly effect: ReferrentEffect
+  /** The effect of the referent. */
+  readonly effect: ReferentEffect
 }
 
-/** A Zod validator matching referrent objects. */
-export const zodReferrentObject = /* @__PURE__ */ object({
-  target: zodReferrentTarget,
-  effect: zodReferrentEffect,
+/** A Zod validator matching referent objects. */
+export const zodReferentObject = /* @__PURE__ */ object({
+  target: zodReferentTarget,
+  effect: zodReferentEffect,
 })
 
-/** An object mapping from referrents to their referrent objects. */
-export const REFERRENT_TO_REFERRENT_OBJECT_MAP = /* @__PURE__ */ deepFreeze({
+/** An object mapping from referents to their referent objects. */
+export const REFERENT_TO_REFERENT_OBJECT_MAP = /* @__PURE__ */ deepFreeze({
   "1m:NEU": { target: "1m", effect: "NEU" },
   "2m:NEU": { target: "2m", effect: "NEU" },
   "2p:NEU": { target: "2p", effect: "NEU" },
@@ -230,24 +230,22 @@ export const REFERRENT_TO_REFERRENT_OBJECT_MAP = /* @__PURE__ */ deepFreeze({
 })
 
 /**
- * Deconstructs an referrent into its separate components.
- * @param referrent The referrent to be deconstructed.
+ * Deconstructs an referent into its separate components.
+ * @param referent The referent to be deconstructed.
  * @returns An object containing the effect and target of the original
- * referrent.
+ * referent.
  */
-export function referrentToReferrentObject(
-  referrent: Referrent,
-): ReferrentObject {
-  return REFERRENT_TO_REFERRENT_OBJECT_MAP[referrent]
+export function referentToReferentObject(referent: Referent): ReferentObject {
+  return REFERENT_TO_REFERENT_OBJECT_MAP[referent]
 }
 
 /**
- * Reconstructs a referrent object into a single referrent.
- * @param referrentObject The referrent to be reconstructed.
+ * Reconstructs a referent object into a single referent.
+ * @param referentObject The referent to be reconstructed.
  * @returns A string representing the effect and target of the object.
  */
-export function referrentObjectToReferrent(
-  referrentObject: ReferrentObject,
-): Referrent {
-  return `${referrentObject.target}:${referrentObject.effect}`
+export function referentObjectToReferent(
+  referentObject: ReferentObject,
+): Referent {
+  return `${referentObject.target}:${referentObject.effect}`
 }
