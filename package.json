@@ -1,5 +1,5 @@
 {
-  "name": "ithkuil",
+  "name": "@zsnout/ithkuil",
   "version": "0.1.6",
   "description": "Utilities allowing for easy generation of romanized Ithkuilic text.",
   "main": "index.js",
