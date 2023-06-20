@@ -19,7 +19,7 @@ export function geminateCA(text: string): string {
   }
 
   {
-    const nextText = text.replace(/[sšzžçcč]/, (match) => match + match)
+    const nextText = text.replace(/[sšzžçcčjż]/, (match) => match + match)
 
     if (nextText != text) {
       return nextText
@@ -55,14 +55,15 @@ export function geminateCA(text: string): string {
   if (text.includes("dn")) return text.replace("dn", "nnl")
 
   if (/^[lrř]/.test(text)) {
-    const a = text[0] + geminateCA(text.slice(1))
+    const rest = geminateCA(text.slice(1))
 
-    if (isLegalConsonantForm(a)) {
-      return a
+    const firstAttempt = text[0] + rest
+    if (rest != text.slice(1) && isLegalConsonantForm(firstAttempt)) {
+      return firstAttempt
     }
 
     return text[0]! + text[0] + text.slice(1)
   }
 
-  throw new Error("Cannot geminate CA form '" + text + "'.")
+  return text
 }
