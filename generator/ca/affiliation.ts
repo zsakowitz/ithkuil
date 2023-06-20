@@ -24,7 +24,7 @@ export const AFFILIATION_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
   CSL: ["", ""],
   COA: ["r", "rļ"],
   ASO: ["l", "nļ"],
-  VAR: ["ř", "n"],
+  VAR: ["ř", "ň"],
 })
 
 /**
