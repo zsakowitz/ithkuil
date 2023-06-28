@@ -162,6 +162,93 @@ export const ALL_CASES: readonly Case[] = /* @__PURE__ */ deepFreeze([
   "PLM",
 ])
 
+/**
+ * An array containing all cases that has empty values in the skipped positions
+ * where the RLT, VOC, NAV, and PLM cases would normally be.
+ */
+export const ALL_CASES_SKIPPING_DEGREE_8: readonly (Case | undefined)[] =
+  /* @__PURE__ */ deepFreeze([
+    "THM",
+    "INS",
+    "ABS",
+    "AFF",
+    "STM",
+    "EFF",
+    "ERG",
+    "DAT",
+    "IND",
+
+    "POS",
+    "PRP",
+    "GEN",
+    "ATT",
+    "PDC",
+    "ITP",
+    "OGN",
+    "IDP",
+    "PAR",
+
+    "APL",
+    "PUR",
+    "TRA",
+    "DFR",
+    "CRS",
+    "TSP",
+    "CMM",
+    "CMP",
+    "CSD",
+
+    "FUN",
+    "TFM",
+    "CLA",
+    "RSL",
+    "CSM",
+    "CON",
+    "AVR",
+    "CVS",
+    "SIT",
+
+    "PRN",
+    "DSP",
+    "COR",
+    "CPS",
+    "COM",
+    "UTL",
+    "PRD",
+    ,
+    "RLT",
+
+    "ACT",
+    "ASI",
+    "ESS",
+    "TRM",
+    "SEL",
+    "CFM",
+    "DEP",
+    ,
+    "VOC",
+
+    "LOC",
+    "ATD",
+    "ALL",
+    "ABL",
+    "ORI",
+    "IRL",
+    "INV",
+    ,
+    "NAV",
+
+    "CNR",
+    "ASS",
+    "PER",
+    "PRO",
+    "PCV",
+    "PCR",
+    "ELP",
+    ,
+    "PLM",
+  ])
+
 /** A Zod validator matching cases. */
 export const zodCase = /* @__PURE__ */ new Enum(ALL_CASES)
 

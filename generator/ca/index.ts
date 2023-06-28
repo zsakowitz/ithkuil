@@ -1,5 +1,5 @@
 import { object } from "zod"
-import { deepFreeze, fillDefaults } from "../index.js"
+import { attemptGemination, deepFreeze, fillDefaults } from "../index.js"
 import {
   affiliationToIthkuil,
   zodAffiliation,
@@ -138,6 +138,50 @@ export function caToIthkuil(ca: PartialCA) {
   const core = affiliation + configuration + extension + perspectiveAndEssence
 
   return makeCAAllomorphicSubstitutions(core)
+}
+
+/**
+ * Converts a Ca form into Ithkuil, geminating the form throughout the process.
+ * @param ca The Ca form to be converted.
+ * @returns Romanized Ithkuilic text representing the geminated Ca form.
+ */
+export function geminatedCAToIthkuil(ca: PartialCA) {
+  const ca2 = fillInDefaultCAValues(ca)
+
+  const configuration = configurationToIthkuil(ca2.configuration)
+
+  const extension = extensionToIthkuil(
+    ca2.extension,
+    ca2.configuration == "UPX",
+  )
+
+  const affiliation = affiliationToIthkuil(
+    ca2.affiliation,
+
+    configuration == "" &&
+      extension == "" &&
+      ca2.perspective == "M" &&
+      ca2.essence == "NRM",
+  )
+
+  const perspectiveAndEssence = perspectiveAndEssenceToIthkuil(
+    ca2.perspective,
+    ca2.essence,
+    affiliation == "" && configuration == "" && extension == "",
+    !!(affiliation + configuration + extension).match(/[kpt]$/),
+  )
+
+  const core = affiliation + configuration + extension + perspectiveAndEssence
+
+  const nonGeminate = makeCAAllomorphicSubstitutions(core)
+
+  const geminate = attemptGemination(nonGeminate)
+
+  if (nonGeminate == geminate) {
+    return geminate[0] + geminate
+  }
+
+  return geminate
 }
 
 /** The default Ca form. */

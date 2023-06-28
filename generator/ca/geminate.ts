@@ -1,11 +1,11 @@
 import { isLegalConsonantForm } from "../phonotactics/index.js"
 
 /**
- * Geminates a Ca form.
+ * Attempts to geminate a Ca form.
  * @param text The Ca form to be geminated.
- * @returns The geminated Ca form.
+ * @returns The (possibly) geminated Ca form.
  */
-export function geminateCA(text: string): string {
+export function attemptGemination(text: string): string {
   if (text.length == 1) {
     return text + text
   }
@@ -55,7 +55,7 @@ export function geminateCA(text: string): string {
   if (text.endsWith("dn")) return text.replace(/dn$/, "nnl")
 
   if (/^[lrř]/.test(text)) {
-    const rest = geminateCA(text.slice(1))
+    const rest = attemptGemination(text.slice(1))
 
     const firstAttempt = text[0] + rest
     if (rest != text.slice(1) && isLegalConsonantForm(firstAttempt)) {

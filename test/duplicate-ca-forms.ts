@@ -5,7 +5,7 @@ import {
   ALL_EXTENSIONS,
   ALL_PERSPECTIVES,
   caToIthkuil,
-  geminateCA,
+  geminatedCAToIthkuil,
 } from "../generator/index.js"
 
 export function checkForDuplicateCAForms() {
@@ -87,15 +87,13 @@ export function geminateAllCAs() {
               perspective,
             })
 
-            const geminate = geminateCA(
-              caToIthkuil({
-                affiliation,
-                configuration,
-                essence,
-                extension,
-                perspective,
-              }),
-            )
+            const geminate = geminatedCAToIthkuil({
+              affiliation,
+              configuration,
+              essence,
+              extension,
+              perspective,
+            })
 
             if (ca == geminate) {
               failures++
@@ -148,15 +146,13 @@ export function checkForDuplicateGeminatedCAForms() {
       for (const essence of ALL_ESSENCES) {
         for (const extension of ALL_EXTENSIONS) {
           for (const perspective of ALL_PERSPECTIVES) {
-            const result = geminateCA(
-              caToIthkuil({
-                affiliation,
-                configuration,
-                essence,
-                extension,
-                perspective,
-              }),
-            )
+            const result = geminatedCAToIthkuil({
+              affiliation,
+              configuration,
+              essence,
+              extension,
+              perspective,
+            })
 
             if (caSlots.includes(result)) {
               console.error(

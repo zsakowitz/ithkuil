@@ -1,5 +1,10 @@
 import { boolean, object } from "zod"
-import { caToIthkuil, geminateCA, zodCa, type CA } from "../../ca/index.js"
+import {
+  caToIthkuil,
+  geminatedCAToIthkuil,
+  zodCa,
+  type CA,
+} from "../../ca/index.js"
 
 /** Information directly pertaining to Slot VI. */
 export type SlotVI = CA
@@ -28,11 +33,5 @@ export function slotVIToIthkuil(
   slot: SlotVI,
   metadata: SlotVIMetadata,
 ): string {
-  let value = caToIthkuil(slot)
-
-  if (metadata.isSlotVFilled) {
-    value = geminateCA(value)
-  }
-
-  return value
+  return metadata.isSlotVFilled ? geminatedCAToIthkuil(slot) : caToIthkuil(slot)
 }
