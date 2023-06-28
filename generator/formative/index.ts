@@ -416,11 +416,12 @@ function completeFormativeToIthkuil(formative: Formative) {
     slotVIIAffixes.length != 0 &&
     (formative.shortcut === true || formative.shortcut === "VII")
   ) {
-    const finalSlotVIIAffix = slotVIIAffixes.pop()!
+    const finalSlotVIIAffix = slotVIIAffixes.pop()
 
     const shortcut =
       finalSlotVIIAffix &&
       "cs" in finalSlotVIIAffix &&
+      finalSlotVIIAffix.cs &&
       finalSlotVIIAffix.type == 1
         ? finalSlotVIIAffix.cs == "r" && finalSlotVIIAffix.degree == 4
           ? 1
@@ -442,7 +443,7 @@ function completeFormativeToIthkuil(formative: Formative) {
       slot2 = WithWYAlternative.of(slotII).withPreviousText(slot1)
 
       didVIIShortcut = true
-    } else {
+    } else if (finalSlotVIIAffix) {
       slotVIIAffixes.push(finalSlotVIIAffix)
     }
   }
