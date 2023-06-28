@@ -15,6 +15,13 @@ import {
   WithWYAlternative,
 } from "../helpers/with-wy-alternative.js"
 import {
+  ALL_CASES,
+  CASE_AFFIX_TO_CS_MAP,
+  caseToIthkuil,
+  zodCase,
+  type Case,
+} from "../index.js"
+import {
   referentialAffixToIthkuil,
   zodReferent,
   type Referent,
@@ -114,12 +121,15 @@ export type Affix =
 
       readonly ca?: undefined
       readonly referent?: undefined
+      readonly case?: undefined
     }
   | {
       /** The Ca complex of this affix. */
       readonly ca: PartialCA
 
+      readonly cs?: undefined
       readonly referent?: undefined
+      readonly case?: undefined
     }
   | {
       /** The referent of this affix. */
@@ -131,7 +141,31 @@ export type Affix =
       /** The case of the affix. */
       readonly case: ReferentialAffixCase
 
+      readonly cs?: undefined
       readonly ca?: undefined
+    }
+  | {
+      /** The case used in this case accessor affix. */
+      readonly case: Case
+
+      /** The type of the case accessor affix. */
+      readonly type: AffixType
+
+      /** Whether this affix is an inverse case-accessor affix. */
+      readonly isInverse: boolean
+
+      readonly cs?: undefined
+      readonly ca?: undefined
+      readonly referent?: undefined
+    }
+  | {
+      /** The case used in this case accessor affix. */
+      readonly case: Case
+
+      readonly cs?: undefined
+      readonly ca?: undefined
+      readonly referent?: undefined
+      readonly type?: undefined
     }
 
 /** A Zod validator matching affixes. */
@@ -142,16 +176,35 @@ export const zodAffix = /* @__PURE__ */ union([
     cs: /* @__PURE__ */ string(),
     ca: /* @__PURE__ */ undefined().optional(),
     referent: /* @__PURE__ */ undefined().optional(),
+    case: /* @__PURE__ */ undefined().optional(),
   }),
   /* @__PURE__ */ object({
     ca: zodPartialCA,
+    cs: /* @__PURE__ */ undefined().optional(),
     referent: /* @__PURE__ */ undefined().optional(),
+    case: /* @__PURE__ */ undefined().optional(),
   }),
   /* @__PURE__ */ object({
     referent: zodReferent,
     perspective: /* @__PURE__ */ new Enum(["M", "G", "N"]).optional(),
     case: zodReferentialAffixCase,
+    cs: /* @__PURE__ */ undefined().optional(),
     ca: /* @__PURE__ */ undefined().optional(),
+  }),
+  /* @__PURE__ */ object({
+    case: zodCase,
+    type: zodAffixType,
+    isInverse: /* @__PURE__ */ boolean(),
+    cs: /* @__PURE__ */ undefined().optional(),
+    ca: /* @__PURE__ */ undefined().optional(),
+    referent: /* @__PURE__ */ undefined().optional(),
+  }),
+  /* @__PURE__ */ object({
+    case: zodCase,
+    cs: /* @__PURE__ */ undefined().optional(),
+    ca: /* @__PURE__ */ undefined().optional(),
+    referent: /* @__PURE__ */ undefined().optional(),
+    type: /* @__PURE__ */ undefined().optional(),
   }),
 ])
 
@@ -189,6 +242,8 @@ export function affixToIthkuil(
       ? "üö"
       : "referent" in affix && affix.referent
       ? REFERENTIAL_AFFIX_CASE_TO_ITHKUIL_MAP[affix.case ?? "THM"]
+      : "case" in affix && affix.case
+      ? caseToIthkuil(affix.case, false, true)
       : ONE_INDEXED_STANDARD_VOWEL_TABLE[(affix.type - 1) as 0 | 1 | 2][
           affix.degree
         ],
@@ -203,6 +258,10 @@ export function affixToIthkuil(
       ? caToIthkuil(affix.ca)
       : "referent" in affix && affix.referent
       ? referentialAffixToIthkuil(affix.referent, affix.perspective ?? "M")
+      : "case" in affix && affix.case
+      ? ("type" in affix && affix.type
+          ? CASE_AFFIX_TO_CS_MAP[`${affix.isInverse}`][affix.type]
+          : "l") + (ALL_CASES.indexOf(affix.case) >= 36 ? "y" : "w")
       : affix.cs
 
   if (metadata.reversed) {

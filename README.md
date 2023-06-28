@@ -226,3 +226,20 @@ const result = adjunctToIthkuil(realAdjunct)
 
 console.log(result)
 ```
+
+## Changelog
+
+### 0.1.12
+
+- Added case-accessor and inverse case-accessor affixes
+
+### 0.1.11
+
+- Added an array constant that contains all cases arranged in order and that
+  properly skips the 8th degree of the last four case categories. This new
+  array, `ALL_CASES_SKIPPING_DEGREE_8`, has a length of `72` and contains four
+  empty cells: one before each of the `RLT`, `VOC`, `NAV`, and `PLM` cases.
+
+- Fixed Ca gemination algorithm (geminates involving N/RPV and A/RPV are
+  complicated, and many Ca forms simply cannot be geminated according to
+  Ithkuil's rules)

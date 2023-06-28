@@ -493,22 +493,31 @@ export const CASE_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({
 })
 
 /**
+ * An object mapping from case-related affix types and whether they're inverse
+ * accessor affixes to their Cs forms (omitting the -w or -y at the end).
+ */
+export const CASE_AFFIX_TO_CS_MAP = /* @__PURE__ */ deepFreeze({
+  false: [, "s", "z", "č"],
+  true: [, "š", "ž", "j"],
+})
+
+/**
  * Converts a case into Ithkuil.
  * @param case_ The case to be converted.
  * @param elideIfPossible Whether the THM case can be eliminated.
- * @param isPartOfConcatenatedFormative Whether the case is part of a
- * concatenated formative.
+ * @param hideGlottalStop Whether to hide the glottal stop. This is typically
+ * used in concatenated formatives and in case-related affixes.
  * @returns A string or `WithWYAlternative` containing romanized Ithkuilic text
  * representing the case.
  */
 export function caseToIthkuil(
   case_: Case,
   elideIfPossible: boolean,
-  isPartOfConcatenatedFormative: boolean,
+  hideGlottalStop: boolean,
 ): string | WithWYAlternative {
   if (elideIfPossible && case_ == "THM") {
     return ""
   }
 
-  return CASE_TO_ITHKUIL_MAP[`${isPartOfConcatenatedFormative}`][case_]
+  return CASE_TO_ITHKUIL_MAP[`${hideGlottalStop}`][case_]
 }
