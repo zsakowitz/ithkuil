@@ -178,4 +178,15 @@ const result16 = formativeToIthkuil({
   slotVIIAffixes: [{ cs: "k", degree: 8, type: 2 }],
 })
 
-console.log(result16)
+strictEqual(result16, "wále'ciuk")
+
+const result17 = formativeToIthkuil({
+  type: "UNF/C",
+  root: "rr",
+  slotVAffixes: [
+    { cs: "k", degree: 1, type: 1 },
+    { cs: "k", degree: 3, type: 1 },
+  ],
+})
+
+console.log(result17)
