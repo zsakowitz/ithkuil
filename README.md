@@ -105,7 +105,7 @@ const result = formativeToIthkuil({
   type: "UNF/C",
 
   // Type-2 concatenation
-  concatenatenationType: 2,
+  concatenationType: 2,
 
   // Completive Version
   version: "CPT",

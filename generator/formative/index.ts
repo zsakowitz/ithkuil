@@ -185,7 +185,7 @@ export type NominalFormative = CoreFormative & {
   readonly type: "UNF/C"
 
   /** The concatenation type of the formative. */
-  readonly concatenatenationType: ConcatenationType
+  readonly concatenationType: ConcatenationType
 
   /** The case-scope of the formative. */
   readonly caseScope: CaseScope
@@ -214,7 +214,7 @@ export type PartialNominalFormative = PartialCoreFormative & {
   readonly type: "UNF/C"
 
   /** The concatenation type of the formative. */
-  readonly concatenatenationType?: ConcatenationType | undefined
+  readonly concatenationType?: ConcatenationType | undefined
 
   /** The case-scope of the formative. */
   readonly caseScope?: CaseScope | undefined
@@ -397,7 +397,7 @@ function completeFormativeToIthkuil(formative: Formative) {
 
   let slot1 = slotIToIthkuil({
     concatenationType:
-      formative.type == "UNF/C" ? formative.concatenatenationType : "none",
+      formative.type == "UNF/C" ? formative.concatenationType : "none",
     caShortcutType: "none",
   })
 
@@ -503,7 +503,7 @@ function completeFormativeToIthkuil(formative: Formative) {
     if (shortcut != null) {
       slot1 = slotIToIthkuil({
         concatenationType:
-          formative.type == "UNF/C" ? formative.concatenatenationType : "none",
+          formative.type == "UNF/C" ? formative.concatenationType : "none",
         caShortcutType: shortcutType!,
       })
 
@@ -552,15 +552,14 @@ function completeFormativeToIthkuil(formative: Formative) {
           countVowelForms(
             slot1 + slot2 + slot3 + slot4 + slot5 + slot6 + slot7 + slot8,
           ) >= 2,
-        isPartOfConcatenatedFormative:
-          formative.concatenatenationType != "none",
+        isPartOfConcatenatedFormative: formative.concatenationType != "none",
       }),
     ).withPreviousText(slot3 + slot4 + slot5 + slot6 + slot7 + slot8)
 
     const word =
       slot1 + slot2 + slot3 + slot4 + slot5 + slot6 + slot7 + slot8 + slot9
 
-    if (formative.concatenatenationType == "none") {
+    if (formative.concatenationType == "none") {
       return applySlotXStress(word, "UNF/C")
     }
 

@@ -24,7 +24,7 @@ const result = formativeToIthkuil({
     { type: 3, degree: 3, cs: "kl" },
   ],
   slotVIIAffixes: [{ ca: { configuration: "MSS" } }],
-  concatenatenationType: 2,
+  concatenationType: 2,
   case: "TSP",
   caseScope: "CCS",
 })

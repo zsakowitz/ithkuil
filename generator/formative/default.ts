@@ -13,7 +13,7 @@ export const DEFAULT_NOMINAL_FORMATIVE: NominalFormative =
   /* @__PURE__ */ deepFreeze({
     type: "UNF/C",
 
-    concatenatenationType: "none",
+    concatenationType: "none",
 
     version: "PRC",
     stem: 1,
