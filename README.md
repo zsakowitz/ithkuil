@@ -229,6 +229,10 @@ console.log(result)
 
 ## Changelog
 
+### 0.1.13
+
+- Fix spelling mistake (`concatenatenationType` --> `concatenationType`)
+
 ### 0.1.12
 
 - Added case-accessor and inverse case-accessor affixes
