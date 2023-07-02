@@ -1,7 +1,7 @@
 import { any, anyText, seq } from "./builder.js"
 import { C, CG, CNG, H, V } from "./forms.js"
 
-const ccNoShortcut = /* @__PURE__ */ anyText("h", "hw")
+const ccNoShortcut = /* @__PURE__ */ anyText("hw", "h")
 
 /**
  * A regular expression matching non-shortcut formatives with these capturing

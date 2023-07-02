@@ -6,3 +6,7 @@ export * from "./formative.js"
 export * from "./illocution-validation.js"
 export * from "./mood.js"
 export * from "./referential-affix.js"
+
+export function parseFormative(text: string) {
+  // const word = 
+}

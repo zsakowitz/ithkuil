@@ -1,3 +1,5 @@
-export * from "./parse/index.js"
+export * from "./adjunct/index.js"
+export * from "./formative/index.js"
 export * from "./lex/index.js"
 export * from "./transform.js"
+export * from "./vowel-form.js"

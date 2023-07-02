@@ -65,7 +65,7 @@ const LETTER_SUBSTITUTIONS = freeze({
  * @param word The word to be transformed.
  * @returns An object containing information about the transformed word.
  */
-export function transform(word: string): TransformedWord {
+export function transformWord(word: string): TransformedWord {
   const original = word
 
   word = word

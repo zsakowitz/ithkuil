@@ -7,6 +7,7 @@ import {
   type Affix,
   type PartialFormative,
 } from "../../index.js"
+import { shortcutFormative } from "../lex/shortcut-formative.js"
 import { type Stress } from "../transform.js"
 import { VowelForm } from "../vowel-form.js"
 import { parseCa, parseGeminatedCa } from "./ca.js"
@@ -30,14 +31,14 @@ const VV_TO_VERSION = [
 
 const VV_TO_CA_SHORTCUT = {
   w: [
-    ,
+    undefined,
     {},
     { perspective: "G" },
     { perspective: "N" },
     { perspective: "G", essence: "RPV" },
   ],
   y: [
-    ,
+    undefined,
     { extension: "PRX" },
     { essence: "RPV" },
     { perspective: "A" },
@@ -116,14 +117,23 @@ function parseReversedAffixes(text: string) {
   return output
 }
 
+/**
+ * Builds a non-shortcut formative.
+ * @param word The word to be built.
+ * @param stress The stress of the formative.
+ * @returns Either a parsed `PartialFormative` indicating a success, or
+ * `undefined` indicating a tokenization failure. Throws if the formative was
+ * successfully tokenized but had another error in it (e.g. invalid Vn slot,
+ * invalid referential affix, etc.).
+ */
 export function buildNonShortcutFormative(
   word: string,
   stress: Stress,
-): PartialFormative {
+): PartialFormative | undefined {
   const match = nonShortcutFormative.exec(word)
 
   if (!match) {
-    throw new Error("Failed to parse " + match + ".")
+    return
   }
 
   const concatenationType =
@@ -193,6 +203,7 @@ export function buildNonShortcutFormative(
 
     concatenationType,
 
+    shortcut: affixShortcut ? "VII" : false,
     stem: vv ? VV_TO_STEM[vv.degree] : 1,
     version: vv ? VV_TO_VERSION[vv.degree] : "PRC",
 
@@ -234,6 +245,118 @@ export function buildNonShortcutFormative(
         ? undefined
         : match[11]
         ? parseIllocutionValidation(VowelForm.parseOrThrow(match[11]))
+        : undefined,
+  }
+}
+
+/**
+ * Builds a shortcut formative.
+ * @param word The word to be built.
+ * @param stress The stress of the formative.
+ * @returns Either a parsed `PartialFormative` indicating a success, or
+ * `undefined` indicating a tokenization failure. Throws if the formative was
+ * successfully tokenized but had another error in it (e.g. invalid Vn slot,
+ * invalid referential affix, etc.).
+ */
+export function buildShortcutFormative(
+  word: string,
+  stress: Stress,
+): PartialFormative | undefined {
+  const match = shortcutFormative.exec(word)
+
+  if (!match) {
+    return
+  }
+
+  const concatenationType =
+    match[1] == "hl" || match[1] == "hm"
+      ? 1
+      : match[1] == "hr" || match[1] == "hn"
+      ? 2
+      : undefined
+
+  const shortcutType =
+    match[1] == "w" || match[1] == "hl" || match[1] == "hr" ? "w" : "y"
+
+  const type = concatenationType
+    ? "UNF/C"
+    : stress == "ultimate" || stress == "monosyllabic"
+    ? "UNF/K"
+    : stress == "antepenultimate"
+    ? "FRM"
+    : "UNF/C"
+
+  const vv = VowelForm.of(match[2]!)
+
+  if (vv == null) {
+    throw new Error("Invalid Vv slot: " + match[2] + ".")
+  }
+
+  const vn_ = match[6]
+  const cn = match[7]
+
+  let mood, caseScope, vn
+
+  if (cn && vn_) {
+    let isAspectual = false
+
+    if (type == "UNF/K") {
+      ;[mood, isAspectual] = parseMood(cn)
+    } else {
+      ;[caseScope, isAspectual] = parseCaseScope(cn)
+    }
+
+    const form = VowelForm.of(vn_)
+
+    if (form == null) {
+      throw new Error("Invalid Vn form: " + form + ".")
+    }
+
+    if (isAspectual) {
+      vn = parseAspect(form)
+    } else {
+      vn = parseNonAspectualVn(form)
+    }
+  }
+
+  const slotVIIAffixes = match[5] ? parseAffixes(match[5]) : undefined
+
+  return {
+    type,
+
+    concatenationType,
+
+    shortcut: "IV/VI",
+    stem: vv ? VV_TO_STEM[vv.degree] : 1,
+    version: vv ? VV_TO_VERSION[vv.degree] : "PRC",
+
+    root: match[3]!,
+
+    slotVAffixes: match[4] ? parseAffixes(match[4]) : [],
+
+    ca: { ...VV_TO_CA_SHORTCUT[shortcutType][vv.sequence] },
+
+    slotVIIAffixes,
+
+    mood,
+    caseScope,
+    vn,
+
+    case:
+      type == "UNF/K"
+        ? undefined
+        : match[8]
+        ? parseCase(
+            VowelForm.parseOrThrow(match[8]),
+            concatenationType ? stress == "ultimate" : match[8].includes("'"),
+          )
+        : undefined,
+
+    illocutionValidation:
+      type != "UNF/K"
+        ? undefined
+        : match[8]
+        ? parseIllocutionValidation(VowelForm.parseOrThrow(match[8]))
         : undefined,
   }
 }
