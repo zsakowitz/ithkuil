@@ -1,7 +1,7 @@
 {
   "name": "@zsnout/ithkuil",
   "version": "0.1.14",
-  "description": "Utilities allowing for easy generation of romanized Ithkuilic text.",
+  "description": "Utilities allowing for easy generation and parsing of romanized Ithkuilic text.",
   "main": "index.js",
   "author": "Zachary Sakowitz",
   "license": "MIT",
@@ -20,6 +20,7 @@
     "ithkuil",
     "ithkuil-iv",
     "new-ithkuil",
+    "parser",
     "text",
     "text-generator",
     "tnil"

@@ -101,10 +101,10 @@ export const SLOT_II_MAP = /* @__PURE__ */ deepFreeze({
  * table when an a+Ca shortcut is used.
  */
 export const SLOT_II_SHORTCUT_MAP = /* @__PURE__ */ deepFreeze({
-  1: { PRC: 0, CPT: 1 },
-  2: { PRC: 2, CPT: 3 },
-  3: { PRC: 5, CPT: 6 },
-  0: { PRC: 7, CPT: 8 },
+  1: { PRC: 1, CPT: 2 },
+  2: { PRC: 3, CPT: 4 },
+  3: { PRC: 9, CPT: 8 },
+  0: { PRC: 7, CPT: 6 },
 })
 
 /**

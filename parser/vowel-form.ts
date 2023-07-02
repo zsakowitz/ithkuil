@@ -32,6 +32,12 @@ export class VowelForm<S extends 1 | 2 | 3 | 4 = 1 | 2 | 3 | 4> {
     let hasGlottalStop = text.includes("'")
     text = text.replace(/'/g, "")
 
+    if (text[0] == text[1]) {
+      return VOWEL_FORM_TO_OBJECT_MAP[
+        text[0] as keyof typeof VOWEL_FORM_TO_OBJECT_MAP
+      ].withGlottalStop(hasGlottalStop)
+    }
+
     if (text in VOWEL_FORM_TO_OBJECT_MAP) {
       return VOWEL_FORM_TO_OBJECT_MAP[
         text as keyof typeof VOWEL_FORM_TO_OBJECT_MAP
@@ -68,6 +74,12 @@ export class VowelForm<S extends 1 | 2 | 3 | 4 = 1 | 2 | 3 | 4> {
   static parseOrThrow(text: string): VowelForm {
     let hasGlottalStop = text.includes("'")
     text = text.replace(/'/g, "")
+
+    if (text[0] == text[1]) {
+      return VOWEL_FORM_TO_OBJECT_MAP[
+        text[0] as keyof typeof VOWEL_FORM_TO_OBJECT_MAP
+      ].withGlottalStop(hasGlottalStop)
+    }
 
     if (text in VOWEL_FORM_TO_OBJECT_MAP) {
       return VOWEL_FORM_TO_OBJECT_MAP[

@@ -90,13 +90,13 @@ export const zodSlotVIII = /* @__PURE__ */ object({
 
 /** Additional information relevant to Slot VIII. */
 export type SlotVIIIMetadata = {
-  /** Whether default MNO valence should be omitted. */
-  readonly omitDefaultValence: boolean
+  /** Whether default MNO+FAC/CCN valence+mood/case-scope should be omitted. */
+  readonly omitDefault: boolean
 }
 
 /** A Zod validator matching Slot VIII metadata. */
 export const zodSlotVIIIMetadata = /* @__PURE__ */ object({
-  omitDefaultValence: /* @__PURE__ */ boolean(),
+  omitDefault: /* @__PURE__ */ boolean(),
 })
 
 /**
@@ -106,10 +106,6 @@ export const zodSlotVIIIMetadata = /* @__PURE__ */ object({
  * @returns Romanized Ithkuilic text representing the Vn form.
  */
 export function vnToIthkuil(vn: VN, omitDefaultValence: boolean) {
-  if (omitDefaultValence && vn == "MNO") {
-    return ""
-  }
-
   return has(ALL_VALENCES, vn)
     ? valenceToIthkuil(vn, omitDefaultValence)
     : has(ALL_PHASES, vn)
@@ -143,16 +139,19 @@ export function cnToIthkuil(cn: CN, vnType: VNType) {
  * representing Slot VIII.
  */
 export function slotVIIIToIthkuil(slot: SlotVIII, metadata: SlotVIIIMetadata) {
-  const vn = vnToIthkuil(slot.vn, metadata.omitDefaultValence)
-
-  const vnType =
-    vn == "" ? "empty" : has(ALL_ASPECTS, slot.vn) ? "aspect" : "non-aspect"
-
-  const cn = cnToIthkuil(slot.cn, vnType)
-
-  if (vn == "" && cn == "h") {
+  if (
+    metadata.omitDefault &&
+    slot.vn == "MNO" &&
+    (slot.cn == "CCN" || slot.cn == "FAC")
+  ) {
     return EMPTY
   }
+
+  const vn = vnToIthkuil(slot.vn, false)
+
+  const vnType = has(ALL_ASPECTS, slot.vn) ? "aspect" : "non-aspect"
+
+  const cn = cnToIthkuil(slot.cn, vnType)
 
   if (typeof vn == "string") {
     return WithWYAlternative.of(vn + cn)

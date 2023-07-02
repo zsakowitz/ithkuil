@@ -74,10 +74,6 @@ export function insertGlottalStopIntoPossiblyWithWYAlternative(
   if (typeof vowelForm == "string") {
     return insertGlottalStop(vowelForm, isAtEndOfWord)
   } else {
-    return new WithWYAlternative(
-      insertGlottalStop(vowelForm.defaultValue, isAtEndOfWord),
-      insertGlottalStop(vowelForm.valueAfterW, isAtEndOfWord),
-      insertGlottalStop(vowelForm.valueAfterY, isAtEndOfWord),
-    )
+    return vowelForm.insertGlottalStop(isAtEndOfWord)
   }
 }

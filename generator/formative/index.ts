@@ -4,7 +4,7 @@ import { zodPartialCA, type CA, type PartialCA } from "../ca/index.js"
 import { deepFreeze } from "../helpers/deep-freeze.js"
 import { applyStress, countVowelForms } from "../helpers/stress.js"
 import { WithWYAlternative } from "../helpers/with-wy-alternative.js"
-import { ZERO_INDEXED_STANDARD_VOWEL_TABLE } from "../index.js"
+import { ONE_INDEXED_STANDARD_VOWEL_TABLE } from "../index.js"
 import { referentListToPersonalReferenceRoot } from "../referential/index.js"
 import { fillInDefaultFormativeSlots } from "./default.js"
 import { zodShortcutType, type ShortcutType } from "./shortcut-type.js"
@@ -15,6 +15,7 @@ import {
 } from "./slot-1/index.js"
 import { applySlotXStress } from "./slot-10/index.js"
 import {
+  SLOT_II_MAP,
   SLOT_II_SHORTCUT_MAP,
   slotIIToIthkuil,
   zodStem,
@@ -424,20 +425,20 @@ function completeFormativeToIthkuil(formative: Formative) {
       finalSlotVIIAffix.cs &&
       finalSlotVIIAffix.type == 1
         ? finalSlotVIIAffix.cs == "r" && finalSlotVIIAffix.degree == 4
-          ? 1
+          ? "NEG/4"
           : finalSlotVIIAffix.cs == "t"
           ? finalSlotVIIAffix.degree == 4
-            ? 2
+            ? "DCD/4"
             : finalSlotVIIAffix.degree == 5
-            ? 3
+            ? "DCD/5"
             : null
           : null
         : null
 
     if (shortcut) {
       const slotII =
-        ZERO_INDEXED_STANDARD_VOWEL_TABLE[shortcut][
-          SLOT_II_SHORTCUT_MAP[formative.stem][formative.version]
+        SLOT_II_MAP[shortcut][formative.stem][
+          formative.version == "CPT" ? 1 : 0
         ]
 
       slot2 = WithWYAlternative.of(slotII).withPreviousText(slot1)
@@ -472,12 +473,14 @@ function completeFormativeToIthkuil(formative: Formative) {
         : perspective == "M" && extension == "PRX"
         ? 0 // PRX
         : extension == "DEL"
-        ? {
-            M: 0 as const,
-            G: 1 as const,
-            N: 2 as const,
-            A: 2 as const,
-          }[perspective]
+        ? (
+            {
+              M: 0,
+              G: 1,
+              N: 2,
+              A: 2,
+            } as const
+          )[perspective]
         : null
 
     const shortcutType =
@@ -508,7 +511,7 @@ function completeFormativeToIthkuil(formative: Formative) {
       })
 
       let slotII = WithWYAlternative.of(
-        ZERO_INDEXED_STANDARD_VOWEL_TABLE[shortcut][
+        ONE_INDEXED_STANDARD_VOWEL_TABLE[shortcut][
           SLOT_II_SHORTCUT_MAP[formative.stem][formative.version]
         ],
       )
@@ -530,7 +533,9 @@ function completeFormativeToIthkuil(formative: Formative) {
     isSlotVIElided: slot6 == "",
   }).withPreviousText(slot3 + slot4)
 
-  const slot7 = slotVIIToIthkuil(slotVIIAffixes)
+  const slot7 = slotVIIToIthkuil(slotVIIAffixes).withPreviousText(
+    slot3 + slot4 + slot5 + slot6,
+  )
 
   // Nominal formatives
   if (formative.type == "UNF/C") {
@@ -540,7 +545,7 @@ function completeFormativeToIthkuil(formative: Formative) {
         cn: formative.caseScope,
       },
       {
-        omitDefaultValence: true,
+        omitDefault: true,
       },
     ).withPreviousText(slot3 + slot4 + slot5 + slot6 + slot7)
 
@@ -578,7 +583,7 @@ function completeFormativeToIthkuil(formative: Formative) {
         cn: formative.mood,
       },
       {
-        omitDefaultValence: true,
+        omitDefault: true,
       },
     ).withPreviousText(slot3 + slot4 + slot5 + slot6 + slot7)
 
@@ -603,7 +608,7 @@ function completeFormativeToIthkuil(formative: Formative) {
         cn: formative.caseScope,
       },
       {
-        omitDefaultValence:
+        omitDefault:
           countVowelForms(
             slot1 + slot2 + slot3 + slot4 + slot5 + slot6 + slot7,
           ) >= 2,

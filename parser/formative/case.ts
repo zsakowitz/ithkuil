@@ -17,5 +17,15 @@ export function parseCase(vc: VowelForm, isCaseOver36 = vc.hasGlottalStop) {
     return _case
   }
 
-  throw new Error("Invalid Vc form: " + vc + ".")
+  throw new Error(
+    "Invalid Vc form: " +
+      vc +
+      " (" +
+      vc.sequence +
+      ":" +
+      vc.degree +
+      ":" +
+      isCaseOver36 +
+      ").",
+  )
 }

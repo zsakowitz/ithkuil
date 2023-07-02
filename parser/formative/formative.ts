@@ -47,22 +47,22 @@ const VV_TO_CA_SHORTCUT = {
 } as const
 
 const VV_TO_VII_SHORTCUT = [
-  ,
-  ,
+  undefined,
+  undefined,
   { cs: "r", type: 1, degree: 4 },
   { cs: "t", type: 1, degree: 4 },
   { cs: "t", type: 1, degree: 5 },
 ] as const
 
-const VR_SEQUENCE_TO_CONTEXT = [, "EXS", "FNC", "RPS", "AMG"] as const
+const VR_SEQUENCE_TO_CONTEXT = [undefined, "EXS", "FNC", "RPS", "AMG"] as const
 
 const VR_TO_SPECIFICATION = [
-  ,
+  undefined,
   "BSC",
   "CTE",
   "CSV",
   "OBJ",
-  ,
+  undefined,
   "OBJ",
   "CSV",
   "CTE",
@@ -232,7 +232,6 @@ export function buildNonShortcutFormative(
             concatenationType
               ? stress == "ultimate"
               : match[11]?.includes("'") ||
-                  vv?.hasGlottalStop ||
                   match[5]?.includes("'") ||
                   match[7]?.includes("'") ||
                   vn_?.includes("'") ||
