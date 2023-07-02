@@ -235,6 +235,12 @@ console.log(result)
 
 ### 0.1.14
 
+- **Breaking change:** Changed `WithWYAlternative.precededByW` to
+  `WithWYAlternative.valueAfterW`
+
+- **Breaking change:** Changed `WithWYAlternative.precededByY` to
+  `WithWYAlternative.valueAfterY`
+
 - Added `STANDARD_VOWEL_TABLE`, an array of vowel forms indexed as would be
   appropriate for humans. Where the previous tables had unexpected behavior
   (`ZERO_INDEXED_VOWEL_TABLE[2][9]` = degree 0 of sequence 3), the new table
@@ -243,11 +249,27 @@ console.log(result)
   `ONE_INDEXED_VOWEL_TABLE` will remain for performance- and TypeScript-related
   reasons.
 
-- **Breaking change:** Changed `WithWYAlternative.precededByW` to
-  `WithWYAlternative.valueAfterW`
+- Use `STANDARD_VOWEL_TABLE` instead of `ONE_INDEXED_VOWEL_TABLE` in
+  `generator/affix/index.ts`.
 
-- **Breaking change:** Changed `WithWYAlternative.precededByY` to
-  `WithWYAlternative.valueAfterY`
+- Add `deepFreezeAndNullPrototype` helper
+
+- Add `insertGlottalStopIntoPossiblyWithWYAlternative` helper
+
+- Change formatting to insert commas at the end of multiline function calls
+
+- Add regular expression builder
+
+- Add basic regular expression forms such as V, C, H, CG, CNG, VG, and VNG
+
+- Add regular expression for non-shortcut formatives
+
+- Add parsers for affixes, Ca forms, case scopes, cases, formatives, illocutions
+  and validations, moods, referential affixes, and Vn forms
+
+- Add `transformWord`
+
+- Add `VowelForm` for systematic parsing and stringification of vowel forms
 
 ### 0.1.13
 
