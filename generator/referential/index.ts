@@ -306,7 +306,7 @@ function completeReferentialToIthkuil(referential: Referential) {
       "w" +
       WithWYAlternative.of(
         caseToIthkuil(referential.case2 || "THM", false, false),
-      ).precededByW
+      ).valueAfterW
 
     let slot4 = ""
 

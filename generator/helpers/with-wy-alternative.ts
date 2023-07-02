@@ -21,7 +21,7 @@ export class WithWYAlternative {
    */
   static add(
     first: WithWYAlternative,
-    second: string | WithWYAlternative
+    second: string | WithWYAlternative,
   ): WithWYAlternative
 
   /**
@@ -32,12 +32,12 @@ export class WithWYAlternative {
    */
   static add(
     first: string | WithWYAlternative,
-    second: string | WithWYAlternative
+    second: string | WithWYAlternative,
   ): string | WithWYAlternative
 
   static add(
     first: string | WithWYAlternative,
-    second: string | WithWYAlternative
+    second: string | WithWYAlternative,
   ): string | WithWYAlternative {
     if (typeof first == "string") {
       if (typeof second == "string") {
@@ -66,14 +66,14 @@ export class WithWYAlternative {
   /**
    * Constructs a `WithWYAlternative`.
    * @param defaultValue The default value.
-   * @param precededByW The value when preceded by W.
-   * @param precededByY The value when preceded by Y.
+   * @param valueAfterW The value when preceded by W.
+   * @param valueAfterY The value when preceded by Y.
    * @returns The constructed, frozen `WithWYAlternative`.
    */
   constructor(
     readonly defaultValue: string,
-    readonly precededByW: string,
-    readonly precededByY: string
+    readonly valueAfterW: string,
+    readonly valueAfterY: string,
   ) {
     Object.freeze(this)
   }
@@ -86,11 +86,11 @@ export class WithWYAlternative {
    */
   withPreviousText(text: string) {
     if (text.endsWith("w")) {
-      return this.precededByW
+      return this.valueAfterW
     }
 
     if (text.endsWith("y")) {
-      return this.precededByY
+      return this.valueAfterY
     }
 
     return this.defaultValue
@@ -106,8 +106,8 @@ export class WithWYAlternative {
 
     return new WithWYAlternative(
       this.defaultValue + other.withPreviousText(this.defaultValue),
-      this.precededByW + other.withPreviousText(this.precededByW),
-      this.precededByY + other.withPreviousText(this.precededByY)
+      this.valueAfterW + other.withPreviousText(this.valueAfterW),
+      this.valueAfterY + other.withPreviousText(this.valueAfterY),
     )
   }
 
@@ -117,18 +117,18 @@ export class WithWYAlternative {
    */
   toString() {
     if (
-      this.defaultValue != this.precededByW &&
-      this.defaultValue != this.precededByY
+      this.defaultValue != this.valueAfterW &&
+      this.defaultValue != this.valueAfterY
     ) {
-      return `(${this.defaultValue}/${this.precededByW}/${this.precededByY})`
+      return `(${this.defaultValue}/${this.valueAfterW}/${this.valueAfterY})`
     }
 
-    if (this.defaultValue != this.precededByW) {
-      return `(${this.defaultValue}/${this.precededByW})`
+    if (this.defaultValue != this.valueAfterW) {
+      return `(${this.defaultValue}/${this.valueAfterW})`
     }
 
-    if (this.defaultValue != this.precededByY) {
-      return `(${this.defaultValue}/${this.precededByY})`
+    if (this.defaultValue != this.valueAfterY) {
+      return `(${this.defaultValue}/${this.valueAfterY})`
     }
 
     return this.defaultValue
@@ -144,8 +144,8 @@ export class WithWYAlternative {
   insertGlottalStop(isAtEndOfWord: boolean) {
     return new WithWYAlternative(
       insertGlottalStop(this.defaultValue, isAtEndOfWord),
-      insertGlottalStop(this.precededByW, isAtEndOfWord),
-      insertGlottalStop(this.precededByY, isAtEndOfWord)
+      insertGlottalStop(this.valueAfterW, isAtEndOfWord),
+      insertGlottalStop(this.valueAfterY, isAtEndOfWord),
     )
   }
 }

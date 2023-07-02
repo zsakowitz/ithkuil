@@ -9,6 +9,11 @@ This package allows Ithkuilic text to be generated without needing a UI, which
 is helpful when writing tests, one's own automated tools (e.g. for learning), or
 for verifying translations.
 
+## Stability
+
+This package is in active development, so expect change. That said, this package
+is completely suitable for use as of now
+
 ## Features
 
 As of May 29, 2023, `@zsnout/ithkuil` can generate these types of words:
@@ -152,8 +157,7 @@ const result = formativeToIthkuil({
 })
 
 console.log(result)
-// `@zsnout/ithkuil`: hwikšöeroeržžgeiha
-//   Ithkapp: hwikšöeroeržžgeiha
+// hwikšöeroeržžgeiha
 ```
 
 Notice that in the above example, we didn't have to say whether the Vn slot was
@@ -229,9 +233,26 @@ console.log(result)
 
 ## Changelog
 
+### 0.1.14
+
+- Added `STANDARD_VOWEL_TABLE`, an array of vowel forms indexed as would be
+  appropriate for humans. Where the previous tables had unexpected behavior
+  (`ZERO_INDEXED_VOWEL_TABLE[2][9]` = degree 0 of sequence 3), the new table
+  behaves exactly as would be expected (`STANDARD_VOWEL_TABLE[3][0]` = degree 0
+  of sequence 3). The old tables `ZERO_INDEXED_VOWEL_TABLE` and
+  `ONE_INDEXED_VOWEL_TABLE` will remain for performance- and TypeScript-related
+  reasons.
+
+- **Breaking change:** Changed `WithWYAlternative.precededByW` to
+  `WithWYAlternative.valueAfterW`
+
+- **Breaking change:** Changed `WithWYAlternative.precededByY` to
+  `WithWYAlternative.valueAfterY`
+
 ### 0.1.13
 
-- Fix spelling mistake (`concatenatenationType` --> `concatenationType`)
+- **Breaking change:** Fixed spelling mistake (`concatenatenationType` -->
+  `concatenationType`)
 
 ### 0.1.12
 

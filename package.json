@@ -7,7 +7,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "prepublishOnly": "tsc -b"
+    "prepublishOnly": "tsc -b",
+    "cleanup": "rm index.js debug/**/*.js generator/**/*.js lexer/**/*.js test/**/*.js"
   },
   "repository": {
     "type": "git",

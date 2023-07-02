@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "exactOptionalPropertyTypes": true,
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "moduleResolution": "node16",
     "module": "ESNext",
@@ -10,8 +11,7 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2022",
-    "verbatimModuleSyntax": true,
-    "exactOptionalPropertyTypes": true
+    "verbatimModuleSyntax": true
   },
   "exclude": ["node_modules", "dist", "**/*.js", "**/*.d.ts"]
 }
