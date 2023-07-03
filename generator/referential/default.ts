@@ -3,7 +3,7 @@ import type {
   Referential,
   ReferentialReferentialCore,
   SuppletiveReferentialCore,
-} from "./index.js"
+} from "./referential.js"
 import { deepFreeze } from "../helpers/deep-freeze.js"
 import { fillDefaults } from "../helpers/fill-defaults.js"
 

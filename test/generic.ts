@@ -1,6 +1,6 @@
-import { zodFormative } from "../generator/formative/index.js"
+import { zodPartialFormative } from "../generator/formative/index.js"
 import { parseFormative } from "../parser/index.js"
 
-const result = zodFormative.parse(parseFormative("rrata"))
+const result = zodPartialFormative.parse(parseFormative("rrata"))
 
 console.log(result)
