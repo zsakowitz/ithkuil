@@ -1,5 +1,6 @@
 import { transformWord } from "../transform.js"
 import {
+  buildCnShortcutFormative,
   buildNonShortcutFormative,
   buildShortcutFormative,
 } from "./formative.js"
@@ -28,5 +29,6 @@ export function parseFormative(text: string) {
 
   return SHORTCUT_REGEX.test(word)
     ? buildShortcutFormative(word, stress)
-    : buildNonShortcutFormative(word, stress)
+    : buildCnShortcutFormative(word, stress) ||
+        buildNonShortcutFormative(word, stress)
 }

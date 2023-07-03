@@ -20,7 +20,7 @@ import {
   buildNonShortcutFormative,
   buildShortcutFormative,
   formativeToIthkuil,
-  transformWord,
+  parseFormative,
   type Affix,
   type PartialCA,
   type PartialFormative,
@@ -29,10 +29,17 @@ import {
 
 const NUMBER_OF_TEST_CASES = 1e6
 
-function randomItem<const T>(object: {
-  readonly [x: number]: T
-  readonly length: number
-}): T {
+// The mode to run the test in.
+// `short` = generate short formatives,
+// `full` = generate long formatives.
+const MODE: "short" | "full" = "full"
+
+function randomItem<const T>(
+  object: {
+    readonly [x: number]: T
+    readonly length: number
+  } & Iterable<T>,
+): T {
   const value = object[Math.floor(Math.random() * object.length)]
 
   if (value == null) {
@@ -42,23 +49,37 @@ function randomItem<const T>(object: {
   return value
 }
 
-function assert(x: boolean, message = "Failed assertion."): asserts x {
-  if (!x) {
-    // @ts-ignore
-    if (typeof process == "object") {
-      // @ts-ignore
-      process.exitCode = 1
-    }
+function biasedRandomItem<const T, const U>(
+  defaultValue: T,
+  object: {
+    readonly [x: number]: U
+    readonly length: number
+  } & Iterable<U>,
+): T | U {
+  if (MODE == "full") {
+    return randomItem([defaultValue, ...object])
   }
+
+  if (Math.random() < 0.9) {
+    return defaultValue
+  }
+
+  const value = object[Math.floor(Math.random() * object.length)]
+
+  if (value == null) {
+    throw new Error("Not enough values to get an item from.")
+  }
+
+  return value
 }
 
 function randomCA(): PartialCA {
   return {
-    affiliation: randomItem(ALL_AFFILIATIONS),
-    configuration: randomItem(ALL_CONFIGURATIONS),
-    extension: randomItem(ALL_EXTENSIONS),
-    perspective: randomItem(ALL_PERSPECTIVES),
-    essence: randomItem(ALL_ESSENCES),
+    affiliation: biasedRandomItem("CSL", ALL_AFFILIATIONS),
+    configuration: biasedRandomItem("UPX", ALL_CONFIGURATIONS),
+    extension: biasedRandomItem("DPL", ALL_EXTENSIONS),
+    perspective: biasedRandomItem("M", ALL_PERSPECTIVES),
+    essence: biasedRandomItem("NRM", ALL_ESSENCES),
   }
 }
 
@@ -113,7 +134,7 @@ function randomLetterSeries(maxLength: number) {
 
     output += char
 
-    if (Math.random() < 0.5) {
+    if (Math.random() < 0.75) {
       break
     }
   }
@@ -124,7 +145,7 @@ function randomLetterSeries(maxLength: number) {
 function randomFormative(): PartialFormative {
   const root = randomLetterSeries(5)
 
-  if (Math.random() < 10 / NUMBER_OF_TEST_CASES) {
+  if (Math.random() < 30 / NUMBER_OF_TEST_CASES) {
     return {
       type: randomItem(["UNF/C", "UNF/K", "FRM"]),
       root,
@@ -134,41 +155,56 @@ function randomFormative(): PartialFormative {
   const ca = randomCA()
 
   return {
-    type: randomItem(["UNF/C", "UNF/K", "FRM"]),
+    type: biasedRandomItem("UNF/C", ["UNF/K", "FRM"]),
 
-    concatenationType: randomItem(["none", "none", 1, 2]),
+    concatenationType: biasedRandomItem("none", [1, 2]),
 
     shortcut: true,
-    version: randomItem(["PRC", "CPT"]),
-    stem: randomItem([1, 2, 3, 0]),
+    version: biasedRandomItem("PRC", ["CPT"]),
+    stem: biasedRandomItem(1, [2, 3, 0]),
 
     root,
 
-    function: randomItem(ALL_FUNCTIONS),
-    specification: randomItem(ALL_SPECIFICATIONS),
-    context: randomItem(ALL_CONTEXTS),
+    function: biasedRandomItem("STA", ALL_FUNCTIONS),
+    specification: biasedRandomItem("BSC", ALL_SPECIFICATIONS),
+    context: biasedRandomItem("EXS", ALL_CONTEXTS),
 
-    slotVAffixes: randomAffixList(),
+    slotVAffixes: MODE == "short" ? undefined : randomAffixList(),
 
     ca,
 
-    slotVIIAffixes: randomAffixList(),
+    slotVIIAffixes: MODE == "short" ? undefined : randomAffixList(),
 
-    vn: randomItem(
-      randomItem([
-        ALL_VALENCES,
-        ALL_PHASES,
-        ALL_EFFECTS,
-        ALL_LEVELS,
-        ALL_ASPECTS,
-      ]),
+    vn:
+      MODE == "short"
+        ? biasedRandomItem(
+            "MNO",
+            randomItem([
+              ALL_VALENCES,
+              ALL_PHASES,
+              ALL_EFFECTS,
+              ALL_LEVELS,
+              ALL_ASPECTS,
+            ]),
+          )
+        : randomItem(
+            randomItem([
+              ALL_VALENCES,
+              ALL_PHASES,
+              ALL_EFFECTS,
+              ALL_LEVELS,
+              ALL_ASPECTS,
+            ]),
+          ),
+
+    caseScope: biasedRandomItem("CCN", ALL_CASE_SCOPES),
+    mood: biasedRandomItem("FAC", ALL_MOODS),
+
+    case: biasedRandomItem("THM", ALL_CASES),
+    illocutionValidation: biasedRandomItem(
+      "OBS",
+      ALL_ILLOCUTION_OR_VALIDATIONS,
     ),
-
-    caseScope: randomItem(ALL_CASE_SCOPES),
-    mood: randomItem(ALL_MOODS),
-
-    case: randomItem(ALL_CASES),
-    illocutionValidation: randomItem(ALL_ILLOCUTION_OR_VALIDATIONS),
   }
 }
 
@@ -201,18 +237,14 @@ function benchmark() {
   for (const [formative, source] of testCases) {
     index++
 
-    const { stress, word } = transformWord(source)
-
     try {
-      const result = buildFormative(word, stress)
+      const result = parseFormative(source)
 
       if (result == null) {
         throw new Error("Failed to tokenize.")
       }
     } catch (error) {
       console.error(`Failed on input #${index} '${source}':`)
-
-      console.error("Transformed word: " + word)
 
       if (error instanceof Error) {
         console.error(error.message)
@@ -239,10 +271,8 @@ function checkValidity() {
   for (const [formative, source] of testCases) {
     index++
 
-    const { stress, word } = transformWord(source)
-
     try {
-      const result = buildFormative(word, stress)
+      const result = parseFormative(source)
 
       if (result == null) {
         throw new Error("Failed to tokenize.")
@@ -257,8 +287,6 @@ function checkValidity() {
       }
     } catch (error) {
       console.error(`Failed on input #${index} '${source}':`)
-
-      console.error("Transformed word: " + word)
 
       if (error instanceof Error) {
         console.error(error)
@@ -280,9 +308,7 @@ function checkValidity() {
 function findAllBenchmarkFailures() {
   const failures = testCases.filter(([, source]) => {
     try {
-      const { stress, word } = transformWord(source)
-
-      const result = buildFormative(word, stress)
+      const result = parseFormative(source)
 
       if (result == null) {
         return true
@@ -333,9 +359,7 @@ function findAllValidityFailures() {
   const failures = testCases
     .map(([formative, source]) => {
       try {
-        const { stress, word } = transformWord(source)
-
-        const result = buildFormative(word, stress)
+        const result = parseFormative(source)
 
         if (result == null) {
           return [formative, source, null] as const
@@ -345,8 +369,6 @@ function findAllValidityFailures() {
 
         return [formative, source, output] as const
       } catch (err) {
-        // console.log(err instanceof Error ? err.message : err)
-
         return [formative, source, false] as const
       }
     })

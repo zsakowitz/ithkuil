@@ -1,5 +1,5 @@
 import { anyText, seq } from "../builder.js"
-import { C, CNG, V } from "../forms.js"
+import { C, V } from "../forms.js"
 
 const ccNoShortcut = /* @__PURE__ */ anyText("hw", "h")
 
@@ -35,7 +35,7 @@ export const cnShortcutFormative = /* @__PURE__ */ seq(
   anyText("hl", "hr", "hm", "hn", "hň").asGroup(),
 
   // Slot VII: (VxCs...)
-  seq(V, CNG).zeroOrMore().asGroup(),
+  seq(V, C).zeroOrMore().asGroup(),
 
   // Slot IX: (Vc/Vf/Vk)
   V.asGroup().optional(),

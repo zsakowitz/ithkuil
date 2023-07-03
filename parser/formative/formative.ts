@@ -336,7 +336,9 @@ export function buildCnShortcutFormative(
             VowelForm.parseOrThrow(match[7]),
             concatenationType
               ? stress == "ultimate"
-              : match[6]?.includes("'") || vr.hasGlottalStop,
+              : match[7]?.includes("'") ||
+                  match[6]?.includes("'") ||
+                  vr.hasGlottalStop,
           )
         : undefined,
 
