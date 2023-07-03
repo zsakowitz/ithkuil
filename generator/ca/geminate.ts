@@ -1,4 +1,4 @@
-import { isLegalConsonantForm } from "../phonotactics/index.js"
+import { isLegalConsonantForm } from "../phonotactics/general.js"
 
 /**
  * Attempts to geminate a Ca form.

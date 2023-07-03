@@ -1,5 +1,5 @@
+import { deepFreeze } from "../../helpers/deep-freeze.js"
 import { Enum } from "../../helpers/enum.js"
-import { deepFreeze } from "../../index.js"
 
 /** A Slot VII affix shortcut. */
 export type AffixShortcut = "NEG/4" | "DCD/4" | "DCD/5"

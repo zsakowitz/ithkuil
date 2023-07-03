@@ -1,5 +1,9 @@
 import { object } from "zod"
-import { caseToIthkuil, zodCase, type Case } from "../../formative/index.js"
+import {
+  caseToIthkuil,
+  zodCase,
+  type Case,
+} from "../../formative/slot-9/case.js"
 import { WithWYAlternative } from "../../helpers/with-wy-alternative.js"
 import {
   suppletiveAdjunctTypeToIthkuil,

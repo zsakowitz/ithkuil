@@ -1,11 +1,9 @@
 import { object, oboolean } from "zod"
 import { affixToIthkuil, zodAffix, type Affix } from "../../affix/index.js"
 import { applyStress, countVowelForms } from "../../helpers/stress.js"
-import {
-  extractAllConsonants,
-  isLegalWordFinalConsonantForm,
-  isLegalWordInitialConsonantForm,
-} from "../../phonotactics/index.js"
+import { extractAllConsonants } from "../../phonotactics/letters.js"
+import { isLegalWordFinalConsonantForm } from "../../phonotactics/word-final.js"
+import { isLegalWordInitialConsonantForm } from "../../phonotactics/word-initial.js"
 import {
   affixualAdjunctScopeToIthkuil,
   zodAffixualAdjunctScope,

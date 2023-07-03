@@ -1,21 +1,23 @@
 import { object, undefined, union } from "zod"
+import type { Aspect } from "../../formative/slot-8/aspect.js"
 import {
   ALL_ASPECTS,
   aspectToIthkuil,
+  zodAspect,
+} from "../../formative/slot-8/aspect.js"
+import type { CaseScope } from "../../formative/slot-8/case-scope.js"
+import type { Effect } from "../../formative/slot-8/effect.js"
+import {
   slotVIIIToIthkuil,
   vnToIthkuil,
-  zodAspect,
   zodCn,
   zodNonAspectualVn,
   zodVn,
-  type Aspect,
-  type CaseScope,
-  type Effect,
-  type Level,
-  type Mood,
-  type Phase,
-  type Valence,
-} from "../../formative/index.js"
+} from "../../formative/slot-8/index.js"
+import type { Level } from "../../formative/slot-8/level.js"
+import type { Mood } from "../../formative/slot-8/mood.js"
+import type { Phase } from "../../formative/slot-8/phase.js"
+import type { Valence } from "../../formative/slot-8/valence.js"
 import { has } from "../../helpers/has.js"
 import { VOWEL_TO_STRESSED_VOWEL_MAP } from "../../helpers/stress.js"
 import { EMPTY, WithWYAlternative } from "../../helpers/with-wy-alternative.js"

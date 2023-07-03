@@ -18,13 +18,13 @@ function makeCaForms() {
       for (const extension of ALL_EXTENSIONS) {
         for (const perspective of ALL_PERSPECTIVES) {
           for (const essence of ALL_ESSENCES) {
-            const ca: PartialCA = {
-              affiliation,
-              configuration,
-              extension,
-              perspective,
-              essence,
-            }
+            const ca: { -readonly [K in keyof PartialCA]: PartialCA[K] } = {}
+
+            if (affiliation != "CSL") ca.affiliation = affiliation
+            if (configuration != "UPX") ca.configuration = configuration
+            if (extension != "DPL") ca.extension = extension
+            if (perspective != "M") ca.perspective = perspective
+            if (essence != "NRM") ca.essence = essence
 
             ALL_CA_FORMS.set(caToIthkuil(ca), ca)
             ALL_GEMINATED_CA_FORMS.set(geminatedCAToIthkuil(ca), ca)

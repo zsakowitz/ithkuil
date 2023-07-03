@@ -167,11 +167,20 @@ a Valence, Phase, etc. We simply specified "REP" as the Vn slot and
 In addition, we only specified part of the Ca complex. We left out Monadic
 Perspective and Normal Essence, but `@zsnout/ithkuil` inferred those.
 
+## Example 3
+
+Not only can `@zsnout/ithkuil` generate formatives, but it can also parse them
+using the `parseFormative` function. Let's try it out.
+
+```ts
+import { parseFormative } from "@zsnout/ithkuil"
+```
+
 ## Example 4
 
 `@zsnout/ithkuil` doesn't just handle formatives; it can work with all types of
-Ithkuilic words. Let's try an affixual adjunct, as those are used frequently to
-move affixes out of formatives.
+Ithkuilic words. Let's try generating an affixual adjunct, as those are used
+frequently to move affixes out of formatives.
 
 ```ts
 import { affixualAdjunctToIthkuil } from "@zsnout/ithkuil"

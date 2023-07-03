@@ -1,5 +1,5 @@
+import { deepFreeze } from "../../helpers/deep-freeze.js"
 import { Enum } from "../../helpers/enum.js"
-import { deepFreeze } from "../../index.js"
 
 /**
  * The type of information contained in the Vn slot.

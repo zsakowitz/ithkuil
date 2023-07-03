@@ -1,6 +1,7 @@
+import { deepFreeze } from "../generator/helpers/deep-freeze.js"
 import { insertGlottalStopIntoPossiblyWithWYAlternative } from "../generator/helpers/insert-glottal-stop.js"
+import { STANDARD_VOWEL_TABLE } from "../generator/helpers/vowel-table.js"
 import { WithWYAlternative } from "../generator/helpers/with-wy-alternative.js"
-import { STANDARD_VOWEL_TABLE, deepFreeze } from "../index.js"
 
 /** A class representing a vowel form. */
 export class VowelForm<S extends 1 | 2 | 3 | 4 = 1 | 2 | 3 | 4> {

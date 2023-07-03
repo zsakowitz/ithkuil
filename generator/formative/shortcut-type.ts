@@ -1,5 +1,5 @@
+import { deepFreeze } from "../helpers/deep-freeze.js"
 import { Enum } from "../helpers/enum.js"
-import { deepFreeze } from "../index.js"
 
 /**
  * Whether to shortcut in a formative, and which slots to do so within.

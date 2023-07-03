@@ -1,5 +1,6 @@
 import { object } from "zod"
-import { attemptGemination, deepFreeze, fillDefaults } from "../index.js"
+import { deepFreeze } from "../helpers/deep-freeze.js"
+import { fillDefaults } from "../helpers/fill-defaults.js"
 import {
   affiliationToIthkuil,
   zodAffiliation,
@@ -16,6 +17,7 @@ import {
   zodExtension,
   type Extension,
 } from "./extension.js"
+import { attemptGemination } from "./geminate.js"
 import { perspectiveAndEssenceToIthkuil } from "./perspective-and-essence.js"
 import { zodPerspective, type Perspective } from "./perspective.js"
 

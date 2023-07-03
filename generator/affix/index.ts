@@ -1,11 +1,15 @@
 import { boolean, object, oboolean, string, undefined, union } from "zod"
 import { caToIthkuil, zodPartialCA, type PartialCA } from "../ca/index.js"
+import {
+  ALL_CASES,
+  CASE_AFFIX_TO_CS_MAP,
+  caseToIthkuil,
+  zodCase,
+  type Case,
+} from "../formative/slot-9/case.js"
 import { deepFreeze } from "../helpers/deep-freeze.js"
 import { Enum } from "../helpers/enum.js"
-import {
-  ONE_INDEXED_STANDARD_VOWEL_TABLE,
-  STANDARD_VOWEL_TABLE,
-} from "../helpers/vowel-table.js"
+import { STANDARD_VOWEL_TABLE } from "../helpers/vowel-table.js"
 import {
   IA_UÄ,
   IE_UË,
@@ -18,17 +22,10 @@ import {
   WithWYAlternative,
 } from "../helpers/with-wy-alternative.js"
 import {
-  ALL_CASES,
-  CASE_AFFIX_TO_CS_MAP,
-  caseToIthkuil,
-  zodCase,
-  type Case,
-} from "../index.js"
-import {
   referentialAffixToIthkuil,
   zodReferent,
   type Referent,
-} from "../referential/index.js"
+} from "../referential/referent/index.js"
 import { zodAffixDegree, type AffixDegree } from "./degree.js"
 import { zodAffixType, type AffixType } from "./type.js"
 

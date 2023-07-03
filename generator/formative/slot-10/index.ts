@@ -1,6 +1,6 @@
+import { deepFreeze } from "../../helpers/deep-freeze.js"
 import { Enum } from "../../helpers/enum.js"
 import { applyStress, countVowelForms } from "../../helpers/stress.js"
-import { deepFreeze } from "../../index.js"
 
 /** The stress type marked by Slot X. */
 export type SlotX = "UNF/C" | "UNF/K" | "FRM"

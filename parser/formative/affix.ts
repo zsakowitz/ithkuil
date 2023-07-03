@@ -1,9 +1,9 @@
 import {
-  ALL_CASES,
-  deepFreeze,
   type Affix,
   type ReferentialAffixCase,
-} from "../../index.js"
+} from "../../generator/affix/index.js"
+import { ALL_CASES } from "../../generator/formative/slot-9/case.js"
+import { deepFreeze } from "../../generator/helpers/deep-freeze.js"
 import type { VowelForm } from "../vowel-form.js"
 import { parseCa } from "./ca.js"
 import { parseCase } from "./case.js"

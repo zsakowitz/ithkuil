@@ -3,13 +3,9 @@ import type { Affix } from "../affix/index.js"
 import { zodPartialCA, type CA, type PartialCA } from "../ca/index.js"
 import { deepFreeze } from "../helpers/deep-freeze.js"
 import { applyStress, countVowelForms } from "../helpers/stress.js"
+import { ONE_INDEXED_STANDARD_VOWEL_TABLE } from "../helpers/vowel-table.js"
 import { WithWYAlternative } from "../helpers/with-wy-alternative.js"
-import {
-  ONE_INDEXED_STANDARD_VOWEL_TABLE,
-  caseScopeToIthkuil,
-  isLegalWordInitialConsonantForm,
-  moodToIthkuil,
-} from "../index.js"
+import { isLegalWordInitialConsonantForm } from "../phonotactics/word-initial.js"
 import { referentListToPersonalReferenceRoot } from "../referential/index.js"
 import { fillInDefaultFormativeSlots } from "./default.js"
 import { zodShortcutType, type ShortcutType } from "./shortcut-type.js"
@@ -42,6 +38,8 @@ import { slotVToIthkuil, zodSlotV } from "./slot-5/index.js"
 import { slotVIToIthkuil, zodSlotVI } from "./slot-6/index.js"
 import { slotVIIToIthkuil, zodSlotVII } from "./slot-7/index.js"
 import {
+  caseScopeToIthkuil,
+  moodToIthkuil,
   slotVIIIToIthkuil,
   zodCaseScope,
   zodMood,

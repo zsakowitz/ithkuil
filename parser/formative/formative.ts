@@ -1,18 +1,18 @@
+import type { Affix } from "../../generator/affix/index.js"
+import type { PartialFormative } from "../../generator/formative/index.js"
 import {
+  cnShortcutFormative,
   nonShortcutFormative,
-  parseAffix,
-  parseCaseScope,
-  parseIllocutionValidation,
-  parseMood,
-  type Affix,
-  type PartialFormative,
-} from "../../index.js"
-import { shortcutFormative } from "../lex/formative/a+ca-shortcut.js"
-import { cnShortcutFormative } from "../lex/formative/cn-shortcut.js"
+  shortcutFormative,
+} from "../lex/index.js"
 import { type Stress } from "../transform.js"
 import { VowelForm } from "../vowel-form.js"
+import { parseAffix } from "./affix.js"
 import { parseCa, parseGeminatedCa } from "./ca.js"
+import { parseCaseScope } from "./case-scope.js"
 import { parseCase } from "./case.js"
+import { parseIllocutionValidation } from "./illocution-validation.js"
+import { parseMood } from "./mood.js"
 import { parseAspect, parseNonAspectualVn } from "./vn.js"
 
 const VV_TO_STEM = [undefined, 1, 1, 2, 2, undefined, 0, 0, 3, 3] as const
