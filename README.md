@@ -225,21 +225,26 @@ console.log(result)
 
 ## Example 6
 
-Every data form has a corresponding zod parser for it,
+Every data form has a corresponding Zod parser for it,
 
 This example validates that an object is, in fact, an Ithkuilic adjunct. This
 can be useful when integrating this project with external sources.
 
 ```ts
-import { adjunctToIthkuil, zodAdjunct } from "@zsnout/ithkuil"
+import { adjunctToIthkuil } from "@zsnout/ithkuil"
+import { adjunct } from "@zsnout/ithkuil/zod"
 
-const adjunct = getAdjunctFromSomeInternetSource()
+const myAdjunct = getAdjunctFromSomeInternetSource()
 
-const realAdjunct = zodAdjunct.parse(adjunct)
+try {
+  const realAdjunct = adjunct.parse(myAdjunct)
 
-const result = adjunctToIthkuil(realAdjunct)
+  const result = adjunctToIthkuil(realAdjunct)
 
-console.log(result)
+  console.log(result)
+} catch (error) {
+  console.error("The adjunct was malformed.", { cause: error })
+}
 ```
 
 ## Changelog
@@ -251,6 +256,24 @@ console.log(result)
 
 - **Breaking change:** Changed `WithWYAlternative.precededByY` to
   `WithWYAlternative.valueAfterY`
+
+- **Breaking change:** Renamed export `ALL_DIPTIONGS` to `ALL_DIPTHONGS`
+
+- **Breaking change:** Zod validators are now only exported from
+  `@zsnout/ithkuil/zod` under the direct names `aspect`, `caseScope`,
+  `partialFormative`, etc., and are no longer available from the core
+  `@zsnout/ithkuil`.
+
+- **Output change:** All generated words now end in a vowel form, fixing issues
+  with External Juncture.
+
+- **Output change and bug fix:** Vv forms are now properly generated.
+  Previously, a Stem 3 PRC word may have outputted a Stem 0 CPT Vv form, and
+  vice versa.
+
+- **Bug fix:** Moved Zod validators into a separate file. This fixes an issue
+  where imports were resolved in an order that caused many Zod validators to be
+  `undefined` or in a TDZ when they were expected to have values.
 
 - Added `STANDARD_VOWEL_TABLE`, an array of vowel forms indexed as would be
   appropriate for humans. Where the previous tables had unexpected behavior

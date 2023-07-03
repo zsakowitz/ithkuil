@@ -1,5 +1,4 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
-import { Enum } from "../../helpers/enum.js"
 
 /** The type of a suppletive adjunct. */
 export type SuppletiveAdjunctType = "CAR" | "QUO" | "NAM" | "PHR"
@@ -7,11 +6,6 @@ export type SuppletiveAdjunctType = "CAR" | "QUO" | "NAM" | "PHR"
 /** An array containing all suppletive adjunct types. */
 export const ALL_SUPPLETIVE_ADJUNCT_TYPES: readonly SuppletiveAdjunctType[] =
   /* @__PURE__ */ deepFreeze(["CAR", "QUO", "NAM", "PHR"])
-
-/** A Zod validator matching suppletive adjunct types. */
-export const zodSuppletiveAdjunctType = /* @__PURE__ */ new Enum(
-  ALL_SUPPLETIVE_ADJUNCT_TYPES,
-)
 
 /**
  * An object mapping from suppletive adjunct types to their Ithkuilic

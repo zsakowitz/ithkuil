@@ -1,5 +1,4 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
-import { Enum } from "../../helpers/enum.js"
 
 /** An illocution. */
 export type Illocution =
@@ -26,9 +25,6 @@ export const ALL_ILLOCUTIONS: readonly Illocution[] =
     "HOR",
     "CNJ",
   ])
-
-/** A Zod validator matching illocutions. */
-export const zodIllocution = /* @__PURE__ */ new Enum(ALL_ILLOCUTIONS)
 
 /** An object mapping from illocutuons to their names. */
 export const ILLOCUTION_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({

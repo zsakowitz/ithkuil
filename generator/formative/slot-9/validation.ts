@@ -1,5 +1,4 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
-import { Enum } from "../../helpers/enum.js"
 
 /** A validation. */
 export type Validation =
@@ -26,9 +25,6 @@ export const ALL_VALIDATIONS: readonly Validation[] =
     "ITU",
     "INF",
   ])
-
-/** A Zod validator matching validations. */
-export const zodValidation = /* @__PURE__ */ new Enum(ALL_VALIDATIONS)
 
 /** An object mapping from validations to their names. */
 export const VALIDATION_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({

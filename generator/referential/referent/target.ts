@@ -1,5 +1,4 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
-import { Enum } from "../../helpers/enum.js"
 
 /** A referent target. */
 export type ReferentTarget =
@@ -30,9 +29,6 @@ export const ALL_REFERENT_TARGETS: readonly ReferentTarget[] =
     "Obv",
     "PVS",
   ])
-
-/** A Zod validator matching referent targets. */
-export const zodReferentTarget = /* @__PURE__ */ new Enum(ALL_REFERENT_TARGETS)
 
 /** An object mapping referent targets to descriptions of them. */
 export const REFERENT_TARGET_TO_DESCRIPTION_MAP = /* @__PURE__ */ deepFreeze({

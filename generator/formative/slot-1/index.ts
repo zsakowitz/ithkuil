@@ -1,10 +1,6 @@
-import { object } from "zod"
 import { deepFreeze } from "../../helpers/deep-freeze.js"
-import { zodCaShortcutType, type CAShortcutType } from "./ca-shortcut-type.js"
-import {
-  zodConcatenationType,
-  type ConcatenationType,
-} from "./concatenation-type.js"
+import { type CAShortcutType } from "./ca-shortcut-type.js"
+import { type ConcatenationType } from "./concatenation-type.js"
 
 export * from "./ca-shortcut-type.js"
 export * from "./concatenation-type.js"
@@ -17,12 +13,6 @@ export type SlotI = {
   /** The Ca shortcut type of the formative. */
   readonly caShortcutType: CAShortcutType
 }
-
-/** A Zod validator matching Slot I data. */
-export const zodSlotI = /* @__PURE__ */ object({
-  concatenationType: zodConcatenationType,
-  caShortcutType: zodCaShortcutType,
-})
 
 /**
  * An object mapping from concatenation types and Ca shortcut types to their

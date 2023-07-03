@@ -1,5 +1,4 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
-import { Enum } from "../../helpers/enum.js"
 
 /**
  * The type of information contained in the Vn slot.
@@ -17,6 +16,3 @@ export const ALL_VN_TYPES: readonly VNType[] = /* @__PURE__ */ deepFreeze([
   "non-aspect",
   "aspect",
 ])
-
-/** A Zod validator matching Vn types. */
-export const zodVnType = /* @__PURE__ */ new Enum(ALL_VN_TYPES)

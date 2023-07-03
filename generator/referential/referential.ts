@@ -1,20 +1,11 @@
-import { object, undefined, union } from "zod"
 import {
   suppletiveAdjunctTypeToIthkuil,
-  zodSuppletiveAdjunctType,
   type SuppletiveAdjunctType,
 } from "../adjunct/index.js"
-import { affixToIthkuil, zodAffix, type Affix } from "../affix/index.js"
-import {
-  zodEssence,
-  zodPerspective,
-  type Essence,
-  type Perspective,
-} from "../ca/index.js"
+import { affixToIthkuil, type Affix } from "../affix/index.js"
+import { type Essence, type Perspective } from "../ca/index.js"
 import {
   caseToIthkuil,
-  zodCase,
-  zodSpecification,
   type Case,
   type Specification,
 } from "../formative/index.js"
@@ -30,16 +21,8 @@ import {
   referentialPerspectiveToIthkuil,
   referentialPerspectiveToIthkuilAlt,
 } from "./perspective.js"
-import {
-  referentListToIthkuil,
-  zodReferentList,
-  type ReferentList,
-} from "./referent/list.js"
-import {
-  referentToIthkuil,
-  zodReferent,
-  type Referent,
-} from "./referent/referent.js"
+import { referentListToIthkuil, type ReferentList } from "./referent/list.js"
+import { referentToIthkuil, type Referent } from "./referent/referent.js"
 import { referentialSpecificationToIthkuil } from "./specification.js"
 
 /**
@@ -55,16 +38,6 @@ export type ReferentialReferentialCore = {
   readonly essence: Essence
 }
 
-/** A Zod validator matching {@link ReferentialReferentialCore}s. */
-export const zodReferentialReferentialCore = /* @__PURE__ */ object({
-  referents: zodReferentList,
-  perspective: zodPerspective,
-  type: /* @__PURE__ */ undefined().optional(),
-  case: zodCase,
-  case2: /* @__PURE__ */ zodCase.optional(),
-  essence: zodEssence,
-})
-
 /** The structure shared between all suppletive referentials. */
 export type SuppletiveReferentialCore = {
   readonly referents?: undefined
@@ -75,26 +48,10 @@ export type SuppletiveReferentialCore = {
   readonly essence: Essence
 }
 
-/** A Zod validator matching {@link SuppletiveReferentialCore}s. */
-export const zodSuppletiveReferentialCore = /* @__PURE__ */ object({
-  referents: /* @__PURE__ */ undefined().optional(),
-  perspective: /* @__PURE__ */ undefined().optional(),
-  type: zodSuppletiveAdjunctType,
-  case: zodCase,
-  case2: /* @__PURE__ */ zodCase.optional(),
-  essence: zodEssence,
-})
-
 /** The core structure of a referential. */
 export type ReferentialCore =
   | ReferentialReferentialCore
   | SuppletiveReferentialCore
-
-/** A Zod validator matching {@link ReferentialCore}s. */
-export const zodReferentialCore = /* @__PURE__ */ union([
-  zodReferentialReferentialCore,
-  zodSuppletiveReferentialCore,
-])
 
 /**
  * The structure shared between all single-, dual-, and combination
@@ -110,16 +67,6 @@ export type PartialReferentialReferentialCore = {
   readonly essence?: Essence | undefined
 }
 
-/** A Zod validator matching {@link PartialReferentialReferentialCore}s. */
-export const zodPartialReferentialReferentialCore = /* @__PURE__ */ object({
-  referents: zodReferentList,
-  perspective: /* @__PURE__ */ zodPerspective.optional(),
-  type: /* @__PURE__ */ undefined().optional(),
-  case: /* @__PURE__ */ zodCase.optional(),
-  case2: /* @__PURE__ */ zodCase.optional(),
-  essence: /* @__PURE__ */ zodEssence.optional(),
-})
-
 /**
  * The core structure of all suppletive referentials, with all optional slots
  * properly marked optional. Note that the `type` slot is still required.
@@ -133,16 +80,6 @@ export type PartialSuppletiveReferentialCore = {
   readonly essence?: Essence | undefined
 }
 
-/** A Zod validator matching {@link PartialSuppletiveReferentialCore}s. */
-export const zodPartialSuppletiveReferentialCore = /* @__PURE__ */ object({
-  referents: /* @__PURE__ */ undefined().optional(),
-  perspective: /* @__PURE__ */ undefined().optional(),
-  type: zodSuppletiveAdjunctType,
-  case: /* @__PURE__ */ zodCase.optional(),
-  case2: /* @__PURE__ */ zodCase.optional(),
-  essence: /* @__PURE__ */ zodEssence.optional(),
-})
-
 /**
  * The core structure of a referent, with optional slots properly marked
  * optional. Note that either the `referents` slot or `type` slot must be
@@ -151,12 +88,6 @@ export const zodPartialSuppletiveReferentialCore = /* @__PURE__ */ object({
 export type PartialReferentialCore =
   | PartialReferentialReferentialCore
   | PartialSuppletiveReferentialCore
-
-/** A Zod validator matching {@link PartialReferentialCore}s. */
-export const zodPartialReferentialCore = /* @__PURE__ */ union([
-  zodPartialReferentialReferentialCore,
-  zodPartialSuppletiveReferentialCore,
-])
 
 /** A referential. */
 export type Referential =
@@ -179,34 +110,6 @@ export type Referential =
       readonly affixes: readonly Affix[]
     })
 
-/** A Zod validator matching referentials. */
-export const zodReferential = /* @__PURE__ */ union([
-  /* @__PURE__ */ zodReferentialCore.and(
-    /* @__PURE__ */ object({
-      referent2: /* @__PURE__ */ undefined().optional(),
-      perspective2: /* @__PURE__ */ undefined().optional(),
-      specification: /* @__PURE__ */ undefined().optional(),
-      affixes: /* @__PURE__ */ undefined().optional(),
-    }),
-  ),
-  /* @__PURE__ */ zodReferentialCore.and(
-    /* @__PURE__ */ object({
-      referent2: zodReferent,
-      perspective2: zodPerspective,
-      specification: /* @__PURE__ */ undefined().optional(),
-      affixes: /* @__PURE__ */ undefined().optional(),
-    }),
-  ),
-  /* @__PURE__ */ zodReferentialCore.and(
-    /* @__PURE__ */ object({
-      referent2: /* @__PURE__ */ undefined().optional(),
-      perspective2: /* @__PURE__ */ undefined().optional(),
-      specification: zodSpecification,
-      affixes: /* @__PURE__ */ zodAffix.array(),
-    }),
-  ),
-])
-
 /** A referential, with optional slots properly marked optional. */
 export type PartialReferential =
   | (PartialReferentialCore & {
@@ -227,34 +130,6 @@ export type PartialReferential =
       readonly specification?: Specification | undefined
       readonly affixes?: readonly Affix[] | undefined
     })
-
-/** A Zod validator matching partial referentials. */
-export const zodPartialReferential = /* @__PURE__ */ union([
-  /* @__PURE__ */ zodPartialReferentialCore.and(
-    /* @__PURE__ */ object({
-      referent2: /* @__PURE__ */ undefined().optional(),
-      perspective2: /* @__PURE__ */ undefined().optional(),
-      specification: /* @__PURE__ */ undefined().optional(),
-      affixes: /* @__PURE__ */ undefined().optional(),
-    }),
-  ),
-  /* @__PURE__ */ zodPartialReferentialCore.and(
-    /* @__PURE__ */ object({
-      referent2: zodReferent,
-      perspective2: /* @__PURE__ */ zodPerspective.optional(),
-      specification: /* @__PURE__ */ undefined().optional(),
-      affixes: /* @__PURE__ */ undefined().optional(),
-    }),
-  ),
-  /* @__PURE__ */ zodPartialReferentialCore.and(
-    /* @__PURE__ */ object({
-      referent2: /* @__PURE__ */ undefined().optional(),
-      perspective2: /* @__PURE__ */ undefined().optional(),
-      specification: /* @__PURE__ */ zodSpecification.optional(),
-      affixes: /* @__PURE__ */ zodAffix.array().optional(),
-    }),
-  ),
-])
 
 /**
  * Converts a referential into Ithkuil.

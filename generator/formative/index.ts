@@ -1,6 +1,5 @@
-import { literal, object, union } from "zod"
 import type { Affix } from "../affix/index.js"
-import { zodPartialCA, type CA, type PartialCA } from "../ca/index.js"
+import { type CA, type PartialCA } from "../ca/index.js"
 import { deepFreeze } from "../helpers/deep-freeze.js"
 import { applyStress, countVowelForms } from "../helpers/stress.js"
 import { ONE_INDEXED_STANDARD_VOWEL_TABLE } from "../helpers/vowel-table.js"
@@ -8,42 +7,30 @@ import { WithWYAlternative } from "../helpers/with-wy-alternative.js"
 import { isLegalWordInitialConsonantForm } from "../phonotactics/word-initial.js"
 import { referentListToPersonalReferenceRoot } from "../referential/index.js"
 import { fillInDefaultFormativeSlots } from "./default.js"
-import { zodShortcutType, type ShortcutType } from "./shortcut-type.js"
-import {
-  slotIToIthkuil,
-  zodConcatenationType,
-  type ConcatenationType,
-} from "./slot-1/index.js"
+import { type ShortcutType } from "./shortcut-type.js"
+import { slotIToIthkuil, type ConcatenationType } from "./slot-1/index.js"
 import { applySlotXStress } from "./slot-10/index.js"
 import {
   SLOT_II_MAP,
   SLOT_II_SHORTCUT_MAP,
   slotIIToIthkuil,
-  zodStem,
-  zodVersion,
   type Stem,
   type Version,
 } from "./slot-2/index.js"
-import { zodSlotIII, type SlotIII } from "./slot-3/index.js"
+import { type SlotIII } from "./slot-3/index.js"
 import {
   slotIVToIthkuil,
-  zodContext,
-  zodFunction,
-  zodSpecification,
   type Context,
   type Function,
   type Specification,
 } from "./slot-4/index.js"
-import { slotVToIthkuil, zodSlotV } from "./slot-5/index.js"
-import { slotVIToIthkuil, zodSlotVI } from "./slot-6/index.js"
-import { slotVIIToIthkuil, zodSlotVII } from "./slot-7/index.js"
+import { slotVToIthkuil } from "./slot-5/index.js"
+import { slotVIToIthkuil } from "./slot-6/index.js"
+import { slotVIIToIthkuil } from "./slot-7/index.js"
 import {
   caseScopeToIthkuil,
   moodToIthkuil,
   slotVIIIToIthkuil,
-  zodCaseScope,
-  zodMood,
-  zodVn,
   type Aspect,
   type CaseScope,
   type Effect,
@@ -55,8 +42,6 @@ import {
 import {
   ALL_CASES,
   slotIXToIthkuil,
-  zodCase,
-  zodIllocutionOrValidation,
   type Case,
   type IllocutionOrValidation,
 } from "./slot-9/index.js"
@@ -110,21 +95,6 @@ export type CoreFormative = {
   readonly shortcut: ShortcutType
 }
 
-/** A Zod validator matching {@link CoreFormative}s. */
-export const zodCoreFormative = /* @__PURE__ */ object({
-  version: zodVersion,
-  stem: zodStem,
-  root: zodSlotIII,
-  function: zodFunction,
-  specification: zodSpecification,
-  context: zodContext,
-  slotVAffixes: zodSlotV,
-  ca: zodSlotVI,
-  slotVIIAffixes: zodSlotVII,
-  vn: zodVn,
-  shortcut: zodShortcutType,
-})
-
 /**
  * The core structure shared between all formatives, with all optional slots
  * properly marked as optional.
@@ -168,21 +138,6 @@ export type PartialCoreFormative = {
   readonly shortcut?: ShortcutType
 }
 
-/** A Zod validator matching {@link PartialCoreFormative}s. */
-export const zodPartialCoreFormative = /* @__PURE__ */ object({
-  version: /* @__PURE__ */ zodVersion.optional(),
-  stem: /* @__PURE__ */ zodStem.optional(),
-  root: zodSlotIII,
-  function: /* @__PURE__ */ zodFunction.optional(),
-  specification: /* @__PURE__ */ zodSpecification.optional(),
-  context: /* @__PURE__ */ zodContext.optional(),
-  slotVAffixes: /* @__PURE__ */ zodSlotV.optional(),
-  ca: zodPartialCA,
-  slotVIIAffixes: /* @__PURE__ */ zodSlotVII.optional(),
-  vn: /* @__PURE__ */ zodVn.optional(),
-  shortcut: /* @__PURE__ */ zodShortcutType.optional(),
-})
-
 /** A nominal formative. */
 export type NominalFormative = CoreFormative & {
   /** The type of the formative. */
@@ -197,14 +152,6 @@ export type NominalFormative = CoreFormative & {
   /** The case of the formative. */
   readonly case: Case
 }
-
-/** A Zod validator matching nominal formatives. */
-export const zodNominalFormative = /* @__PURE__ */ zodCoreFormative.extend({
-  type: /* @__PURE__ */ literal("UNF/C"),
-  concatenationType: zodConcatenationType,
-  caseScope: zodCaseScope,
-  case: zodCase,
-})
 
 /**
  * A nominal formative, with all optional slots properly marked as optional.
@@ -227,15 +174,6 @@ export type PartialNominalFormative = PartialCoreFormative & {
   readonly case?: Case | undefined
 }
 
-/** A Zod validator matching partial nominal formatives. */
-export const zodPartialNominalFormative =
-  /* @__PURE__ */ zodPartialCoreFormative.extend({
-    type: /* @__PURE__ */ literal("UNF/C"),
-    concatenationType: /* @__PURE__ */ zodConcatenationType.optional(),
-    caseScope: /* @__PURE__ */ zodCaseScope.optional(),
-    case: /* @__PURE__ */ zodCase.optional(),
-  })
-
 /** An unframed verbal formative. */
 export type UnframedVerbalFormative = CoreFormative & {
   /** The type of the formative. */
@@ -247,14 +185,6 @@ export type UnframedVerbalFormative = CoreFormative & {
   /** The illocution+validation of the formative. */
   readonly illocutionValidation: IllocutionOrValidation
 }
-
-/** A Zod validator matching unframed verbal formatives. */
-export const zodUnframedVerbalFormative =
-  /* @__PURE__ */ zodCoreFormative.extend({
-    type: /* @__PURE__ */ literal("UNF/K"),
-    mood: zodMood,
-    illocutionValidation: zodIllocutionOrValidation,
-  })
 
 /**
  * An unframed verbal formative, with all optional slots properly marked as
@@ -275,14 +205,6 @@ export type PartialUnframedVerbalFormative = PartialCoreFormative & {
   readonly illocutionValidation?: IllocutionOrValidation | undefined
 }
 
-/** A Zod validator matching partial unframed verbal formatives. */
-export const zodPartialUnframedVerbalFormative =
-  /* @__PURE__ */ zodPartialCoreFormative.extend({
-    type: /* @__PURE__ */ literal("UNF/K"),
-    mood: /* @__PURE__ */ zodMood.optional(),
-    illocutionValidation: /* @__PURE__ */ zodIllocutionOrValidation.optional(),
-  })
-
 /** A framed verbal formative. */
 export type FramedVerbalFormative = CoreFormative & {
   /** The type of the formative. */
@@ -294,15 +216,6 @@ export type FramedVerbalFormative = CoreFormative & {
   /** The case of the formative. */
   readonly case: Case
 }
-
-/** A Zod validator matching framed verbal formatives. */
-export const zodFramedVerbalFormative = /* @__PURE__ */ zodCoreFormative.extend(
-  {
-    type: /* @__PURE__ */ literal("FRM"),
-    caseScope: zodCaseScope,
-    case: zodCase,
-  },
-)
 
 /**
  * A framed verbal formative, with all optional slots properly marked as
@@ -323,26 +236,11 @@ export type PartialFramedVerbalFormative = PartialCoreFormative & {
   readonly case?: Case | undefined
 }
 
-/** A Zod validator matching partial framed verbal formatives. */
-export const zodPartialFramedVerbalFormative =
-  /* @__PURE__ */ zodPartialCoreFormative.extend({
-    type: /* @__PURE__ */ literal("FRM"),
-    caseScope: /* @__PURE__ */ zodCaseScope.optional(),
-    case: /* @__PURE__ */ zodCase.optional(),
-  })
-
 /** A formative. */
 export type Formative =
   | NominalFormative
   | UnframedVerbalFormative
   | FramedVerbalFormative
-
-/** A Zod validator matching formatives. */
-export const zodFormative = /* @__PURE__ */ union([
-  zodNominalFormative,
-  zodUnframedVerbalFormative,
-  zodFramedVerbalFormative,
-])
 
 /**
  * A formative, with all optional slots properly marked as optional.
@@ -355,13 +253,6 @@ export type PartialFormative =
   | PartialNominalFormative
   | PartialUnframedVerbalFormative
   | PartialFramedVerbalFormative
-
-/** A Zod validator matching partial formatives. */
-export const zodPartialFormative = /* @__PURE__ */ union([
-  zodPartialNominalFormative,
-  zodPartialUnframedVerbalFormative,
-  zodPartialFramedVerbalFormative,
-])
 
 /** An object mapping from formative types to their names. */
 export const FORMATIVE_TYPE_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({

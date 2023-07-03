@@ -1,32 +1,12 @@
-import { boolean, object, union } from "zod"
 import { has } from "../../helpers/has.js"
 import { EMPTY, WithWYAlternative } from "../../helpers/with-wy-alternative.js"
-import {
-  ALL_ASPECTS,
-  aspectToIthkuil,
-  zodAspect,
-  type Aspect,
-} from "./aspect.js"
-import {
-  caseScopeToIthkuil,
-  zodCaseScope,
-  type CaseScope,
-} from "./case-scope.js"
-import {
-  ALL_EFFECTS,
-  effectToIthkuil,
-  zodEffect,
-  type Effect,
-} from "./effect.js"
-import { ALL_LEVELS, levelToIthkuil, zodLevel, type Level } from "./level.js"
-import { ALL_MOODS, moodToIthkuil, zodMood, type Mood } from "./mood.js"
-import { ALL_PHASES, phaseToIthkuil, zodPhase, type Phase } from "./phase.js"
-import {
-  ALL_VALENCES,
-  valenceToIthkuil,
-  zodValence,
-  type Valence,
-} from "./valence.js"
+import { ALL_ASPECTS, aspectToIthkuil, type Aspect } from "./aspect.js"
+import { caseScopeToIthkuil, type CaseScope } from "./case-scope.js"
+import { ALL_EFFECTS, effectToIthkuil, type Effect } from "./effect.js"
+import { ALL_LEVELS, levelToIthkuil, type Level } from "./level.js"
+import { ALL_MOODS, moodToIthkuil, type Mood } from "./mood.js"
+import { ALL_PHASES, phaseToIthkuil, type Phase } from "./phase.js"
+import { ALL_VALENCES, valenceToIthkuil, type Valence } from "./valence.js"
 import type { VNType } from "./vn-type.js"
 
 export * from "./aspect.js"
@@ -44,34 +24,14 @@ export * from "./vn-type.js"
  */
 export type VN = Valence | Phase | Effect | Level | Aspect
 
-/** A Zod validator matching Vn forms. */
-export const zodVn = /* @__PURE__ */ union([
-  zodValence,
-  zodPhase,
-  zodEffect,
-  zodLevel,
-  zodAspect,
-])
-
 /**
  * Non-aspectual categories able to be placed in a Vn slot, such as Valence,
  * Phase, Effect, and Level.
  */
 export type NonAspectualVN = Valence | Phase | Effect | Level
 
-/** A Zod validator matching non-aspectual Vn forms. */
-export const zodNonAspectualVn = /* @__PURE__ */ union([
-  zodValence,
-  zodPhase,
-  zodEffect,
-  zodLevel,
-])
-
 /** Categories able to be placed in a Cn slot, such as Mood and Case-Scope. */
 export type CN = Mood | CaseScope
-
-/** A Zod validator matching Cn forms. */
-export const zodCn = /* @__PURE__ */ union([zodMood, zodCaseScope])
 
 /** Information directly pertaining to Slot VIII. */
 export type SlotVIII = {
@@ -82,22 +42,11 @@ export type SlotVIII = {
   readonly cn: CN
 }
 
-/** A Zod validator matching Slot VIII data. */
-export const zodSlotVIII = /* @__PURE__ */ object({
-  vn: zodVn,
-  cn: zodCn,
-})
-
 /** Additional information relevant to Slot VIII. */
 export type SlotVIIIMetadata = {
   /** Whether default MNO+FAC/CCN valence+mood/case-scope should be omitted. */
   readonly omitDefault: boolean
 }
-
-/** A Zod validator matching Slot VIII metadata. */
-export const zodSlotVIIIMetadata = /* @__PURE__ */ object({
-  omitDefault: /* @__PURE__ */ boolean(),
-})
 
 /**
  * Converts a Vn form into Ithkuil.

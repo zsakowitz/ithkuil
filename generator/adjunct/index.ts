@@ -1,36 +1,29 @@
-import { union } from "zod"
 import { has } from "../helpers/has.js"
 import {
   affixualAdjunctToIthkuil,
-  zodAffixualAdjunct,
   type AffixualAdjunct,
 } from "./affixual/index.js"
 import {
   ALL_BIAS_ADJUNCTS,
   biasAdjunctToIthkuil,
-  zodBiasAdjunct,
   type BiasAdjunct,
 } from "./bias.js"
 import {
   modularAdjunctToIthkuil,
-  zodModularAdjunct,
   type ModularAdjunct,
 } from "./modular/index.js"
 import {
   ALL_PARSING_ADJUNCTS,
   parsingAdjunctToIthkuil,
-  zodParsingAdjunct,
   type ParsingAdjunct,
 } from "./parsing.js"
 import {
   ALL_REGISTER_ADJUNCTS,
   registerAdjunctToIthkuil,
-  zodRegisterAdjunct,
   type RegisterAdjunct,
 } from "./register.js"
 import {
   suppletiveAdjunctToIthkuil,
-  zodSuppletiveAdjunct,
   type SuppletiveAdjunct,
 } from "./suppletive/index.js"
 
@@ -49,16 +42,6 @@ export type Adjunct =
   | ParsingAdjunct
   | RegisterAdjunct
   | SuppletiveAdjunct
-
-/** A Zod validator matching adjuncts. */
-export const zodAdjunct = /* @__PURE__ */ union([
-  zodAffixualAdjunct,
-  zodBiasAdjunct,
-  zodModularAdjunct,
-  zodParsingAdjunct,
-  zodRegisterAdjunct,
-  zodSuppletiveAdjunct,
-])
 
 /**
  * Converts an adjunct into Ithkuil.

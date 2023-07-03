@@ -15,9 +15,6 @@ export const ALL_MOODS: readonly Mood[] = /* @__PURE__ */ deepFreeze([
   "HYP",
 ])
 
-/** A Zod validator matching moods. */
-export const zodMood = /* @__PURE__ */ new Enum(ALL_MOODS)
-
 /** An object mapping moods to their Ithkuilic translations. */
 export const MOOD_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
   /**

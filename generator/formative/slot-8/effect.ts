@@ -1,5 +1,4 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
-import { Enum } from "../../helpers/enum.js"
 import {
   IA_UÄ,
   IE_UË,
@@ -36,9 +35,6 @@ export const ALL_EFFECTS: readonly Effect[] = /* @__PURE__ */ deepFreeze([
   "2:DET",
   "1:DET",
 ])
-
-/** A Zod validator matching effects. */
-export const zodEffect = /* @__PURE__ */ new Enum(ALL_EFFECTS)
 
 /**
  * An object mapping effects to their `WithWYAlternative` Ithkuilic

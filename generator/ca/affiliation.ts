@@ -1,5 +1,4 @@
 import { deepFreeze } from "../helpers/deep-freeze.js"
-import { Enum } from "../helpers/enum.js"
 
 /** An affiliation. */
 export type Affiliation = "CSL" | "COA" | "ASO" | "VAR"
@@ -7,9 +6,6 @@ export type Affiliation = "CSL" | "COA" | "ASO" | "VAR"
 /** An array containing all affiliations. */
 export const ALL_AFFILIATIONS: readonly Affiliation[] =
   /* @__PURE__ */ deepFreeze(["CSL", "COA", "ASO", "VAR"])
-
-/** A Zod validator matching affiliations. */
-export const zodAffiliation = /* @__PURE__ */ new Enum(ALL_AFFILIATIONS)
 
 /** An object mapping affiliations to their names. */
 export const AFFILIATION_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({

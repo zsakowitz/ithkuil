@@ -1,8 +1,6 @@
-import { object } from "zod"
 import { deepFreeze } from "../../helpers/deep-freeze.js"
-import { Enum } from "../../helpers/enum.js"
-import { zodReferentEffect, type ReferentEffect } from "./effect.js"
-import { zodReferentTarget, type ReferentTarget } from "./target.js"
+import { type ReferentEffect } from "./effect.js"
+import { type ReferentTarget } from "./target.js"
 
 /** A referent. */
 export type Referent =
@@ -76,9 +74,6 @@ export const ALL_REFERENTS: readonly Referent[] = /* @__PURE__ */ deepFreeze([
   "Obv:DET",
   "PVS:DET",
 ])
-
-/** A Zod validator matching referents. */
-export const zodReferent = /* @__PURE__ */ new Enum(ALL_REFERENTS)
 
 /** An object mapping referents into their Ithkuilic counterparts. */
 export const REFERENT_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
@@ -181,12 +176,6 @@ export type ReferentObject = {
   /** The effect of the referent. */
   readonly effect: ReferentEffect
 }
-
-/** A Zod validator matching referent objects. */
-export const zodReferentObject = /* @__PURE__ */ object({
-  target: zodReferentTarget,
-  effect: zodReferentEffect,
-})
 
 /** An object mapping from referents to their referent objects. */
 export const REFERENT_TO_REFERENT_OBJECT_MAP = /* @__PURE__ */ deepFreeze({

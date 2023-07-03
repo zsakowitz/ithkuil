@@ -1,5 +1,4 @@
 import { deepFreeze } from "../helpers/deep-freeze.js"
-import { Enum } from "../helpers/enum.js"
 
 /** A configuration. */
 export type Configuration =
@@ -48,9 +47,6 @@ export const ALL_CONFIGURATIONS: readonly Configuration[] =
     "DFC",
     "DFF",
   ])
-
-/** A Zod validator matching configurations. */
-export const zodConfiguration = /* @__PURE__ */ new Enum(ALL_CONFIGURATIONS)
 
 /** An object mapping from configurations to their Ithkuilic translations. */
 export const CONFIGURATION_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({

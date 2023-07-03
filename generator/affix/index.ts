@@ -1,14 +1,11 @@
-import { boolean, object, oboolean, string, undefined, union } from "zod"
-import { caToIthkuil, zodPartialCA, type PartialCA } from "../ca/index.js"
+import { caToIthkuil, type PartialCA } from "../ca/index.js"
 import {
   ALL_CASES,
   CASE_AFFIX_TO_CS_MAP,
   caseToIthkuil,
-  zodCase,
   type Case,
 } from "../formative/slot-9/case.js"
 import { deepFreeze } from "../helpers/deep-freeze.js"
-import { Enum } from "../helpers/enum.js"
 import { STANDARD_VOWEL_TABLE } from "../helpers/vowel-table.js"
 import {
   IA_UÄ,
@@ -23,11 +20,10 @@ import {
 } from "../helpers/with-wy-alternative.js"
 import {
   referentialAffixToIthkuil,
-  zodReferent,
   type Referent,
 } from "../referential/referent/index.js"
-import { zodAffixDegree, type AffixDegree } from "./degree.js"
-import { zodAffixType, type AffixType } from "./type.js"
+import { type AffixDegree } from "./degree.js"
+import { type AffixType } from "./type.js"
 
 export * from "./degree.js"
 export * from "./type.js"
@@ -75,11 +71,6 @@ export const ALL_REFERENTIAL_AFFIX_CASES = /* @__PURE__ */ deepFreeze([
   "IDP",
   "PAR",
 ])
-
-/** A Zod validator matching referential affix cases. */
-export const zodReferentialAffixCase = /* @__PURE__ */ new Enum(
-  ALL_REFERENTIAL_AFFIX_CASES,
-)
 
 /**
  * An object mapping from referential affix cases to their Ithkuilic
@@ -168,46 +159,6 @@ export type Affix =
       readonly type?: undefined
     }
 
-/** A Zod validator matching affixes. */
-export const zodAffix = /* @__PURE__ */ union([
-  /* @__PURE__ */ object({
-    type: zodAffixType,
-    degree: zodAffixDegree,
-    cs: /* @__PURE__ */ string(),
-    ca: /* @__PURE__ */ undefined().optional(),
-    referent: /* @__PURE__ */ undefined().optional(),
-    case: /* @__PURE__ */ undefined().optional(),
-  }),
-  /* @__PURE__ */ object({
-    ca: zodPartialCA,
-    cs: /* @__PURE__ */ undefined().optional(),
-    referent: /* @__PURE__ */ undefined().optional(),
-    case: /* @__PURE__ */ undefined().optional(),
-  }),
-  /* @__PURE__ */ object({
-    referent: zodReferent,
-    perspective: /* @__PURE__ */ new Enum(["M", "G", "N"]).optional(),
-    case: zodReferentialAffixCase,
-    cs: /* @__PURE__ */ undefined().optional(),
-    ca: /* @__PURE__ */ undefined().optional(),
-  }),
-  /* @__PURE__ */ object({
-    case: zodCase,
-    type: zodAffixType,
-    isInverse: /* @__PURE__ */ boolean(),
-    cs: /* @__PURE__ */ undefined().optional(),
-    ca: /* @__PURE__ */ undefined().optional(),
-    referent: /* @__PURE__ */ undefined().optional(),
-  }),
-  /* @__PURE__ */ object({
-    case: zodCase,
-    cs: /* @__PURE__ */ undefined().optional(),
-    ca: /* @__PURE__ */ undefined().optional(),
-    referent: /* @__PURE__ */ undefined().optional(),
-    type: /* @__PURE__ */ undefined().optional(),
-  }),
-])
-
 /** Metadata about the affix. */
 export type AffixMetadata = {
   /** Whether or not the affix is in reversed form. */
@@ -219,13 +170,6 @@ export type AffixMetadata = {
   /** Whether the inserted glottal stop will be in word-final position. */
   isGlottalStopWordFinal?: boolean
 }
-
-/** A Zod validator matching affixes. */
-export const zodAffixMetadata = /* @__PURE__ */ object({
-  reversed: /* @__PURE__ */ boolean(),
-  insertGlottalStop: /* @__PURE__ */ oboolean(),
-  isGlottalStopWordFinal: /* @__PURE__ */ oboolean(),
-})
 
 /**
  * Converts an affix into Ithkuil.

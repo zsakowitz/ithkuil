@@ -1,5 +1,4 @@
 import { deepFreeze } from "../helpers/deep-freeze.js"
-import { Enum } from "../helpers/enum.js"
 
 /** An extension. */
 export type Extension = "DEL" | "PRX" | "ICP" | "ATV" | "GRA" | "DPL"
@@ -13,9 +12,6 @@ export const ALL_EXTENSIONS: readonly Extension[] = /* @__PURE__ */ deepFreeze([
   "GRA",
   "DPL",
 ])
-
-/** A Zod validator matching extensions. */
-export const zodExtension = /* @__PURE__ */ new Enum(ALL_EXTENSIONS)
 
 /** An object mapping from extensions to their names. */
 export const EXTENSION_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({

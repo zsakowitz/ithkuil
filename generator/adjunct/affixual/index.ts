@@ -1,12 +1,10 @@
-import { object, oboolean } from "zod"
-import { affixToIthkuil, zodAffix, type Affix } from "../../affix/index.js"
+import { affixToIthkuil, type Affix } from "../../affix/index.js"
 import { applyStress, countVowelForms } from "../../helpers/stress.js"
 import { extractAllConsonants } from "../../phonotactics/letters.js"
 import { isLegalWordFinalConsonantForm } from "../../phonotactics/word-final.js"
 import { isLegalWordInitialConsonantForm } from "../../phonotactics/word-initial.js"
 import {
   affixualAdjunctScopeToIthkuil,
-  zodAffixualAdjunctScope,
   type AffixualAdjunctScope,
 } from "./scope.js"
 
@@ -51,14 +49,6 @@ export type AffixualAdjunct = {
    */
   readonly appliesToConcatenatedStemOnly?: boolean | undefined
 }
-
-/** A Zod validator matching affixual adjuncts. */
-export const zodAffixualAdjunct = /* @__PURE__ */ object({
-  affixes: /* @__PURE__ */ zodAffix.array().nonempty(),
-  scope: /* @__PURE__ */ zodAffixualAdjunctScope.optional(),
-  scope2: /* @__PURE__ */ zodAffixualAdjunctScope.optional(),
-  appliesToConcatenatedStemOnly: /* @__PURE__ */ oboolean(),
-})
 
 /**
  * Converts an affixual adjunct into Ithkuil.

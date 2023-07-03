@@ -1,4 +1,4 @@
-import { ALL_DIPTIONGS } from "./dipthongs.js"
+import { ALL_DIPTHONGS } from "./dipthongs.js"
 import { has } from "./has.js"
 import { WithWYAlternative } from "./with-wy-alternative.js"
 
@@ -19,7 +19,7 @@ export function insertGlottalStop(vowelForm: string, isAtEndOfWord: boolean) {
       return vowelForm[0] + "'" + vowelForm[1]
     }
   } else {
-    if (vowelForm.length == 1 || has(ALL_DIPTIONGS, vowelForm)) {
+    if (vowelForm.length == 1 || has(ALL_DIPTHONGS, vowelForm)) {
       return vowelForm + "'"
     }
 

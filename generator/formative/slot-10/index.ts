@@ -1,5 +1,4 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
-import { Enum } from "../../helpers/enum.js"
 import { applyStress, countVowelForms } from "../../helpers/stress.js"
 
 /** The stress type marked by Slot X. */
@@ -9,9 +8,6 @@ export type SlotX = "UNF/C" | "UNF/K" | "FRM"
 export const ALL_SLOT_X_STRESSES: readonly SlotX[] = /* @__PURE__ */ deepFreeze(
   ["UNF/C", "UNF/K", "FRM"],
 )
-
-/** A Zod validator matching Slot X data. */
-export const zodSlotX = /* @__PURE__ */ new Enum(ALL_SLOT_X_STRESSES)
 
 /**
  * Applies Slot X stress to an Ithkuilic word.

@@ -1,5 +1,4 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
-import { Enum } from "../../helpers/enum.js"
 import type { Illocution } from "./illocution.js"
 import type { Validation } from "./validation.js"
 
@@ -27,11 +26,6 @@ export const ALL_ILLOCUTION_OR_VALIDATIONS = /* @__PURE__ */ deepFreeze([
   "ITU",
   "INF",
 ])
-
-/** A Zod validator matching non-ASR illocutions and validations. */
-export const zodIllocutionOrValidation = /* @__PURE__ */ new Enum(
-  ALL_ILLOCUTION_OR_VALIDATIONS,
-)
 
 /**
  * An object mapping from illocutions and validations to their Ithkuilic

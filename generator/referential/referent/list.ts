@@ -8,13 +8,10 @@ import {
   referentialPerspectiveToIthkuil,
   referentialPerspectiveToIthkuilAlt,
 } from "../perspective.js"
-import { referentToIthkuil, zodReferent, type Referent } from "./index.js"
+import { referentToIthkuil, type Referent } from "./index.js"
 
 /** A list of referents. */
 export type ReferentList = readonly [Referent, ...Referent[]]
-
-/** A Zod validator matching a list of referents. */
-export const zodReferentList = /* @__PURE__ */ zodReferent.array().nonempty()
 
 /**
  * Converts a list of referents into Ithkuil. Does not attempt to change the

@@ -1,25 +1,12 @@
-import { object } from "zod"
 import { deepFreeze } from "../helpers/deep-freeze.js"
 import { fillDefaults } from "../helpers/fill-defaults.js"
-import {
-  affiliationToIthkuil,
-  zodAffiliation,
-  type Affiliation,
-} from "./affiliation.js"
-import {
-  configurationToIthkuil,
-  zodConfiguration,
-  type Configuration,
-} from "./configuration.js"
-import { zodEssence, type Essence } from "./essence.js"
-import {
-  extensionToIthkuil,
-  zodExtension,
-  type Extension,
-} from "./extension.js"
+import { affiliationToIthkuil, type Affiliation } from "./affiliation.js"
+import { configurationToIthkuil, type Configuration } from "./configuration.js"
+import { type Essence } from "./essence.js"
+import { extensionToIthkuil, type Extension } from "./extension.js"
 import { attemptGemination } from "./geminate.js"
 import { perspectiveAndEssenceToIthkuil } from "./perspective-and-essence.js"
-import { zodPerspective, type Perspective } from "./perspective.js"
+import { type Perspective } from "./perspective.js"
 
 export * from "./affiliation.js"
 export * from "./configuration.js"
@@ -47,15 +34,6 @@ export type CA = {
   readonly essence: Essence
 }
 
-/** A Zod validator matching Ca forms. */
-export const zodCa = /* @__PURE__ */ object({
-  affiliation: zodAffiliation,
-  configuration: zodConfiguration,
-  extension: zodExtension,
-  perspective: zodPerspective,
-  essence: zodEssence,
-})
-
 /** A partially filled Ca affix complex. */
 export type PartialCA = {
   /** The affiliation of the Ca form. */
@@ -73,9 +51,6 @@ export type PartialCA = {
   /** The essence of the Ca form. */
   readonly essence?: Essence | undefined
 }
-
-/** A Zod validator matching partial Ca forms. */
-export const zodPartialCA = /* @__PURE__ */ zodCa.partial()
 
 /**
  * Makes allomorphic substitutions within Ca forms to make the pronounceble and

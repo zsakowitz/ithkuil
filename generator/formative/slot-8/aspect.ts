@@ -1,5 +1,4 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
-import { Enum } from "../../helpers/enum.js"
 import {
   IA_UÄ,
   IE_UË,
@@ -93,9 +92,6 @@ export const ALL_ASPECTS: readonly Aspect[] = /* @__PURE__ */ deepFreeze([
   "MTV",
   "SQN",
 ])
-
-/** A Zod validator matching aspects. */
-export const zodAspect = /* @__PURE__ */ new Enum(ALL_ASPECTS)
 
 /** An object mapping aspects to their Ithkuilic translations. */
 export const ASPECT_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({

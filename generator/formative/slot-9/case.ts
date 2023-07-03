@@ -1,5 +1,4 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
-import { Enum } from "../../helpers/enum.js"
 import {
   IA_UÄ,
   IE_UË,
@@ -248,9 +247,6 @@ export const ALL_CASES_SKIPPING_DEGREE_8: readonly (Case | undefined)[] =
     ,
     "PLM",
   ])
-
-/** A Zod validator matching cases. */
-export const zodCase = /* @__PURE__ */ new Enum(ALL_CASES)
 
 /** An object mapping cases to their Ithkuilic translations. */
 export const CASE_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({

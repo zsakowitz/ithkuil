@@ -1,5 +1,4 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
-import { Enum } from "../../helpers/enum.js"
 
 /** The scope of an affixual adjunct. */
 export type AffixualAdjunctScope =
@@ -20,11 +19,6 @@ export const ALL_AFFIXUAL_ADJUNCT_SCOPES: readonly AffixualAdjunctScope[] =
     "FORMATIVE",
     "ADJACENT",
   ])
-
-/** A Zod validator matching affixual adjunct scopes. */
-export const zodAffixualAdjunctScope = /* @__PURE__ */ new Enum(
-  ALL_AFFIXUAL_ADJUNCT_SCOPES,
-)
 
 /**
  * An object mapping from affixual adjunct scopes to their Ithkuilic

@@ -1,5 +1,4 @@
 import { deepFreeze } from "../helpers/deep-freeze.js"
-import { Enum } from "../helpers/enum.js"
 
 /**
  * Whether to shortcut in a formative, and which slots to do so within.
@@ -41,6 +40,3 @@ export type ShortcutType = boolean | "IV/VI" | "VII" | "VIII" | "VII+VIII"
 /** An array containing all shortcut types. */
 export const ALL_SHORTCUT_TYPES: readonly ShortcutType[] =
   /* @__PURE__ */ deepFreeze([true, false, "IV/VI", "VII", "VIII", "VII+VIII"])
-
-/** A Zod validator matching shortcut types. */
-export const zodShortcutType = /* @__PURE__ */ new Enum(ALL_SHORTCUT_TYPES)

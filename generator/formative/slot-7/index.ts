@@ -1,11 +1,8 @@
-import { affixToIthkuil, zodAffix, type Affix } from "../../affix/index.js"
+import { affixToIthkuil, type Affix } from "../../affix/index.js"
 import { EMPTY, WithWYAlternative } from "../../helpers/with-wy-alternative.js"
 
 /** Information directly pertaining to Slot VII. */
 export type SlotVII = readonly Affix[]
-
-/** A Zod validator matching Slot V data. */
-export const zodSlotVII = /* @__PURE__ */ zodAffix.array()
 
 /**
  * Converts Slot VII into Ithkuil.
