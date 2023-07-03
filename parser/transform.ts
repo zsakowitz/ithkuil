@@ -26,7 +26,7 @@ function freeze<const T>(value: T): Readonly<T> {
   return Object.freeze(value)
 }
 
-const STRESSED_TO_UNSTRESSED_VOWEL_MAP = freeze({
+const STRESSED_TO_UNSTRESSED_VOWEL_MAP = /* @__PURE__ */ freeze({
   á: "a",
   é: "e",
   í: "i",
@@ -38,7 +38,7 @@ const STRESSED_TO_UNSTRESSED_VOWEL_MAP = freeze({
   û: "ü",
 })
 
-const LETTER_SUBSTITUTIONS = freeze({
+const LETTER_SUBSTITUTIONS = /* @__PURE__ */ freeze({
   ḍ: "ḑ",
   đ: "ḑ",
   ı: "i",

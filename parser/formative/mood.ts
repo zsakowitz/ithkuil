@@ -1,7 +1,7 @@
 import type { Mood } from "../../generator/formative/slot-8/mood.js"
 import { deepFreezeAndNullPrototype } from "../../generator/helpers/deep-freeze.js"
 
-const CN_TO_MOOD = deepFreezeAndNullPrototype({
+const CN_TO_MOOD = /* @__PURE__ */ deepFreezeAndNullPrototype({
   h: "FAC",
   hl: "SUB",
   hr: "ASM",
@@ -10,7 +10,7 @@ const CN_TO_MOOD = deepFreezeAndNullPrototype({
   hň: "HYP",
 })
 
-const CN_TO_ASPECTUAL_MOOD = deepFreezeAndNullPrototype({
+const CN_TO_ASPECTUAL_MOOD = /* @__PURE__ */ deepFreezeAndNullPrototype({
   w: "FAC",
   y: "FAC",
   hw: "SUB",

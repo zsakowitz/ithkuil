@@ -9,32 +9,35 @@ import {
   type PartialCA,
 } from "../../generator/ca/index.js"
 
-const ALL_CA_FORMS = new Map<string, PartialCA>()
-const ALL_GEMINATED_CA_FORMS = new Map<string, PartialCA>()
+function makeCaForms() {
+  const ALL_CA_FORMS = new Map<string, PartialCA>()
+  const ALL_GEMINATED_CA_FORMS = new Map<string, PartialCA>()
 
-for (const affiliation of ALL_AFFILIATIONS) {
-  for (const configuration of ALL_CONFIGURATIONS) {
-    for (const extension of ALL_EXTENSIONS) {
-      for (const perspective of ALL_PERSPECTIVES) {
-        for (const essence of ALL_ESSENCES) {
-          const ca: PartialCA = {
-            affiliation,
-            configuration,
-            extension,
-            perspective,
-            essence,
+  for (const affiliation of ALL_AFFILIATIONS) {
+    for (const configuration of ALL_CONFIGURATIONS) {
+      for (const extension of ALL_EXTENSIONS) {
+        for (const perspective of ALL_PERSPECTIVES) {
+          for (const essence of ALL_ESSENCES) {
+            const ca: PartialCA = {
+              affiliation,
+              configuration,
+              extension,
+              perspective,
+              essence,
+            }
+
+            ALL_CA_FORMS.set(caToIthkuil(ca), ca)
+            ALL_GEMINATED_CA_FORMS.set(geminatedCAToIthkuil(ca), ca)
           }
-
-          const ungeminated = caToIthkuil(ca)
-          const geminated = geminatedCAToIthkuil(ca)
-
-          ALL_CA_FORMS.set(ungeminated, ca)
-          ALL_GEMINATED_CA_FORMS.set(geminated, ca)
         }
       }
     }
   }
+
+  return [ALL_CA_FORMS, ALL_GEMINATED_CA_FORMS] as const
 }
+
+const CA_FORMS = /* @__PURE__ */ makeCaForms()
 
 /**
  * Parses a non-geminated Ca form into an object.
@@ -42,7 +45,7 @@ for (const affiliation of ALL_AFFILIATIONS) {
  * @returns A `PartialCA` object containing the details of the Ca form.
  */
 export function parseCa(ca: string): PartialCA {
-  const form = ALL_CA_FORMS.get(ca)
+  const form = CA_FORMS[0].get(ca)
 
   if (form != null) {
     return form
@@ -57,7 +60,7 @@ export function parseCa(ca: string): PartialCA {
  * @returns A `PartialCA` object containing the details of the Ca form.
  */
 export function parseGeminatedCa(ca: string): PartialCA {
-  const form = ALL_GEMINATED_CA_FORMS.get(ca)
+  const form = CA_FORMS[1].get(ca)
 
   if (form != null) {
     return form

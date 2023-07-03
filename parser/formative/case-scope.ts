@@ -1,7 +1,7 @@
 import type { CaseScope } from "../../generator/formative/slot-8/case-scope.js"
 import { deepFreezeAndNullPrototype } from "../../generator/helpers/deep-freeze.js"
 
-const CN_TO_CASE_SCOPE = deepFreezeAndNullPrototype({
+const CN_TO_CASE_SCOPE = /* @__PURE__ */ deepFreezeAndNullPrototype({
   h: "CCN",
   hl: "CCA",
   hr: "CCS",
@@ -10,7 +10,7 @@ const CN_TO_CASE_SCOPE = deepFreezeAndNullPrototype({
   hň: "CCV",
 })
 
-const CN_TO_ASPECTUAL_CASE_SCOPE = deepFreezeAndNullPrototype({
+const CN_TO_ASPECTUAL_CASE_SCOPE = /* @__PURE__ */ deepFreezeAndNullPrototype({
   w: "CCN",
   y: "CCN",
   hw: "CCA",

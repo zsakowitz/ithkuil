@@ -551,12 +551,7 @@ function completeFormativeToIthkuil(formative: Formative) {
 
     const slot9 = WithWYAlternative.of(
       slotIXToIthkuil(formative.case, {
-        elideIfPossible:
-          !slot8 &&
-          slot6 != "" &&
-          countVowelForms(
-            slot1 + slot2 + slot3 + slot4 + slot5 + slot6 + slot7 + slot8,
-          ) >= 2,
+        elideIfPossible: false,
         isPartOfConcatenatedFormative: formative.concatenationType != "none",
       }),
     ).withPreviousText(slot3 + slot4 + slot5 + slot6 + slot7 + slot8)
@@ -589,7 +584,7 @@ function completeFormativeToIthkuil(formative: Formative) {
 
     const slot9 = WithWYAlternative.of(
       slotIXToIthkuil(formative.illocutionValidation, {
-        elideIfPossible: slot6.length == 1 && !slot8,
+        elideIfPossible: false,
         isPartOfConcatenatedFormative: false,
       }),
     ).withPreviousText(slot3 + slot4 + slot5 + slot6 + slot7 + slot8)
@@ -611,17 +606,13 @@ function completeFormativeToIthkuil(formative: Formative) {
         omitDefault:
           countVowelForms(
             slot1 + slot2 + slot3 + slot4 + slot5 + slot6 + slot7,
-          ) >= 2,
+          ) >= 3,
       },
     ).withPreviousText(slot3 + slot4 + slot5 + slot6 + slot7)
 
     const slot9 = WithWYAlternative.of(
       slotIXToIthkuil(formative.case, {
-        elideIfPossible:
-          !slot8 &&
-          countVowelForms(
-            slot1 + slot2 + slot3 + slot4 + slot5 + slot6 + slot7 + slot8,
-          ) >= 3,
+        elideIfPossible: false,
         isPartOfConcatenatedFormative: false,
       }),
     ).withPreviousText(slot3 + slot4 + slot5 + slot6 + slot7 + slot8)
