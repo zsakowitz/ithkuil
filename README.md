@@ -30,6 +30,10 @@ As of May 29, 2023, `@zsnout/ithkuil` can generate these types of words:
 - Suppletive adjuncts
 - Referentials with suppletive adjuncts as heads
 
+As of July 3, 2023, `@zsnout/ithkuil` can parse these types of words:
+
+- Formatives
+
 It also has many, many more functions. It can:
 
 - Map the values of various categories to their names
@@ -174,7 +178,68 @@ using the `parseFormative` function. Let's try it out.
 
 ```ts
 import { parseFormative } from "@zsnout/ithkuil"
+
+const result = parseFormative("malëuţřait")
+
+console.log(result)
+
+// {
+//   type: "UNF/C",
+//   concatenationType: undefined,
+//   shortcut: false,
+//   stem: 1,
+//   version: "PRC",
+//   root: "m",
+//   context: "EXS",
+//   specification: "BSC",
+//   function: "STA",
+//   slotVAffixes: [],
+//   ca: {},
+//   slotVIIAffixes: [
+//     { type: 2, degree: 5, cs: "ţř" },
+//     { type: 2, degree: 1, cs: "t" },
+//   ],
+//   mood: undefined,
+//   caseScope: undefined,
+//   vn: undefined,
+//   case: undefined,
+//   illocutionValidation: undefined,
+// }
 ```
+
+As you can see, `parseFormative` quickly turns formative strings into
+programmatically analyzable objects.
+
+Note that concatenated formatives must be parsed separately from their parents,
+as shown below with the example "hlarrau-laza" (a tribe of people owned by a
+cat).
+
+```ts
+import { parseFormative } from "@zsnout/ithkuil"
+
+// Correct:
+
+const result1 = parseFormative("hlarrau")
+const result2 = parseFormative("laza")
+
+console.log(result1, result2) // { type: "UNF/C", ... }, { type: "UNF/C", ... }
+
+// Incorrect:
+
+const result = parseFormative("hlarrau-laza")
+
+console.log(result) // undefined
+```
+
+Note that `parseFormative` can output three types of values.
+
+1. If the formative doesn't have a valid slot structure (e.g. an invalid number
+   of C and V forms), `undefined` is returned.
+
+2. If the formative has a valid slot structure but its slots are filled with
+   invalid values (such as üö in the Vc slot), an error is thrown.
+
+3. If the formative is a valid formative, the parsed formative is returned.
 
 ## Example 4
 
