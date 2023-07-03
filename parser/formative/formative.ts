@@ -7,22 +7,23 @@ import {
   type Affix,
   type PartialFormative,
 } from "../../index.js"
-import { shortcutFormative } from "../lex/shortcut-formative.js"
+import { shortcutFormative } from "../lex/formative/a+ca-shortcut.js"
+import { cnShortcutFormative } from "../lex/formative/cn-shortcut.js"
 import { type Stress } from "../transform.js"
 import { VowelForm } from "../vowel-form.js"
 import { parseCa, parseGeminatedCa } from "./ca.js"
 import { parseCase } from "./case.js"
 import { parseAspect, parseNonAspectualVn } from "./vn.js"
 
-const VV_TO_STEM = [, 1, 1, 2, 2, , 0, 0, 3, 3] as const
+const VV_TO_STEM = [undefined, 1, 1, 2, 2, undefined, 0, 0, 3, 3] as const
 
 const VV_TO_VERSION = [
-  ,
+  undefined,
   "PRC",
   "CPT",
   "PRC",
   "CPT",
-  ,
+  undefined,
   "CPT",
   "PRC",
   "CPT",
@@ -244,6 +245,106 @@ export function buildNonShortcutFormative(
         ? undefined
         : match[11]
         ? parseIllocutionValidation(VowelForm.parseOrThrow(match[11]))
+        : undefined,
+  }
+}
+
+/**
+ * Builds a formative with a Cn shortcut (where Cn replaces Ca).
+ * @param word The word to be built.
+ * @param stress The stress of the formative.
+ * @returns Either a parsed `PartialFormative` indicating a success, or
+ * `undefined` indicating a tokenization failure. Throws if the formative was
+ * successfully tokenized but had another error in it (e.g. invalid Vn slot,
+ * invalid referential affix, etc.).
+ */
+export function buildCnShortcutFormative(
+  word: string,
+  stress: Stress,
+): PartialFormative | undefined {
+  const match = cnShortcutFormative.exec(word)
+
+  if (!match) {
+    return
+  }
+
+  const concatenationType =
+    match[1] == "h" ? 1 : match[1] == "hw" ? 2 : undefined
+
+  const type = concatenationType
+    ? "UNF/C"
+    : stress == "ultimate" || stress == "monosyllabic"
+    ? "UNF/K"
+    : stress == "antepenultimate"
+    ? "FRM"
+    : "UNF/C"
+
+  const vv = match[2] ? VowelForm.of(match[2]) : undefined
+
+  if (match[2] && vv == null) {
+    throw new Error("Invalid Vv slot: " + match[2] + ".")
+  }
+
+  const affixShortcut = vv ? VV_TO_VII_SHORTCUT[vv.sequence] : undefined
+
+  const vr = VowelForm.of(match[4]!)
+
+  if (vr == null) {
+    throw new Error("Invalid Vr slot: " + match[4] + ".")
+  }
+
+  const cn = match[5]!
+
+  const mood = type == "UNF/K" ? parseMood(cn)[0] : undefined
+  const caseScope = type != "UNF/K" ? parseCaseScope(cn)[0] : undefined
+
+  let slotVIIAffixes = match[6] ? parseAffixes(match[6]) : undefined
+
+  if (affixShortcut) {
+    if (slotVIIAffixes) {
+      slotVIIAffixes.push(affixShortcut)
+    } else {
+      slotVIIAffixes = [affixShortcut]
+    }
+  }
+
+  return {
+    type,
+
+    concatenationType,
+
+    shortcut: affixShortcut ? "VII+VIII" : "VIII",
+    stem: vv ? VV_TO_STEM[vv.degree] : 1,
+    version: vv ? VV_TO_VERSION[vv.degree] : "PRC",
+
+    root: match[3]!,
+
+    context: VR_SEQUENCE_TO_CONTEXT[vr.sequence],
+    specification: VR_TO_SPECIFICATION[vr.degree],
+    function: vr.degree < 5 ? "STA" : "DYN",
+
+    slotVIIAffixes,
+
+    mood,
+    caseScope,
+
+    case:
+      type == "UNF/K"
+        ? undefined
+        : match[7]
+        ? parseCase(
+            VowelForm.parseOrThrow(match[7]),
+            concatenationType
+              ? stress == "ultimate"
+              : match[6]?.includes("'") || vr.hasGlottalStop,
+          )
+        : undefined,
+
+    illocutionValidation:
+      type != "UNF/K"
+        ? undefined
+        : match[7]
+        ? parseIllocutionValidation(VowelForm.parseOrThrow(match[7]))
         : undefined,
   }
 }

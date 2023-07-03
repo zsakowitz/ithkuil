@@ -64,7 +64,7 @@ const result4 = formativeToIthkuil({
   slotVIIAffixes: [{ referent: "1m:BEN", case: "ERG", perspective: "G" }],
 })
 
-strictEqual(result4, "laloerļ")
+strictEqual(result4, "laloerļa")
 
 const result5 = affixualAdjunctToIthkuil({
   affixes: [
@@ -178,7 +178,7 @@ const result16 = formativeToIthkuil({
   slotVIIAffixes: [{ cs: "k", degree: 8, type: 2 }],
 })
 
-strictEqual(result16, "wále'ciuk")
+strictEqual(result16, "walé'ciuka")
 
 const result17 = formativeToIthkuil({
   type: "UNF/C",
@@ -189,4 +189,37 @@ const result17 = formativeToIthkuil({
   ],
 })
 
-console.log(result17)
+strictEqual(result17, "a'rrakakella")
+
+const result18 = formativeToIthkuil({
+  type: "FRM",
+  shortcut: true,
+  root: "rr",
+  caseScope: "CCA",
+})
+
+strictEqual(result18, "árrahla")
+
+const result19 = formativeToIthkuil({
+  type: "FRM",
+  shortcut: false,
+  root: "k",
+})
+
+strictEqual(result19, "kálaha")
+
+const result20 = formativeToIthkuil({
+  type: "FRM",
+  shortcut: false,
+  root: "lk",
+})
+
+strictEqual(result20, "alkálaha")
+
+const result21 = formativeToIthkuil({
+  type: "FRM",
+  shortcut: false,
+  root: "kl",
+})
+
+strictEqual(result21, "klálaha")

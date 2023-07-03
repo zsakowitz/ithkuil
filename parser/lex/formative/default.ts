@@ -1,5 +1,5 @@
-import { any, anyText, seq } from "./builder.js"
-import { C, CG, CNG, H, V } from "./forms.js"
+import { any, anyText, seq } from "../builder.js"
+import { C, CG, CNG, H, V } from "../forms.js"
 
 const ccNoShortcut = /* @__PURE__ */ anyText("hw", "h")
 

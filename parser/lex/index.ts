@@ -1,3 +1,3 @@
 export * from "./builder.js"
 export * from "./forms.js"
-export * from "./non-shortcut-formative.js"
+export * from "./formative/default.js"

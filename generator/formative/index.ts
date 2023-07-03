@@ -4,7 +4,12 @@ import { zodPartialCA, type CA, type PartialCA } from "../ca/index.js"
 import { deepFreeze } from "../helpers/deep-freeze.js"
 import { applyStress, countVowelForms } from "../helpers/stress.js"
 import { WithWYAlternative } from "../helpers/with-wy-alternative.js"
-import { ONE_INDEXED_STANDARD_VOWEL_TABLE } from "../index.js"
+import {
+  ONE_INDEXED_STANDARD_VOWEL_TABLE,
+  caseScopeToIthkuil,
+  isLegalWordInitialConsonantForm,
+  moodToIthkuil,
+} from "../index.js"
 import { referentListToPersonalReferenceRoot } from "../referential/index.js"
 import { fillInDefaultFormativeSlots } from "./default.js"
 import { zodShortcutType, type ShortcutType } from "./shortcut-type.js"
@@ -415,7 +420,9 @@ function completeFormativeToIthkuil(formative: Formative) {
 
   if (
     slotVIIAffixes.length != 0 &&
-    (formative.shortcut === true || formative.shortcut === "VII")
+    (formative.shortcut === true ||
+      formative.shortcut === "VII" ||
+      formative.shortcut === "VII+VIII")
   ) {
     const finalSlotVIIAffix = slotVIIAffixes.pop()
 
@@ -449,8 +456,29 @@ function completeFormativeToIthkuil(formative: Formative) {
     }
   }
 
+  let didVIIIShortcut = false
+
+  if (
+    formative.slotVAffixes.length == 0 &&
+    (formative.shortcut === true ||
+      formative.shortcut === "VIII" ||
+      formative.shortcut === "VII+VIII") &&
+    formative.vn == "MNO" &&
+    (formative.type == "UNF/K"
+      ? formative.mood != "FAC"
+      : formative.caseScope != "CCN")
+  ) {
+    didVIIIShortcut = true
+
+    slot6 =
+      formative.type == "UNF/K"
+        ? moodToIthkuil(formative.mood, "non-aspect")
+        : caseScopeToIthkuil(formative.caseScope, "non-aspect")
+  }
+
   if (
     !didVIIShortcut &&
+    !didVIIIShortcut &&
     (formative.shortcut === true || formative.shortcut === "IV/VI") &&
     typeof formative.root == "string" &&
     formative.specification == "BSC" &&
@@ -537,17 +565,23 @@ function completeFormativeToIthkuil(formative: Formative) {
     slot3 + slot4 + slot5 + slot6,
   )
 
+  if (slot1 == "" && slot2 == "" && !isLegalWordInitialConsonantForm(slot3)) {
+    slot2 = "a"
+  }
+
   // Nominal formatives
   if (formative.type == "UNF/C") {
-    const slot8 = slotVIIIToIthkuil(
-      {
-        vn: formative.vn,
-        cn: formative.caseScope,
-      },
-      {
-        omitDefault: true,
-      },
-    ).withPreviousText(slot3 + slot4 + slot5 + slot6 + slot7)
+    const slot8 = didVIIIShortcut
+      ? ""
+      : slotVIIIToIthkuil(
+          {
+            vn: formative.vn,
+            cn: formative.caseScope,
+          },
+          {
+            omitDefault: true,
+          },
+        ).withPreviousText(slot3 + slot4 + slot5 + slot6 + slot7)
 
     const slot9 = WithWYAlternative.of(
       slotIXToIthkuil(formative.case, {
@@ -572,15 +606,17 @@ function completeFormativeToIthkuil(formative: Formative) {
 
   // Unframed verbal formatives
   if (formative.type == "UNF/K") {
-    const slot8 = slotVIIIToIthkuil(
-      {
-        vn: formative.vn,
-        cn: formative.mood,
-      },
-      {
-        omitDefault: true,
-      },
-    ).withPreviousText(slot3 + slot4 + slot5 + slot6 + slot7)
+    const slot8 = didVIIIShortcut
+      ? ""
+      : slotVIIIToIthkuil(
+          {
+            vn: formative.vn,
+            cn: formative.mood,
+          },
+          {
+            omitDefault: true,
+          },
+        ).withPreviousText(slot3 + slot4 + slot5 + slot6 + slot7)
 
     const slot9 = WithWYAlternative.of(
       slotIXToIthkuil(formative.illocutionValidation, {
@@ -597,18 +633,20 @@ function completeFormativeToIthkuil(formative: Formative) {
 
   // Framed verbal formatives
   if (formative.type == "FRM") {
-    const slot8 = slotVIIIToIthkuil(
-      {
-        vn: formative.vn,
-        cn: formative.caseScope,
-      },
-      {
-        omitDefault:
-          countVowelForms(
-            slot1 + slot2 + slot3 + slot4 + slot5 + slot6 + slot7,
-          ) >= 3,
-      },
-    ).withPreviousText(slot3 + slot4 + slot5 + slot6 + slot7)
+    const slot8 = didVIIIShortcut
+      ? ""
+      : slotVIIIToIthkuil(
+          {
+            vn: formative.vn,
+            cn: formative.caseScope,
+          },
+          {
+            omitDefault:
+              countVowelForms(
+                slot1 + slot2 + slot3 + slot4 + slot5 + slot6 + slot7,
+              ) >= 3,
+          },
+        ).withPreviousText(slot3 + slot4 + slot5 + slot6 + slot7)
 
     const slot9 = WithWYAlternative.of(
       slotIXToIthkuil(formative.case, {
@@ -616,6 +654,15 @@ function completeFormativeToIthkuil(formative: Formative) {
         isPartOfConcatenatedFormative: false,
       }),
     ).withPreviousText(slot3 + slot4 + slot5 + slot6 + slot7 + slot8)
+
+    if (
+      countVowelForms(
+        slot1 + slot2 + slot3 + slot4 + slot5 + slot6 + slot7 + slot8 + slot9,
+      ) < 3 &&
+      slot2 == ""
+    ) {
+      slot2 = "a"
+    }
 
     const word =
       slot1 + slot2 + slot3 + slot4 + slot5 + slot6 + slot7 + slot8 + slot9
