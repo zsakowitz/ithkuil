@@ -275,6 +275,8 @@ console.log(result)
 
 - Add `parseFormative` to parse formatives
 
+- Add Slot VIII Mood/Case-Scope shortcut generation
+
 ### 0.1.13
 
 - **Breaking change:** Fixed spelling mistake (`concatenatenationType` -->
