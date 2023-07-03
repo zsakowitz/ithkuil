@@ -124,6 +124,13 @@ function randomLetterSeries(maxLength: number) {
 function randomFormative(): PartialFormative {
   const root = randomLetterSeries(5)
 
+  if (Math.random() < 10 / NUMBER_OF_TEST_CASES) {
+    return {
+      type: randomItem(["UNF/C", "UNF/K", "FRM"]),
+      root,
+    }
+  }
+
   const ca = randomCA()
 
   return {

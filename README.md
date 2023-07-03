@@ -167,7 +167,7 @@ a Valence, Phase, etc. We simply specified "REP" as the Vn slot and
 In addition, we only specified part of the Ca complex. We left out Monadic
 Perspective and Normal Essence, but `@zsnout/ithkuil` inferred those.
 
-## Example 3
+## Example 4
 
 `@zsnout/ithkuil` doesn't just handle formatives; it can work with all types of
 Ithkuilic words. Let's try an affixual adjunct, as those are used frequently to
@@ -191,7 +191,7 @@ console.log(result)
 // äce
 ```
 
-## Example 4
+## Example 5
 
 This example creates a referential (1m.BEN-CTE-GID₁/3)
 
@@ -214,7 +214,9 @@ console.log(result)
 // raxtec
 ```
 
-## Example 5
+## Example 6
+
+Every data form has a corresponding zod parser for it,
 
 This example validates that an object is, in fact, an Ithkuilic adjunct. This
 can be useful when integrating this project with external sources.
@@ -270,6 +272,8 @@ console.log(result)
 - Add `transformWord`
 
 - Add `VowelForm` for systematic parsing and stringification of vowel forms
+
+- Add `parseFormative` to parse formatives
 
 ### 0.1.13
 

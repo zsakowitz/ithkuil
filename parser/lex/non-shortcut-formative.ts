@@ -3,6 +3,13 @@ import { C, CG, CNG, H, V } from "./forms.js"
 
 const ccNoShortcut = /* @__PURE__ */ anyText("hw", "h")
 
+const combinationReferentialSpecification = /* @__PURE__ */ anyText(
+  "xx",
+  "xt",
+  "xp",
+  "x",
+)
+
 /**
  * A regular expression matching non-shortcut formatives with these capturing
  * groups. A group marked as **required** will always be present, while those
@@ -40,9 +47,15 @@ export const nonShortcutFormative = /* @__PURE__ */ seq(
       // Slot V: (CsVx...)
       seq(CNG, V).oneOrMore().asGroup(),
 
+      // Prevent combination referentials from matching
+      combinationReferentialSpecification.not(),
+
       // Slot VI: geminated Ca
       CG.asGroup(),
     ),
+
+    // Prevent combination referentials from matching
+    combinationReferentialSpecification.not(),
 
     // Slot VI: ungeminated Ca
     CNG.asGroup(),
