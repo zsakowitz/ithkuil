@@ -11,7 +11,7 @@ export class RegexPart {
    * @returns The new RegexPart.
    */
   asGroup() {
-    return new RegexPart("(" + this.source + ")")
+    return new AtomicRegexPart("(" + this.source + ")")
   }
 
   /**
@@ -56,7 +56,7 @@ export class RegexPart {
    * @returns The new RegexPart.
    */
   not() {
-    return new RegexPart("(?!" + this.source + ")")
+    return new AtomicRegexPart("(?!" + this.source + ")")
   }
 
   /**
@@ -87,7 +87,7 @@ export class AtomicRegexPart extends RegexPart {
    * optional.
    * @returns The new RegexPart.
    */
-  optional() {
+  override optional() {
     return new RegexPart(this.source + "?")
   }
 
@@ -96,7 +96,7 @@ export class AtomicRegexPart extends RegexPart {
    * pattern.
    * @returns The new RegexPart.
    */
-  zeroOrMore() {
+  override zeroOrMore() {
     return new RegexPart(this.source + "*")
   }
 
@@ -105,7 +105,7 @@ export class AtomicRegexPart extends RegexPart {
    * pattern.
    * @return The new RegexPart.
    */
-  oneOrMore() {
+  override oneOrMore() {
     return new RegexPart(this.source + "+")
   }
 }

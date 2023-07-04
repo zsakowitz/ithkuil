@@ -316,12 +316,19 @@ try {
 
 ## Changelog
 
+### 0.1.16
+
+- **Breaking type-level change:** The `CN` type union now includes
+  `MoodOrCaseScope` instances.
+
+- Added `MoodOrCaseScope` class to represent Cn forms in Modular Adjuncts.
+
 ### 0.1.15
 
-- **Output change**: Formatives with specialized personal-reference roots now
+- **Output change:** Formatives with specialized personal-reference roots now
   properly take a+Ca shortcuts
 
-- **Bug fix and output change**: Formatives with specialized Cs-roots or
+- **Bug fix and output change:** Formatives with specialized Cs-roots or
   personal-reference roots whose final Slot VII affix is NEG/4, DCD/4, or DCD/5
   keep their proper Vv values instead of having them replaced with Slot VII
   affix shortcut values

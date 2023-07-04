@@ -2,11 +2,10 @@ import { formativeToIthkuil, parseFormative } from "../index.js"
 
 const result1 = formativeToIthkuil({
   type: "UNF/C",
-  root: ["1m:BEN"],
-  shortcut: true,
-  ca: {
-    affiliation: "CSL",
-  },
+  root: { cs: "c", degree: 3 },
+  caseScope: "CCA",
+  shortcut: "VIII",
+  context: "FNC",
 })
 
 const result2 = parseFormative(result1)

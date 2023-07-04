@@ -241,10 +241,10 @@ export function buildNonShortcutFormative(
     root,
 
     context: VR_SEQUENCE_TO_CONTEXT[vr.sequence],
-    specification:
-      typeof root == "object" ? undefined : VR_TO_SPECIFICATION[vr.degree],
-    function:
-      typeof root == "object" ? undefined : vr.degree < 5 ? "STA" : "DYN",
+    specification: (root as any).cs
+      ? undefined
+      : VR_TO_SPECIFICATION[vr.degree],
+    function: (root as any).cs ? undefined : vr.degree < 5 ? "STA" : "DYN",
 
     slotVAffixes: match[5] ? parseReversedAffixes(match[5]) : [],
 
@@ -376,10 +376,10 @@ export function buildCnShortcutFormative(
     root,
 
     context: VR_SEQUENCE_TO_CONTEXT[vr.sequence],
-    specification:
-      typeof root == "object" ? undefined : VR_TO_SPECIFICATION[vr.degree],
-    function:
-      typeof root == "object" ? undefined : vr.degree < 5 ? "STA" : "DYN",
+    specification: (root as any).cs
+      ? undefined
+      : VR_TO_SPECIFICATION[vr.degree],
+    function: (root as any).cs ? undefined : vr.degree < 5 ? "STA" : "DYN",
 
     slotVIIAffixes,
 

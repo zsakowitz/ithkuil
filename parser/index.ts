@@ -1,5 +1,25 @@
+import type { PlainAdjunct } from "../generator/adjunct/index.js"
+import type { PartialFormative } from "../generator/formative/index.js"
+import { parseAdjunct } from "./adjunct/index.js"
+import { parseFormative } from "./formative/index.js"
+
 export * from "./adjunct/index.js"
 export * from "./formative/index.js"
 export * from "./lex/index.js"
+export * from "./referential/index.js"
 export * from "./transform.js"
 export * from "./vowel-form.js"
+
+/**
+ * Parses an Ithkuilic word into a JavaScript object.
+ * @param word The word to be parsed.
+ * @returns Either a `PlainAdjunct` or `PartialFormative` representing a success
+ * or `undefined` representing a failed tokenization. Throws an error if the
+ * word was parsed successfully but had another error (e.g. invalid Vk slot,
+ * invalid Cn slot, etc.).
+ */
+export function parseWord(
+  word: string,
+): PlainAdjunct | PartialFormative | undefined {
+  return parseAdjunct(word) || parseFormative(word)
+}

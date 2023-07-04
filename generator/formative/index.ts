@@ -383,8 +383,6 @@ function completeFormativeToIthkuil(formative: Formative) {
         formative.ca.perspective == "M" &&
         (formative.ca.extension == "DEL" || formative.ca.extension == "PRX")
       ) {
-        const shortcut = 0
-
         slot1 = slotIToIthkuil({
           concatenationType:
             formative.type == "UNF/C" ? formative.concatenationType : "none",

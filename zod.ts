@@ -1,6 +1,7 @@
 import {
   ZodType,
   boolean,
+  instanceof as instanceOf,
   literal,
   object,
   oboolean,
@@ -15,7 +16,10 @@ import { ALL_BIAS_ADJUNCTS } from "./generator/adjunct/bias.js"
 import { ALL_MODULAR_ADJUNCT_SCOPES } from "./generator/adjunct/modular/scope.js"
 import { ALL_MODULAR_ADJUNCT_TYPES } from "./generator/adjunct/modular/type.js"
 import { ALL_PARSING_ADJUNCTS } from "./generator/adjunct/parsing.js"
-import { ALL_REGISTER_ADJUNCTS } from "./generator/adjunct/register.js"
+import {
+  ALL_REGISTER_ADJUNCTS,
+  ALL_SINGLE_REGISTER_ADJUNCTS,
+} from "./generator/adjunct/register.js"
 import { ALL_SUPPLETIVE_ADJUNCT_TYPES } from "./generator/adjunct/suppletive/type.js"
 import { ALL_AFFIX_DEGREES } from "./generator/affix/degree.js"
 import { ALL_REFERENTIAL_AFFIX_CASES } from "./generator/affix/index.js"
@@ -43,6 +47,7 @@ import { ALL_ASPECTS } from "./generator/formative/slot-8/aspect.js"
 import { ALL_CASE_SCOPES } from "./generator/formative/slot-8/case-scope.js"
 import { ALL_EFFECTS } from "./generator/formative/slot-8/effect.js"
 import { ALL_LEVELS } from "./generator/formative/slot-8/level.js"
+import { MoodOrCaseScope } from "./generator/formative/slot-8/mood-or-case-scope.js"
 import { ALL_MOODS } from "./generator/formative/slot-8/mood.js"
 import { ALL_PHASES } from "./generator/formative/slot-8/phase.js"
 import { ALL_VALENCES } from "./generator/formative/slot-8/valence.js"
@@ -202,6 +207,11 @@ export const registerAdjunct = /* @__PURE__ */ new Enum(ALL_REGISTER_ADJUNCTS)
 /** A Zod validator matching shortcut types. */
 export const shortcutType = /* @__PURE__ */ new Enum(ALL_SHORTCUT_TYPES)
 
+/** A Zod validator matching single register adjuncts. */
+export const singleRegisterAdjunct = /* @__PURE__ */ new Enum(
+  ALL_SINGLE_REGISTER_ADJUNCTS,
+)
+
 /** A Zod validator matching specifications. */
 export const specification = /* @__PURE__ */ new Enum(ALL_SPECIFICATIONS)
 
@@ -229,8 +239,13 @@ export const vnType = /* @__PURE__ */ new Enum(ALL_VN_TYPES)
 
 // #region More Validators
 
+/** A Zod validator matching `MoodOrCaseScope` instances. */
+export const moodOrCaseScope = /* @__PURE__ */ instanceOf(
+  MoodOrCaseScope as new () => MoodOrCaseScope,
+)
+
 /** A Zod validator matching Cn forms. */
-export const cn = /* @__PURE__ */ union([mood, caseScope])
+export const cn = /* @__PURE__ */ union([mood, caseScope, moodOrCaseScope])
 
 /** A Zod validator matching non-aspectual Vn forms. */
 export const nonAspectualVn = /* @__PURE__ */ union([
@@ -462,12 +477,25 @@ export const affixualAdjunct = /* @__PURE__ */ object({
 })
 
 /** A Zod validator matching adjuncts. */
-export const zodAdjunct = /* @__PURE__ */ union([
+export const adjunct = /* @__PURE__ */ union([
   affixualAdjunct,
   biasAdjunct,
   modularAdjunct,
   parsingAdjunct,
   registerAdjunct,
+  singleRegisterAdjunct,
+  suppletiveAdjunct,
+])
+
+/**
+ * A Zod validator matching adjuncts other than non-single register adjuncts.
+ */
+export const plainAdjunct = /* @__PURE__ */ union([
+  affixualAdjunct,
+  biasAdjunct,
+  modularAdjunct,
+  parsingAdjunct,
+  singleRegisterAdjunct,
   suppletiveAdjunct,
 ])
 

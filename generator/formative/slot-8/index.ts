@@ -4,6 +4,7 @@ import { ALL_ASPECTS, aspectToIthkuil, type Aspect } from "./aspect.js"
 import { caseScopeToIthkuil, type CaseScope } from "./case-scope.js"
 import { ALL_EFFECTS, effectToIthkuil, type Effect } from "./effect.js"
 import { ALL_LEVELS, levelToIthkuil, type Level } from "./level.js"
+import { FAC_CCN, MoodOrCaseScope } from "./mood-or-case-scope.js"
 import { ALL_MOODS, moodToIthkuil, type Mood } from "./mood.js"
 import { ALL_PHASES, phaseToIthkuil, type Phase } from "./phase.js"
 import { ALL_VALENCES, valenceToIthkuil, type Valence } from "./valence.js"
@@ -31,7 +32,7 @@ export type VN = Valence | Phase | Effect | Level | Aspect
 export type NonAspectualVN = Valence | Phase | Effect | Level
 
 /** Categories able to be placed in a Cn slot, such as Mood and Case-Scope. */
-export type CN = Mood | CaseScope
+export type CN = Mood | CaseScope | MoodOrCaseScope
 
 /** Information directly pertaining to Slot VIII. */
 export type SlotVIII = {
@@ -75,7 +76,13 @@ export function vnToIthkuil(vn: VN, omitDefaultValence: boolean) {
  * @returns Romanized Ithkuilic text representing the Cn form.
  */
 export function cnToIthkuil(cn: CN, vnType: VNType) {
-  return has(ALL_MOODS, cn)
+  return cn instanceof MoodOrCaseScope
+    ? vnType == "empty" && cn == FAC_CCN
+      ? ""
+      : vnType == "aspect"
+      ? cn.aspectualValue
+      : cn.nonAspectualValue
+    : has(ALL_MOODS, cn)
     ? moodToIthkuil(cn, vnType)
     : caseScopeToIthkuil(cn, vnType)
 }

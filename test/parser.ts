@@ -25,12 +25,12 @@ import {
   type SlotIII,
 } from "../index.js"
 
-const NUMBER_OF_TEST_CASES = 1e5
+const NUMBER_OF_TEST_CASES = 1e6
 
 // The mode to run the test in.
 // `short` = generate short formatives,
 // `full` = generate long formatives.
-const MODE: "short" | "full" = "short"
+const MODE: "short" | "full" = "full"
 
 function randomItem<const T>(
   object: {
@@ -315,6 +315,8 @@ function findAllBenchmarkFailures() {
       console.log(err instanceof Error ? err.message : err)
       return true
     }
+
+    return false
   })
 
   if (failures.length == 0) {

@@ -4,6 +4,7 @@ import type { CaseScope } from "../../formative/slot-8/case-scope.js"
 import type { Effect } from "../../formative/slot-8/effect.js"
 import { slotVIIIToIthkuil, vnToIthkuil } from "../../formative/slot-8/index.js"
 import type { Level } from "../../formative/slot-8/level.js"
+import type { MoodOrCaseScope } from "../../formative/slot-8/mood-or-case-scope.js"
 import type { Mood } from "../../formative/slot-8/mood.js"
 import type { Phase } from "../../formative/slot-8/phase.js"
 import type { Valence } from "../../formative/slot-8/valence.js"
@@ -53,7 +54,7 @@ export type ModularAdjunct =
       readonly type?: ModularAdjunctType | undefined
 
       /** The mood or case-scope of this adjunct. */
-      readonly cn: Mood | CaseScope
+      readonly cn: Mood | CaseScope | MoodOrCaseScope
 
       /** The first Valence/Phase/Level/Effect/Aspect marked by this adjunct. */
       readonly vn1: Valence | Phase | Level | Effect | Aspect
@@ -80,7 +81,7 @@ export type ModularAdjunct =
       readonly type?: ModularAdjunctType | undefined
 
       /** The mood or case-scope of this adjunct. */
-      readonly cn: Mood | CaseScope
+      readonly cn: Mood | CaseScope | MoodOrCaseScope
 
       /** The first Valence/Phase/Level/Effect/Aspect marked by this adjunct. */
       readonly vn1: Valence | Phase | Level | Effect | Aspect

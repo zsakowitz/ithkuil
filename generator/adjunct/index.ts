@@ -19,8 +19,11 @@ import {
 } from "./parsing.js"
 import {
   ALL_REGISTER_ADJUNCTS,
+  ALL_SINGLE_REGISTER_ADJUNCTS,
   registerAdjunctToIthkuil,
+  singleRegisterAdjunctToIthkuil,
   type RegisterAdjunct,
+  type SingleRegisterAdjunct,
 } from "./register.js"
 import {
   suppletiveAdjunctToIthkuil,
@@ -41,6 +44,16 @@ export type Adjunct =
   | ModularAdjunct
   | ParsingAdjunct
   | RegisterAdjunct
+  | SingleRegisterAdjunct
+  | SuppletiveAdjunct
+
+/** An adjunct other than a non-single {@link RegisterAdjunct}. */
+export type PlainAdjunct =
+  | AffixualAdjunct
+  | BiasAdjunct
+  | ModularAdjunct
+  | ParsingAdjunct
+  | SingleRegisterAdjunct
   | SuppletiveAdjunct
 
 /**
@@ -48,9 +61,9 @@ export type Adjunct =
  * @param adjunct The adjunct to be converted.
  * @returns Romanized Ithkuilic text representing the adjunct.
  *
- * Note that for register adjuncts, this returns a string of the form "X ... Y",
- * "... X", or "...", depending on the adjunct type. For all other adjuncts,
- * this function returns exactly what you would expect.
+ * Note that for non-single register adjuncts, this returns a string of the form
+ * "X ... Y", "... X", or "...", depending on the adjunct type. For all other
+ * adjuncts, this function returns exactly what you would expect.
  */
 export function adjunctToIthkuil(adjunct: Adjunct): string {
   if (typeof adjunct == "string") {
@@ -60,6 +73,10 @@ export function adjunctToIthkuil(adjunct: Adjunct): string {
 
     if (has(ALL_PARSING_ADJUNCTS, adjunct)) {
       return parsingAdjunctToIthkuil(adjunct)
+    }
+
+    if (has(ALL_SINGLE_REGISTER_ADJUNCTS, adjunct)) {
+      return singleRegisterAdjunctToIthkuil(adjunct)
     }
 
     if (has(ALL_REGISTER_ADJUNCTS, adjunct)) {

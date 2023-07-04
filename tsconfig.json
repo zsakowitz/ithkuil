@@ -1,11 +1,17 @@
 {
   "compilerOptions": {
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
     "exactOptionalPropertyTypes": true,
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "moduleResolution": "node16",
     "module": "ESNext",
     "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
     "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "outDir": ".",
     "rootDir": ".",
     "skipLibCheck": true,

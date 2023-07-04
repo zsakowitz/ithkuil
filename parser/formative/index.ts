@@ -17,12 +17,12 @@ export * from "./referential-affix.js"
 const SHORTCUT_REGEX = /^(?:w|y|hl|hr|hm|hn)/
 
 /**
- *
+ * Parses a formative.
  * @param text The formative to be parsed.
  * @returns The parsed formative, or `undefined` if the formative failed to
  * tokenize. Throws an error if the formative successfully tokenized but had
  * another error (e.g. the Vr slot had the value -üö-, or an affix contained the
- * Cs form -ç-.)
+ * Cs form -ç-).
  */
 export function parseFormative(text: string) {
   const { word, stress } = transformWord(text)

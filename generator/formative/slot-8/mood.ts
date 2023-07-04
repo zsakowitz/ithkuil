@@ -1,5 +1,4 @@
 import { deepFreeze } from "../../helpers/deep-freeze.js"
-import { Enum } from "../../helpers/enum.js"
 import type { VNType } from "./vn-type.js"
 
 /** A mood. */

@@ -1,4 +1,5 @@
 import type { VowelForm } from "../../parser/vowel-form.js"
+import type { MoodOrCaseScope } from "../formative/slot-8/mood-or-case-scope.js"
 import { type WithWYAlternative } from "./with-wy-alternative.js"
 
 /**
@@ -8,6 +9,8 @@ import { type WithWYAlternative } from "./with-wy-alternative.js"
 export type DeepFreeze<T> = T extends WithWYAlternative
   ? T
   : T extends VowelForm
+  ? T
+  : T extends MoodOrCaseScope
   ? T
   : T extends object
   ? { readonly [K in keyof T]: DeepFreeze<T[K]> }
@@ -48,6 +51,13 @@ export type DeepFreezeAndNullPrototype<T> = T extends WithWYAlternative
       readonly sequence: U
       readonly degree: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
       readonly hasGlottalStop: boolean
+    }
+  : T extends MoodOrCaseScope<infer M, infer C, infer N, infer A>
+  ? {
+      readonly mood: M
+      readonly caseScope: C
+      readonly nonAspectualValue: N
+      readonly aspectualValue: A
     }
   : T extends ReadonlyArray<any>
   ? { readonly [K in keyof T as K extends number | "length" ? K : never]: T[K] }

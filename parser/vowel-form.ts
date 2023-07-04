@@ -44,6 +44,8 @@ export class VowelForm<S extends 1 | 2 | 3 | 4 = 1 | 2 | 3 | 4> {
         text as keyof typeof VOWEL_FORM_TO_OBJECT_MAP
       ].withGlottalStop(hasGlottalStop)
     }
+
+    return
   }
 
   /**
