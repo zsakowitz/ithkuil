@@ -316,6 +316,19 @@ try {
 
 ## Changelog
 
+### 0.1.15
+
+- **Output change**: Formatives with specialized personal-reference roots now
+  properly take a+Ca shortcuts
+
+- **Bug fix and output change**: Formatives with specialized Cs-roots or
+  personal-reference roots whose final Slot VII affix is NEG/4, DCD/4, or DCD/5
+  keep their proper Vv values instead of having them replaced with Slot VII
+  affix shortcut values
+
+- `parseFormative` now successfully parses formatives with specialized Cs-roots
+  and specialized personal-reference roots
+
 ### 0.1.14
 
 - **Breaking change:** Changed `WithWYAlternative.precededByW` to
