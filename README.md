@@ -323,6 +323,10 @@ try {
 
 - Added `MoodOrCaseScope` class to represent Cn forms in Modular Adjuncts.
 
+- Added functions to lex and parse adjuncts
+
+- Added `parseWord` to parse formatives and adjuncts
+
 ### 0.1.15
 
 - **Output change:** Formatives with specialized personal-reference roots now
