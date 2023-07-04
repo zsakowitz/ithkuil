@@ -22,7 +22,7 @@ function makeCaForms() {
 
             if (affiliation != "CSL") ca.affiliation = affiliation
             if (configuration != "UPX") ca.configuration = configuration
-            if (extension != "DPL") ca.extension = extension
+            if (extension != "DEL") ca.extension = extension
             if (perspective != "M") ca.perspective = perspective
             if (essence != "NRM") ca.essence = essence
 

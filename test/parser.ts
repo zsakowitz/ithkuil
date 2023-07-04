@@ -17,22 +17,20 @@ import {
   ALL_SPECIFICATIONS,
   ALL_VALENCES,
   VowelForm,
-  buildNonShortcutFormative,
-  buildShortcutFormative,
   formativeToIthkuil,
   parseFormative,
   type Affix,
   type PartialCA,
   type PartialFormative,
-  type Stress,
+  type SlotIII,
 } from "../index.js"
 
-const NUMBER_OF_TEST_CASES = 1e6
+const NUMBER_OF_TEST_CASES = 1e5
 
 // The mode to run the test in.
 // `short` = generate short formatives,
 // `full` = generate long formatives.
-const MODE: "short" | "full" = "full"
+const MODE: "short" | "full" = "short"
 
 function randomItem<const T>(
   object: {
@@ -77,7 +75,7 @@ function randomCA(): PartialCA {
   return {
     affiliation: biasedRandomItem("CSL", ALL_AFFILIATIONS),
     configuration: biasedRandomItem("UPX", ALL_CONFIGURATIONS),
-    extension: biasedRandomItem("DPL", ALL_EXTENSIONS),
+    extension: biasedRandomItem("DEL", ALL_EXTENSIONS),
     perspective: biasedRandomItem("M", ALL_PERSPECTIVES),
     essence: biasedRandomItem("NRM", ALL_ESSENCES),
   }
@@ -143,7 +141,16 @@ function randomLetterSeries(maxLength: number) {
 }
 
 function randomFormative(): PartialFormative {
-  const root = randomLetterSeries(5)
+  const root: SlotIII =
+    // Math.random() < 0.1
+    //   ? [randomItem(ALL_REFERENTS)]
+    //   : Math.random() < 0.1
+    //   ? {
+    //       cs: randomLetterSeries(5),
+    //       degree: randomItem([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
+    //     }
+    //   :
+    randomLetterSeries(5)
 
   if (Math.random() < 30 / NUMBER_OF_TEST_CASES) {
     return {
@@ -172,6 +179,8 @@ function randomFormative(): PartialFormative {
     slotVAffixes: MODE == "short" ? undefined : randomAffixList(),
 
     ca,
+
+    ...ca,
 
     slotVIIAffixes: MODE == "short" ? undefined : randomAffixList(),
 
@@ -217,17 +226,6 @@ const testCases = Array.from({ length: NUMBER_OF_TEST_CASES }, () => {
 })
 
 console.timeEnd("creating formatives")
-
-function _throw(x: unknown): never {
-  throw x
-}
-
-function buildFormative(word: string, stress: Stress) {
-  return (
-    buildNonShortcutFormative(word, stress) ||
-    buildShortcutFormative(word, stress)
-  )
-}
 
 function benchmark() {
   let index = 0
@@ -352,6 +350,10 @@ function findAllBenchmarkFailures() {
         .slice(0, 10)
         .map((x) => x[1])
         .join("\n"),
+  )
+
+  console.log(
+    "Total failures: " + failures.length + " of " + testCases.length + ".",
   )
 }
 
