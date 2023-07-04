@@ -1,10 +1,14 @@
 import type { Affix } from "../../generator/affix/index.js"
-import type { PartialFormative } from "../../generator/formative/index.js"
+import type {
+  PartialFormative,
+  SlotIII,
+} from "../../generator/formative/index.js"
 import {
   cnShortcutFormative,
   nonShortcutFormative,
   shortcutFormative,
 } from "../lex/index.js"
+import { parseReferentList } from "../referential/referent-list.js"
 import { type Stress } from "../transform.js"
 import { VowelForm } from "../vowel-form.js"
 import { parseAffix } from "./affix.js"
@@ -154,12 +158,30 @@ export function buildNonShortcutFormative(
     throw new Error("Invalid Vv slot: " + match[2] + ".")
   }
 
-  const affixShortcut = vv ? VV_TO_VII_SHORTCUT[vv.sequence] : undefined
+  let root: SlotIII
+  let affixShortcut
 
   const vr = VowelForm.of(match[4]!)
 
   if (vr == null) {
     throw new Error("Invalid Vr slot: " + match[4] + ".")
+  }
+
+  if (vv?.degree == 5) {
+    root = {
+      cs: match[3]!,
+      degree: vr.degree,
+    }
+  } else if (vv?.degree == 0 && (vv.sequence == 1 || vv.sequence == 2)) {
+    root = parseReferentList(match[3]!)
+  } else if (vv?.degree == 0) {
+    throw new Error("Invalid Vv slot: " + vv + ".")
+  } else {
+    root = match[3]!
+
+    if (vv) {
+      affixShortcut = VV_TO_VII_SHORTCUT[vv.sequence]
+    }
   }
 
   const vn_ = match[9]
@@ -205,14 +227,24 @@ export function buildNonShortcutFormative(
     concatenationType,
 
     shortcut: affixShortcut ? "VII" : false,
-    stem: vv ? VV_TO_STEM[vv.degree] : 1,
-    version: vv ? VV_TO_VERSION[vv.degree] : "PRC",
+    stem: typeof root == "object" ? undefined : vv ? VV_TO_STEM[vv.degree] : 1,
+    version: Array.isArray(root)
+      ? vv?.sequence == 1
+        ? "PRC"
+        : "CPT"
+      : typeof root == "object"
+      ? undefined
+      : vv
+      ? VV_TO_VERSION[vv.degree]
+      : "PRC",
 
-    root: match[3]!,
+    root,
 
     context: VR_SEQUENCE_TO_CONTEXT[vr.sequence],
-    specification: VR_TO_SPECIFICATION[vr.degree],
-    function: vr.degree < 5 ? "STA" : "DYN",
+    specification:
+      typeof root == "object" ? undefined : VR_TO_SPECIFICATION[vr.degree],
+    function:
+      typeof root == "object" ? undefined : vr.degree < 5 ? "STA" : "DYN",
 
     slotVAffixes: match[5] ? parseReversedAffixes(match[5]) : [],
 
@@ -285,12 +317,30 @@ export function buildCnShortcutFormative(
     throw new Error("Invalid Vv slot: " + match[2] + ".")
   }
 
-  const affixShortcut = vv ? VV_TO_VII_SHORTCUT[vv.sequence] : undefined
+  let root: SlotIII
+  let affixShortcut
 
   const vr = VowelForm.of(match[4]!)
 
   if (vr == null) {
     throw new Error("Invalid Vr slot: " + match[4] + ".")
+  }
+
+  if (vv?.degree == 5) {
+    root = {
+      cs: match[3]!,
+      degree: vr.degree,
+    }
+  } else if (vv?.degree == 0 && (vv.sequence == 1 || vv.sequence == 2)) {
+    root = parseReferentList(match[3]!)
+  } else if (vv?.degree == 0) {
+    throw new Error("Invalid Vv slot: " + vv + ".")
+  } else {
+    root = match[3]!
+
+    if (vv) {
+      affixShortcut = VV_TO_VII_SHORTCUT[vv.sequence]
+    }
   }
 
   const cn = match[5]!
@@ -314,14 +364,22 @@ export function buildCnShortcutFormative(
     concatenationType,
 
     shortcut: affixShortcut ? "VII+VIII" : "VIII",
-    stem: vv ? VV_TO_STEM[vv.degree] : 1,
-    version: vv ? VV_TO_VERSION[vv.degree] : "PRC",
+    stem: typeof root == "object" ? undefined : vv ? VV_TO_STEM[vv.degree] : 1,
+    version: vv
+      ? Array.isArray(root)
+        ? vv.sequence == 1
+          ? "PRC"
+          : "CPT"
+        : VV_TO_VERSION[vv.degree]
+      : "PRC",
 
-    root: match[3]!,
+    root,
 
     context: VR_SEQUENCE_TO_CONTEXT[vr.sequence],
-    specification: VR_TO_SPECIFICATION[vr.degree],
-    function: vr.degree < 5 ? "STA" : "DYN",
+    specification:
+      typeof root == "object" ? undefined : VR_TO_SPECIFICATION[vr.degree],
+    function:
+      typeof root == "object" ? undefined : vr.degree < 5 ? "STA" : "DYN",
 
     slotVIIAffixes,
 
@@ -390,8 +448,20 @@ export function buildShortcutFormative(
 
   const vv = VowelForm.of(match[2]!)
 
-  if (vv == null) {
+  if (
+    vv == null ||
+    vv.degree == 5 ||
+    (vv.degree == 0 && (vv.sequence == 3 || vv.sequence == 4))
+  ) {
     throw new Error("Invalid Vv slot: " + match[2] + ".")
+  }
+
+  let root: SlotIII
+
+  if (vv.degree == 0) {
+    root = parseReferentList(match[3]!)
+  } else {
+    root = match[3]!
   }
 
   const vn_ = match[6]
@@ -429,14 +499,20 @@ export function buildShortcutFormative(
     concatenationType,
 
     shortcut: "IV/VI",
-    stem: vv ? VV_TO_STEM[vv.degree] : 1,
-    version: vv ? VV_TO_VERSION[vv.degree] : "PRC",
+    stem: Array.isArray(root) ? undefined : VV_TO_STEM[vv.degree],
+    version: Array.isArray(root)
+      ? vv.sequence == 1
+        ? "PRC"
+        : "CPT"
+      : VV_TO_VERSION[vv.degree],
 
-    root: match[3]!,
+    root,
 
     slotVAffixes: match[4] ? parseAffixes(match[4]) : [],
 
-    ca: { ...VV_TO_CA_SHORTCUT[shortcutType][vv.sequence] },
+    ca: {
+      ...VV_TO_CA_SHORTCUT[shortcutType][Array.isArray(root) ? 1 : vv.sequence],
+    },
 
     slotVIIAffixes,
 

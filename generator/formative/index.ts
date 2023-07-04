@@ -309,6 +309,7 @@ function completeFormativeToIthkuil(formative: Formative) {
 
   if (
     slotVIIAffixes.length != 0 &&
+    typeof formative.root == "string" &&
     (formative.shortcut === true ||
       formative.shortcut === "VII" ||
       formative.shortcut === "VII+VIII")
@@ -369,79 +370,99 @@ function completeFormativeToIthkuil(formative: Formative) {
     !didVIIShortcut &&
     !didVIIIShortcut &&
     (formative.shortcut === true || formative.shortcut === "IV/VI") &&
-    typeof formative.root == "string" &&
+    (typeof formative.root == "string" || Array.isArray(formative.root)) &&
     formative.specification == "BSC" &&
     formative.context == "EXS" &&
     formative.function == "STA" &&
     formative.ca.configuration == "UPX" &&
     formative.ca.affiliation == "CSL"
   ) {
-    const { extension, perspective, essence } = formative.ca
+    if (Array.isArray(formative.root)) {
+      if (
+        formative.ca.essence == "NRM" &&
+        formative.ca.perspective == "M" &&
+        (formative.ca.extension == "DEL" || formative.ca.extension == "PRX")
+      ) {
+        const shortcut = 0
 
-    const shortcut =
-      essence == "RPV"
-        ? perspective == "M" && extension == "DEL"
-          ? 1 // RPV
-          : perspective == "G" && extension == "DEL"
-          ? 3 // G / RPV
-          : perspective == "M" && extension == "PRX"
-          ? 3 // PRX / RPV
-          : null
-        : perspective == "M" && extension == "PRX"
-        ? 0 // PRX
-        : extension == "DEL"
-        ? (
-            {
-              M: 0,
-              G: 1,
-              N: 2,
-              A: 2,
-            } as const
-          )[perspective]
-        : null
+        slot1 = slotIToIthkuil({
+          concatenationType:
+            formative.type == "UNF/C" ? formative.concatenationType : "none",
+          caShortcutType: formative.ca.extension == "DEL" ? "w" : "y",
+        })
 
-    const shortcutType =
-      essence == "RPV"
-        ? perspective == "M" && extension == "DEL"
-          ? "y" // RPV
-          : perspective == "G" && extension == "DEL"
-          ? "y" // G / RPV
-          : perspective == "M" && extension == "PRX"
-          ? "y" // PRX / RPV
-          : null
-        : perspective == "M" && extension == "PRX"
-        ? "y" // PRX
-        : extension == "DEL"
-        ? {
-            M: "w" as const,
-            G: "w" as const,
-            N: "w" as const,
-            A: "y" as const,
-          }[perspective]
-        : null
+        slot4 = ""
 
-    if (shortcut != null) {
-      slot1 = slotIToIthkuil({
-        concatenationType:
-          formative.type == "UNF/C" ? formative.concatenationType : "none",
-        caShortcutType: shortcutType!,
-      })
-
-      let slotII = WithWYAlternative.of(
-        ONE_INDEXED_STANDARD_VOWEL_TABLE[shortcut][
-          SLOT_II_SHORTCUT_MAP[formative.stem][formative.version]
-        ],
-      )
-
-      if (formative.slotVAffixes.length >= 2) {
-        slotII = slotII.insertGlottalStop(false)
+        slot6 = ""
       }
+    } else {
+      const { extension, perspective, essence } = formative.ca
 
-      slot2 = slotII.withPreviousText(slot1)
+      const shortcut =
+        essence == "RPV"
+          ? perspective == "M" && extension == "DEL"
+            ? 1 // RPV
+            : perspective == "G" && extension == "DEL"
+            ? 3 // G / RPV
+            : perspective == "M" && extension == "PRX"
+            ? 3 // PRX / RPV
+            : null
+          : perspective == "M" && extension == "PRX"
+          ? 0 // PRX
+          : extension == "DEL"
+          ? (
+              {
+                M: 0,
+                G: 1,
+                N: 2,
+                A: 2,
+              } as const
+            )[perspective]
+          : null
 
-      slot4 = ""
+      const shortcutType =
+        essence == "RPV"
+          ? perspective == "M" && extension == "DEL"
+            ? "y" // RPV
+            : perspective == "G" && extension == "DEL"
+            ? "y" // G / RPV
+            : perspective == "M" && extension == "PRX"
+            ? "y" // PRX / RPV
+            : null
+          : perspective == "M" && extension == "PRX"
+          ? "y" // PRX
+          : extension == "DEL"
+          ? {
+              M: "w" as const,
+              G: "w" as const,
+              N: "w" as const,
+              A: "y" as const,
+            }[perspective]
+          : null
 
-      slot6 = ""
+      if (shortcut != null) {
+        slot1 = slotIToIthkuil({
+          concatenationType:
+            formative.type == "UNF/C" ? formative.concatenationType : "none",
+          caShortcutType: shortcutType!,
+        })
+
+        let slotII = WithWYAlternative.of(
+          ONE_INDEXED_STANDARD_VOWEL_TABLE[shortcut][
+            SLOT_II_SHORTCUT_MAP[formative.stem][formative.version]
+          ],
+        )
+
+        if (formative.slotVAffixes.length >= 2) {
+          slotII = slotII.insertGlottalStop(false)
+        }
+
+        slot2 = slotII.withPreviousText(slot1)
+
+        slot4 = ""
+
+        slot6 = ""
+      }
     }
   }
 

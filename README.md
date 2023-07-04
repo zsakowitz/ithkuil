@@ -19,8 +19,8 @@ is completely suitable for use as of now
 As of May 29, 2023, `@zsnout/ithkuil` can generate these types of words:
 
 - Formatives
-- Affixual root formatives
-- Personal-reference root formatives
+- Specialized Cs-root formatives
+- Specialized personal-reference formatives
 - Referentials
 - Affixual adjuncts
 - Bias adjuncts
@@ -30,9 +30,11 @@ As of May 29, 2023, `@zsnout/ithkuil` can generate these types of words:
 - Suppletive adjuncts
 - Referentials with suppletive adjuncts as heads
 
-As of July 3, 2023, `@zsnout/ithkuil` can parse these types of words:
+As of July 4, 2023, `@zsnout/ithkuil` can parse these types of words:
 
 - Formatives
+- Specialized Cs-root formatives
+- Specialized personal-reference formatives
 
 It also has many, many more functions. It can:
 
