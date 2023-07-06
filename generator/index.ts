@@ -1,3 +1,16 @@
+import { affixualAdjunctToIthkuil } from "./adjunct/affixual/index.js"
+import { adjunctToIthkuil, type Adjunct } from "./adjunct/index.js"
+import { modularAdjunctToIthkuil } from "./adjunct/modular/index.js"
+import {
+  suppletiveAdjunctToIthkuil,
+  type SuppletiveAdjunct,
+} from "./adjunct/suppletive/index.js"
+import { formativeToIthkuil, type PartialFormative } from "./formative/index.js"
+import {
+  referentialToIthkuil,
+  type PartialReferential,
+} from "./referential/referential.js"
+
 export * from "./adjunct/index.js"
 export * from "./affix/index.js"
 export * from "./ca/index.js"
@@ -13,3 +26,82 @@ export * from "./helpers/vowel-table.js"
 export * from "./helpers/with-wy-alternative.js"
 export * from "./phonotactics/index.js"
 export * from "./referential/index.js"
+
+/** The type of a generic Ithkuilic word. */
+export type Word = PartialReferential | PartialFormative | Adjunct
+
+/**
+ * Converts a single word into Ithkuil.
+ * @param word The word to be converted.
+ * @returns Romanized Ithkuilic text representing the word.
+ *
+ * Note that while this function aims to always capture the caller's intent and
+ * return the correct type of word, there is one edge case. Specifically, all
+ * Suppletive Adjuncts can alternately be parsed as referentials with suppletive
+ * referents. To resolve this ambiguity, this function always converts
+ * Suppletive Adjuncts to their standard adjunct forms if possible.
+ *
+ * Here is an example of such an ambiguity, and how `wordToIthkuil` resolves it.
+ *
+ * ```ts
+ * suppletiveAdjunctToIthkuil({ type: "NAM", case: "STM" })
+ * // "hnëi"
+ *
+ * referentialToIthkuil({ type: "NAM", case: "STM" })
+ * // "üohnëi"
+ *
+ * wordToIthkuil({ type: "NAM", case: "STM" })
+ * // "hnëi"
+ * ```
+ *
+ * Of course, it calls `referentialToIthkuil` when needed.
+ *
+ * ```ts
+ * wordToIthkuil({ type: "NAM", case: "STM", essence: "RPV" })
+ * // "üohnêi"
+ * ```
+ */
+export function wordToIthkuil(
+  word: PartialReferential | PartialFormative | Adjunct,
+) {
+  if (typeof word == "string") {
+    return adjunctToIthkuil(word)
+  }
+
+  if ("vn1" in word && typeof word.vn1 == "string") {
+    return modularAdjunctToIthkuil(word)
+  }
+
+  if ("root" in word && word.root) {
+    return formativeToIthkuil(word)
+  }
+
+  if ("type" in word) {
+    if (
+      (word.type == "CAR" ||
+        word.type == "NAM" ||
+        word.type == "PHR" ||
+        word.type == "QUO") &&
+      "case" in word &&
+      typeof word.case == "string" &&
+      !(
+        ("affixes" in word && word.affixes) ||
+        ("case2" in word && word.case2) ||
+        ("essence" in word && word.essence) ||
+        ("perspective2" in word && word.perspective2) ||
+        ("referent2" in word && word.referent2) ||
+        ("specification" in word && word.specification)
+      )
+    ) {
+      return suppletiveAdjunctToIthkuil(word as SuppletiveAdjunct)
+    }
+
+    return referentialToIthkuil(word as Exclude<typeof word, PartialFormative>)
+  }
+
+  if (word.affixes && (!("referents" in word) || word.referents == null)) {
+    return affixualAdjunctToIthkuil(word)
+  }
+
+  return referentialToIthkuil(word)
+}

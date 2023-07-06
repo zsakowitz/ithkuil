@@ -318,14 +318,26 @@ try {
 
 ### 0.1.16
 
+- **Breaking change:** The `Referent` type, the `ALL_REFERENTS` array, and the
+  `REFERENT_TO_ITHKUIL_MAP` and `REFERENT_TO_REFERENT_OBJECT_MAP` objects have
+  all been reordered. Where their unions, elements, and keys were previously
+  ordered `1m:NEU`, `2m:NEU`, `2p:NEU`, ..., `1m:BEN`, `2m:BEN`, ..., `1m:DET`,
+  ..., they are now ordered `1m:NEU`, `1m:BEN`, `1m:DET`, `2m:NEU`, `2m:BEN`,
+  etc.
+
 - **Breaking type-level change:** The `CN` type union now includes
-  `MoodOrCaseScope` instances.
+  `MoodOrCaseScope` instances. As such, it no longer only contains string
+  literals.
 
 - Added `MoodOrCaseScope` class to represent Cn forms in Modular Adjuncts.
 
 - Added functions to lex and parse adjuncts
 
 - Added `parseWord` to parse formatives and adjuncts
+
+- Added `wordToIthkuil` to turn generic words into Ithkuil
+
+- Added `word` Zod parser to parse generic Ithkuilic words
 
 ### 0.1.15
 

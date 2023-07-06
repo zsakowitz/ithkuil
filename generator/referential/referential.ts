@@ -113,12 +113,6 @@ export type Referential =
 /** A referential, with optional slots properly marked optional. */
 export type PartialReferential =
   | (PartialReferentialCore & {
-      readonly referent2?: undefined
-      readonly perspective2?: undefined
-      readonly specification?: undefined
-      readonly affixes?: undefined
-    })
-  | (PartialReferentialCore & {
       readonly referent2: Referent
       readonly perspective2?: Perspective | undefined
       readonly specification?: undefined

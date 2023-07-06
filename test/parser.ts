@@ -1,3 +1,4 @@
+import { ALL_REFERENTS } from "../generator/referential/referent/referent.js"
 import {
   ALL_AFFILIATIONS,
   ALL_ASPECTS,
@@ -16,16 +17,16 @@ import {
   ALL_PHASES,
   ALL_SPECIFICATIONS,
   ALL_VALENCES,
-  VowelForm,
   formativeToIthkuil,
-  parseFormative,
+  parseWord,
+  wordToIthkuil,
   type Affix,
   type PartialCA,
   type PartialFormative,
   type SlotIII,
 } from "../index.js"
 
-const NUMBER_OF_TEST_CASES = 1e6
+const NUMBER_OF_TEST_CASES = 1e5
 
 // The mode to run the test in.
 // `short` = generate short formatives,
@@ -55,7 +56,11 @@ function biasedRandomItem<const T, const U>(
   } & Iterable<U>,
 ): T | U {
   if (MODE == "full") {
-    return randomItem([defaultValue, ...object])
+    return randomItem(
+      [...(object as Iterable<T | U>)]
+        .filter((x) => (x as any) != defaultValue)
+        .concat(defaultValue),
+    )
   }
 
   if (Math.random() < 0.9) {
@@ -142,15 +147,14 @@ function randomLetterSeries(maxLength: number) {
 
 function randomFormative(): PartialFormative {
   const root: SlotIII =
-    // Math.random() < 0.1
-    //   ? [randomItem(ALL_REFERENTS)]
-    //   : Math.random() < 0.1
-    //   ? {
-    //       cs: randomLetterSeries(5),
-    //       degree: randomItem([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
-    //     }
-    //   :
-    randomLetterSeries(5)
+    Math.random() < 0.1
+      ? [randomItem(ALL_REFERENTS)]
+      : Math.random() < 0.1
+      ? {
+          cs: randomLetterSeries(5),
+          degree: randomItem([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
+        }
+      : randomLetterSeries(5)
 
   if (Math.random() < 30 / NUMBER_OF_TEST_CASES) {
     return {
@@ -171,6 +175,14 @@ function randomFormative(): PartialFormative {
     stem: biasedRandomItem(1, [2, 3, 0]),
 
     root,
+
+    get rootType() {
+      return Array.isArray(this.root)
+        ? "referential"
+        : typeof this.root == "object"
+        ? "affix"
+        : "standard"
+    },
 
     function: biasedRandomItem("STA", ALL_FUNCTIONS),
     specification: biasedRandomItem("BSC", ALL_SPECIFICATIONS),
@@ -217,7 +229,7 @@ function randomFormative(): PartialFormative {
   }
 }
 
-console.time("creating formatives")
+console.time("creating words")
 
 const testCases = Array.from({ length: NUMBER_OF_TEST_CASES }, () => {
   const formative = randomFormative()
@@ -225,7 +237,7 @@ const testCases = Array.from({ length: NUMBER_OF_TEST_CASES }, () => {
   return [formative, source] as const
 })
 
-console.timeEnd("creating formatives")
+console.timeEnd("creating words")
 
 function benchmark() {
   let index = 0
@@ -236,7 +248,7 @@ function benchmark() {
     index++
 
     try {
-      const result = parseFormative(source)
+      const result = parseWord(source)
 
       if (result == null) {
         throw new Error("Failed to tokenize.")
@@ -270,13 +282,13 @@ function checkValidity() {
     index++
 
     try {
-      const result = parseFormative(source)
+      const result = parseWord(source)
 
       if (result == null) {
         throw new Error("Failed to tokenize.")
       }
 
-      const output = formativeToIthkuil(result)
+      const output = wordToIthkuil(result)
 
       if (source != output) {
         throw new Error(
@@ -306,7 +318,7 @@ function checkValidity() {
 function findAllBenchmarkFailures() {
   const failures = testCases.filter(([, source]) => {
     try {
-      const result = parseFormative(source)
+      const result = parseWord(source)
 
       if (result == null) {
         return true
@@ -363,13 +375,13 @@ function findAllValidityFailures() {
   const failures = testCases
     .map(([formative, source]) => {
       try {
-        const result = parseFormative(source)
+        const result = parseWord(source)
 
         if (result == null) {
           return [formative, source, null] as const
         }
 
-        const output = formativeToIthkuil(result)
+        const output = wordToIthkuil(result)
 
         return [formative, source, output] as const
       } catch (err) {
@@ -413,17 +425,9 @@ function findAllValidityFailures() {
       failures
         .slice(0, 10)
         .map((x) => {
-          const v1 = VowelForm.parseOrThrow(
-            x[1].match(/[aeiouäëöü]+/)?.[0] || "",
-          )
-
-          const v2 = x[2]
-            ? VowelForm.parseOrThrow(x[2].match(/[aeiouäëöü]+/)?.[0] || "")
-            : { sequence: "UNK", degree: "UNK" }
-
           return (
-            `${x[1]} ${v1.toString(false)} ${v1.sequence}:${v1.degree}\n` +
-            `${x[2]} ${v2.toString(false)} ${v2.sequence}:${v2.degree}\n` +
+            `${x[1]}\n` +
+            `${x[2]}\n` +
             `${JSON.stringify(x[0].slotVIIAffixes?.at(-1))}\n` +
             `${JSON.stringify(x[0].ca)}`
           )

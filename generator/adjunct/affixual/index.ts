@@ -25,7 +25,7 @@ export * from "./scope.js"
  */
 export type AffixualAdjunct = {
   /** The affixes that are part of this adjunct. */
-  readonly affixes: [Affix, ...Affix[]]
+  readonly affixes: readonly [Affix, ...Affix[]]
 
   /**
    * Scope of first affix. Also controls scope of 2nd and subsequent affixes

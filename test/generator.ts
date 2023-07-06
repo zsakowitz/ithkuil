@@ -223,3 +223,10 @@ const result21 = formativeToIthkuil({
 })
 
 strictEqual(result21, "klálaha")
+
+const result22 = suppletiveAdjunctToIthkuil({
+  type: "NAM",
+  case: "STM",
+})
+
+strictEqual(result22, "hnëi")

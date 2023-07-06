@@ -96,158 +96,158 @@ export class Enum<const T> extends ZodType<T> {
 
 // #region Literals
 
-/** A Zod validator matching affiliations. */
+/** A Zod parser matching affiliations. */
 export const affiliation = /* @__PURE__ */ new Enum(ALL_AFFILIATIONS)
 
-/** A Zod validator matching affix degrees. */
+/** A Zod parser matching affix degrees. */
 export const affixDegree = /* @__PURE__ */ new Enum(ALL_AFFIX_DEGREES)
 
-/** A Zod validator matching affix shortcuts. */
+/** A Zod parser matching affix shortcuts. */
 export const affixShortcut = /* @__PURE__ */ new Enum(ALL_AFFIX_SHORTCUTS)
 
-/** A Zod validator matching affix types. */
+/** A Zod parser matching affix types. */
 export const affixType = /* @__PURE__ */ new Enum(ALL_AFFIX_TYPES)
 
-/** A Zod validator matching affixual adjunct scopes. */
+/** A Zod parser matching affixual adjunct scopes. */
 export const affixualAdjunctScope = /* @__PURE__ */ new Enum(
   ALL_AFFIXUAL_ADJUNCT_SCOPES,
 )
 
-/** A Zod validator matching aspects. */
+/** A Zod parser matching aspects. */
 export const aspect = /* @__PURE__ */ new Enum(ALL_ASPECTS)
 
-/** A Zod validator matching bias adjuncts. */
+/** A Zod parser matching bias adjuncts. */
 export const biasAdjunct = /* @__PURE__ */ new Enum(ALL_BIAS_ADJUNCTS)
 
-/** A Zod validator matching Ca shortcut types. */
+/** A Zod parser matching Ca shortcut types. */
 export const caShortcutType = /* @__PURE__ */ new Enum(ALL_CA_SHORTCUT_TYPES)
 
-/** A Zod validator matching cases. */
+/** A Zod parser matching cases. */
 export const case_ = /* @__PURE__ */ new Enum(ALL_CASES)
 
-/** A Zod validator matching case scopes. */
+/** A Zod parser matching case scopes. */
 export const caseScope = /* @__PURE__ */ new Enum(ALL_CASE_SCOPES)
 
-/** A Zod validator matching concatenation types. */
+/** A Zod parser matching concatenation types. */
 export const concatenationType = /* @__PURE__ */ new Enum(
   ALL_CONCATENATION_TYPES,
 )
 
-/** A Zod validator matching configurations. */
+/** A Zod parser matching configurations. */
 export const configuration = /* @__PURE__ */ new Enum(ALL_CONFIGURATIONS)
 
-/** A Zod validator matching contexts. */
+/** A Zod parser matching contexts. */
 export const context = /* @__PURE__ */ new Enum(ALL_CONTEXTS)
 
-/** A Zod validator matching dipthongs. */
+/** A Zod parser matching dipthongs. */
 export const dipthong = /* @__PURE__ */ new Enum(ALL_DIPTHONGS)
 
-/** A Zod validator matching effects. */
+/** A Zod parser matching effects. */
 export const effect = /* @__PURE__ */ new Enum(ALL_EFFECTS)
 
-/** A Zod validator matching essences. */
+/** A Zod parser matching essences. */
 export const essence = /* @__PURE__ */ new Enum(ALL_ESSENCES)
 
-/** A Zod validator matching extensions. */
+/** A Zod parser matching extensions. */
 export const extension = /* @__PURE__ */ new Enum(ALL_EXTENSIONS)
 
-/** A Zod validator matching functions. */
+/** A Zod parser matching functions. */
 export const function_ = /* @__PURE__ */ new Enum(ALL_FUNCTIONS)
 
-/** A Zod validator matching illocutions. */
+/** A Zod parser matching illocutions. */
 export const illocution = /* @__PURE__ */ new Enum(ALL_ILLOCUTIONS)
 
-/** A Zod validator matching non-ASR illocutions and validations. */
+/** A Zod parser matching non-ASR illocutions and validations. */
 export const illocutionOrValidation = /* @__PURE__ */ new Enum(
   ALL_ILLOCUTION_OR_VALIDATIONS,
 )
 
-/** A Zod validator matching levels. */
+/** A Zod parser matching levels. */
 export const level = /* @__PURE__ */ new Enum(ALL_LEVELS)
 
-/** A Zod validator matching modular adjunct scopes. */
+/** A Zod parser matching modular adjunct scopes. */
 export const modularAdjunctScope = /* @__PURE__ */ new Enum(
   ALL_MODULAR_ADJUNCT_SCOPES,
 )
 
-/** A Zod validator matching modular adjunct types. */
+/** A Zod parser matching modular adjunct types. */
 export const modularAdjunctType = /* @__PURE__ */ new Enum(
   ALL_MODULAR_ADJUNCT_TYPES,
 )
 
-/** A Zod validator matching moods. */
+/** A Zod parser matching moods. */
 export const mood = /* @__PURE__ */ new Enum(ALL_MOODS)
 
-/** A Zod validator matching parsing adjuncts. */
+/** A Zod parser matching parsing adjuncts. */
 export const parsingAdjunct = /* @__PURE__ */ new Enum(ALL_PARSING_ADJUNCTS)
 
-/** A Zod validator matching perspectives. */
+/** A Zod parser matching perspectives. */
 export const perspective = /* @__PURE__ */ new Enum(ALL_PERSPECTIVES)
 
-/** A Zod validator matching phases. */
+/** A Zod parser matching phases. */
 export const phase = /* @__PURE__ */ new Enum(ALL_PHASES)
 
-/** A Zod validator matching referents. */
+/** A Zod parser matching referents. */
 export const referent = /* @__PURE__ */ new Enum(ALL_REFERENTS)
 
-/** A Zod validator matching referent effects. */
+/** A Zod parser matching referent effects. */
 export const referentEffect = /* @__PURE__ */ new Enum(ALL_REFERENT_EFFECTS)
 
-/** A Zod validator matching referent targets. */
+/** A Zod parser matching referent targets. */
 export const referentTarget = /* @__PURE__ */ new Enum(ALL_REFERENT_TARGETS)
 
-/** A Zod validator matching referential affix cases. */
+/** A Zod parser matching referential affix cases. */
 export const referentialAffixCase = /* @__PURE__ */ new Enum(
   ALL_REFERENTIAL_AFFIX_CASES,
 )
 
-/** A Zod validator matching register adjuncts. */
+/** A Zod parser matching register adjuncts. */
 export const registerAdjunct = /* @__PURE__ */ new Enum(ALL_REGISTER_ADJUNCTS)
 
-/** A Zod validator matching shortcut types. */
+/** A Zod parser matching shortcut types. */
 export const shortcutType = /* @__PURE__ */ new Enum(ALL_SHORTCUT_TYPES)
 
-/** A Zod validator matching single register adjuncts. */
+/** A Zod parser matching single register adjuncts. */
 export const singleRegisterAdjunct = /* @__PURE__ */ new Enum(
   ALL_SINGLE_REGISTER_ADJUNCTS,
 )
 
-/** A Zod validator matching specifications. */
+/** A Zod parser matching specifications. */
 export const specification = /* @__PURE__ */ new Enum(ALL_SPECIFICATIONS)
 
-/** A Zod validator matching stems. */
+/** A Zod parser matching stems. */
 export const stem = /* @__PURE__ */ new Enum(ALL_STEMS)
 
-/** A Zod validator matching suppletive adjunct types. */
+/** A Zod parser matching suppletive adjunct types. */
 export const suppletiveAdjunctType = /* @__PURE__ */ new Enum(
   ALL_SUPPLETIVE_ADJUNCT_TYPES,
 )
 
-/** A Zod validator matching valences. */
+/** A Zod parser matching valences. */
 export const valence = /* @__PURE__ */ new Enum(ALL_VALENCES)
 
-/** A Zod validator matching validations. */
+/** A Zod parser matching validations. */
 export const validation = /* @__PURE__ */ new Enum(ALL_VALIDATIONS)
 
-/** A Zod validator matching versions. */
+/** A Zod parser matching versions. */
 export const version = /* @__PURE__ */ new Enum(ALL_VERSIONS)
 
-/** A Zod validator matching Vn types. */
+/** A Zod parser matching Vn types. */
 export const vnType = /* @__PURE__ */ new Enum(ALL_VN_TYPES)
 
 // #endregion
 
 // #region More Validators
 
-/** A Zod validator matching `MoodOrCaseScope` instances. */
+/** A Zod parser matching `MoodOrCaseScope` instances. */
 export const moodOrCaseScope = /* @__PURE__ */ instanceOf(
   MoodOrCaseScope as new () => MoodOrCaseScope,
 )
 
-/** A Zod validator matching Cn forms. */
+/** A Zod parser matching Cn forms. */
 export const cn = /* @__PURE__ */ union([mood, caseScope, moodOrCaseScope])
 
-/** A Zod validator matching non-aspectual Vn forms. */
+/** A Zod parser matching non-aspectual Vn forms. */
 export const nonAspectualVn = /* @__PURE__ */ union([
   valence,
   phase,
@@ -255,10 +255,10 @@ export const nonAspectualVn = /* @__PURE__ */ union([
   level,
 ])
 
-/** A Zod validator matching Vn forms. */
+/** A Zod parser matching Vn forms. */
 export const vn = /* @__PURE__ */ union([valence, phase, effect, level, aspect])
 
-/** A Zod validator matching Ca forms. */
+/** A Zod parser matching Ca forms. */
 export const ca = /* @__PURE__ */ object({
   affiliation,
   configuration,
@@ -267,10 +267,10 @@ export const ca = /* @__PURE__ */ object({
   essence,
 })
 
-/** A Zod validator matching partial Ca forms. */
+/** A Zod parser matching partial Ca forms. */
 export const partialCA = /* @__PURE__ */ ca.partial()
 
-/** A Zod validator matching affixes. */
+/** A Zod parser matching affixes. */
 export const affix = /* @__PURE__ */ union([
   /* @__PURE__ */ object({
     type: affixType,
@@ -310,17 +310,17 @@ export const affix = /* @__PURE__ */ union([
   }),
 ])
 
-/** A Zod validator matching affix matadata. */
+/** A Zod parser matching affix matadata. */
 export const affixMetadata = /* @__PURE__ */ object({
   reversed: /* @__PURE__ */ boolean(),
   insertGlottalStop: /* @__PURE__ */ oboolean(),
   isGlottalStopWordFinal: /* @__PURE__ */ oboolean(),
 })
 
-/** A Zod validator matching a list of referents. */
+/** A Zod parser matching a list of referents. */
 export const referentList = /* @__PURE__ */ referent.array().nonempty()
 
-/** A Zod validator matching {@link ReferentialReferentialCore}s. */
+/** A Zod parser matching {@link ReferentialReferentialCore}s. */
 export const referentialReferentialCore = /* @__PURE__ */ object({
   referents: referentList,
   perspective: perspective,
@@ -330,13 +330,13 @@ export const referentialReferentialCore = /* @__PURE__ */ object({
   essence,
 })
 
-/** A Zod validator matching suppletive adjuncts. */
+/** A Zod parser matching suppletive adjuncts. */
 export const suppletiveAdjunct = /* @__PURE__ */ object({
   type: suppletiveAdjunctType,
   case: case_,
 })
 
-/** A Zod validator matching {@link SuppletiveReferentialCore}s. */
+/** A Zod parser matching {@link SuppletiveReferentialCore}s. */
 export const suppletiveReferentialCore = /* @__PURE__ */ object({
   referents: /* @__PURE__ */ undefined().optional(),
   perspective: /* @__PURE__ */ undefined().optional(),
@@ -346,19 +346,19 @@ export const suppletiveReferentialCore = /* @__PURE__ */ object({
   essence,
 })
 
-/** A Zod validator matching {@link ReferentialCore}s. */
+/** A Zod parser matching {@link ReferentialCore}s. */
 export const referentialCore = /* @__PURE__ */ union([
   referentialReferentialCore,
   suppletiveReferentialCore,
 ])
 
-/** A Zod validator matching referent objects. */
+/** A Zod parser matching referent objects. */
 export const referentObject = /* @__PURE__ */ object({
   target: referentTarget,
   effect: referentEffect,
 })
 
-/** A Zod validator matching {@link PartialReferentialReferentialCore}s. */
+/** A Zod parser matching {@link PartialReferentialReferentialCore}s. */
 export const partialReferentialReferentialCore = /* @__PURE__ */ object({
   referents: referentList,
   perspective: /* @__PURE__ */ perspective.optional(),
@@ -368,7 +368,7 @@ export const partialReferentialReferentialCore = /* @__PURE__ */ object({
   essence: /* @__PURE__ */ essence.optional(),
 })
 
-/** A Zod validator matching {@link PartialSuppletiveReferentialCore}s. */
+/** A Zod parser matching {@link PartialSuppletiveReferentialCore}s. */
 export const partialSuppletiveReferentialCore = /* @__PURE__ */ object({
   referents: /* @__PURE__ */ undefined().optional(),
   perspective: /* @__PURE__ */ undefined().optional(),
@@ -378,13 +378,13 @@ export const partialSuppletiveReferentialCore = /* @__PURE__ */ object({
   essence: /* @__PURE__ */ essence.optional(),
 })
 
-/** A Zod validator matching {@link PartialReferentialCore}s. */
+/** A Zod parser matching {@link PartialReferentialCore}s. */
 export const partialReferentialCore = /* @__PURE__ */ union([
   partialReferentialReferentialCore,
   partialSuppletiveReferentialCore,
 ])
 
-/** A Zod validator matching referentials. */
+/** A Zod parser matching referentials. */
 export const referential = /* @__PURE__ */ union([
   /* @__PURE__ */ referentialCore.and(
     /* @__PURE__ */ object({
@@ -412,7 +412,7 @@ export const referential = /* @__PURE__ */ union([
   ),
 ])
 
-/** A Zod validator matching partial referentials. */
+/** A Zod parser matching partial referentials. */
 export const partialReferential = /* @__PURE__ */ union([
   /* @__PURE__ */ partialReferentialCore.and(
     /* @__PURE__ */ object({
@@ -440,7 +440,7 @@ export const partialReferential = /* @__PURE__ */ union([
   ),
 ])
 
-/** A Zod validator matching modular adjuncts. */
+/** A Zod parser matching modular adjuncts. */
 export const modularAdjunct = /* @__PURE__ */ union([
   /* @__PURE__ */ object({
     type: /* @__PURE__ */ modularAdjunctType.optional(),
@@ -468,7 +468,7 @@ export const modularAdjunct = /* @__PURE__ */ union([
   }),
 ])
 
-/** A Zod validator matching affixual adjuncts. */
+/** A Zod parser matching affixual adjuncts. */
 export const affixualAdjunct = /* @__PURE__ */ object({
   affixes: /* @__PURE__ */ affix.array().nonempty(),
   scope: /* @__PURE__ */ affixualAdjunctScope.optional(),
@@ -476,7 +476,7 @@ export const affixualAdjunct = /* @__PURE__ */ object({
   appliesToConcatenatedStemOnly: /* @__PURE__ */ oboolean(),
 })
 
-/** A Zod validator matching adjuncts. */
+/** A Zod parser matching adjuncts. */
 export const adjunct = /* @__PURE__ */ union([
   affixualAdjunct,
   biasAdjunct,
@@ -488,7 +488,7 @@ export const adjunct = /* @__PURE__ */ union([
 ])
 
 /**
- * A Zod validator matching adjuncts other than non-single register adjuncts.
+ * A Zod parser matching adjuncts other than non-single register adjuncts.
  */
 export const plainAdjunct = /* @__PURE__ */ union([
   affixualAdjunct,
@@ -503,13 +503,13 @@ export const plainAdjunct = /* @__PURE__ */ union([
 
 // #region Formative Slots
 
-/** A Zod validator matching Slot I data. */
+/** A Zod parser matching Slot I data. */
 export const slotI = /* @__PURE__ */ object({
   concatenationType: concatenationType,
   caShortcutType: caShortcutType,
 })
 
-/** A Zod validator matching Slot III data. */
+/** A Zod parser matching Slot III data. */
 export const slotIII = /* @__PURE__ */ union([
   /* @__PURE__ */ string(),
   referentList,
@@ -519,10 +519,10 @@ export const slotIII = /* @__PURE__ */ union([
   }),
 ])
 
-/** A Zod validator matching Slot II data. */
+/** A Zod parser matching Slot II data. */
 export const slotII = /* @__PURE__ */ object({ stem, version })
 
-/** A Zod validator matching Slot II metadata. */
+/** A Zod parser matching Slot II metadata. */
 export const slotIIMetadata = /* @__PURE__ */ object({
   slotI: /* @__PURE__ */ string(),
   slotIII,
@@ -531,64 +531,64 @@ export const slotIIMetadata = /* @__PURE__ */ object({
   function: function_,
 })
 
-/** A Zod validator matching Slot IV data. */
+/** A Zod parser matching Slot IV data. */
 export const slotIV = /* @__PURE__ */ object({
   function: function_,
   specification,
   context,
 })
 
-/** A Zod validator matching Slot IV metadata. */
+/** A Zod parser matching Slot IV metadata. */
 export const slotIVMetadata = /* @__PURE__ */ object({
   slotIII: /* @__PURE__ */ string(),
   affixualFormativeDegree: /* @__PURE__ */ affixDegree.optional(),
 })
 
-/** A Zod validator matching Slot V data. */
+/** A Zod parser matching Slot V data. */
 export const slotV = /* @__PURE__ */ affix.array()
 
-/** A Zod validator matching Slot V metadata. */
+/** A Zod parser matching Slot V metadata. */
 export const slotVMetadata = /* @__PURE__ */ object({
   isSlotVIElided: /* @__PURE__ */ boolean(),
   isAtEndOfWord: /* @__PURE__ */ boolean(),
 })
 
-/** A Zod validator matching Slot VI data. */
+/** A Zod parser matching Slot VI data. */
 export const slotVI = ca
 
-/** A Zod validator matching Slot VI metadata. */
+/** A Zod parser matching Slot VI metadata. */
 export const slotVIMetadata = /* @__PURE__ */ object({
   isSlotVFilled: /* @__PURE__ */ boolean(),
 })
 
-/** A Zod validator matching Slot VII data. */
+/** A Zod parser matching Slot VII data. */
 export const slotVII = /* @__PURE__ */ affix.array()
 
-/** A Zod validator matching Slot VIII data. */
+/** A Zod parser matching Slot VIII data. */
 export const slotVIII = /* @__PURE__ */ object({ vn, cn })
 
-/** A Zod validator matching Slot VIII metadata. */
+/** A Zod parser matching Slot VIII metadata. */
 export const slotVIIIMetadata = /* @__PURE__ */ object({
   omitDefault: /* @__PURE__ */ boolean(),
 })
 
-/** A Zod validator matching Slot IX data. */
+/** A Zod parser matching Slot IX data. */
 export const slotIX = /* @__PURE__ */ union([case_, illocutionOrValidation])
 
-/** A Zod validator matching Slot IX metadata. */
+/** A Zod parser matching Slot IX metadata. */
 export const slotIXMetadata = /* @__PURE__ */ object({
   elideIfPossible: /* @__PURE__ */ boolean(),
   isPartOfConcatenatedFormative: /* @__PURE__ */ boolean(),
 })
 
-/** A Zod validator matching Slot X data. */
+/** A Zod parser matching Slot X data. */
 export const slotX = /* @__PURE__ */ new Enum(ALL_SLOT_X_STRESSES)
 
 // #endregion
 
 // #region Formatives
 
-/** A Zod validator matching {@link CoreFormative}s. */
+/** A Zod parser matching {@link CoreFormative}s. */
 export const coreFormative = /* @__PURE__ */ object({
   version: version,
   stem: stem,
@@ -603,7 +603,7 @@ export const coreFormative = /* @__PURE__ */ object({
   shortcut: shortcutType,
 })
 
-/** A Zod validator matching {@link PartialCoreFormative}s. */
+/** A Zod parser matching {@link PartialCoreFormative}s. */
 export const partialCoreFormative = /* @__PURE__ */ object({
   version: /* @__PURE__ */ version.optional(),
   stem: /* @__PURE__ */ stem.optional(),
@@ -618,7 +618,7 @@ export const partialCoreFormative = /* @__PURE__ */ object({
   shortcut: /* @__PURE__ */ shortcutType.optional(),
 })
 
-/** A Zod validator matching nominal formatives. */
+/** A Zod parser matching nominal formatives. */
 export const nominalFormative = /* @__PURE__ */ coreFormative.extend({
   type: /* @__PURE__ */ literal("UNF/C"),
   concatenationType: concatenationType,
@@ -626,7 +626,7 @@ export const nominalFormative = /* @__PURE__ */ coreFormative.extend({
   case: case_,
 })
 
-/** A Zod validator matching partial nominal formatives. */
+/** A Zod parser matching partial nominal formatives. */
 export const partialNominalFormative =
   /* @__PURE__ */ partialCoreFormative.extend({
     type: /* @__PURE__ */ literal("UNF/C"),
@@ -635,14 +635,14 @@ export const partialNominalFormative =
     case: /* @__PURE__ */ case_.optional(),
   })
 
-/** A Zod validator matching unframed verbal formatives. */
+/** A Zod parser matching unframed verbal formatives. */
 export const unframedVerbalFormative = /* @__PURE__ */ coreFormative.extend({
   type: /* @__PURE__ */ literal("UNF/K"),
   mood: mood,
   illocutionValidation: illocutionOrValidation,
 })
 
-/** A Zod validator matching partial unframed verbal formatives. */
+/** A Zod parser matching partial unframed verbal formatives. */
 export const partialUnframedVerbalFormative =
   /* @__PURE__ */ partialCoreFormative.extend({
     type: /* @__PURE__ */ literal("UNF/K"),
@@ -650,14 +650,14 @@ export const partialUnframedVerbalFormative =
     illocutionValidation: /* @__PURE__ */ illocutionOrValidation.optional(),
   })
 
-/** A Zod validator matching framed verbal formatives. */
+/** A Zod parser matching framed verbal formatives. */
 export const framedVerbalFormative = /* @__PURE__ */ coreFormative.extend({
   type: /* @__PURE__ */ literal("FRM"),
   caseScope: caseScope,
   case: case_,
 })
 
-/** A Zod validator matching partial framed verbal formatives. */
+/** A Zod parser matching partial framed verbal formatives. */
 export const partialFramedVerbalFormative =
   /* @__PURE__ */ partialCoreFormative.extend({
     type: /* @__PURE__ */ literal("FRM"),
@@ -665,14 +665,14 @@ export const partialFramedVerbalFormative =
     case: /* @__PURE__ */ case_.optional(),
   })
 
-/** A Zod validator matching formatives. */
+/** A Zod parser matching formatives. */
 export const formative = /* @__PURE__ */ union([
   nominalFormative,
   unframedVerbalFormative,
   framedVerbalFormative,
 ])
 
-/** A Zod validator matching partial formatives. */
+/** A Zod parser matching partial formatives. */
 export const partialFormative = /* @__PURE__ */ union([
   partialNominalFormative,
   partialUnframedVerbalFormative,
@@ -680,6 +680,9 @@ export const partialFormative = /* @__PURE__ */ union([
 ])
 
 // #endregion
+
+/** A Zod parser matching any type of Ithkuilic word. */
+export const word = union([partialReferential, partialFormative, adjunct])
 
 export { case_ as case }
 export { function_ as function }

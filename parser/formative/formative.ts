@@ -228,15 +228,17 @@ export function buildNonShortcutFormative(
 
     shortcut: affixShortcut ? "VII" : false,
     stem: typeof root == "object" ? undefined : vv ? VV_TO_STEM[vv.degree] : 1,
-    version: Array.isArray(root)
-      ? vv?.sequence == 1
-        ? "PRC"
-        : "CPT"
-      : typeof root == "object"
-      ? undefined
-      : vv
-      ? VV_TO_VERSION[vv.degree]
-      : "PRC",
+    version: vv
+      ? Array.isArray(root)
+        ? vv.sequence == 1
+          ? "PRC"
+          : "CPT"
+        : typeof root == "object"
+        ? vv.sequence == 1 || vv.sequence == 3
+          ? "PRC"
+          : "CPT"
+        : VV_TO_VERSION[vv.degree]
+      : undefined,
 
     root,
 
@@ -244,7 +246,15 @@ export function buildNonShortcutFormative(
     specification: (root as any).cs
       ? undefined
       : VR_TO_SPECIFICATION[vr.degree],
-    function: (root as any).cs ? undefined : vr.degree < 5 ? "STA" : "DYN",
+    function: (root as any).cs
+      ? vv
+        ? vv.sequence <= 2
+          ? "STA"
+          : "DYN"
+        : undefined
+      : vr.degree < 5
+      ? "STA"
+      : "DYN",
 
     slotVAffixes: match[5] ? parseReversedAffixes(match[5]) : [],
 
@@ -364,14 +374,23 @@ export function buildCnShortcutFormative(
     concatenationType,
 
     shortcut: affixShortcut ? "VII+VIII" : "VIII",
-    stem: typeof root == "object" ? undefined : vv ? VV_TO_STEM[vv.degree] : 1,
+    stem:
+      typeof root == "object"
+        ? undefined
+        : vv
+        ? VV_TO_STEM[vv.degree]
+        : undefined,
     version: vv
       ? Array.isArray(root)
         ? vv.sequence == 1
           ? "PRC"
           : "CPT"
+        : typeof root == "object"
+        ? vv.sequence == 1 || vv.sequence == 3
+          ? "PRC"
+          : "CPT"
         : VV_TO_VERSION[vv.degree]
-      : "PRC",
+      : undefined,
 
     root,
 
@@ -379,7 +398,13 @@ export function buildCnShortcutFormative(
     specification: (root as any).cs
       ? undefined
       : VR_TO_SPECIFICATION[vr.degree],
-    function: (root as any).cs ? undefined : vr.degree < 5 ? "STA" : "DYN",
+    function: (root as any).cs
+      ? vr.sequence <= 2
+        ? "STA"
+        : "DYN"
+      : vr.degree < 5
+      ? "STA"
+      : "DYN",
 
     slotVIIAffixes,
 
