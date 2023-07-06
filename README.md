@@ -12,7 +12,7 @@ for verifying translations.
 ## Stability
 
 This package is in active development, so expect change. That said, this package
-is completely suitable for use as of now
+is completely suitable for use, and has even been tested somewhat.
 
 ## Features
 
