@@ -1,13 +1,19 @@
 {
   "name": "@zsnout/ithkuil",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "Utilities allowing for easy generation and parsing of romanized Ithkuilic text.",
   "main": "index.js",
   "author": "Zachary Sakowitz",
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "prepublishOnly": "tsc -b"
+    "build": "tsc -b",
+    "cleanup": "rm -f generator/**/*.js && rm -f parser/**/*.js && rm -f test/**/*.js && rm -f *.js",
+    "lint": "prettier --write .",
+    "prepublish": "tsc -b",
+    "pretest": "tsc -b",
+    "start": "if [ -f playground.ts ]; then\n  npx tsc -b && node playground.js\nelse\n  echo \"import { parseWord, wordToIthkuil } from \"./index.js\"\n\n/**\n * This file allows for quick experimentation with this project's functions. To\n * do so, import anything you need in the statement above and play around with\n * the imports below.\n */\n\n// Be a tribe that works together towards a common goal.\nconst result1 = wordToIthkuil({\n  type: \"UNF/K\",\n  shortcut: true,\n  root: \"l\",\n  ca: { configuration: \"MFS\", affiliation: \"COA\" },\n  context: \"RPS\",\n  illocutionValidation: \"DIR\",\n})\n\nconsole.log(result1)\n\n// me (beneficial, ergative) and you (detrimental, absolutive)\nconst result2 = parseWord(\"royež\")\n\nconsole.log(result2)\" > ./playground.ts\nfi",
+    "test": "node test/generator.js && node test/parser.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +35,7 @@
   },
   "homepage": "https://github.com/zsakowitz/ithkuil#readme",
   "devDependencies": {
+    "esbuild": "^0.18.11",
     "prettier": "^2.8.8",
     "typescript": "^5.0.4"
   },

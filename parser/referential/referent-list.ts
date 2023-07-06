@@ -31,7 +31,7 @@ export function parseReferentList(list: string): ReferentList {
       if (list.startsWith(value)) {
         output.push(referent)
         list = list.slice(value.length)
-        break outer
+        continue outer
       }
     }
 
@@ -79,7 +79,7 @@ export function parseReferentListAndPerspective(
       if (list.startsWith(value)) {
         output.push(referent)
         list = list.slice(value.length)
-        break outer
+        continue outer
       }
     }
 

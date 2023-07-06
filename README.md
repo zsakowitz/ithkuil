@@ -313,6 +313,11 @@ try {
 
 ## Changelog
 
+### 0.1.17
+
+- **Output change and bug fix:** Referentials that have multiple referents are
+  now parsed correctly.
+
 ### 0.1.16
 
 - **Breaking change:** The `Referent` type, the `ALL_REFERENTS` array, and the

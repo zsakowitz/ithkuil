@@ -1,4 +1,9 @@
-node_modules
+# MacOS config files
 **/.DS_Store
-**/*.js
+
+# Files that shouldn't be stored
+node_modules
 **/*.d.ts
+**/*.js
+playground.ts
+playground.js

@@ -63,7 +63,7 @@ export function buildCombinationReferential(
   const affixes = match[5] ? parseAffixes(match[5]) : undefined
 
   const case2 =
-    match[6] == null || match[6] == "a"
+    !match[6] || match[6] == "a"
       ? undefined
       : match[6] == "üa"
       ? "THM"

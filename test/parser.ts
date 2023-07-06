@@ -606,9 +606,16 @@ function containedRunTests(numberOfTestCases: number, mode: "short" | "full") {
   }
 }
 
-containedRunTests(1e5, "short") &&
+if (
+  containedRunTests(1e5, "short") &&
   containedRunTests(1e5, "full") &&
   containedRunTests(1e6, "short") &&
   containedRunTests(1e6, "full")
-
-console.log()
+) {
+  console.log()
+  console.log("All tests passed!")
+  console.log()
+} else {
+  console.log()
+  throw new Error("Tests failed.")
+}

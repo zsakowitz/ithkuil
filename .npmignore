@@ -1,6 +1,12 @@
-node_modules
+# MacOS config files
 **/.DS_Store
-test
+
+# Config files
 .prettierrc
 .gitignore
 .git
+
+# Files that shouldn't be packaged
+test
+playground.ts
+playground.js
