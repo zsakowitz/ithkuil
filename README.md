@@ -339,6 +339,9 @@ try {
 
 - Added `word` Zod parser to parse generic Ithkuilic words
 
+- Fix several issues involving the parsing of formatives with specialized
+  Cs-roots and specialized personal-reference roots
+
 ### 0.1.15
 
 - **Output change:** Formatives with specialized personal-reference roots now
