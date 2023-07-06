@@ -313,6 +313,10 @@ try {
 
 ## Changelog
 
+### 0.1.18
+
+- Fixed punctuation in README.
+
 ### 0.1.17
 
 - **Output change and bug fix:** Referentials that have multiple referents are
