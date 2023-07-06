@@ -9,10 +9,10 @@ import { V } from "../forms.js"
  * 1. Cp (required)
  * 2. Vc (required)
  */
-export const suppletiveAdjunct = seq(
-  anyText("hl", "hm", "hn", "hň"),
+export const suppletiveAdjunct = /* @__PURE__ */ seq(
+  /* @__PURE__ */ anyText("hl", "hm", "hn", "hň").asGroup(),
 
-  V.asGroup(),
+  /* @__PURE__ */ V.asGroup(),
 )
   .matchEntireText()
   .compile()

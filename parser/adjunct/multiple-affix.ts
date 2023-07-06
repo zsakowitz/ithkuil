@@ -62,28 +62,24 @@ export function buildMultipleAffixAffixualAdjunct(
     return
   }
 
-  const vx = VowelForm.parseOrThrow(match[2]!)
+  const vx = VowelForm.parseOrThrow((match[2] || match[4])!)
 
   let cz: string
 
-  if (vx.hasGlottalStop) {
+  if (match[2]) {
     cz = "'" + match[3]
   } else {
-    if (match[3] == "h" || match[3] == "hw") {
-      cz = match[3]
-    } else {
-      throw new Error("Invalid Cz slot: " + match[3] + ".")
-    }
+    cz = match[5]!
   }
 
-  const affixes = parseAffixes(match[4]!)
+  const affixes = parseAffixes(match[6]!)
 
   affixes.unshift(parseAffix(vx, match[1]!, false))
 
   return {
     affixes: affixes as [Affix, ...Affix[]],
     scope: CZ_TO_SCOPE_MAP[cz as keyof typeof CZ_TO_SCOPE_MAP],
-    scope2: VZ_TO_SCOPE_MAP[match[5] as keyof typeof VZ_TO_SCOPE_MAP],
+    scope2: VZ_TO_SCOPE_MAP[match[7] as keyof typeof VZ_TO_SCOPE_MAP],
     appliesToConcatenatedStemOnly: stress == "ultimate",
   }
 }

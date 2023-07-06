@@ -8,10 +8,10 @@ import { V } from "../forms.js"
  *
  * 1. V (required)
  */
-export const registerAdjunct = seq(
-  text("h"),
+export const registerAdjunct = /* @__PURE__ */ seq(
+  /* @__PURE__ */ text("h"),
 
-  V.asGroup(),
+  /* @__PURE__ */ V.asGroup(),
 )
   .matchEntireText()
   .compile()

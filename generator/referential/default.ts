@@ -32,7 +32,7 @@ export const DEFAULT_SUPPLETIVE_REFERENTIAL: SuppletiveReferentialCore =
 export function fillInDefaultReferentialSlots(
   referential: PartialReferential,
 ): Referential {
-  if (referential.perspective2 || referential.referent2) {
+  if (referential.perspective2 || referential.referents2) {
     if (
       referential.specification ||
       (referential.affixes && (referential as Referential).affixes!.length)
@@ -49,7 +49,7 @@ export function fillInDefaultReferentialSlots(
             ...DEFAULT_SUPPLETIVE_REFERENTIAL,
             perspective2: "M",
             // @ts-ignore
-            referent2: "1m:NEU",
+            referents2: "1m:NEU",
           },
           referential,
         )
@@ -58,7 +58,7 @@ export function fillInDefaultReferentialSlots(
             ...DEFAULT_REFERENTIAL,
             perspective2: "M",
             // @ts-ignore
-            referent2: "1m:NEU",
+            referents2: "1m:NEU",
           },
           referential,
         )
@@ -68,7 +68,7 @@ export function fillInDefaultReferentialSlots(
     referential.specification ||
     (referential.affixes && referential.affixes.length)
   ) {
-    if (referential.perspective2 || referential.referent2) {
+    if (referential.perspective2 || referential.referents2) {
       throw new Error(
         "A referential cannot specify a second referent/perspective and a specification or affix at the same time.",
         { cause: referential },

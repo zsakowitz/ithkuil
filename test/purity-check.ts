@@ -8,4 +8,4 @@
 // Zod when possible.
 
 import "../index.js"
-import "../zod.js"
+// import "../zod.js"

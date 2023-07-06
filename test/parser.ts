@@ -1,7 +1,10 @@
+import { ALL_MOOD_OR_CASE_SCOPES } from "../generator/formative/slot-8/mood-or-case-scope.js"
 import { ALL_REFERENTS } from "../generator/referential/referent/referent.js"
 import {
   ALL_AFFILIATIONS,
+  ALL_AFFIXUAL_ADJUNCT_SCOPES,
   ALL_ASPECTS,
+  ALL_BIAS_ADJUNCTS,
   ALL_CASES,
   ALL_CASE_SCOPES,
   ALL_CONFIGURATIONS,
@@ -12,438 +15,600 @@ import {
   ALL_FUNCTIONS,
   ALL_ILLOCUTION_OR_VALIDATIONS,
   ALL_LEVELS,
+  ALL_MODULAR_ADJUNCT_SCOPES,
+  ALL_MODULAR_ADJUNCT_TYPES,
   ALL_MOODS,
+  ALL_PARSING_ADJUNCTS,
   ALL_PERSPECTIVES,
   ALL_PHASES,
+  ALL_SINGLE_REGISTER_ADJUNCTS,
   ALL_SPECIFICATIONS,
+  ALL_SUPPLETIVE_ADJUNCT_TYPES,
   ALL_VALENCES,
-  formativeToIthkuil,
   parseWord,
   wordToIthkuil,
   type Affix,
   type PartialCA,
   type PartialFormative,
+  type PartialReferential,
+  type PlainAdjunct,
+  type ReferentList,
   type SlotIII,
+  type Word,
 } from "../index.js"
 
-const NUMBER_OF_TEST_CASES = 1e5
-
-// The mode to run the test in.
-// `short` = generate short formatives,
-// `full` = generate long formatives.
-const MODE: "short" | "full" = "full"
-
-function randomItem<const T>(
-  object: {
+function runTests(numberOfTestCases: number, mode: "short" | "full") {
+  function randomItem<const T>(object: {
     readonly [x: number]: T
     readonly length: number
-  } & Iterable<T>,
-): T {
-  const value = object[Math.floor(Math.random() * object.length)]
+  }): T {
+    if (object.length == 0) {
+      throw new Error("Not enough items to pick a value from.")
+    }
 
-  if (value == null) {
-    throw new Error("Not enough values to get an item from.")
+    const value = object[Math.floor(Math.random() * object.length)]
+
+    return value!
   }
 
-  return value
-}
+  function biasedRandomItem<const T, const U>(
+    defaultValue: T,
+    object: {
+      readonly [x: number]: U
+      readonly length: number
+    } & Iterable<U>,
+  ): T | U {
+    if (mode == "full") {
+      return randomItem([defaultValue, ...object])
+    }
 
-function biasedRandomItem<const T, const U>(
-  defaultValue: T,
-  object: {
-    readonly [x: number]: U
-    readonly length: number
-  } & Iterable<U>,
-): T | U {
-  if (MODE == "full") {
-    return randomItem(
-      [...(object as Iterable<T | U>)]
-        .filter((x) => (x as any) != defaultValue)
-        .concat(defaultValue),
-    )
+    if (Math.random() < 0.9) {
+      return defaultValue
+    }
+
+    return randomItem(object)
   }
 
-  if (Math.random() < 0.9) {
-    return defaultValue
-  }
-
-  const value = object[Math.floor(Math.random() * object.length)]
-
-  if (value == null) {
-    throw new Error("Not enough values to get an item from.")
-  }
-
-  return value
-}
-
-function randomCA(): PartialCA {
-  return {
-    affiliation: biasedRandomItem("CSL", ALL_AFFILIATIONS),
-    configuration: biasedRandomItem("UPX", ALL_CONFIGURATIONS),
-    extension: biasedRandomItem("DEL", ALL_EXTENSIONS),
-    perspective: biasedRandomItem("M", ALL_PERSPECTIVES),
-    essence: biasedRandomItem("NRM", ALL_ESSENCES),
-  }
-}
-
-function randomAffix(): Affix {
-  if (Math.random() < 0.4) {
+  function randomCA(): PartialCA {
     return {
-      cs: randomLetterSeries(3),
-      type: randomItem([1, 2]),
-      degree: randomItem([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
+      affiliation: biasedRandomItem("CSL", ALL_AFFILIATIONS),
+      configuration: biasedRandomItem("UPX", ALL_CONFIGURATIONS),
+      extension: biasedRandomItem("DEL", ALL_EXTENSIONS),
+      perspective: biasedRandomItem("M", ALL_PERSPECTIVES),
+      essence: biasedRandomItem("NRM", ALL_ESSENCES),
     }
   }
 
-  if (Math.random() < 0.4) {
-    return {
-      case: randomItem(ALL_CASES),
+  function randomAffix(): Affix {
+    if (Math.random() < 0.4) {
+      return {
+        cs: randomLetterSeries(3),
+        type: randomItem([1, 2]),
+        degree: randomItem([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
+      }
     }
-  }
 
-  if (Math.random() < 0.5) {
-    return {
-      case: randomItem(ALL_CASES),
-      isInverse: randomItem([true, false]),
-      type: randomItem([1, 2]),
+    if (Math.random() < 0.4) {
+      return {
+        case: randomItem(ALL_CASES),
+      }
     }
-  }
-
-  return { ca: randomCA() }
-}
-
-function randomAffixList() {
-  const output: Affix[] = []
-
-  while (true) {
-    output.push(randomAffix())
 
     if (Math.random() < 0.5) {
-      return output
-    }
-  }
-}
-
-function randomLetterSeries(maxLength: number) {
-  let output = ""
-
-  for (let index = 0; index < maxLength; index++) {
-    const char = randomItem("pbtdkgfvţḑszšžxcżčjmnňrlř")
-
-    if (char == output.slice(-1)) {
-      index--
-      continue
+      return {
+        case: randomItem(ALL_CASES),
+        isInverse: randomItem([true, false]),
+        type: randomItem([1, 2]),
+      }
     }
 
-    output += char
-
-    if (Math.random() < 0.75) {
-      break
-    }
+    return { ca: randomCA() }
   }
 
-  return output
-}
+  function randomAffixList(force: true): [Affix, ...Affix[]]
+  function randomAffixList(force?: false): Affix[]
+  function randomAffixList(force = false): Affix[] {
+    const output: Affix[] = []
 
-function randomFormative(): PartialFormative {
-  const root: SlotIII =
-    Math.random() < 0.1
-      ? [randomItem(ALL_REFERENTS)]
-      : Math.random() < 0.1
-      ? {
-          cs: randomLetterSeries(5),
-          degree: randomItem([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
-        }
-      : randomLetterSeries(5)
+    while (true) {
+      if ((output.length == 0 ? !force : true) && Math.random() < 0.5) {
+        return output
+      }
 
-  if (Math.random() < 30 / NUMBER_OF_TEST_CASES) {
+      output.push(randomAffix())
+    }
+  }
+
+  function randomLetterSeries(maxLength: number) {
+    let output = ""
+
+    for (let index = 0; index < maxLength; index++) {
+      const char = randomItem("pbtdkgfvţḑszšžxcżčjmnňrlř")
+
+      if (char == output.slice(-1)) {
+        index--
+        continue
+      }
+
+      output += char
+
+      if (Math.random() < 0.75) {
+        break
+      }
+    }
+
+    return output
+  }
+
+  const randomVN = () =>
+    biasedRandomItem(
+      "MNO",
+      randomItem([
+        ALL_VALENCES,
+        ALL_PHASES,
+        ALL_EFFECTS,
+        ALL_LEVELS,
+        ALL_ASPECTS,
+      ]),
+    )
+
+  const randomNonAspectualVN = () =>
+    biasedRandomItem(
+      "MNO",
+      randomItem([ALL_VALENCES, ALL_PHASES, ALL_EFFECTS, ALL_LEVELS]),
+    )
+
+  function randomFormative(): PartialFormative {
+    const root: SlotIII =
+      Math.random() < 0.1
+        ? [randomItem(ALL_REFERENTS)]
+        : Math.random() < 0.1
+        ? {
+            cs: randomLetterSeries(5),
+            degree: randomItem([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
+          }
+        : randomLetterSeries(5)
+
+    if (Math.random() < 30 / numberOfTestCases) {
+      return {
+        type: randomItem(["UNF/C", "UNF/K", "FRM"]),
+        root,
+      }
+    }
+
+    const ca = randomCA()
+
     return {
-      type: randomItem(["UNF/C", "UNF/K", "FRM"]),
+      type: biasedRandomItem("UNF/C", ["UNF/K", "FRM"]),
+
+      concatenationType: biasedRandomItem("none", [1, 2]),
+
+      shortcut: true,
+      version: biasedRandomItem("PRC", ["CPT"]),
+      stem: biasedRandomItem(1, [2, 3, 0]),
+
       root,
+
+      get rootType() {
+        return Array.isArray(this.root)
+          ? "referential"
+          : typeof this.root == "object"
+          ? "affix"
+          : "standard"
+      },
+
+      function: biasedRandomItem("STA", ALL_FUNCTIONS),
+      specification: biasedRandomItem("BSC", ALL_SPECIFICATIONS),
+      context: biasedRandomItem("EXS", ALL_CONTEXTS),
+
+      slotVAffixes: mode == "short" ? undefined : randomAffixList(),
+
+      ca,
+
+      ...ca,
+
+      slotVIIAffixes: mode == "short" ? undefined : randomAffixList(),
+
+      vn:
+        mode == "short"
+          ? biasedRandomItem(
+              "MNO",
+              randomItem([
+                ALL_VALENCES,
+                ALL_PHASES,
+                ALL_EFFECTS,
+                ALL_LEVELS,
+                ALL_ASPECTS,
+              ]),
+            )
+          : randomItem(
+              randomItem([
+                ALL_VALENCES,
+                ALL_PHASES,
+                ALL_EFFECTS,
+                ALL_LEVELS,
+                ALL_ASPECTS,
+              ]),
+            ),
+
+      caseScope: biasedRandomItem("CCN", ALL_CASE_SCOPES),
+      mood: biasedRandomItem("FAC", ALL_MOODS),
+
+      case: biasedRandomItem("THM", ALL_CASES),
+      illocutionValidation: biasedRandomItem(
+        "OBS",
+        ALL_ILLOCUTION_OR_VALIDATIONS,
+      ),
     }
   }
 
-  const ca = randomCA()
+  function randomReferentList(): ReferentList {
+    return [randomItem(ALL_REFERENTS)]
+  }
 
-  return {
-    type: biasedRandomItem("UNF/C", ["UNF/K", "FRM"]),
+  function randomReferential(): PartialReferential {
+    const core =
+      Math.random() < 0.2
+        ? { type: randomItem(["CAR", "QUO", "NAM", "PHR"]) }
+        : {
+            referents: randomReferentList(),
+            perspective: biasedRandomItem("M", ["G", "N", "A"]),
+          }
 
-    concatenationType: biasedRandomItem("none", [1, 2]),
+    if (Math.random() < 0.33) {
+      return {
+        ...core,
+        specification: biasedRandomItem("BSC", ["CTE", "CSV", "OBJ"]),
+        affixes: randomAffixList(),
+        case: biasedRandomItem("THM", ALL_CASES),
+        case2: biasedRandomItem("THM", ALL_CASES),
+        essence: biasedRandomItem("NRM", ["RPV"]),
+      }
+    }
 
-    shortcut: true,
-    version: biasedRandomItem("PRC", ["CPT"]),
-    stem: biasedRandomItem(1, [2, 3, 0]),
+    if (Math.random() < 0.5) {
+      const second =
+        Math.random() < 0.5
+          ? undefined
+          : {
+              referents2: randomReferentList(),
+              perspective2: biasedRandomItem("M", ["G", "N", "A"]),
+            }
 
-    root,
+      return {
+        ...core,
+        ...second,
+        case: biasedRandomItem("THM", ALL_CASES),
+        case2: biasedRandomItem("THM", ALL_CASES),
+        essence: biasedRandomItem("NRM", ["RPV"]),
+      }
+    }
 
-    get rootType() {
-      return Array.isArray(this.root)
-        ? "referential"
-        : typeof this.root == "object"
-        ? "affix"
-        : "standard"
+    return {
+      ...core,
+      case: biasedRandomItem("THM", ALL_CASES),
+      essence: biasedRandomItem("NRM", ["RPV"]),
+    }
+  }
+
+  function randomAdjunct(): PlainAdjunct {
+    switch (randomItem([1, 2, 3, 4, 5, 6])) {
+      case 1:
+        return randomItem(ALL_BIAS_ADJUNCTS)
+
+      case 2:
+        return randomItem(ALL_PARSING_ADJUNCTS)
+
+      case 3:
+        return randomItem(ALL_SINGLE_REGISTER_ADJUNCTS)
+
+      case 4:
+        return {
+          type: randomItem(ALL_SUPPLETIVE_ADJUNCT_TYPES),
+          case: biasedRandomItem("THM", ALL_CASES),
+        }
+
+      case 5:
+        return {
+          affixes: randomAffixList(true),
+          scope: biasedRandomItem(undefined, ALL_AFFIXUAL_ADJUNCT_SCOPES),
+          scope2: biasedRandomItem(undefined, ALL_AFFIXUAL_ADJUNCT_SCOPES),
+        }
+    }
+
+    const type = biasedRandomItem("WHOLE", ALL_MODULAR_ADJUNCT_TYPES)
+
+    switch (randomItem([1, 2, 3])) {
+      case 1:
+        return {
+          type,
+          vn1: randomItem(ALL_ASPECTS),
+        }
+
+      case 2:
+        return {
+          type,
+          cn: randomItem(ALL_MOOD_OR_CASE_SCOPES),
+          vn1: randomVN(),
+          vn2: Math.random() < 0.5 ? randomVN() : undefined,
+          vn3: randomNonAspectualVN(),
+        }
+
+      case 3:
+        return {
+          type,
+          cn: randomItem(ALL_MOOD_OR_CASE_SCOPES),
+          vn1: randomVN(),
+          vn2: Math.random() < 0.5 ? randomVN() : undefined,
+          scope: randomItem(ALL_MODULAR_ADJUNCT_SCOPES),
+        }
+    }
+  }
+
+  console.time("creating words")
+
+  const testCases = Array.from(
+    { length: numberOfTestCases },
+    (): [Word, string] => {
+      const word =
+        Math.random() < 0.3333
+          ? randomAdjunct()
+          : Math.random() < 0.5
+          ? randomReferential()
+          : randomFormative()
+
+      if (typeof word != "string")
+        Object.defineProperty(word, "wordType", {
+          get() {
+            return "root" in this
+              ? "formative"
+              : "referent" in this
+              ? "referential"
+              : "adjunct"
+          },
+        })
+
+      const source = wordToIthkuil(word)
+
+      return [word, source]
     },
-
-    function: biasedRandomItem("STA", ALL_FUNCTIONS),
-    specification: biasedRandomItem("BSC", ALL_SPECIFICATIONS),
-    context: biasedRandomItem("EXS", ALL_CONTEXTS),
-
-    slotVAffixes: MODE == "short" ? undefined : randomAffixList(),
-
-    ca,
-
-    ...ca,
-
-    slotVIIAffixes: MODE == "short" ? undefined : randomAffixList(),
-
-    vn:
-      MODE == "short"
-        ? biasedRandomItem(
-            "MNO",
-            randomItem([
-              ALL_VALENCES,
-              ALL_PHASES,
-              ALL_EFFECTS,
-              ALL_LEVELS,
-              ALL_ASPECTS,
-            ]),
-          )
-        : randomItem(
-            randomItem([
-              ALL_VALENCES,
-              ALL_PHASES,
-              ALL_EFFECTS,
-              ALL_LEVELS,
-              ALL_ASPECTS,
-            ]),
-          ),
-
-    caseScope: biasedRandomItem("CCN", ALL_CASE_SCOPES),
-    mood: biasedRandomItem("FAC", ALL_MOODS),
-
-    case: biasedRandomItem("THM", ALL_CASES),
-    illocutionValidation: biasedRandomItem(
-      "OBS",
-      ALL_ILLOCUTION_OR_VALIDATIONS,
-    ),
-  }
-}
-
-console.time("creating words")
-
-const testCases = Array.from({ length: NUMBER_OF_TEST_CASES }, () => {
-  const formative = randomFormative()
-  const source = formativeToIthkuil(formative)
-  return [formative, source] as const
-})
-
-console.timeEnd("creating words")
-
-function benchmark() {
-  let index = 0
-
-  console.time("performing benchmark")
-
-  for (const [formative, source] of testCases) {
-    index++
-
-    try {
-      const result = parseWord(source)
-
-      if (result == null) {
-        throw new Error("Failed to tokenize.")
-      }
-    } catch (error) {
-      console.error(`Failed on input #${index} '${source}':`)
-
-      if (error instanceof Error) {
-        console.error(error.message)
-      } else {
-        console.error("Error: " + String(error))
-      }
-
-      console.error(formative)
-
-      return false
-    }
-  }
-
-  console.timeEnd("performing benchmark")
-
-  return true
-}
-
-function checkValidity() {
-  let index = 0
-
-  console.time("checking validity")
-
-  for (const [formative, source] of testCases) {
-    index++
-
-    try {
-      const result = parseWord(source)
-
-      if (result == null) {
-        throw new Error("Failed to tokenize.")
-      }
-
-      const output = wordToIthkuil(result)
-
-      if (source != output) {
-        throw new Error(
-          `Output '${output}' is different from input '${source}'.`,
-        )
-      }
-    } catch (error) {
-      console.error(`Failed on input #${index} '${source}':`)
-
-      if (error instanceof Error) {
-        console.error(error)
-      } else {
-        console.error("Error: " + String(error))
-      }
-
-      console.error(formative)
-
-      return false
-    }
-  }
-
-  console.timeEnd("checking validity")
-
-  return true
-}
-
-function findAllBenchmarkFailures() {
-  const failures = testCases.filter(([, source]) => {
-    try {
-      const result = parseWord(source)
-
-      if (result == null) {
-        return true
-      }
-    } catch (err) {
-      console.log(err instanceof Error ? err.message : err)
-      return true
-    }
-
-    return false
-  })
-
-  if (failures.length == 0) {
-    console.log("No benchmark failures found!")
-    return
-  }
-
-  Object.keys(failures[0]![0])
-    .map((key) => {
-      const value = failures[0]![0][key as keyof (typeof failures)[0][0]]
-
-      const percentageThatHadThisKey =
-        failures.filter(
-          (x) => x[0][key as keyof (typeof failures)[0][0]] == value,
-        ).length / failures.length
-
-      return [value, percentageThatHadThisKey, key] as const
-    })
-    .sort((a, b) => (a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : 0))
-    .map(([value, percentageThatHadThisKey, key]) => {
-      console.log(
-        (Math.round(percentageThatHadThisKey * 1000) / 10 + "%").padEnd(5) +
-          " of failures had " +
-          key +
-          " = " +
-          value,
-      )
-    })
-
-  console.error(
-    "\nHere are some failed formatives:\n" +
-      failures
-        .slice(0, 10)
-        .map((x) => x[1])
-        .join("\n"),
   )
 
-  console.log(
-    "Total failures: " + failures.length + " of " + testCases.length + ".",
-  )
-}
+  console.timeEnd("creating words")
 
-function findAllValidityFailures() {
-  const failures = testCases
-    .map(([formative, source]) => {
+  function benchmark() {
+    let index = 0
+
+    console.time("performing benchmark")
+
+    for (const [word, source] of testCases) {
+      index++
+
       try {
         const result = parseWord(source)
 
         if (result == null) {
-          return [formative, source, null] as const
+          throw new Error("Failed to tokenize.")
+        }
+      } catch (error) {
+        console.error(`Failed on input #${index} '${source}':`)
+
+        if (error instanceof Error) {
+          console.error(error.message)
+        } else {
+          console.error("Error: " + String(error))
+        }
+
+        console.error(word)
+
+        return false
+      }
+    }
+
+    console.timeEnd("performing benchmark")
+
+    return true
+  }
+
+  function checkValidity() {
+    let index = 0
+
+    console.time("checking validity")
+
+    for (const [word, source] of testCases) {
+      index++
+
+      try {
+        const result = parseWord(source)
+
+        if (result == null) {
+          throw new Error("Failed to tokenize.")
         }
 
         const output = wordToIthkuil(result)
 
-        return [formative, source, output] as const
-      } catch (err) {
-        return [formative, source, false] as const
-      }
-    })
-    .filter(
-      ([, source, output]) =>
-        output == null || output == false || source != output,
-    )
+        if (source != output) {
+          throw new Error(
+            `Output '${output}' is different from input '${source}'.`,
+          )
+        }
+      } catch (error) {
+        console.error(`Failed on input #${index} '${source}':`)
 
-  if (failures.length == 0) {
-    console.log("No validity failures found!")
-    return
+        if (error instanceof Error) {
+          console.error(error)
+        } else {
+          console.error("Error: " + String(error))
+        }
+
+        console.error(word)
+
+        return false
+      }
+    }
+
+    console.timeEnd("checking validity")
+
+    return true
   }
 
-  Object.keys(failures[0]![0])
-    .map((key) => {
-      const value = failures[0]![0][key as keyof (typeof failures)[0][0]]
+  function findAllBenchmarkFailures() {
+    const failures = testCases.filter(([, source]) => {
+      try {
+        const result = parseWord(source)
 
-      const percentageThatHadThisKey =
-        failures.filter(
-          (x) => x[0][key as keyof (typeof failures)[0][0]] == value,
-        ).length / failures.length
+        if (result == null) {
+          return true
+        }
+      } catch (err) {
+        console.log(err instanceof Error ? err.message : err)
+        return true
+      }
 
-      return [value, percentageThatHadThisKey, key] as const
+      return false
     })
-    .sort((a, b) => (a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : 0))
-    .map(([value, percentageThatHadThisKey, key]) => {
-      console.log(
-        (Math.round(percentageThatHadThisKey * 1000) / 10 + "%").padEnd(5) +
-          " of failures had " +
-          key +
-          " = " +
-          value,
+
+    if (failures.length == 0) {
+      console.log("No benchmark failures found!")
+      return
+    }
+
+    Object.keys(failures[0]![0])
+      .map((key) => {
+        const value = failures[0]![0][key as keyof (typeof failures)[0][0]]
+
+        const percentageThatHadThisKey =
+          failures.filter(
+            (x) => x[0][key as keyof (typeof failures)[0][0]] == value,
+          ).length / failures.length
+
+        return [value, percentageThatHadThisKey, key] as const
+      })
+      .sort((a, b) => (a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : 0))
+      .map(([value, percentageThatHadThisKey, key]) => {
+        console.log(
+          (Math.round(percentageThatHadThisKey * 1000) / 10 + "%").padEnd(5) +
+            " of failures had " +
+            key +
+            " = " +
+            value,
+        )
+      })
+
+    console.error(
+      "\nHere are some failed words:\n" +
+        failures
+          .slice(0, 10)
+          .map((x) => x[1])
+          .join("\n"),
+    )
+
+    console.log(
+      "Total benchmark failures: " +
+        failures.length +
+        " of " +
+        testCases.length +
+        ".",
+    )
+  }
+
+  function findAllValidityFailures() {
+    const failures = testCases
+      .map(([word, source]) => {
+        try {
+          const result = parseWord(source)
+
+          if (result == null) {
+            return [word, source, null] as const
+          }
+
+          const output = wordToIthkuil(result)
+
+          return [word, source, output] as const
+        } catch (err) {
+          return [word, source, false] as const
+        }
+      })
+      .filter(
+        ([, source, output]) =>
+          output == null || output == false || source != output,
       )
-    })
 
-  console.error(
-    "\nHere are some failed formatives:\n\n" +
-      failures
-        .slice(0, 10)
-        .map((x) => {
-          return (
-            `${x[1]}\n` +
-            `${x[2]}\n` +
-            `${JSON.stringify(x[0].slotVIIAffixes?.at(-1))}\n` +
-            `${JSON.stringify(x[0].ca)}`
-          )
-        })
-        .join("\n\n"),
-  )
+    if (failures.length == 0) {
+      console.log("No validity failures found!")
+      return
+    }
 
-  console.error(
-    "\nTotal failures: " + failures.length + " of " + testCases.length,
-  )
+    Object.keys(failures[0]![0])
+      .map((key) => {
+        const value = failures[0]![0][key as keyof (typeof failures)[0][0]]
+
+        const percentageThatHadThisKey =
+          failures.filter(
+            (x) => x[0][key as keyof (typeof failures)[0][0]] == value,
+          ).length / failures.length
+
+        return [value, percentageThatHadThisKey, key] as const
+      })
+      .sort((a, b) => (a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : 0))
+      .map(([value, percentageThatHadThisKey, key]) => {
+        console.log(
+          (Math.round(percentageThatHadThisKey * 1000) / 10 + "%").padEnd(5) +
+            " of failures had " +
+            key +
+            " = " +
+            value,
+        )
+      })
+
+    console.error(
+      "\nHere are some failed words:\n\n" +
+        failures
+          .slice(0, 10)
+          .map((x) => {
+            return x[1] + "\n" + x[2]
+          })
+          .join("\n\n"),
+    )
+
+    console.error(
+      "\nTotal validity failures: " +
+        failures.length +
+        " of " +
+        testCases.length,
+    )
+  }
+
+  if (!benchmark()) {
+    findAllBenchmarkFailures()
+    return false
+  } else if (!checkValidity()) {
+    findAllValidityFailures()
+    return false
+  } else {
+    console.log("All tests passed!")
+    return true
+  }
 }
 
-if (!benchmark()) {
-  findAllBenchmarkFailures()
-} else if (!checkValidity()) {
-  findAllValidityFailures()
-} else {
-  console.log("All tests passed!")
+function containedRunTests(numberOfTestCases: number, mode: "short" | "full") {
+  console.log()
+
+  try {
+    console.group(`Testing in ${mode} mode ${numberOfTestCases} times...`)
+    return runTests(numberOfTestCases, mode)
+  } catch (error) {
+    console.error("An error occurred.")
+    console.error(error)
+    return false
+  } finally {
+    console.groupEnd()
+  }
 }
+
+containedRunTests(1e5, "short") &&
+  containedRunTests(1e5, "full") &&
+  containedRunTests(1e6, "short") &&
+  containedRunTests(1e6, "full")
+
+console.log()

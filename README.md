@@ -16,12 +16,15 @@ is completely suitable for use as of now
 
 ## Features
 
-As of May 29, 2023, `@zsnout/ithkuil` can generate these types of words:
+As of May 29, 2023, `@zsnout/ithkuil` can generate every single kind of word in
+Ithkuil. And as of July 6, 2023, it can parse every single kind of word in
+Ithkuil. These word types include:
 
 - Formatives
 - Specialized Cs-root formatives
 - Specialized personal-reference formatives
-- Referentials
+- Single- and dual- referentials
+- Combination referentials
 - Affixual adjuncts
 - Bias adjuncts
 - Modular adjuncts
@@ -29,12 +32,6 @@ As of May 29, 2023, `@zsnout/ithkuil` can generate these types of words:
 - Register adjuncts
 - Suppletive adjuncts
 - Referentials with suppletive adjuncts as heads
-
-As of July 4, 2023, `@zsnout/ithkuil` can parse these types of words:
-
-- Formatives
-- Specialized Cs-root formatives
-- Specialized personal-reference formatives
 
 It also has many, many more functions. It can:
 
@@ -325,22 +322,35 @@ try {
   ..., they are now ordered `1m:NEU`, `1m:BEN`, `1m:DET`, `2m:NEU`, `2m:BEN`,
   etc.
 
+- **Breaking change:** Referentials can now take multiple referents in their
+  second referent slot. As such, the `referent2` property of referentials has
+  now been pluralized and changed to the `referents2` property.
+
 - **Breaking type-level change:** The `CN` type union now includes
   `MoodOrCaseScope` instances. As such, it no longer only contains string
   literals.
+
+- **Output change:** Passing differently ordered lists to
+  `referentListToIthkuil` now gives the same output.
 
 - Added `MoodOrCaseScope` class to represent Cn forms in Modular Adjuncts.
 
 - Added functions to lex and parse adjuncts
 
-- Added `parseWord` to parse formatives and adjuncts
+- Added `parseWord` to parse formatives, referentials, and adjuncts all at once
 
 - Added `wordToIthkuil` to turn generic words into Ithkuil
 
-- Added `word` Zod parser to parse generic Ithkuilic words
+- Added `word` Zod parser to validate generic JSON objects representing words
 
 - Fix several issues involving the parsing of formatives with specialized
   Cs-roots and specialized personal-reference roots
+
+- Allow multiple referents in C2 of dual referentials
+
+- Added `SingleRegisterAdjunct` to indicate individual registers, such as
+  `DSV:START`, `CGT:END`, and so on. Note that `SingleRegisterAdjunct` does not
+  include `NRR:START`, `NRR:END`, or `END:START`.
 
 ### 0.1.15
 

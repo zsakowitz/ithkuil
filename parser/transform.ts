@@ -38,26 +38,67 @@ const STRESSED_TO_UNSTRESSED_VOWEL_MAP = /* @__PURE__ */ freeze({
   û: "ü",
 })
 
+// Taken from https://github.com/ngoriyasjil/IthkuilGloss/blob/181241b89c962d83b999a669c298366b07df53b9/src/ithkuil/iv/gloss/Constants.kt#L27C4-L27C4
+
 const LETTER_SUBSTITUTIONS = /* @__PURE__ */ freeze({
-  ḍ: "ḑ",
-  đ: "ḑ",
-  ı: "i",
+  "​": "",
+  // The previous line is keyed with the Unicode Byte Order Mark
+
+  "’": "'",
+  ʼ: "'",
+  "‘": "'",
+  á: "á",
+  ä: "ä",
+  â: "â",
+  é: "é",
+  ë: "ë",
+  ê: "ê",
   ì: "i",
-  ȷ: "j",
-  ł: "ļ",
-  ḷ: "ļ",
-  l͕: "ļ",
-  n͕: "ň",
-  ṇ: "ň",
-  ṛ: "ř",
-  r͕: "ř",
+  ı: "i",
+  ì: "i",
+  í: "í",
+  ó: "ó",
+  ö: "ö",
+  ô: "ô",
+  ù: "u",
+  ù: "u",
+  ú: "ú",
+  ü: "ü",
+  û: "û",
+  č: "č",
+  ç: "ç",
   ṭ: "ţ",
   ŧ: "ţ",
-  ù: "u",
-  ẓ: "ż",
-  "‘": "'",
-  "’": "'",
+  ț: "ţ",
+  ţ: "ţ",
+  ṭ: "ţ",
+  ḍ: "ḑ",
+  đ: "ḑ",
+  ḍ: "ḑ",
+  ḑ: "ḑ",
+  ł: "ļ",
+  ḷ: "ļ",
+  ḷ: "ļ",
+  ļ: "ļ",
+  š: "š",
+  ž: "ž",
+  ż: "ẓ",
+  ẓ: "ẓ",
+  ṇ: "ň",
+  ň: "ň",
+  ņ: "ň",
+  ṇ: "ň",
+  ṛ: "ř",
+  ř: "ř",
+  ŗ: "ř",
+  r͕: "ř",
+  ŗ: "ř",
+  ṛ: "ř",
 })
+
+const LETTER_SUBSTITUTION_REGEX =
+  // The first element of this character class is the Unicode Byte Order Mark
+  /[​’ʼ‘ìıùṭŧțḍđłḷżṇṛŗ]á|ä|â|é|ë|ê|ì|í|ó|ö|ô|ù|ú|ü|û|č|ç|ţ|ṭ|ḍ|ḑ|ḷ|ļ|š|ž|ẓ|ň|ņ|ṇ|ř|ŗ|r͕|ṛ/g
 
 /**
  * Transforms a word by normalizing spelling and parsing and removing stress
@@ -70,7 +111,7 @@ export function transformWord(word: string): TransformedWord {
 
   word = word
     .toLowerCase()
-    .replace(/[ḍđıìȷłḷṇṛṭŧù‘’]|l͕|n͕|r͕/g, (x) => (LETTER_SUBSTITUTIONS as any)[x])
+    .replace(LETTER_SUBSTITUTION_REGEX, (x) => (LETTER_SUBSTITUTIONS as any)[x])
 
   if (word.startsWith("'")) {
     word = word.slice(1)

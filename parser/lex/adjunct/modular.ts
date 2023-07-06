@@ -13,22 +13,22 @@ import { H, V } from "../forms.js"
  * 5. Cm (optional, but present if slot 4 is present)
  * 6. Vn/Vh (required)
  */
-export const modularAdjunct = seq(
-  anyText("w", "y").asGroup().optional(),
+export const modularAdjunct = /* @__PURE__ */ seq(
+  /* @__PURE__ */ anyText("w", "y").asGroup().optional(),
 
-  seq(
-    V.asGroup(),
+  /* @__PURE__ */ seq(
+    /* @__PURE__ */ V.asGroup(),
 
-    H.asGroup(),
+    /* @__PURE__ */ H.asGroup(),
 
-    seq(
-      V.asGroup(),
+    /* @__PURE__ */ seq(
+      /* @__PURE__ */ V.asGroup(),
 
-      anyText("n", "ň").asGroup(),
+      /* @__PURE__ */ anyText("n", "ň").asGroup(),
     ).optional(),
   ).optional(),
 
-  V.asGroup(),
+  /* @__PURE__ */ V.asGroup(),
 )
   .matchEntireText()
   .compile()

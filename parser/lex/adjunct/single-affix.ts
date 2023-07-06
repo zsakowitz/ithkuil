@@ -10,12 +10,12 @@ import { C, V } from "../forms.js"
  * 2. Cs (required)
  * 3. Vs (optional)
  */
-export const singleAffixAffixualAdjunct = seq(
-  V.asGroup(),
+export const singleAffixAffixualAdjunct = /* @__PURE__ */ seq(
+  /* @__PURE__ */ V.asGroup(),
 
-  C.asGroup(),
+  /* @__PURE__ */ C.asGroup(),
 
-  anyText("a", "u", "e", "i", "o", "ö").asGroup().optional(),
+  /* @__PURE__ */ anyText("a", "u", "e", "i", "o", "ö").asGroup().optional(),
 )
   .matchEntireText()
   .compile()

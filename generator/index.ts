@@ -27,6 +27,10 @@ export * from "./helpers/with-wy-alternative.js"
 export * from "./phonotactics/index.js"
 export * from "./referential/index.js"
 
+function assertWordIsNotFormative<T>(
+  word: T,
+): asserts word is Exclude<typeof word, PartialFormative> {}
+
 /** The type of a generic Ithkuilic word. */
 export type Word = PartialReferential | PartialFormative | Adjunct
 
@@ -63,7 +67,7 @@ export type Word = PartialReferential | PartialFormative | Adjunct
  */
 export function wordToIthkuil(
   word: PartialReferential | PartialFormative | Adjunct,
-) {
+): string {
   if (typeof word == "string") {
     return adjunctToIthkuil(word)
   }
@@ -72,9 +76,12 @@ export function wordToIthkuil(
     return modularAdjunctToIthkuil(word)
   }
 
-  if ("root" in word && word.root) {
+  if ("root" in word && word.root != null) {
     return formativeToIthkuil(word)
   }
+
+  // This does nothing except make TypeScript happy.
+  assertWordIsNotFormative(word)
 
   if ("type" in word) {
     if (
@@ -87,21 +94,25 @@ export function wordToIthkuil(
       !(
         ("affixes" in word && word.affixes) ||
         ("case2" in word && word.case2) ||
-        ("essence" in word && word.essence) ||
+        ("essence" in word && word.essence != "RPV") ||
         ("perspective2" in word && word.perspective2) ||
-        ("referent2" in word && word.referent2) ||
+        ("referents2" in word && word.referents2) ||
         ("specification" in word && word.specification)
       )
     ) {
       return suppletiveAdjunctToIthkuil(word as SuppletiveAdjunct)
     }
 
-    return referentialToIthkuil(word as Exclude<typeof word, PartialFormative>)
+    return referentialToIthkuil(word)
   }
 
   if (word.affixes && (!("referents" in word) || word.referents == null)) {
     return affixualAdjunctToIthkuil(word)
   }
 
-  return referentialToIthkuil(word)
+  if (word.referents) {
+    return referentialToIthkuil(word)
+  }
+
+  throw new Error("Invalid word.", { cause: word })
 }

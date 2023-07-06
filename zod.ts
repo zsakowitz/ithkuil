@@ -388,7 +388,7 @@ export const partialReferentialCore = /* @__PURE__ */ union([
 export const referential = /* @__PURE__ */ union([
   /* @__PURE__ */ referentialCore.and(
     /* @__PURE__ */ object({
-      referent2: /* @__PURE__ */ undefined().optional(),
+      referents2: /* @__PURE__ */ undefined().optional(),
       perspective2: /* @__PURE__ */ undefined().optional(),
       specification: /* @__PURE__ */ undefined().optional(),
       affixes: /* @__PURE__ */ undefined().optional(),
@@ -396,7 +396,7 @@ export const referential = /* @__PURE__ */ union([
   ),
   /* @__PURE__ */ referentialCore.and(
     /* @__PURE__ */ object({
-      referent2: referent,
+      referents2: referent,
       perspective2: perspective,
       specification: /* @__PURE__ */ undefined().optional(),
       affixes: /* @__PURE__ */ undefined().optional(),
@@ -404,7 +404,7 @@ export const referential = /* @__PURE__ */ union([
   ),
   /* @__PURE__ */ referentialCore.and(
     /* @__PURE__ */ object({
-      referent2: /* @__PURE__ */ undefined().optional(),
+      referents2: /* @__PURE__ */ undefined().optional(),
       perspective2: /* @__PURE__ */ undefined().optional(),
       specification: specification,
       affixes: /* @__PURE__ */ affix.array(),
@@ -416,7 +416,7 @@ export const referential = /* @__PURE__ */ union([
 export const partialReferential = /* @__PURE__ */ union([
   /* @__PURE__ */ partialReferentialCore.and(
     /* @__PURE__ */ object({
-      referent2: /* @__PURE__ */ undefined().optional(),
+      referents2: /* @__PURE__ */ undefined().optional(),
       perspective2: /* @__PURE__ */ undefined().optional(),
       specification: /* @__PURE__ */ undefined().optional(),
       affixes: /* @__PURE__ */ undefined().optional(),
@@ -424,7 +424,7 @@ export const partialReferential = /* @__PURE__ */ union([
   ),
   /* @__PURE__ */ partialReferentialCore.and(
     /* @__PURE__ */ object({
-      referent2: referent,
+      referents2: referent,
       perspective2: /* @__PURE__ */ perspective.optional(),
       specification: /* @__PURE__ */ undefined().optional(),
       affixes: /* @__PURE__ */ undefined().optional(),
@@ -432,7 +432,7 @@ export const partialReferential = /* @__PURE__ */ union([
   ),
   /* @__PURE__ */ partialReferentialCore.and(
     /* @__PURE__ */ object({
-      referent2: /* @__PURE__ */ undefined().optional(),
+      referents2: /* @__PURE__ */ undefined().optional(),
       perspective2: /* @__PURE__ */ undefined().optional(),
       specification: /* @__PURE__ */ specification.optional(),
       affixes: /* @__PURE__ */ affix.array().optional(),
@@ -452,7 +452,7 @@ export const modularAdjunct = /* @__PURE__ */ union([
   }),
   /* @__PURE__ */ object({
     type: /* @__PURE__ */ modularAdjunctType.optional(),
-    cn,
+    cn: /* @__PURE__ */ cn.optional(),
     vn1: vn,
     vn2: /* @__PURE__ */ vn.optional(),
     vn3: nonAspectualVn,
@@ -460,7 +460,7 @@ export const modularAdjunct = /* @__PURE__ */ union([
   }),
   /* @__PURE__ */ object({
     type: /* @__PURE__ */ modularAdjunctType.optional(),
-    cn,
+    cn: /* @__PURE__ */ cn.optional(),
     vn1: vn,
     vn2: /* @__PURE__ */ vn.optional(),
     vn3: /* @__PURE__ */ undefined().optional(),

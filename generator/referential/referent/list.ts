@@ -4,6 +4,7 @@ import {
   isLegalConsonantForm,
   isLegalWordInitialConsonantForm,
 } from "../../phonotactics/index.js"
+import { isLegalWordFinalConsonantForm } from "../../phonotactics/word-final.js"
 import {
   referentialPerspectiveToIthkuil,
   referentialPerspectiveToIthkuilAlt,
@@ -24,12 +25,14 @@ export type ReferentList = readonly [Referent, ...Referent[]]
  * @param referents A list of referents.
  * @param perspective The perspective to attach to said referents.
  * @param isReferentialAffix Whether this is used in a referential affix.
+ * @param isSecondReferent Whether this is the second referent in a dual referential.
  * @returns Romanized Ithkuilic text representing the referent list.
  */
 export function assembleReferentList(
   referents: ReferentList,
   perspective: Perspective,
   isReferentialAffix: boolean,
+  isSecondReferent: boolean,
 ) {
   const text = referents.map((referent) =>
     referentToIthkuil(referent, isReferentialAffix),
@@ -39,12 +42,18 @@ export function assembleReferentList(
 
   let index = 0
 
-  for (; index < text.length; index++) {
-    if (isLegalWordInitialConsonantForm(output + text[index])) {
+  if (isSecondReferent) {
+    for (; index < text.length; index++) {
       output += text[index]
-    } else {
-      output = "ë" + output + text.slice(index)
-      break
+    }
+  } else {
+    for (; index < text.length; index++) {
+      if (isLegalWordInitialConsonantForm(output + text[index])) {
+        output += text[index]
+      } else {
+        output = "ë" + output + text.slice(index)
+        break
+      }
     }
   }
 
@@ -64,24 +73,33 @@ export function assembleReferentList(
     return output + persp
   }
 
-  if (isLegalWordInitialConsonantForm(output + persp)) {
+  const isLegal = isSecondReferent
+    ? isLegalWordFinalConsonantForm
+    : isLegalWordInitialConsonantForm
+
+  if (isLegal(output + persp)) {
     return output + persp
   }
 
-  if (isLegalWordInitialConsonantForm(persp + output)) {
+  if (isLegal(persp + output)) {
     return persp + output
   }
 
-  if (isLegalWordInitialConsonantForm(output + persp2)) {
+  if (isLegal(output + persp2)) {
     return output + persp2
   }
 
-  if (isLegalWordInitialConsonantForm(persp2 + output)) {
+  if (isLegal(persp2 + output)) {
     return persp2 + output
   }
 
-  // The following may be phonotactically invalid.
-  return "ë" + output + persp
+  if (isSecondReferent) {
+    // The following may be phonotactically invalid.
+    return output + persp
+  } else {
+    // The following may be phonotactically invalid.
+    return "ë" + output + persp
+  }
 }
 
 /**
@@ -95,27 +113,40 @@ export function assembleReferentList(
  *
  * @param referents A list of referents.
  * @param perspective The perspective to attach to said referents.
+ * @param isSecondReferent Whether this is the second referent in a dual referential.
  * @returns Romanized Ithkuilic text representing the referent list.
  */
 export function referentListToIthkuil(
   referents: ReferentList,
   perspective: Perspective,
+  isSecondReferent: boolean,
 ): string {
-  const all = allPermutationsOf(referents)
+  const all = allPermutationsOf(referents.slice().sort())
     .map((referentList) =>
-      assembleReferentList(referentList, perspective, false),
+      assembleReferentList(
+        referentList as [Referent, ...Referent[]],
+        perspective,
+        false,
+        isSecondReferent,
+      ),
     )
     .sort((a, b) => (a.length < b.length ? -1 : a.length > b.length ? 1 : 0))
 
-  const valid = all.filter(
-    (text) => text.startsWith("ë") || isLegalWordInitialConsonantForm(text),
-  )
+  if (isSecondReferent) {
+    const valid = all.find((text) => isLegalWordFinalConsonantForm(text))
 
-  if (valid.length > 0) {
-    return valid[0]!
-  } else {
-    return all[0]!
+    return valid ?? all[0]!
   }
+
+  const valid = all.find((text) => isLegalWordInitialConsonantForm(text))
+
+  if (valid) {
+    return valid
+  }
+
+  const valid2 = all.find((text) => text.startsWith("ë"))
+
+  return valid2 || all[0]!
 }
 
 /**

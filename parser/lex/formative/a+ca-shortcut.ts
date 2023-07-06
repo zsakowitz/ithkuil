@@ -19,25 +19,30 @@ const ccShortcut = /* @__PURE__ */ anyText("w", "y", "hl", "hr", "hm", "hn")
  */
 export const shortcutFormative = /* @__PURE__ */ seq(
   // Slot I: Cc
-  ccShortcut.asGroup(),
+  /* @__PURE__ */ ccShortcut.asGroup(),
 
   // Slot II: Vv
-  V.asGroup(),
+  /* @__PURE__ */ V.asGroup(),
 
   // Slot III: Cr
-  C.asGroup(),
+  /* @__PURE__ */ C.asGroup(),
 
   // Slot V: (VxCs...')
-  seq(seq(VNG, C).zeroOrMore(), VG, C).asGroup().optional(),
+  /* @__PURE__ */ seq(/* @__PURE__ */ seq(VNG, C).zeroOrMore(), VG, C)
+    .asGroup()
+    .optional(),
 
   // Slot VII: (VxCs...)
-  seq(V, C).zeroOrMore().asGroup(),
+  /* @__PURE__ */ seq(V, C).zeroOrMore().asGroup(),
 
   // Slot VIII: (VnCn)
-  seq(V.asGroup(), H.asGroup()).optional(),
+  /* @__PURE__ */ seq(
+    /* @__PURE__ */ V.asGroup(),
+    /* @__PURE__ */ H.asGroup(),
+  ).optional(),
 
   // Slot IX: (Vc/Vf/Vk)
-  V.asGroup().optional(),
+  /* @__PURE__ */ V.asGroup().optional(),
 )
   .matchEntireText()
   .compile()

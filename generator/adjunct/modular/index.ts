@@ -4,13 +4,13 @@ import type { CaseScope } from "../../formative/slot-8/case-scope.js"
 import type { Effect } from "../../formative/slot-8/effect.js"
 import { slotVIIIToIthkuil, vnToIthkuil } from "../../formative/slot-8/index.js"
 import type { Level } from "../../formative/slot-8/level.js"
-import type { MoodOrCaseScope } from "../../formative/slot-8/mood-or-case-scope.js"
+import { type MoodOrCaseScope } from "../../formative/slot-8/mood-or-case-scope.js"
 import type { Mood } from "../../formative/slot-8/mood.js"
 import type { Phase } from "../../formative/slot-8/phase.js"
 import type { Valence } from "../../formative/slot-8/valence.js"
 import { has } from "../../helpers/has.js"
 import { VOWEL_TO_STRESSED_VOWEL_MAP } from "../../helpers/stress.js"
-import { EMPTY, WithWYAlternative } from "../../helpers/with-wy-alternative.js"
+import { WithWYAlternative } from "../../helpers/with-wy-alternative.js"
 import {
   modularAdjunctScopeToIthkuil,
   type ModularAdjunctScope,
@@ -54,7 +54,7 @@ export type ModularAdjunct =
       readonly type?: ModularAdjunctType | undefined
 
       /** The mood or case-scope of this adjunct. */
-      readonly cn: Mood | CaseScope | MoodOrCaseScope
+      readonly cn?: Mood | CaseScope | MoodOrCaseScope | undefined
 
       /** The first Valence/Phase/Level/Effect/Aspect marked by this adjunct. */
       readonly vn1: Valence | Phase | Level | Effect | Aspect
@@ -81,7 +81,7 @@ export type ModularAdjunct =
       readonly type?: ModularAdjunctType | undefined
 
       /** The mood or case-scope of this adjunct. */
-      readonly cn: Mood | CaseScope | MoodOrCaseScope
+      readonly cn?: Mood | CaseScope | MoodOrCaseScope | undefined
 
       /** The first Valence/Phase/Level/Effect/Aspect marked by this adjunct. */
       readonly vn1: Valence | Phase | Level | Effect | Aspect
@@ -103,7 +103,7 @@ export type ModularAdjunct =
 export function modularAdjunctToIthkuil(adjunct: ModularAdjunct): string {
   const type = modularAdjunctTypeToIthkuil(adjunct.type ?? "WHOLE")
 
-  if (adjunct.cn == null) {
+  if (adjunct.scope == null && adjunct.vn3 == null) {
     const aspect = WithWYAlternative.of(
       aspectToIthkuil(adjunct.vn1),
     ).withPreviousText(type)
@@ -112,16 +112,15 @@ export function modularAdjunctToIthkuil(adjunct: ModularAdjunct): string {
   }
 
   const vn1 = slotVIIIToIthkuil(
-    { cn: adjunct.cn, vn: adjunct.vn1 },
+    { cn: adjunct.cn || "CCN", vn: adjunct.vn1 },
     { omitDefault: false },
   ).withPreviousText(type)
 
-  const second = adjunct.vn2
-    ? vnToIthkuil(adjunct.vn2, false) +
-      (has(ALL_ASPECTS, adjunct.vn2) ? "n" : "ň")
-    : EMPTY
-
-  const vn2 = WithWYAlternative.of(second).withPreviousText(type + vn1)
+  const vn2 = adjunct.vn2
+    ? WithWYAlternative.of(vnToIthkuil(adjunct.vn2, false)).withPreviousText(
+        type + vn1,
+      ) + (has(ALL_ASPECTS, adjunct.vn2) ? "n" : "ň")
+    : ""
 
   const output = type + vn1 + vn2
 

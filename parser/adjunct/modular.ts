@@ -36,7 +36,7 @@ export function buildModularAdjunct(
   const type =
     match[1] == "w" ? "PARENT" : match[1] == "y" ? "CONCAT" : undefined
 
-  if (!match[2]) {
+  if (!(match[2] || match[4])) {
     return {
       type,
       vn1: parseAspect(VowelForm.parseOrThrow(match[6]!)),
@@ -68,7 +68,20 @@ export function buildModularAdjunct(
     }
 
     if (vn2) {
-      return { type, vn1, cn, vn2, scope }
+      return {
+        type,
+        vn1,
+        cn,
+        vn2,
+        scope,
+      }
+    }
+
+    return {
+      type,
+      vn1,
+      cn,
+      scope,
     }
   }
 

@@ -5,4 +5,4 @@ import { C } from "../forms.js"
  * bias adjuncts, these do not have any capture groups. Instead, use the entire
  * result (`match[0]`) to get the relevant information.
  */
-export const biasAdjunct = C.matchEntireText().compile()
+export const biasAdjunct = /* @__PURE__ */ C.matchEntireText().compile()

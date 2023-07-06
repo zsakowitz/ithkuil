@@ -17,28 +17,29 @@ const ccNoShortcut = /* @__PURE__ */ anyText("hw", "h")
  * 7. Vc/Vf/Vk (optional)
  */
 export const cnShortcutFormative = /* @__PURE__ */ seq(
-  seq(
+  /* @__PURE__ */ seq(
     // Slot I: Cc
-    ccNoShortcut.asGroup().optional(),
+    /* @__PURE__ */ ccNoShortcut.asGroup().optional(),
 
     // Slot II: Vv
-    V.asGroup(),
+    /* @__PURE__ */ V.asGroup(),
+    /* @__PURE__ */
   ).optional(),
 
   // Slot III: Cr
-  C.asGroup(),
+  /* @__PURE__ */ C.asGroup(),
 
   // Slot IV: Vr
-  V.asGroup(),
+  /* @__PURE__ */ V.asGroup(),
 
   // Slot VI: Cn
-  anyText("hl", "hr", "hm", "hn", "hň").asGroup(),
+  /* @__PURE__ */ anyText("hl", "hr", "hm", "hn", "hň").asGroup(),
 
   // Slot VII: (VxCs...)
-  seq(V, C).zeroOrMore().asGroup(),
+  /* @__PURE__ */ seq(V, C).zeroOrMore().asGroup(),
 
   // Slot IX: (Vc/Vf/Vk)
-  V.asGroup().optional(),
+  /* @__PURE__ */ V.asGroup().optional(),
 )
   .matchEntireText()
   .compile()

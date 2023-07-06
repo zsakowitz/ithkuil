@@ -12,8 +12,6 @@ export type RegisterAdjunct =
 
 /** A single register adjunct. */
 export type SingleRegisterAdjunct =
-  | "NRR:START"
-  | "NRR:END"
   | "DSV:START"
   | "DSV:END"
   | "PNT:START"
@@ -24,18 +22,15 @@ export type SingleRegisterAdjunct =
   | "EXM:END"
   | "CGT:START"
   | "CGT:END"
-  | "END:START"
   | "END:END"
 
 /** An array containing all register adjuncts. */
 export const ALL_REGISTER_ADJUNCTS: readonly RegisterAdjunct[] =
-  /* @__PURE__ */ deepFreeze(["NRR", "DSV", "PNT", "SPF", "EXM", "CGT", "END"])
+  /* @__PURE__ */ deepFreeze(["DSV", "PNT", "SPF", "EXM", "CGT", "END"])
 
 /** An array containing all single register adjuncts. */
 export const ALL_SINGLE_REGISTER_ADJUNCTS: readonly SingleRegisterAdjunct[] =
   /* @__PURE__ */ deepFreeze([
-    "NRR:START",
-    "NRR:END",
     "DSV:START",
     "DSV:END",
     "PNT:START",
@@ -46,7 +41,6 @@ export const ALL_SINGLE_REGISTER_ADJUNCTS: readonly SingleRegisterAdjunct[] =
     "EXM:END",
     "CGT:START",
     "CGT:END",
-    "END:START",
     "END:END",
   ])
 
@@ -81,14 +75,12 @@ export const SINGLE_REGISTER_ADJUNCT_TO_ITHKUIL_MAP =
     "EXM:END": "hoi",
     "CGT:START": "hu",
     "CGT:END": "hui",
-    "END:START": "",
     "END:END": "hü",
   })
 
 /**
  * An object mapping from all Ithkuil translations of single register adjuncts
- * to their adjuncts. Note that the `NRR:START`, `NRR:END`, and `END:START`
- * adjuncts are not included.
+ * to their adjuncts.
  */
 export const SINGLE_REGISTER_ITHKUIL_TO_ADJUNCT_MAP =
   /* @__PURE__ */ deepFreeze({

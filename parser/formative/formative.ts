@@ -399,7 +399,7 @@ export function buildCnShortcutFormative(
       ? undefined
       : VR_TO_SPECIFICATION[vr.degree],
     function: (root as any).cs
-      ? vr.sequence <= 2
+      ? vv!.sequence <= 2
         ? "STA"
         : "DYN"
       : vr.degree < 5

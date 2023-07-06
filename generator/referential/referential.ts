@@ -11,18 +11,10 @@ import {
 } from "../formative/index.js"
 import { countVowelForms } from "../helpers/stress.js"
 import { WithWYAlternative } from "../helpers/with-wy-alternative.js"
-import {
-  isLegalConsonantForm,
-  isLegalWordFinalConsonantForm,
-} from "../phonotactics/index.js"
+import { isLegalWordFinalConsonantForm } from "../phonotactics/index.js"
 import { fillInDefaultReferentialSlots } from "./default.js"
 import { applyReferentialEssence } from "./essence.js"
-import {
-  referentialPerspectiveToIthkuil,
-  referentialPerspectiveToIthkuilAlt,
-} from "./perspective.js"
 import { referentListToIthkuil, type ReferentList } from "./referent/list.js"
-import { referentToIthkuil, type Referent } from "./referent/referent.js"
 import { referentialSpecificationToIthkuil } from "./specification.js"
 
 /**
@@ -92,19 +84,19 @@ export type PartialReferentialCore =
 /** A referential. */
 export type Referential =
   | (ReferentialCore & {
-      readonly referent2?: undefined
+      readonly referents2?: undefined
       readonly perspective2?: undefined
       readonly specification?: undefined
       readonly affixes?: undefined
     })
   | (ReferentialCore & {
-      readonly referent2: Referent
+      readonly referents2: ReferentList
       readonly perspective2: Perspective
       readonly specification?: undefined
       readonly affixes?: undefined
     })
   | (ReferentialCore & {
-      readonly referent2?: undefined
+      readonly referents2?: undefined
       readonly perspective2?: undefined
       readonly specification: Specification
       readonly affixes: readonly Affix[]
@@ -113,13 +105,13 @@ export type Referential =
 /** A referential, with optional slots properly marked optional. */
 export type PartialReferential =
   | (PartialReferentialCore & {
-      readonly referent2: Referent
+      readonly referents2: ReferentList
       readonly perspective2?: Perspective | undefined
       readonly specification?: undefined
       readonly affixes?: undefined
     })
   | (PartialReferentialCore & {
-      readonly referent2?: undefined
+      readonly referents2?: undefined
       readonly perspective2?: undefined
       readonly specification?: Specification | undefined
       readonly affixes?: readonly Affix[] | undefined
@@ -132,7 +124,11 @@ export type PartialReferential =
  */
 function completeReferentialToIthkuil(referential: Referential) {
   const slot1 = referential.referents
-    ? referentListToIthkuil(referential.referents, referential.perspective)
+    ? referentListToIthkuil(
+        referential.referents,
+        referential.perspective,
+        false,
+      )
     : (referential.specification && referential.affixes ? "a" : "üo") +
       suppletiveAdjunctTypeToIthkuil(referential.type)
 
@@ -153,7 +149,9 @@ function completeReferentialToIthkuil(referential: Referential) {
     const slot5 = referential.case2
       ? referential.case2 == "THM"
         ? "üa"
-        : caseToIthkuil(referential.case2, false, false)
+        : WithWYAlternative.of(
+            caseToIthkuil(referential.case2, false, false),
+          ).withPreviousText(slot1 + slot2 + slot3 + slot4)
       : referential.essence == "NRM" ||
         countVowelForms(slot1 + slot2 + slot3 + slot4) >= 2
       ? ""
@@ -164,7 +162,7 @@ function completeReferentialToIthkuil(referential: Referential) {
     return applyReferentialEssence(word, referential.essence)
   }
 
-  if (referential.case2 || referential.perspective2 || referential.referent2) {
+  if (referential.case2 || referential.perspective2 || referential.referents2) {
     const slot3 =
       "w" +
       WithWYAlternative.of(
@@ -173,37 +171,16 @@ function completeReferentialToIthkuil(referential: Referential) {
 
     let slot4 = ""
 
-    if (referential.referent2) {
-      const referent = referentToIthkuil(referential.referent2, false)
-
-      const perspective = referentialPerspectiveToIthkuil(
+    if (referential.referents2) {
+      const referentList = referentListToIthkuil(
+        referential.referents2,
         referential.perspective2,
+        true,
       )
 
-      if (isLegalWordFinalConsonantForm(perspective + referent)) {
-        slot4 = perspective + referent
-      } else if (isLegalWordFinalConsonantForm(referent + perspective)) {
-        slot4 = referent + perspective
-      } else if (isLegalConsonantForm(perspective + referent)) {
-        slot4 = perspective + referent + "ë"
-      } else if (isLegalConsonantForm(referent + perspective)) {
-        slot4 = referent + perspective + "ë"
-      }
-
-      const perspective2 = referentialPerspectiveToIthkuilAlt(
-        referential.perspective2,
-      )
-
-      if (isLegalWordFinalConsonantForm(referent + perspective2)) {
-        slot4 = referent + perspective2
-      } else if (isLegalWordFinalConsonantForm(perspective2 + referent)) {
-        slot4 = perspective2 + referent
-      } else if (isLegalConsonantForm(referent + perspective2)) {
-        slot4 = referent + perspective2 + "ë"
-      } else {
-        // The following may be phonotactically invalid.
-        slot4 = perspective2 + referent + "ë"
-      }
+      slot4 = isLegalWordFinalConsonantForm(referentList)
+        ? referentList
+        : referentList + "ë"
     }
 
     return applyReferentialEssence(
