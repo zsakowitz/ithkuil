@@ -8,7 +8,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc -b",
-    "cleanup": "rm -f generator/**/*.js && rm -f parser/**/*.js && rm -f test/**/*.js && rm -f *.js",
+    "cleanup": "rm -f generator/**/*.js && rm -f gloss/**/*.js && rm -f parser/**/*.js && rm -f test/**/*.js && rm -f *.js",
     "lint": "prettier --write .",
     "prepublish": "tsc -b",
     "pretest": "tsc -b",

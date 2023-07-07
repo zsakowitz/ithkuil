@@ -20,5 +20,5 @@
     "verbatimModuleSyntax": true
   },
   "include": ["*.ts", "generator/**/*.ts", "parser/**/*.ts", "test/**/*.ts"],
-  "exclude": ["node_modules", "dist", "**/*.js", "**/*.d.ts"]
+  "exclude": ["node_modules", "dist", "**/*.js"]
 }
