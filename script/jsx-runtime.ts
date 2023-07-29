@@ -120,20 +120,23 @@ export { jsx as jsxs }
 export namespace JSX {
   export type Element = SVGElement
 
+  export type NumberLike = `${number}` | number
+
   export type CoreIntrinsicElements = {
     g: {
       fill?: string
-      opacity?: `${number}`
+      opacity?: NumberLike
       stroke?: string
       "stroke-linecap"?: "round"
-      "stroke-width"?: `${number}`
+      "stroke-width"?: NumberLike
       transform?: string
     }
 
     path: {
       d?: string
+      opacity?: NumberLike
       stroke?: string
-      "stroke-width"?: `${number}`
+      "stroke-width"?: NumberLike
       "stroke-linejoin"?: "round"
       "stroke-linecap"?: "round"
       transform?: string
@@ -145,6 +148,18 @@ export namespace JSX {
 
     svg: {
       viewBox?: `${number} ${number} ${number} ${number}`
+    }
+
+    text: {
+      fill?: string
+      "font-family"?: string
+      "font-size"?: NumberLike
+      "font-weight"?: NumberLike
+      "paint-order"?: "stroke" | "fill"
+      stroke?: string
+      "stroke-width"?: NumberLike
+      x?: NumberLike
+      y?: NumberLike
     }
   }
 
