@@ -1,14 +1,15 @@
-import type {
-  Affiliation,
-  Configuration,
-  Context,
-  Essence,
-  Extension,
-  Function,
-  Perspective,
-  Specification,
-  Stem,
-  Version,
+import {
+  deepFreezeAndNullPrototype,
+  type Affiliation,
+  type Configuration,
+  type Context,
+  type Essence,
+  type Extension,
+  type Function,
+  type Perspective,
+  type Specification,
+  type Stem,
+  type Version,
 } from "../../index.js"
 import { getBBox } from "../utilities/get-bbox.js"
 import { Translate } from "../utilities/translate.js"
@@ -47,8 +48,17 @@ export interface PrimaryCharacter {
   readonly stem?: Stem | undefined
 }
 
+const DIACRITIC_OFFSET = deepFreezeAndNullPrototype({
+  BSC: 0,
+  CTE: 12.5,
+  CSV: -2.5,
+  OBJ: 5,
+})
+
 export function Primary(primary: PrimaryCharacter) {
-  const core = PrimaryCore({ specification: primary.specification || "BSC" })
+  const specification = primary.specification || "BSC"
+
+  const core = PrimaryCore({ specification })
 
   const coreBox = getBBox(core)
 
@@ -79,14 +89,14 @@ export function Primary(primary: PrimaryCharacter) {
       </Translate>
 
       <Translate
-        x={coreBox.x}
+        x={coreBox.x - DIACRITIC_OFFSET[specification]}
         y={35}
       >
         {PrimaryBottomLeft(primary)}
       </Translate>
 
       <Translate
-        x={coreBox.x + coreBox.width}
+        x={coreBox.x + coreBox.width + DIACRITIC_OFFSET[specification]}
         y={-35}
       >
         {PrimaryTopRight(primary)}

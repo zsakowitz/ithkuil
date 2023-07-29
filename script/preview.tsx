@@ -23,16 +23,15 @@ const node = (
     <Lines />
 
     <Primary
-      function="DYN"
-      version="CPT"
-      configuration="DFS"
-      stem={3}
-      extension="ICP"
-      perspective="N"
-      affiliation="COA"
-      essence="RPV"
-      context="RPS"
+      specification="CSV"
+      perspective="G"
+      configuration="DSS"
+      stem={2}
       bottom="UNF/K"
+      extension="ICP"
+      function="DYN"
+      affiliation="COA"
+      context="AMG"
     />
   </svg>
 )
