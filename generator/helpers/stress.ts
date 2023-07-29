@@ -84,7 +84,7 @@ export function applyStress(word: string, position: -4 | -3 | -2 | -1): string {
         vowelFormIndices.length +
         " vowel form" +
         (vowelFormIndices.length == 1 ? "" : "s") +
-        "."
+        ".",
     )
   }
 

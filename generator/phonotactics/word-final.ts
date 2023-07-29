@@ -66,7 +66,7 @@ export function isLegalWordFinalConsonantForm(consonantForm: string) {
     didShowWarning = true
 
     console.warn(
-      "'isLegalWordFinalConsonantForm' does not accurately test 5-consonant structures and may return a false negative (i.e. disallowing a consonant cluster that is valid in speech)."
+      "'isLegalWordFinalConsonantForm' does not accurately test 5-consonant structures and may return a false negative (i.e. disallowing a consonant cluster that is valid in speech).",
     )
   }
 

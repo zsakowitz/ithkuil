@@ -17,7 +17,7 @@ export const REFERENTIAL_SPECIFICATION_TO_ITHKUIL_MAP =
  * referential).
  */
 export function referentialSpecificationToIthkuil(
-  specification: Specification
+  specification: Specification,
 ): string {
   return REFERENTIAL_SPECIFICATION_TO_ITHKUIL_MAP[specification]
 }

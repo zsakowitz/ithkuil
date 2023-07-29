@@ -3,8 +3,10 @@
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "exactOptionalPropertyTypes": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "@",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "moduleResolution": "node16",
+    "moduleResolution": "nodenext",
     "module": "ESNext",
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
@@ -13,12 +15,27 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": ".",
+    "paths": { "@/jsx-runtime": ["./script/jsx-runtime.js"] },
     "rootDir": ".",
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2022",
     "verbatimModuleSyntax": true
   },
-  "include": ["*.ts", "generator/**/*.ts", "parser/**/*.ts", "test/**/*.ts"],
-  "exclude": ["node_modules", "dist", "**/*.js"]
+  "include": [
+    "*.ts",
+    "*.tsx",
+    "generator/**/*.ts",
+    "generator/**/*.tsx",
+    "gloss/**/*.ts",
+    "gloss/**/*.tsx",
+    "parser/**/*.ts",
+    "parser/**/*.tsx",
+    "script/**/*.ts",
+    "script/**/*.tsx",
+    "test/**/*.ts",
+    "test/**/*.tsx",
+    "script/jsx-runtime.ts"
+  ],
+  "exclude": ["node_modules", "**/*.js"]
 }

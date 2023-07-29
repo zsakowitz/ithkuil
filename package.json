@@ -8,7 +8,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc -b",
-    "cleanup": "rm -f generator/**/*.js && rm -f gloss/**/*.js && rm -f parser/**/*.js && rm -f test/**/*.js && rm -f *.js",
+    "cleanup": "rm -f generator/**/*.js && rm -f gloss/**/*.js && rm -f parser/**/*.js && rm -f script/**/*.js && rm -f test/**/*.js && rm -f *.js",
     "lint": "prettier --write .",
     "prepublish": "tsc -b",
     "pretest": "tsc -b",
@@ -35,8 +35,10 @@
   },
   "homepage": "https://github.com/zsakowitz/ithkuil#readme",
   "devDependencies": {
+    "@types/snapsvg": "^0.5.3",
     "esbuild": "^0.18.11",
     "prettier": "^2.8.8",
+    "snapsvg": "^0.5.1",
     "typescript": "^5.0.4"
   },
   "dependencies": {
