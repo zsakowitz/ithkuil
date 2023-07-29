@@ -9,13 +9,6 @@ const DIACRITICS = deepFreezeAndNullPrototype({
   2: "HORIZ_WITH_BOTTOM_LINE",
 })
 
-const OFFSETS = deepFreezeAndNullPrototype({
-  "UNF/K": { x: 0, y: 0 },
-  FRM: { x: 0, y: 10 },
-  1: { x: 0, y: 0 },
-  2: { x: 0, y: 10 },
-})
-
 export function PrimaryUnderPosed({
   bottom = "UNF/C",
 }: {
@@ -28,10 +21,7 @@ export function PrimaryUnderPosed({
   const diacriticName = DIACRITICS[bottom]
 
   return (
-    <Anchor
-      at="tc"
-      {...OFFSETS[bottom]}
-    >
+    <Anchor at="tc">
       <Diacritic name={diacriticName} />
     </Anchor>
   )

@@ -8,12 +8,6 @@ const DIACRITICS = deepFreezeAndNullPrototype({
   AMG: "DIAG_BAR",
 })
 
-const OFFSETS = deepFreezeAndNullPrototype({
-  FNC: { x: 0, y: 0 },
-  RPS: { x: 0, y: -10 },
-  AMG: { x: 0, y: 0 },
-})
-
 export function PrimarySuperPosed({
   context = "EXS",
 }: {
@@ -26,10 +20,7 @@ export function PrimarySuperPosed({
   const diacriticName = DIACRITICS[context]
 
   return (
-    <Anchor
-      at="bc"
-      {...OFFSETS[context]}
-    >
+    <Anchor at="bc">
       <Diacritic name={diacriticName} />
     </Anchor>
   )

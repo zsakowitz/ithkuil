@@ -104,14 +104,14 @@ export function Primary(primary: PrimaryCharacter) {
 
       <Translate
         x={0}
-        y={-35}
+        y={-45}
       >
         {PrimarySuperPosed(primary)}
       </Translate>
 
       <Translate
         x={0}
-        y={35}
+        y={45}
       >
         {PrimaryUnderPosed(primary)}
       </Translate>
