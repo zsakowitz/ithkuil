@@ -1,16 +1,22 @@
 import type { VowelForm } from "../../parser/vowel-form.js"
+import type { Core } from "../../script/secondary/core.js"
+import type { Extension } from "../../script/secondary/extension.js"
 import type { MoodOrCaseScope } from "../formative/slot-8/mood-or-case-scope.js"
 import { type WithWYAlternative } from "./with-wy-alternative.js"
+
+/** Types which remain the same after being deeply frozen. */
+export type PreservedWhenDeeplyFrozen =
+  | WithWYAlternative
+  | VowelForm
+  | MoodOrCaseScope
+  | Core
+  | Extension
 
 /**
  * Deeply freezes an object.
  * @template T The object to be deeply frozen.
  */
-export type DeepFreeze<T> = T extends WithWYAlternative
-  ? T
-  : T extends VowelForm
-  ? T
-  : T extends MoodOrCaseScope
+export type DeepFreeze<T> = T extends PreservedWhenDeeplyFrozen
   ? T
   : T extends object
   ? { readonly [K in keyof T]: DeepFreeze<T[K]> }
@@ -37,6 +43,11 @@ export function deepFreeze<const T>(value: T): DeepFreeze<T> {
 }
 
 /**
+ * Types which remain the same after being deeply frozen and null-prototyped.
+ */
+export type PreservedWhenDeeplyFrozenAndNullPrototyped = Core | Extension
+
+/**
  * Deeply freezes and null-prototypes an object.
  * @template T The object to be deeply frozen.
  */
@@ -59,6 +70,8 @@ export type DeepFreezeAndNullPrototype<T> = T extends WithWYAlternative
       readonly nonAspectualValue: N
       readonly aspectualValue: A
     }
+  : T extends PreservedWhenDeeplyFrozenAndNullPrototyped
+  ? T
   : T extends ReadonlyArray<any>
   ? { readonly [K in keyof T as K extends number | "length" ? K : never]: T[K] }
   : T extends object
