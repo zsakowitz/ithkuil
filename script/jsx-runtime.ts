@@ -106,7 +106,7 @@ export function jsx(
     }
   }
 
-  el.append(...children)
+  el.append(...children.filter((x) => x != null))
 
   if (props?.ref) {
     props.ref(el)
@@ -166,8 +166,14 @@ export namespace JSX {
 
   export type IntrinsicElements = {
     [K in keyof CoreIntrinsicElements]: CoreIntrinsicElements[K] & {
+      children?:
+        | string
+        | SVGElement
+        | (string | SVGElement | null | undefined)[]
+        | null
+        | undefined
+
       ref?(el: SVGElementTagNameMap[K]): unknown
-      children?: string | SVGElement | (string | SVGElement)[]
     }
   }
 

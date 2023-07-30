@@ -6,6 +6,8 @@ export type Extension = {
   readonly horiz: string
 }
 
+export type ExtensionName = keyof typeof EXTENSIONS
+
 export const EXTENSIONS = deepFreeze({
   p: {
     vert: "M -9.65 12.1 q 0.375 -0.363 1.15 -1.15 q 6.261 -1.099 8.5 3.8 l 0 -14.75 l -10 10 l -10 -10 l -7.15 7.15 l 11.3 11.2 l 5.85 -5.9 q 0.04 -0.029 0.35 -0.35 z",
