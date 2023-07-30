@@ -52,7 +52,7 @@ export function Secondary(props: SecondaryCharacter) {
   const coreShape = (<path d={core.shape} />) as SVGPathElement
 
   const top = props.top ? (
-    <g fill="red">
+    <g fill="#888">
       <Translate
         x={core.top[1] + (core.top[2] ? -10 : 0)}
         y={getBBox(coreShape).y + (core.top[2] ? 10 : 0)}
@@ -78,57 +78,70 @@ export function Secondary(props: SecondaryCharacter) {
   //   debug(core.y + 10 - (ext.y + ext.height))
   // }
 
-  let x
+  const debugPoints = (<g />) as SVGGElement
 
   {
     const core = getBBox(coreShape)
 
-    const ext2 = Snap.path.toRelative(top.children[0]?.getAttribute("d") || "")
-
     const ext = Snap.path.toAbsolute(top.children[0]?.getAttribute("d") || "")
 
-    const qi = ext2.findIndex((x) => x[0] == "q" && (x[3] == 10 || x[3] == -10))
+    const [, srx, sry] = EXTENSIONS[props.top!].diag.split(" ", 3)
+    const rx = +(srx || 0)
+    const ry = +(sry || 0)
 
-    if (qi == -1) {
-      debug("No `qi` found.")
+    debug("      rx:", rx)
+    debug("      ry:", ry)
+
+    const round = (x: number) => Math.round(x * 1e4) / 1e4
+
+    function subDebugAt(color: string, x: number, y: number) {
+      debug(
+        `${color} X:`.padStart(12),
+        (x < 0 ? "" + round(x) : "+" + round(x)).padEnd(6),
+        "=>",
+        rx + x,
+      )
+
+      debug(
+        `${color} Y:`.padStart(12),
+        (y < 0 ? "" + round(y) : "+" + round(y)).padEnd(6),
+        "=>",
+        ry + y,
+      )
     }
 
-    let [px, py]: [number, number] = ext.at(qi - 2).slice(-2)
-    const [sx, sy]: [number, number] = ext.at(qi - 1).slice(-2)
-    const [ex, ey]: [number, number] = ext.at(qi).slice(-2)
-    let [nx, ny]: [number, number] = ext.at((qi + 1) % ext.length).slice(-2)
+    function debugAt(
+      color: string,
+      [x, y]: [number, number] = ["Z", ""] as any,
+    ) {
+      if ("" + x == "Z") {
+        debug()
+        debug(`<no ${color} dot available>`)
+        return
+      }
 
-    if ("" + nx == "Z") {
-      ;[nx, ny] = ext[1].slice(-2)
-    }
+      debug()
+      subDebugAt("↙ " + color, core.x - x, core.y - y + 7.5)
+      debug()
+      subDebugAt("↗ " + color, core.x - x + 7.5, core.y - y)
 
-    if (py < ny) {
-      ;[nx, ny, px, py] = [px, py, nx, ny]
-    }
-
-    debug(" low X:", core.x - px)
-    debug(" low Y:", core.y - py + 10)
-
-    debug("high X:", core.x - nx + 10)
-    debug("high Y:", core.y - ny)
-
-    x = (
-      <g>
+      debugPoints.appendChild(
         <Point
-          x={px}
-          y={py}
-          color="blue"
+          x={x}
+          y={y}
+          color={color}
           size={2}
-        />
+        />,
+      )
+    }
 
-        <Point
-          x={nx}
-          y={ny}
-          color="green"
-          size={2}
-        />
-      </g>
-    )
+    debugAt("blue", ext[0]?.slice(-2))
+    debugAt("green", ext[1]?.slice(-2))
+    debugAt("red", ext[2]?.slice(-2))
+    debugAt("purple", ext[3]?.slice(-2))
+    debugAt("orange", ext[4]?.slice(-2))
+    debugAt("yellow", ext[5]?.slice(-2))
+    debugAt("magenta", ext[7]?.slice(-2))
   }
 
   return (
@@ -141,7 +154,7 @@ export function Secondary(props: SecondaryCharacter) {
         <Clone>{top}</Clone>
       </Blink>
 
-      {x}
+      {debugPoints}
     </g>
   )
 }

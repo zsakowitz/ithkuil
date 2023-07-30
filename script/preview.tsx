@@ -17,14 +17,14 @@ const node = (
         b: "-50 -50 100 100" as const,
         c: "-50 -50 60 60" as const,
         d: "-40 -45 30 30" as const,
-      }.b
+      }.c
     }
   >
     <Lines />
 
     <Secondary
-      core="ļ"
-      top="ţ"
+      core="r"
+      top="VELARIZED"
     />
 
     {/* <g opacity={0}>
