@@ -134,6 +134,7 @@ export namespace JSX {
 
     path: {
       d?: string
+      fill?: string
       opacity?: NumberLike
       stroke?: string
       "stroke-width"?: NumberLike

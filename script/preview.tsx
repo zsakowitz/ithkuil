@@ -1,9 +1,6 @@
 import "https://esm.sh/snapsvg"
-import { CORES } from "./secondary/core.js"
-import { Anchor } from "./utilities/anchor.js"
-import { fitViewBox } from "./utilities/fit-view-box.js"
-import { DebugCore } from "./secondary/debug.js"
-import { Spread } from "./utilities/spread.js"
+import { Lines } from "./other/lines.js"
+import { Secondary } from "./secondary/index.js"
 
 document.body.append(
   <script>
@@ -12,88 +9,42 @@ document.body.append(
   </script>,
 )
 
-// const node = (
-//   <svg
-//     viewBox={
-//       {
-//         a: "-100 -100 200 200" as const,
-//         b: "0 0 60 60" as const,
-//         c: "15 15 30 30" as const,
-//         d: "20 25 15 15" as const,
-//       }.a
-//     }
-//     ref={(el: SVGSVGElement) => {
-//       let index = -1
-
-//       for (const key in CORES) {
-//         index++
-
-//         const path = (
-//           <Anchor
-//             at="cc"
-//             x={(index % 5) * 100 - 200}
-//             y={(index / 5) * 100}
-//           >
-//             <path d={CORES[key]} />
-//           </Anchor>
-//         )
-
-//         el.append(
-//           path,
-//           <Origin size={20}>
-//             <Clone>{path}</Clone>
-//           </Origin>,
-
-//           <text
-//             x={(index % 5) * 100 - 200}
-//             y={(index / 5) * 100}
-//             font-family="sans-serif"
-//             stroke="white"
-//             stroke-width="2"
-//             font-size="16"
-//             fill="black"
-//             font-weight="900"
-//             paint-order="stroke"
-//           >
-//             {key.slice(0, 5)}
-//           </text>,
-//         )
-//       }
-
-//       setTimeout(fitViewBox, 0, el)
-//     }}
-//   >
-//     {/* <Lines /> */}
-//   </svg>
-// )
-
-const letter: keyof typeof CORES = "b"
-
-const core = (
-  <Anchor at="cc">
-    <path d={CORES[letter].shape} />
-  </Anchor>
-)
-
 const node = (
   <svg
     viewBox={
       {
         a: "-100 -100 200 200" as const,
-        b: "0 0 60 60" as const,
-        c: "15 15 30 30" as const,
-        d: "20 25 15 15" as const,
-      }.a
+        b: "-50 -50 100 100" as const,
+        c: "-50 -50 60 60" as const,
+        d: "-40 -45 30 30" as const,
+      }.b
     }
   >
-    <Spread
-      y={120}
-      x={90}
-      columns={6}
-      items={Object.keys(CORES).map((x) => (
-        <DebugCore letter={x} />
-      ))}
+    <Lines />
+
+    <Secondary
+      core="ļ"
+      top="ţ"
     />
+
+    {/* <g opacity={0}>
+      <Spread
+        y={120}
+        x={90}
+        columns={6}
+        items={Object.keys(CORES).map((x) => (
+          <DebugCore letter={x} />
+        ))}
+      />
+    </g> */}
+
+    {/* <Clone>{shape}</Clone>
+
+    <path d={CORES.k.shape} />
+
+    <Blink>
+      <Clone>{shape}</Clone>
+    </Blink> */}
   </svg>
 ) as SVGSVGElement
 
@@ -106,4 +57,4 @@ document.body.style =
 
 document.body.appendChild(node)
 
-fitViewBox(node, 10)
+// fitViewBox(node, 10)

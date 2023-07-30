@@ -1,6 +1,7 @@
 export function rotate180(x: string) {
-  return x
-    .replace(/(?<!M[\s\d.-]+)[\d.-]+/g, "-$&")
-    .replace(/-0 /g, "0 ")
-    .replace(/--/g, "")
+  return x.replace(/(?<!M[\s\d.-]+)[\d.-]+/g, (x) => -x as any)
+}
+
+export function rotate180AndRotateStartingPoint(x: string) {
+  return x.replace(/[\d.-]+/g, (x) => -x as any)
 }
