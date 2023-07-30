@@ -1,4 +1,4 @@
-import { getBBox } from "../utilities/get-bbox.js"
+import { deepFreeze } from "../../index.js"
 
 export type ConnectionDirection = "horiz" | "vert" | "diag"
 
@@ -22,13 +22,13 @@ export type Core = {
 
 export type CoreName = keyof typeof CORES
 
-export const CORES = {
+export const CORES = deepFreeze({
   b: {
     shape:
       "M 29.675 -35 l -50 0 l -9.4 9.4 l 23.2 33.05 l 6.2 -6.25 l 0 33.8 l 10 -10 l 0 -36.15 l -1.1 1.1 q -2.967 2.977 -5.95 5.95 l -1.95 2 l -0.65 0.65 l -16.5 -23.5 l 36.2 0 l 10 -10 z",
     top: ["horiz", 29.725],
     bottom: ["vert", -0.325],
-    diacritic: 9.675000381469726,
+    diacritic: 9.675,
   } as Core,
   c: {
     shape: "M -15 -35 l -10 10 l 0 60 l 40 0 l 10 -10 l -40 0 l 0 -60 z",
@@ -48,7 +48,7 @@ export const CORES = {
       "M -13.15 -35 l -10 10 l 17.5 17.5 l -15 0 l -16.2 16.15 l 26.35 26.35 l 7.5 -7.5 l -25 -25 l 32.35 0 l 7.5 -7.5 l -20 -20 l 35 0 l 10 -10 l -50 0 z",
     top: ["horiz", 36.85],
     bottom: ["diag", -10.5],
-    diacritic: 11.849998474121094,
+    diacritic: 11.85,
   } as Core,
   d: {
     shape:
@@ -62,7 +62,7 @@ export const CORES = {
       "M 30 -34.925 l -50 0 l -10 10 l 0 40 l 9.55 -9.55 l 20.65 29.4 l 7.65 -7.65 l -21.65 -30.8 l -6.2 6.2 l 0 -27.6 l 40 0 l 10 -10 z",
     top: ["horiz", 30],
     bottom: ["diag", 0.2],
-    diacritic: -1.4813,
+    diacritic: -1.481,
   } as Core,
   f: {
     shape:
@@ -76,7 +76,7 @@ export const CORES = {
       "M 27.825 -24.925 l 10 -10 l -65.75 0 l -9.9 9.95 l 30.45 37.55 l 7.25 -7.3 l 24.15 29.65 l 7.45 -7.4 l -25.2 -31.05 l -7.5 7.45 l -23.1 -28.85 l 52.15 0 z",
     top: ["horiz", 37.825],
     bottom: ["diag", 24.025],
-    diacritic: 20.49809694824219,
+    diacritic: 20.5,
   } as Core,
   h: {
     shape:
@@ -97,7 +97,7 @@ export const CORES = {
       "M -27.925 -35.025 l -9.9 9.95 l 47.35 58.35 l 0.05 0 l 1.4 1.75 l 7.5 -7.5 l -42.7 -52.55 l 52.05 0 l 10 -10 l -65.75 0 z",
     top: ["horiz", 37.825],
     bottom: ["diag", 10.975],
-    diacritic: 7.485096948242187,
+    diacritic: 7.485,
   } as Core,
   l: {
     shape:
@@ -111,7 +111,7 @@ export const CORES = {
       "M -11.225 -35 l -10 10 l 0 30 l 17.7 0 l -6.35 6.4 l 23.65 23.6 l 7.45 -7.5 l -22.5 -22.5 l 10.05 -10 l -20 0 l 0 -30 z",
     top: ["vert", -11.225],
     bottom: ["diag", 13.775],
-    diacritic: 8.774996566772462,
+    diacritic: 8.775,
   } as Core,
   m: {
     shape:
@@ -125,14 +125,14 @@ export const CORES = {
       "M -8.85 -34.925 l -10 10 l 0 40 l 9.55 -9.55 l 20.65 29.4 l 7.5 -7.5 l -21.6 -30.85 l -6.1 6.1 l 0 -37.6 z",
     top: ["vert", -8.85],
     bottom: ["diag", 11.35],
-    diacritic: 9.450296566772462,
+    diacritic: 9.451,
   } as Core,
   ň: {
     shape:
       "M -8.65 -25.05 l 0 25 l -8.45 8.45 l 26.7 26.65 l 7.5 -7.5 l -25.5 -25.5 l 9.75 -9.7 l 0 -27.4 l -10 10 z",
     top: ["vert", 1.35],
     bottom: ["diag", 9.6],
-    diacritic: 3.5500022888183596,
+    diacritic: 3.55,
   } as Core,
   p: {
     shape:
@@ -153,7 +153,7 @@ export const CORES = {
       "M -16.55 -34.975 l -7.5 7.5 l 22.75 22.7 l -9.75 9.8 l 0 30 l 25 0 l 10 -10 l -25 0 l -0.1 -27.55 l 8.55 -8.5 l -24 -24 z",
     top: ["diag", -16.5],
     bottom: ["horiz", 14],
-    diacritic: 7.374800762939453,
+    diacritic: 7.375,
   } as Core,
   s: {
     shape:
@@ -181,7 +181,7 @@ export const CORES = {
       "M 30 -35.05 l -50 0 l -10 10 l 0 27 l 33.1 33.1 l 7.5 -7.5 l -30.6 -30.6 l 0 -22 l 40 0 l 10 -10 z",
     top: ["horiz", 30],
     bottom: ["diag", 3.1],
-    diacritic: -2.9501,
+    diacritic: -2.95,
   } as Core,
   v: {
     shape:
@@ -195,7 +195,7 @@ export const CORES = {
       "M 37.825 -35.025 l -65.75 0 l -9.9 9.95 l 25.7 25.7 l -7.5 7.5 l 26.9 26.9 l 7.5 -7.5 l -25.7 -25.7 l 7.45 -7.55 l -19.3 -19.3 l 50.6 0 l 10 -10 z",
     top: ["horiz", 37.825],
     bottom: ["diag", 7.275],
-    diacritic: 1.2499969482421875,
+    diacritic: 1.245,
   } as Core,
   z: {
     shape:
@@ -216,7 +216,7 @@ export const CORES = {
       "M -8.05 -35.025 l -7.5 7.5 l 22.55 22.55 l -14.4 0 l -17.6 17.65 l 0 22.35 l 40 0 l 10 -10 l -40 0 l 0 -20 l 30 0 l 8.5 -8.5 l -31.55 -31.55 z",
     top: ["diag", -8.05],
     bottom: ["horiz", 15],
-    diacritic: 23.0249,
+    diacritic: 23.025,
   } as Core,
   ALPHABETIC_PLACEHOLDER: {
     shape:
@@ -237,7 +237,7 @@ export const CORES = {
       "M 36.15 -35 l -52.3 0 l -10 10 l 50 0 l -60 60 l 52.4 0 l 9.9 -10 l -49.8 0 l 59.8 -60 z",
     top: ["horiz", -16.15, true],
     bottom: ["horiz", 16.25],
-    diacritic: 16.216605340576173,
+    diacritic: 16.217,
   } as Core,
   STRESSED_SYLLABLE_PLACEHOLDER: {
     shape: "M 5 -35 l -10 10 l 0 60 l 10 -10 l 0 -60 z",
@@ -245,4 +245,4 @@ export const CORES = {
     bottom: ["vert", -5],
     diacritic: 5,
   } as Core,
-}
+})

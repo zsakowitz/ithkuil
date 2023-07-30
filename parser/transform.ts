@@ -1,3 +1,5 @@
+import { deepFreezeAndNullPrototype } from "../index.js"
+
 /** The types of stress markings in an Ithkuil word. */
 export type Stress =
   | "antepenultimate"
@@ -21,26 +23,22 @@ export interface TransformedWord {
   readonly stress: Stress
 }
 
-function freeze<const T>(value: T): Readonly<T> {
-  Object.setPrototypeOf(value, null)
-  return Object.freeze(value)
-}
-
-const STRESSED_TO_UNSTRESSED_VOWEL_MAP = /* @__PURE__ */ freeze({
-  á: "a",
-  é: "e",
-  í: "i",
-  ó: "o",
-  ú: "u",
-  â: "ä",
-  ê: "ë",
-  ô: "ö",
-  û: "ü",
-})
+export const STRESSED_TO_UNSTRESSED_VOWEL_MAP =
+  /* @__PURE__ */ deepFreezeAndNullPrototype({
+    á: "a",
+    é: "e",
+    í: "i",
+    ó: "o",
+    ú: "u",
+    â: "ä",
+    ê: "ë",
+    ô: "ö",
+    û: "ü",
+  })
 
 // Taken from https://github.com/ngoriyasjil/IthkuilGloss/blob/181241b89c962d83b999a669c298366b07df53b9/src/ithkuil/iv/gloss/Constants.kt#L27C4-L27C4
 
-const LETTER_SUBSTITUTIONS = /* @__PURE__ */ freeze({
+const LETTER_SUBSTITUTIONS = /* @__PURE__ */ deepFreezeAndNullPrototype({
   "​": "",
   // The previous line is keyed with the Unicode Byte Order Mark
 
@@ -161,5 +159,29 @@ export function transformWord(word: string): TransformedWord {
       (x) => (STRESSED_TO_UNSTRESSED_VOWEL_MAP as any)[x],
     ),
     stress,
+  })
+}
+
+/**
+ * Transforms a word by normalizing spelling. Does not remove stress markings.
+ * @param word The word to be transformed.
+ * @returns An object containing information about the transformed word.
+ */
+export function transformWordButLeaveStressMarkings(
+  word: string,
+): Pick<TransformedWord, "original" | "word"> {
+  const original = word
+
+  word = word
+    .toLowerCase()
+    .replace(LETTER_SUBSTITUTION_REGEX, (x) => (LETTER_SUBSTITUTIONS as any)[x])
+
+  if (word.startsWith("'")) {
+    word = word.slice(1)
+  }
+
+  return Object.freeze({
+    original,
+    word,
   })
 }

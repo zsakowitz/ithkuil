@@ -49,3 +49,69 @@ export function Anchor(props: {
     </Translate>
   )
 }
+
+export type AnchorXLocation = "l" | "c" | "r"
+
+export function AnchorX(props: {
+  at: AnchorXLocation
+  children: SVGElement
+  x?: number
+  y?: number
+}) {
+  const children =
+    props.children instanceof SVGGraphicsElement
+      ? props.children
+      : ((<g>{props.children}</g>) as SVGGElement)
+
+  const box = getBBox(children)
+
+  const x = props.at
+
+  return (
+    <Translate
+      x={
+        (x == "l"
+          ? -box.x
+          : x == "r"
+          ? -box.x - box.width
+          : -box.x - box.width / 2) + (props.x ?? 0)
+      }
+      y={props.y ?? 0}
+    >
+      {children}
+    </Translate>
+  )
+}
+
+export type AnchorYLocation = "t" | "c" | "b"
+
+export function AnchorY(props: {
+  at: AnchorYLocation
+  children: SVGElement
+  x?: number
+  y?: number
+}) {
+  const children =
+    props.children instanceof SVGGraphicsElement
+      ? props.children
+      : ((<g>{props.children}</g>) as SVGGElement)
+
+  const box = getBBox(children)
+
+  const y = props.at
+
+  return (
+    <Translate
+      x={props.x ?? 0}
+      y={
+        (y == "t"
+          ? -box.y
+          : y == "b"
+          ? -box.y - box.height
+          : -box.y - box.height / 2) + (props.y ?? 0)
+      }
+    >
+      {children}
+    </Translate>
+  )
+}

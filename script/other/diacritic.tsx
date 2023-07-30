@@ -1,6 +1,6 @@
-import { deepFreezeAndNullPrototype } from "../../index.js"
+import { deepFreeze, deepFreezeAndNullPrototype } from "../../index.js"
 
-export const ALL_DIACRITICS = deepFreezeAndNullPrototype({
+const DIACRITICS = deepFreezeAndNullPrototype({
   DOT: "M 0 0 l 7.5 7.5 l 7.5 -7.5 l -7.5 -7.5 l -7.5 7.5 z",
   HORIZ_BAR: "M 0 0 l 10 -10 l -30 0 l -10 10 l 30 0 z",
   VERT_BAR: "M 0 0 l -10 10 l 0 25 l 10 -10 l 0 -25 z",
@@ -31,8 +31,21 @@ export const ALL_DIACRITICS = deepFreezeAndNullPrototype({
     "M 0 0 l 1.15 1.25 q 6.55 -11.7 14.4 -12.25 q 7.8 -0.5 17.45 9.75 l 7.5 -7.5 q -6.55 -12.05 -18.7 -9.55 q -12.25 2.5 -21.8 18.3 m 9.6 1.25 l 7.5 7.5 l 7.5 -7.5 l -7.5 -7.5 l -7.5 7.5 z",
 })
 
-export type DiacriticName = keyof typeof ALL_DIACRITICS
+export const CORE_DIACRITICS = deepFreeze({
+  ...DIACRITICS,
+  a: DIACRITICS.DOT,
+  ä: DIACRITICS.HORIZ_BAR,
+  e: DIACRITICS.HORIZ_WITH_BOTTOM_LINE,
+  ë: DIACRITICS.HORIZ_WITH_TOP_LINE,
+  i: DIACRITICS.DIAG_BAR,
+  o: DIACRITICS.CURVE_TO_TOP,
+  ö: DIACRITICS.CURVE_TO_BOTTOM,
+  u: DIACRITICS.VERT_WITH_RIGHT_LINE,
+  ü: DIACRITICS.VERT_WITH_LEFT_LINE,
+})
 
-export function Diacritic(props: { name: DiacriticName }): SVGPathElement {
-  return (<path d={ALL_DIACRITICS[props.name]} />) as SVGPathElement
+export type DiacriticName = keyof typeof CORE_DIACRITICS
+
+export function Diacritic(props: { name: DiacriticName }) {
+  return <path d={CORE_DIACRITICS[props.name]} />
 }

@@ -25,5 +25,29 @@ export function Translate(props: {
     }
   }
 
+  if (
+    props.children instanceof SVGGElement &&
+    !props.children.getAttribute("transform")
+  ) {
+    for (const el of props.children.children) {
+      if (el instanceof SVGElement) {
+        const result = (
+          <Translate
+            x={props.x}
+            y={props.y}
+          >
+            {el}
+          </Translate>
+        )
+
+        if (el != result) {
+          el.replaceWith(result)
+        }
+      }
+    }
+
+    return props.children
+  }
+
   return <g transform={`translate(${props.x},${props.y})`}>{props.children}</g>
 }

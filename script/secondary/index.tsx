@@ -7,13 +7,13 @@ import { CORES, type Core, type CoreName } from "./core.js"
 import { EXTENSIONS, type ExtensionName } from "./extension.js"
 
 export interface SecondaryCharacter {
-  top?: ExtensionName | undefined
-  core: CoreName
-  bottom?: ExtensionName | undefined
+  readonly top?: ExtensionName | undefined
+  readonly core?: CoreName | undefined
+  readonly bottom?: ExtensionName | undefined
 
-  superposed?: DiacriticName | undefined
-  right?: DiacriticName | undefined
-  underposed?: DiacriticName | undefined
+  readonly superposed?: DiacriticName | undefined
+  readonly right?: DiacriticName | undefined
+  readonly underposed?: DiacriticName | undefined
 }
 
 function noop(x: string) {
@@ -100,7 +100,7 @@ function BottomExtension({
 }
 
 export function Secondary(props: SecondaryCharacter) {
-  const core = CORES[props.core]
+  const core = CORES[props.core || "STANDARD_PLACEHOLDER"]
 
   const coreShape = (<path d={core.shape} />) as SVGPathElement
 
@@ -172,15 +172,6 @@ export function Secondary(props: SecondaryCharacter) {
 
     main.appendChild(diacritic)
   }
-
-  main.appendChild(
-    <path
-      d={`M ${core.diacritic} -15 l 0 30`}
-      stroke-width={2}
-      stroke-linecap="round"
-      stroke="blue"
-    />,
-  )
 
   return main
 }

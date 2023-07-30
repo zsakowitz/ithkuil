@@ -17,3 +17,11 @@ export function getBBox(node: SVGGraphicsElement) {
 
   return box
 }
+
+export function forceGetBBox(node: SVGElement) {
+  if (node instanceof SVGGraphicsElement) {
+    return getBBox(node)
+  }
+
+  return getBBox((<g>{node}</g>) as SVGGElement)
+}

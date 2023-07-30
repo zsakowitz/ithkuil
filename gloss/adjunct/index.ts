@@ -3,10 +3,11 @@ import {
   ALL_PARSING_ADJUNCTS,
   ALL_REGISTER_ADJUNCTS,
   ALL_SINGLE_REGISTER_ADJUNCTS,
-  Adjunct,
   BIAS_ADJUNCT_TO_NAME_MAP,
   REGISTER_ADJUNCT_TO_NAME_MAP,
   has,
+  type Adjunct,
+  type RegisterAdjunct,
 } from "../../generator/index.js"
 import { GlossString } from "../glossable.js"
 
@@ -40,8 +41,13 @@ export function glossAdjunct(adjunct: Adjunct): GlossString {
           ? adjunct.slice(0, 3) + " {"
           : "} " + adjunct.slice(0, 3),
         adjunct.endsWith(":START")
-          ? REGISTER_ADJUNCT_TO_NAME_MAP[adjunct.slice(0, 3)] + " {"
-          : "} " + REGISTER_ADJUNCT_TO_NAME_MAP[adjunct.slice(0, 3)],
+          ? REGISTER_ADJUNCT_TO_NAME_MAP[
+              adjunct.slice(0, 3) as RegisterAdjunct
+            ] + " {"
+          : "} " +
+            REGISTER_ADJUNCT_TO_NAME_MAP[
+              adjunct.slice(0, 3) as RegisterAdjunct
+            ],
       )
     }
 

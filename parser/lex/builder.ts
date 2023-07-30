@@ -3,7 +3,9 @@ export class RegexPart {
   constructor(
     /** The source text for this RegexPart. */
     readonly source: string,
-  ) {}
+  ) {
+    Object.freeze(this)
+  }
 
   /**
    * Creates a new RegexPart matching the contents of this one in a capture
@@ -12,6 +14,15 @@ export class RegexPart {
    */
   asGroup() {
     return new AtomicRegexPart("(" + this.source + ")")
+  }
+
+  /**
+   * Creates a new RegexPart matching the contents of this one in a named
+   * capture group.
+   * @returns The new RegexPart.
+   */
+  asNamedGroup(name: string) {
+    return new AtomicRegexPart("(?<" + name + ">" + this.source + ")")
   }
 
   /**

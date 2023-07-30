@@ -1,5 +1,7 @@
 import "https://esm.sh/snapsvg"
 import { Lines } from "./other/lines.js"
+import { Row } from "./other/row.js"
+import { textToSecondaries } from "./secondary/from-text.js"
 import { Secondary } from "./secondary/index.js"
 
 document.body.append(
@@ -9,11 +11,15 @@ document.body.append(
   </script>,
 )
 
+const HEIGHT = 100
+
 const node = (
   <svg
     viewBox={
       {
-        a: "-100 -100 200 200" as const,
+        a: `${-HEIGHT * (innerWidth / innerHeight)} -${HEIGHT} ${
+          2 * HEIGHT * (innerWidth / innerHeight)
+        } ${2 * HEIGHT}` as const,
         b: "-50 -50 100 100" as const,
         c: "-50 -50 60 60" as const,
         d: "-40 -45 30 30" as const,
@@ -22,26 +28,27 @@ const node = (
   >
     <Lines />
 
-    <Secondary core="ž" />
+    {/* <Row compact={true}>
+      {textToSecondaries("zäkëri säköwec", {
+        useRightDiacritics: true,
+      })
+        .slice(0, 2)
+        .map(Secondary)}
+    </Row> */}
 
-    {/* <g opacity={0}>
-      <Spread
-        y={120}
-        x={90}
-        columns={6}
-        items={Object.keys(CORES).map((x) => (
-          <DebugCore letter={x} />
-        ))}
-      />
-    </g> */}
+    <Secondary {...textToSecondaries("kšš")[0]} />
 
-    {/* <Clone>{shape}</Clone>
-
-    <path d={CORES.k.shape} />
-
-    <Blink>
-      <Clone>{shape}</Clone>
-    </Blink> */}
+    {/* <Spread
+      y={120}
+      x={90}
+      columns={7}
+      items={Object.keys(CORES).map((x) => (
+        <Secondary
+          core={x}
+          top="'"
+        />
+      ))}
+    /> */}
   </svg>
 ) as SVGSVGElement
 
@@ -53,5 +60,3 @@ document.body.style =
   "margin:0;display:flex;align-items:center;justify-content:center"
 
 document.body.appendChild(node)
-
-// fitViewBox(node, 10)

@@ -7,7 +7,7 @@ export function Point(props: {
 }) {
   return (
     <g
-      stroke-width={props.size ?? 0.5}
+      stroke-width={props.size ?? 5}
       stroke-linecap="round"
       stroke={props.color || "blue"}
       opacity="0.5"
