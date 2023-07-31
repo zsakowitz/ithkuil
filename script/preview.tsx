@@ -1,9 +1,7 @@
 import "https://esm.sh/snapsvg"
-import { parseFormative } from "../index.js"
 import { CharacterRow, formativeToScript } from "./construct/formative.js"
 import { fitViewBox } from "./index.js"
 import { Lines } from "./other/lines.js"
-import { AnchorX } from "./utilities/anchor.js"
 
 document.body.append(
   <script>
@@ -27,13 +25,16 @@ const node = (
       }.a
     }
   >
-    <AnchorX at="c">
-      <CharacterRow>
-        {formativeToScript(
-          parseFormative("walac") || { root: "kšš", type: "UNF/C" },
-        )}
-      </CharacterRow>
-    </AnchorX>
+    <CharacterRow>
+      {formativeToScript({
+        type: "UNF/C",
+        root: "rr",
+        case: "PRD",
+        caseScope: "CCQ",
+        slotVAffixes: [{ cs: "nļ", type: 2, degree: 2 }],
+        slotVIIAffixes: [{ cs: "řž", type: 2, degree: 5 }],
+      })}
+    </CharacterRow>
   </svg>
 ) as SVGSVGElement
 
@@ -48,4 +49,4 @@ document.body.appendChild(node)
 
 fitViewBox(node, 10)
 
-node.insertBefore(<Lines />, node.children[0] || null)
+node.insertBefore(<Lines width={500} />, node.children[0] || null)

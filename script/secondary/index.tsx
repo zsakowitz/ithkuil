@@ -169,6 +169,7 @@ export function Secondary(secondary: SecondaryCharacter) {
     const diacritic = (
       <Anchor
         at="bc"
+        x={box.x + box.width / 2}
         y={box.y - 10}
       >
         <Diacritic name={secondary.superposed} />
@@ -184,6 +185,7 @@ export function Secondary(secondary: SecondaryCharacter) {
     const diacritic = (
       <Anchor
         at="tc"
+        x={box.x + box.width / 2}
         y={box.y + box.height + 10}
       >
         <Diacritic name={secondary.underposed} />

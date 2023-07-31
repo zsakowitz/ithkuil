@@ -313,6 +313,10 @@ try {
 
 ## Changelog
 
+### 0.1.19
+
+- **Breaking change:** The `DFT` level has been correctly updated to `DFC`.
+
 ### 0.1.18
 
 - Fixed punctuation in README.

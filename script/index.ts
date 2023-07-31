@@ -16,6 +16,10 @@ export * from "./secondary/extension.js"
 export * from "./secondary/from-text.js"
 export * from "./secondary/index.js"
 
+export * from "./tertiary/index.js"
+export * from "./tertiary/segment.js"
+export * from "./tertiary/valence.js"
+
 export * from "./utilities/anchor.js"
 export * from "./utilities/blink.js"
 export * from "./utilities/clone.js"
