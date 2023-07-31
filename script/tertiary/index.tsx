@@ -95,21 +95,16 @@ export function Tertiary(tertiary: TertiaryCharacter) {
   }
 
   if (tertiary.absoluteLevel) {
-    let node
-
     if (!tertiary.top) {
-      node = g.appendChild(
-        <AnchorX
-          at="c"
-          y={-10}
-          x={5}
+      g.appendChild(
+        <Anchor
+          at="bc"
+          y={-35}
         >
-          <path d={TERTIARY_SEGMENTS.HAB} />
-        </AnchorX>,
+          <Diacritic name={LEVEL_TO_DIACRITIC_MAP[tertiary.absoluteLevel]} />
+        </Anchor>,
       )
-    }
-
-    if (tertiary.compact) {
+    } else if (tertiary.compact) {
       g = (
         <Row
           compact={tertiary.compact}
@@ -137,26 +132,19 @@ export function Tertiary(tertiary: TertiaryCharacter) {
         </Anchor>,
       )
     }
-
-    node?.remove()
   }
 
   if (tertiary.relativeLevel) {
-    let node
-
-    if (!tertiary.top) {
-      node = g.appendChild(
+    if (!tertiary.bottom) {
+      g.appendChild(
         <Anchor
           at="tc"
-          y={20}
-          x={-5}
+          y={35}
         >
-          <path d={TERTIARY_SEGMENTS.HAB} />
+          <Diacritic name={LEVEL_TO_DIACRITIC_MAP[tertiary.relativeLevel]} />
         </Anchor>,
       )
-    }
-
-    if (tertiary.compact) {
+    } else if (tertiary.compact) {
       g = (
         <Row
           compact={tertiary.compact}
@@ -183,8 +171,6 @@ export function Tertiary(tertiary: TertiaryCharacter) {
         </Anchor>,
       )
     }
-
-    node?.remove()
   }
 
   return g

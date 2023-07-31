@@ -13,6 +13,7 @@ import {
   has,
   referentListToPersonalReferenceRoot,
   referentialAffixToIthkuil,
+  type Affix,
   type AffixDegree,
   type AffixType,
   type CaseScope,
@@ -27,6 +28,7 @@ import {
   Primary,
   Row,
   Secondary,
+  Tertiary,
   textToSecondaries,
   type PrimaryCharacter,
   type RowProps,
@@ -42,6 +44,9 @@ import {
   type StandardQuaternaryCharacter,
 } from "../quaternary/index.js"
 import { AP1, AP2, AP3, AP4, EFE, IVL, LVL, MCS, PHS, VAL } from "./affixes.js"
+
+// Throughout this script, Slot XI is used to refer to affixes which have scope
+// over the formative as a whole.
 
 /** Information about a generic character. */
 export type Character =
@@ -82,17 +87,14 @@ export const AFFIX_DEGREES = deepFreeze(
  * @param cs The Cs of the affix to be converted.
  * @param degree The degree of the affix.
  * @param type The type of the affix.
- * @param rotated Whether the affix is rotated?
- * @param hasScopeOverEntireFormative Whether the affix has scope over the
- * formative as a whole, including tertiary and quaternary characters.
+ * @param rotated The slot the affix is placed in.
  * @returns An array of `ConstructableCharacter`s.
  */
 export function affixToScript(
   cs: string,
   degree: AffixDegree | "ca",
   type: AffixType,
-  rotated: boolean,
-  hasScopeOverEntireFormative?: boolean,
+  slot: "v" | "vii" | "xi",
 ): ConstructableCharacter[] {
   return textToSecondaries(cs, {
     forcePlaceholderCharacters: true,
@@ -102,9 +104,9 @@ export function affixToScript(
       index == 0
         ? {
             ...secondary,
-            rotated,
+            rotated: slot == "vii",
             superposed: type == 2 ? "DOT" : type == 3 ? "HORIZ_BAR" : undefined,
-            right: hasScopeOverEntireFormative ? "DOT" : undefined,
+            right: slot == "xi" ? "DOT" : undefined,
             underposed: AFFIX_DEGREES[degree],
           }
         : secondary,
@@ -129,14 +131,18 @@ function attachConstructor<T extends Character>(
  * be constructed.
  */
 export function formativeToScript(
-  formative: PartialFormative,
+  formative: PartialFormative & {
+    /** Affixes with scope over the formative as a whole. */
+    readonly slotXIAffixes?: readonly Affix[] | undefined
+  },
 ): ConstructableCharacter[] {
   let initialCrRoot: ConstructableCharacter<SecondaryCharacter> | undefined
 
-  const output: ConstructableCharacter[] = []
-  const slotVAffixes: ConstructableCharacter<SecondaryCharacter>[] = []
+  const head: ConstructableCharacter[] = []
+  const slotVIIAffixes: ConstructableCharacter<SecondaryCharacter>[] = []
+  const slotXIAffixes: ConstructableCharacter<SecondaryCharacter>[] = []
 
-  output.push({
+  head.push({
     construct: Primary,
 
     specification: formative.specification,
@@ -158,7 +164,7 @@ export function formativeToScript(
   })
 
   if (isArray(formative.root)) {
-    output.push(
+    head.push(
       ...textToSecondaries(
         referentListToPersonalReferenceRoot(formative.root as ReferentList),
         { forcePlaceholderCharacters: true },
@@ -175,14 +181,8 @@ export function formativeToScript(
       }),
     )
   } else if (typeof formative.root == "object") {
-    output.push(
-      ...affixToScript(
-        formative.root.cs,
-        formative.root.degree,
-        1,
-        true,
-        false,
-      ),
+    head.push(
+      ...affixToScript(formative.root.cs, formative.root.degree, 1, "vii"),
     )
   } else {
     const secondaries = textToSecondaries(formative.root, {
@@ -191,35 +191,38 @@ export function formativeToScript(
 
     initialCrRoot = secondaries[0]
 
-    output.push(...secondaries)
+    head.push(...secondaries)
   }
 
   const absoluteLevels: Level[] = []
   const relativeLevels: Level[] = []
   const valences: Valence[] = []
   const modulars: TertiarySegmentName[] = []
-  const moods: [mood: Mood, isSlotVII: boolean][] = []
-  const caseScopes: [caseScope: CaseScope, isSlotVII: boolean][] = []
+  const finalAbsoluteLevels: Level[] = []
+  const finalRelativeLevels: Level[] = []
+  const finalValences: Valence[] = []
+  const finalModulars: TertiarySegmentName[] = []
 
+  const moods: [mood: Mood, slot: "v" | "vii" | "xi"][] = []
+  const caseScopes: [caseScope: CaseScope, slot: "v" | "vii" | "xi"][] = []
   const caseAccessors: ConstructableCharacter<CaseAccessorQuaternaryCharacter>[] =
     []
-
   const nonAccessorQuaternaries: ConstructableCharacter<StandardQuaternaryCharacter>[] =
     []
 
   const referents: ConstructableCharacter[] = []
 
-  for (const [isSlotVII, affixes] of [
-    [false, formative.slotVAffixes || []],
-    [true, formative.slotVIIAffixes || []],
+  for (const [slot, affixes] of [
+    ["v", formative.slotVAffixes || []],
+    ["vii", formative.slotVIIAffixes || []],
+    ["xi", formative.slotXIAffixes || []],
   ] as const) {
+    const affixGroup =
+      slot == "v" ? head : slot == "vii" ? slotVIIAffixes : slotXIAffixes
+
     for (const affix of affixes) {
       if (affix.ca) {
-        const affixGroup = isSlotVII ? slotVAffixes : output
-
-        affixGroup.push(
-          ...affixToScript(caToIthkuil(affix.ca), "ca", 1, isSlotVII),
-        )
+        affixGroup.push(...affixToScript(caToIthkuil(affix.ca), "ca", 1, slot))
       } else if (affix.referent) {
         referents.push({
           construct: Quaternary,
@@ -242,7 +245,7 @@ export function formativeToScript(
             value: affix.case,
             type: affix.type,
             isInverse: affix.isInverse,
-            isSlotVIIAffix: isSlotVII,
+            isSlotVIIAffix: slot == "vii",
           })
         } else {
           nonAccessorQuaternaries.push({
@@ -252,13 +255,26 @@ export function formativeToScript(
         }
       } else {
         if (affix.cs == VAL && affix.type == 1 && affix.degree != 0) {
-          valences.push(ALL_VALENCES[affix.degree - 1] || "MNO")
+          ;(slot == "xi" ? finalValences : valences).push(
+            ALL_VALENCES[affix.degree - 1] || "MNO",
+          )
         } else if (affix.cs == PHS && affix.type == 1 && affix.degree != 0) {
-          modulars.push(ALL_PHASES[affix.degree - 1] || "PUN")
+          ;(slot == "xi" ? finalModulars : modulars).push(
+            ALL_PHASES[affix.degree - 1] || "PUN",
+          )
         } else if (affix.cs == EFE && affix.type == 1 && affix.degree != 0) {
-          modulars.push(ALL_EFFECTS[affix.degree - 1] || "UNK")
+          ;(slot == "xi" ? finalModulars : modulars).push(
+            ALL_EFFECTS[affix.degree - 1] || "UNK",
+          )
         } else if (affix.cs == LVL && affix.type != 3 && affix.degree != 0) {
-          const levelGroup = affix.type == 1 ? relativeLevels : absoluteLevels
+          const levelGroup =
+            affix.type == 1
+              ? slot == "xi"
+                ? finalRelativeLevels
+                : relativeLevels
+              : slot == "xi"
+              ? finalAbsoluteLevels
+              : absoluteLevels
 
           levelGroup.push(ALL_LEVELS[affix.degree - 1] || "EQU")
         } else if (
@@ -272,23 +288,25 @@ export function formativeToScript(
           const index =
             9 * [AP1, AP2, AP3, AP4].indexOf(affix.cs) + affix.degree - 1
 
-          modulars.push(ALL_ASPECTS[index] || "RTR")
+          ;(slot == "xi" ? finalModulars : modulars).push(
+            ALL_ASPECTS[index] || "RTR",
+          )
         } else if (affix.cs == MCS && affix.type == 1) {
           if (affix.degree == 0) {
-            caseScopes.push(["CCV", isSlotVII])
+            caseScopes.push(["CCV", slot])
           } else if (affix.degree <= 5) {
             moods.push([
               (["SUB", "ASM", "SPC", "COU", "HYP"] as const)[
                 (affix.degree - 1) as 0 | 1 | 2 | 3 | 4
               ]!,
-              isSlotVII,
+              slot,
             ])
           } else {
             caseScopes.push([
               (["CCA", "CCS", "CCQ", "CCP"] as const)[
                 (affix.degree - 6) as 0 | 1 | 2 | 3
               ]!,
-              isSlotVII,
+              slot,
             ])
           }
         } else if (affix.cs == IVL && affix.type != 3 && affix.degree != 0) {
@@ -300,10 +318,8 @@ export function formativeToScript(
                 : ALL_VALIDATIONS[affix.degree]!,
           })
         } else {
-          const affixGroup = isSlotVII ? slotVAffixes : output
-
           affixGroup.push(
-            ...affixToScript(affix.cs, affix.degree, affix.type, isSlotVII),
+            ...affixToScript(affix.cs, affix.degree, affix.type, slot),
           )
         }
       }
@@ -319,6 +335,11 @@ export function formativeToScript(
       modulars.push(formative.vn)
     }
   }
+
+  absoluteLevels.push(...finalAbsoluteLevels)
+  relativeLevels.push(...finalRelativeLevels)
+  valences.push(...finalValences)
+  modulars.push(...finalModulars)
 
   let extraQuaternary:
     | ConstructableCharacter<StandardQuaternaryCharacter>
@@ -336,7 +357,7 @@ export function formativeToScript(
     }
 
     if (formative.mood && formative.mood != "FAC") {
-      moods.push([formative.mood, true])
+      moods.push([formative.mood, "vii"])
     } else {
       extraQuaternary = { construct: Quaternary }
     }
@@ -351,7 +372,7 @@ export function formativeToScript(
     }
 
     if (formative.caseScope && formative.caseScope != "CCN") {
-      caseScopes.push([formative.caseScope, true])
+      caseScopes.push([formative.caseScope, "vii"])
     }
   }
 
@@ -432,9 +453,32 @@ export function formativeToScript(
     }
   }
 
-  // TODO: Detect modular affixes and place moods and case-scopes as affixes
+  const tertiaries: ConstructableCharacter<TertiaryCharacter>[] = []
 
-  return output.concat(caseAccessors, nonAccessorQuaternaries, referents)
+  while (
+    absoluteLevels.length ||
+    relativeLevels.length ||
+    valences.length ||
+    modulars.length
+  ) {
+    tertiaries.push({
+      construct: Tertiary,
+      absoluteLevel: absoluteLevels.shift(),
+      top: modulars.shift(),
+      valence: valences.shift(),
+      bottom: modulars.shift(),
+      relativeLevel: relativeLevels.shift(),
+    })
+  }
+
+  return head.concat(
+    slotVIIAffixes,
+    slotXIAffixes,
+    tertiaries,
+    caseAccessors,
+    nonAccessorQuaternaries,
+    referents,
+  )
 }
 
 /**

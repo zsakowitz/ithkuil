@@ -1,4 +1,5 @@
 import "https://esm.sh/snapsvg"
+import type { Valence } from "../index.js"
 import { CharacterRow, formativeToScript } from "./construct/formative.js"
 import { fitViewBox } from "./index.js"
 import { Lines } from "./other/lines.js"
@@ -32,7 +33,11 @@ const node = (
         case: "PRD",
         caseScope: "CCQ",
         slotVAffixes: [{ cs: "nļ", type: 2, degree: 2 }],
-        slotVIIAffixes: [{ cs: "řž", type: 2, degree: 5 }],
+        slotVIIAffixes: [
+          { cs: "c", type: 1, degree: 3 },
+          { cs: "řž", type: 2, degree: 5 },
+        ],
+        vn: "PTI" satisfies Valence,
       })}
     </CharacterRow>
   </svg>
