@@ -24,6 +24,8 @@ export * from "./quaternary/index.js"
 
 export * from "./bias/index.js"
 
+export * from "./register/index.js"
+
 export * from "./construct/affixes.js"
 export * from "./construct/formative.js"
 
