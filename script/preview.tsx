@@ -1,10 +1,11 @@
 import "https://esm.sh/snapsvg"
 import { Lines } from "./other/lines.js"
 import { Row } from "./other/row.js"
-import { textToSecondaries } from "./secondary/from-text.js"
 import { Secondary } from "./secondary/index.js"
 import { AnchorX } from "./utilities/anchor.js"
 import { fitViewBox } from "./utilities/fit-view-box.js"
+import { CharacterRow, formativeToScript } from "./construct/formative.js"
+import { parseFormative } from "../index.js"
 
 document.body.append(
   <script>
@@ -13,7 +14,7 @@ document.body.append(
   </script>,
 )
 
-const HEIGHT = 100
+const HEIGHT = 200
 
 const node = (
   <svg
@@ -29,14 +30,11 @@ const node = (
     }
   >
     <AnchorX at="c">
-      <Row
-        compact={true}
-        space={10}
-      >
-        {textToSecondaries("zäkëri säköwec", {
-          placeholder: "ALPHABETIC_PLACEHOLDER",
-        }).map(Secondary)}
-      </Row>
+      <CharacterRow>
+        {formativeToScript(
+          parseFormative("walac") || { root: "kšš", type: "UNF/C" },
+        )}
+      </CharacterRow>
     </AnchorX>
   </svg>
 ) as SVGSVGElement
@@ -50,6 +48,6 @@ document.body.style =
 
 document.body.appendChild(node)
 
-fitViewBox(node, 10)
+// fitViewBox(node, 10)
 
 node.insertBefore(<Lines />, node.children[0] || null)

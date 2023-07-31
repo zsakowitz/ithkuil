@@ -143,6 +143,15 @@ export interface SecondaryTranslationOptions {
     | undefined
 
   /**
+   * How to mark geminates. If `true`, geminates are marked with the special
+   * `CORE_GEMINATE` extension. If `false`, geminates are marked with standard
+   * extensions.
+   *
+   * @default true
+   */
+  readonly useGeminateMarkers?: boolean | undefined
+
+  /**
    * Whether right diacritics should be used to indicate vowels. When `false`,
    * VVC(C)(C), (C)(C)CVV, and V(C)C(C)V patterns are translated using multiple
    * characters.
@@ -179,6 +188,8 @@ export function textToSecondaries(
       ? secondaryWithoutRightDiacritics
       : secondary
 
+  let index = 0
+
   while ((match = regex.exec(text))) {
     if (options?.forcePlaceholderCharacters) {
       regex =
@@ -200,6 +211,8 @@ export function textToSecondaries(
     if (options?.placeholder == "ALPHABETIC_PLACEHOLDER") {
       secondary.core = "ALPHABETIC_PLACEHOLDER"
     }
+
+    const CORE_ = options?.forcePlaceholderCharacters && index++ ? "" : CORE
 
     if (match[1]) {
       secondary.top = source[0] as ExtensionName
@@ -227,7 +240,7 @@ export function textToSecondaries(
       }
 
       if (source.length == 1) {
-        if (CORE.includes(source)) {
+        if (CORE_.includes(source)) {
           secondary.core = source as CoreName
         } else if (secondary.underposed) {
           secondary.top = source as ExtensionName
@@ -235,10 +248,10 @@ export function textToSecondaries(
           secondary.bottom = source as ExtensionName
         }
       } else if (source.length == 2) {
-        if (CORE.includes(source[0]!)) {
+        if (CORE_.includes(source[0]!)) {
           secondary.core = source[0] as CoreName
           secondary.bottom = source[1] as ExtensionName
-        } else if (CORE.includes(source[1]!)) {
+        } else if (CORE_.includes(source[1]!)) {
           secondary.top = source[0] as ExtensionName
           secondary.core = source[1] as CoreName
         } else {
@@ -265,7 +278,7 @@ export function textToSecondaries(
       }
     }
 
-    if (secondary.core) {
+    if (options?.useGeminateMarkers !== false && secondary.core) {
       if (secondary.core == secondary.top) {
         secondary.top = "CORE_GEMINATE"
       } else if (secondary.core == secondary.bottom) {

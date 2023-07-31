@@ -19,6 +19,9 @@ export interface SecondaryCharacter {
    */
   readonly core?: CoreName | undefined
 
+  /** Whether the core shape should be rotated. */
+  readonly rotated?: boolean | undefined
+
   /** The bottom extension of the character. */
   readonly bottom?: ExtensionName | undefined
 
@@ -96,8 +99,7 @@ function BottomExtension({
   coreShape: SVGPathElement
   name: ExtensionName
 }) {
-  const reversed =
-    core.bottom[0] == "horiz" ? !!core.bottom[2] : !core.bottom[2]
+  const reversed = !core.bottom[2]
 
   return (
     <Translate
@@ -115,13 +117,27 @@ function BottomExtension({
   )
 }
 
+function rotate(core: Core): Core {
+  return {
+    top: [
+      core.bottom[0],
+      -core.bottom[1],
+      (core.bottom[0] == "horiz") === !!core.bottom,
+    ],
+    bottom: [core.top[0], -core.top[1], !core.top],
+    shape: rotate180AndRotateStartingPoint(core.shape),
+  }
+}
+
 /**
  * Assembles a secondary character as an group of SVG paths.
  * @param secondary Properties that modify the character.
  * @returns An `SVGGElement` containing the character.
  */
 export function Secondary(secondary: SecondaryCharacter) {
-  const core = CORES[secondary.core || "STANDARD_PLACEHOLDER"]
+  const core = secondary.rotated
+    ? rotate(CORES[secondary.core || "STANDARD_PLACEHOLDER"])
+    : CORES[secondary.core || "STANDARD_PLACEHOLDER"]
 
   const coreShape = (<path d={core.shape} />) as SVGPathElement
 

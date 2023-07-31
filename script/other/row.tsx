@@ -5,12 +5,8 @@ import { forceGetBBox, getBBox } from "../utilities/get-bbox.js"
 import { doShapesIntersect } from "../utilities/intersection-check.js"
 import { Translate } from "../utilities/translate.js"
 
-/**
- * Combines several shapes into a single row.
- * @param props Properties that modify the output of this `Row`.
- * @returns An `SVGGElement` containing the elements.
- */
-export function Row(props: {
+/** Properties that modify the output of a `Row`. */
+export interface RowProps {
   /** The element(s) to be arranged. */
   children?: SVGElement | SVGElement[] | undefined
 
@@ -73,7 +69,14 @@ export function Row(props: {
    * @default 10
    */
   space?: number | undefined
-}): SVGGElement {
+}
+
+/**
+ * Combines several shapes into a single row.
+ * @param props Properties that modify the output of this `Row`.
+ * @returns An `SVGGElement` containing the elements.
+ */
+export function Row(props: RowProps): SVGGElement {
   const INITIAL_CHECKING_INTERVAL = Math.abs(
     props.compact?.baseSpacingInterval || 10,
   )

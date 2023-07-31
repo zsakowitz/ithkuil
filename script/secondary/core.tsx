@@ -1,5 +1,11 @@
 import { deepFreeze } from "../../index.js"
 
+// Note for testing secondaries:
+// The ALPHABETIC_PLACEHOLDER has a reversed horizontal top.
+// The letter Ļ is vert/diag.
+// The letter Ř is diag/vert.
+// The letter Č is horiz/horiz.
+
 /** Directions a consonantal connection may be in. */
 export type ConnectionDirection = "horiz" | "vert" | "diag"
 
@@ -44,13 +50,13 @@ export const CORES = deepFreeze({
   c: {
     shape: "M -15 -35 l -10 10 l 0 60 l 40 0 l 10 -10 l -40 0 l 0 -60 z",
     top: ["vert", -15],
-    bottom: ["horiz", 15],
+    bottom: ["horiz", 15, true],
   } as Core,
   č: {
     shape:
       "M -15 -35 l -10 10 l 0 60 l 40 0 l 10 -10 l -40 0 l 0 -50 l 30 0 l 10 -10 l -40 0 z",
     top: ["horiz", 25],
-    bottom: ["horiz", 15],
+    bottom: ["horiz", 15, true],
   } as Core,
   ç: {
     shape:
@@ -92,7 +98,7 @@ export const CORES = deepFreeze({
     shape:
       "M -10 -35 l -10 10 l 0 50 l -10 10 l 45 0 l 10 -10 l -42.6 0 l 7.6 -7.6 l 0 -42.4 l 30 0 l 10 -10 l -40 0 z",
     top: ["horiz", 30],
-    bottom: ["horiz", 15],
+    bottom: ["horiz", 15, true],
   } as Core,
   k: {
     shape:
@@ -104,7 +110,7 @@ export const CORES = deepFreeze({
     shape:
       "M -10 -35 l -10 10 l 0 35 l 19.95 0 l -24.95 25 l 40 0 l 10 -10 l -37.6 0 l 24.85 -25 l -22.25 0 l 0 -35 z",
     top: ["vert", -10],
-    bottom: ["horiz", 15],
+    bottom: ["horiz", 15, true],
   } as Core,
   ļ: {
     shape:
@@ -140,13 +146,13 @@ export const CORES = deepFreeze({
     shape:
       "M -17.5 -35 l -7.5 7.5 l 31.25 31.25 l -31.25 31.25 l 40 0 l 10 -10 l -37.6 0 l 27.5 -27.6 l -32.4 -32.4 z",
     top: ["diag", -17.5],
-    bottom: ["horiz", 15],
+    bottom: ["horiz", 15, true],
   } as Core,
   ř: {
     shape:
       "M -16.55 -34.975 l -7.5 7.5 l 22.75 22.7 l -9.75 9.8 l 0 30 l 25 0 l 10 -10 l -25 0 l -0.1 -27.55 l 8.55 -8.5 l -24 -24 z",
     top: ["diag", -16.5],
-    bottom: ["horiz", 14],
+    bottom: ["horiz", 14, true],
   } as Core,
   s: {
     shape:
@@ -158,7 +164,7 @@ export const CORES = deepFreeze({
     shape:
       "M 20 -35 l -10 10 l 0 20 l -20 0 l -10 10 l 0 30 l 30 0 l 10 -10 l -30 0 l 0 -20 l 20 0 l 10 -10 l 0 -30 z",
     top: ["vert", 20],
-    bottom: ["horiz", 10],
+    bottom: ["horiz", 10, true],
   } as Core,
   t: {
     shape:
@@ -194,13 +200,13 @@ export const CORES = deepFreeze({
     shape:
       "M -7.5 -35 l -10 10 l 0 50 l -10 10 l 45 0 l 10 -10 l -42.6 0 l 7.6 -7.6 l 0 -52.4 z",
     top: ["vert", -7.5],
-    bottom: ["horiz", 17.5],
+    bottom: ["horiz", 17.5, true],
   } as Core,
   ž: {
     shape:
       "M -8.05 -35.025 l -7.5 7.5 l 22.55 22.55 l -14.4 0 l -17.6 17.65 l 0 22.35 l 40 0 l 10 -10 l -40 0 l 0 -20 l 30 0 l 8.5 -8.5 l -31.55 -31.55 z",
     top: ["diag", -8.05],
-    bottom: ["horiz", 15],
+    bottom: ["horiz", 15, true],
   } as Core,
   ALPHABETIC_PLACEHOLDER: {
     shape:
@@ -218,7 +224,7 @@ export const CORES = deepFreeze({
     shape:
       "M 36.15 -35 l -52.3 0 l -10 10 l 50 0 l -60 60 l 52.4 0 l 9.9 -10 l -49.8 0 l 59.8 -60 z",
     top: ["horiz", -16.15, true],
-    bottom: ["horiz", 16.25],
+    bottom: ["horiz", 16.25, true],
   } as Core,
   STRESSED_SYLLABLE_PLACEHOLDER: {
     shape: "M 5 -35 l -10 10 l 0 60 l 10 -10 l 0 -60 z",
