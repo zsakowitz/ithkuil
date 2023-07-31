@@ -1,7 +1,5 @@
 import "https://esm.sh/snapsvg"
-import type { Valence } from "../index.js"
-import { CharacterRow, formativeToScript } from "./construct/formative.js"
-import { fitViewBox } from "./index.js"
+import { CharacterRow, fitViewBox, formativeToScript } from "./index.js"
 import { Lines } from "./other/lines.js"
 
 document.body.append(
@@ -37,7 +35,7 @@ const node = (
           { cs: "c", type: 1, degree: 3 },
           { cs: "řž", type: 2, degree: 5 },
         ],
-        vn: "PTI" satisfies Valence,
+        vn: "PTI",
       })}
     </CharacterRow>
   </svg>
@@ -52,6 +50,6 @@ document.body.style =
 
 document.body.appendChild(node)
 
-fitViewBox(node, 10)
+fitViewBox(node, 35)
 
 node.insertBefore(<Lines width={500} />, node.children[0] || null)

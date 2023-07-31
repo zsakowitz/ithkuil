@@ -1,6 +1,6 @@
 import { AnchorX, AnchorY } from "../utilities/anchor.js"
 import { Clone } from "../utilities/clone.js"
-import { forceGetBBox, getBBox } from "../utilities/get-bbox.js"
+import { getBBox } from "../utilities/get-bbox.js"
 import { doShapesIntersect } from "../utilities/intersection-check.js"
 import { Translate } from "../utilities/translate.js"
 

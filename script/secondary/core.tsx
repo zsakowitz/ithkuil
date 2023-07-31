@@ -231,4 +231,10 @@ export const CORES = /* @__PURE__ */ deepFreeze({
     top: ["vert", 5],
     bottom: ["vert", -5],
   } as Core,
+  BIAS: {
+    shape:
+      "M -26.15 -18.8 l 24.95 24.95 l -28.8 28.85 l 45 0 l 10 -10 l -42.6 0 l 25.05 -25.2 l -24.8 -24.8 l 37.35 0 l 10 -10 l -40 0 l -16.15 16.2 z",
+    top: ["horiz", 30],
+    bottom: ["horiz", 15, true],
+  } as Core,
 })
