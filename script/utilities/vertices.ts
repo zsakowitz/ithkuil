@@ -1,3 +1,8 @@
+/**
+ * Gets all vertices on an SVG path.
+ * @param path The path to get the vertices of.
+ * @returns The vertices of the path, in absolute coordinates.
+ */
 export function getVerticesOf(path: string) {
   const relativePoints =
     path

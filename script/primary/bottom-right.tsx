@@ -1,5 +1,6 @@
 import {
   deepFreeze,
+  type Configuration,
   type Function,
   type Stem,
   type Version,
@@ -68,13 +69,41 @@ const PATHS = deepFreeze({
   },
 })
 
+/**
+ * Creates the bottom-right shape of a primary character as an SVG path.
+ * @param props Properties that modify the shape.
+ * @returns An `SVGPathElement` containing the shape, or `undefined` if no shape
+ * is needed.
+ */
 export function PrimaryBottomRight(props: {
-  function: Function
-  version: Version
-  plexity: "M" | "D"
-  stem: Stem
+  /** The function of the character. */
+  readonly function?: Function | undefined
+
+  /** The version of the character. */
+  readonly version?: Version | undefined
+
+  /** The configuration of the character. */
+  readonly configuration?: Configuration | undefined
+
+  /** The stem of the character. */
+  readonly stem?: Stem | undefined
 }) {
+  if (
+    (!props.function || props.function == "STA") &&
+    (!props.version || props.version == "PRC") &&
+    !props.configuration?.startsWith("D") &&
+    (props.stem == null || props.stem == 1)
+  ) {
+    return
+  }
+
   return (
-    <path d={PATHS[props.function][props.version][props.plexity][props.stem]} />
+    <path
+      d={
+        PATHS[props.function || "STA"][props.version || "PRC"][
+          props.configuration?.startsWith("D") ? "D" : "M"
+        ][props.stem ?? 1]
+      }
+    />
   ) as SVGPathElement
 }

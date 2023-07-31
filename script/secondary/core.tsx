@@ -1,25 +1,39 @@
 import { deepFreeze } from "../../index.js"
 
+/** Directions a consonantal connection may be in. */
 export type ConnectionDirection = "horiz" | "vert" | "diag"
 
+/** Information about a consonantal connection. */
+export type Connection = readonly [
+  /** The direction this connection points in. */
+  direction: ConnectionDirection,
+
+  /**
+   * The X position of the corner of the connection closest to a baseline or
+   * overline.
+   */
+  xPosition: number,
+
+  /** Whether the connection is rotated 180 degrees. */
+  isReversed?: boolean,
+]
+
+/** A consonant core. */
 export type Core = {
-  readonly top: readonly [
-    direction: ConnectionDirection,
-    xPosition: number,
-    isReversed?: boolean,
-  ]
-
-  readonly bottom: readonly [
-    direction: ConnectionDirection,
-    xPosition: number,
-    isReversed?: boolean,
-  ]
-
+  /** An SVG path describing the consonant's shape. */
   readonly shape: string
+
+  /** Information about the top connection. */
+  readonly top: Connection
+
+  /** Information about the bottom connection. */
+  readonly bottom: Connection
 }
 
+/** The name of a consonant core. */
 export type CoreName = keyof typeof CORES
 
+/** An object containing all consonantal cores. */
 export const CORES = deepFreeze({
   b: {
     shape:

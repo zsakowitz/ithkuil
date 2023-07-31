@@ -26,11 +26,18 @@ const OFFSETS = deepFreezeAndNullPrototype({
   FF: { x: 0, y: 10 },
 })
 
+/**
+ * Creates the bottom-left diacritic of a primary character as an SVG path.
+ * @param props Properties that modify the diacritic.
+ * @returns An `SVGPathElement` containing the diacritic, or `undefined` if no
+ * diacritic is needed.
+ */
 export function PrimaryBottomLeft(props: {
+  /** The configuration of the character. */
   readonly configuration?: Configuration | undefined
 }) {
   if (!props.configuration) {
-    return <path />
+    return
   }
 
   const diacriticName = props.configuration.slice(1)
@@ -45,8 +52,8 @@ export function PrimaryBottomLeft(props: {
           name={DIACRITICS[diacriticName as keyof typeof DIACRITICS]}
         />
       </Anchor>
-    )
+    ) as SVGPathElement
   }
 
-  return <path />
+  return
 }

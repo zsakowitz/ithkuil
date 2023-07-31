@@ -9,13 +9,23 @@ const DIACRITICS = deepFreezeAndNullPrototype({
   2: "HORIZ_WITH_BOTTOM_LINE",
 })
 
+/**
+ * Creates the underposed diacritic of a primary character as an SVG path.
+ * @param props Properties that modify the diacritic.
+ * @returns An `SVGPathElement` containing the diacritic, or `undefined` if no
+ * diacritic is needed.
+ */
 export function PrimaryUnderPosed({
   bottom = "UNF/C",
 }: {
+  /**
+   * The bottom item on this character. May be a relation, such as UNF/C, UNF/K,
+   * or FRM, or a concatenation type, such as 1 or 2.
+   */
   readonly bottom?: "UNF/C" | "UNF/K" | "FRM" | 1 | 2 | undefined
 }) {
   if (bottom == "UNF/C") {
-    return <path />
+    return undefined
   }
 
   const diacriticName = DIACRITICS[bottom]
@@ -24,5 +34,5 @@ export function PrimaryUnderPosed({
     <Anchor at="tc">
       <Diacritic name={diacriticName} />
     </Anchor>
-  )
+  ) as SVGPathElement
 }

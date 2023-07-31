@@ -5,16 +5,80 @@ import { forceGetBBox, getBBox } from "../utilities/get-bbox.js"
 import { doShapesIntersect } from "../utilities/intersection-check.js"
 import { Translate } from "../utilities/translate.js"
 
+/**
+ * Combines several shapes into a single row.
+ * @param props Properties that modify the output of this `Row`.
+ * @returns An `SVGGElement` containing the elements.
+ */
 export function Row(props: {
+  /** The element(s) to be arranged. */
   children?: SVGElement | SVGElement[] | undefined
-  intro?: SVGElement | SVGElement[]
-  compact?: boolean
-  space?: number
-  baseSpacingInterval?: number
-  spacingImprovements?: number
-}) {
-  const INITIAL_CHECKING_INTERVAL = Math.abs(props.baseSpacingInterval || 10)
-  const SPACING_IMPROVEMENT_COUNT = props.spacingImprovements ?? 5
+
+  /**
+   * Whether compact mode should be used, and options applying to it if so.
+   *
+   * In compact mode, intersections are approximated so that letters appear
+   * close together while still fully readable. Compact mode usually produces
+   * better-looking output, but runs much slower.
+   *
+   * In traditional non-compact mode, the rightmost edge of a character and the
+   * leftmost edge of the next character are placed with space between them.
+   * However, this often leads to unusual-looking whitespace.
+   */
+  compact?:
+    | {
+        /**
+         * The interval to start approximations with when finding intersections in
+         * compact mode. Lower values give more precision but slower performance,
+         * with both inversely proportional to the value of this property.
+         *
+         * For example, a value of `2` will take five times longer but give five
+         * times better results than a value of `10`.
+         *
+         * It is recommended to use values no smaller than `1`. If additional
+         * precision is needed, adjust `spacingImprovements` instead; it has much
+         * better performance.
+         *
+         * @default 10
+         */
+        baseSpacingInterval?: number
+
+        /**
+         * The number of improvements to make when finding intersections in compact
+         * mode. Higher values give exponentially more precision but linearly slower
+         * performance.
+         *
+         * For example, a value of `6` will give 4 times better results than a value
+         * of `2`, but will take three times as long.
+         *
+         * It is recommended to use values no larger than `10`, as doing so will
+         * result in changes so small they are hardly visible to the human eye.
+         *
+         * @default 5
+         */
+        spacingImprovements?: number
+      }
+    | (boolean & {
+        baseSpacingInterval?: undefined
+        spacingImprovements?: undefined
+      })
+    | undefined
+
+  /** Elements which should precede the `children`. */
+  intro?: SVGElement | SVGElement[] | undefined
+
+  /**
+   * The amount of space between elements.
+   *
+   * @default 10
+   */
+  space?: number | undefined
+}): SVGGElement {
+  const INITIAL_CHECKING_INTERVAL = Math.abs(
+    props.compact?.baseSpacingInterval || 10,
+  )
+
+  const SPACING_IMPROVEMENT_COUNT = props.compact?.spacingImprovements ?? 5
 
   const space = props.space ?? 10
 
@@ -60,10 +124,7 @@ export function Row(props: {
       let CHECKING_INTERVAL = INITIAL_CHECKING_INTERVAL
 
       const makeShape = (x: number) => (
-        <Translate
-          x={comparedBox.x + comparedBox.width + x}
-          y={0}
-        >
+        <Translate x={comparedBox.x + comparedBox.width + x}>
           <Clone>{el}</Clone>
         </Translate>
       )
@@ -74,10 +135,10 @@ export function Row(props: {
         x += CHECKING_INTERVAL
       ) {
         if (!doShapesIntersect(makeShape(x), compared, space)) {
-          // intersects at lower
+          // Intersects at lower bound.
           let lower = x - CHECKING_INTERVAL
 
-          // does not intersect at upper
+          // Does not intersect at upper bound.
           let upper = x
 
           for (let i = 0; i < SPACING_IMPROVEMENT_COUNT; i++) {
@@ -101,54 +162,17 @@ export function Row(props: {
       debug("hi")
 
       row.appendChild(
-        <Translate
-          x={comparedBox.x + comparedBox.width + space}
-          y={0}
-        >
+        <Translate x={comparedBox.x + comparedBox.width + space}>
           {el}
         </Translate>,
       )
-
-      // const box = getBBox(g)
-      // const elBox = forceGetBBox(el)
-      // const right = elBox.x + elBox.width
-
-      // const paths = [...el.getElementsByTagName("path")]
-      // if (el instanceof SVGPathElement) paths.push(el)
-
-      // let x = elBox.x
-
-      // outer: for (; x <= right; x += 0.1) {
-      //   const point = svg.createSVGPoint()
-      //   point.x = x
-      //   point.y = rightmostPoint[1]
-
-      //   for (const path of paths) {
-      //     if (path.isPointInFill(point)) {
-      //       break outer
-      //     }
-      //   }
-      // }
-
-      // g.insertBefore(
-      //   <Translate
-      //     y={0}
-      //     x={box.x + box.width - elBox.x - x + space * 1.414}
-      //   >
-      //     {el}
-      //   </Translate>,
-      //   g.children[0] || null,
-      // )
     }
   } else {
     for (const el of rest || []) {
       const box = getBBox(row)
 
       row.appendChild(
-        <Translate
-          y={0}
-          x={box.x + box.width - forceGetBBox(el).x + space}
-        >
+        <Translate x={box.x + box.width - forceGetBBox(el).x + space}>
           {el}
         </Translate>,
       )

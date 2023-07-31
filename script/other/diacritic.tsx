@@ -31,6 +31,7 @@ const DIACRITICS = deepFreezeAndNullPrototype({
     "M 0 0 l 1.15 1.25 q 6.55 -11.7 14.4 -12.25 q 7.8 -0.5 17.45 9.75 l 7.5 -7.5 q -6.55 -12.05 -18.7 -9.55 q -12.25 2.5 -21.8 18.3 m 9.6 1.25 l 7.5 7.5 l 7.5 -7.5 l -7.5 -7.5 l -7.5 7.5 z",
 })
 
+/** An object containing all diacritics and their SVG paths. */
 export const CORE_DIACRITICS = deepFreeze({
   ...DIACRITICS,
   a: DIACRITICS.DOT,
@@ -44,8 +45,17 @@ export const CORE_DIACRITICS = deepFreeze({
   ü: DIACRITICS.VERT_WITH_LEFT_LINE,
 })
 
+/** The name of a diacritic. */
 export type DiacriticName = keyof typeof CORE_DIACRITICS
 
-export function Diacritic(props: { name: DiacriticName }) {
-  return <path d={CORE_DIACRITICS[props.name]} />
+/**
+ * Instantiates a diacritic into an SVG path.
+ * @param props Properties that modify the output of this `Diacritic`.
+ * @returns An `SVGPathElement` containing the diacritic.
+ */
+export function Diacritic(props: {
+  /** The name of the diacritic to draw. */
+  readonly name: DiacriticName
+}) {
+  return (<path d={CORE_DIACRITICS[props.name]} />) as SVGPathElement
 }

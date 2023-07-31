@@ -35,9 +35,18 @@ const PATHS = deepFreeze({
   },
 })
 
+/**
+ * Creates the bottom-left shape of a primary character as an SVG path.
+ * @param props Properties that modify the shape.
+ * @returns An `SVGPathElement` containing the shape, or `undefined` if no shape
+ * is needed.
+ */
 export function PrimaryTopLeft(props: {
-  perspective: Perspective
-  extension: Extension
+  /** The perspective of this character. */
+  readonly perspective: Perspective
+
+  /** The extension of this character. */
+  readonly extension: Extension
 }) {
   return (
     <path d={PATHS[props.perspective][props.extension]} />

@@ -7,13 +7,28 @@ import { Translate } from "../utilities/translate.js"
 import { CORES, type Core, type CoreName } from "./core.js"
 import { EXTENSIONS, type ExtensionName } from "./extension.js"
 
+/** Information about a secondary character. */
 export interface SecondaryCharacter {
+  /** The top extension of the character. */
   readonly top?: ExtensionName | undefined
+
+  /**
+   * The core shape of the character.
+   *
+   * @default "STANDARD_PLACEHOLDER"
+   */
   readonly core?: CoreName | undefined
+
+  /** The bottom extension of the character. */
   readonly bottom?: ExtensionName | undefined
 
+  /** The diacritic superposed above the character. */
   readonly superposed?: DiacriticName | undefined
+
+  /** The diacritic posed to the right of the character. */
   readonly right?: DiacriticName | undefined
+
+  /** The diacritic underposed below the character. */
   readonly underposed?: DiacriticName | undefined
 }
 
@@ -100,8 +115,13 @@ function BottomExtension({
   )
 }
 
-export function Secondary(props: SecondaryCharacter) {
-  const core = CORES[props.core || "STANDARD_PLACEHOLDER"]
+/**
+ * Assembles a secondary character as an group of SVG paths.
+ * @param secondary Properties that modify the character.
+ * @returns An `SVGGElement` containing the character.
+ */
+export function Secondary(secondary: SecondaryCharacter) {
+  const core = CORES[secondary.core || "STANDARD_PLACEHOLDER"]
 
   const coreShape = (<path d={core.shape} />) as SVGPathElement
 
@@ -109,25 +129,25 @@ export function Secondary(props: SecondaryCharacter) {
     <g>
       {coreShape}
 
-      {props.top ? (
+      {secondary.top ? (
         <TopExtension
           core={core}
           coreShape={coreShape}
-          name={props.top}
+          name={secondary.top}
         />
       ) : undefined}
 
-      {props.bottom ? (
+      {secondary.bottom ? (
         <BottomExtension
           core={core}
           coreShape={coreShape}
-          name={props.bottom}
+          name={secondary.bottom}
         />
       ) : undefined}
     </g>
   ) as SVGGElement
 
-  if (props.superposed) {
+  if (secondary.superposed) {
     const box = getBBox(main)
 
     const diacritic = (
@@ -135,14 +155,14 @@ export function Secondary(props: SecondaryCharacter) {
         at="bc"
         y={box.y - 10}
       >
-        <Diacritic name={props.superposed} />
+        <Diacritic name={secondary.superposed} />
       </Anchor>
     )
 
     main.appendChild(diacritic)
   }
 
-  if (props.underposed) {
+  if (secondary.underposed) {
     const box = getBBox(main)
 
     const diacritic = (
@@ -150,14 +170,14 @@ export function Secondary(props: SecondaryCharacter) {
         at="tc"
         y={box.y + box.height + 10}
       >
-        <Diacritic name={props.underposed} />
+        <Diacritic name={secondary.underposed} />
       </Anchor>
     )
 
     main.appendChild(diacritic)
   }
 
-  if (props.right) {
+  if (secondary.right) {
     main = (
       <Row
         compact={true}
@@ -165,7 +185,7 @@ export function Secondary(props: SecondaryCharacter) {
         intro={[...main.querySelectorAll("path")]}
       >
         <Anchor at="cl">
-          <Diacritic name={props.right} />
+          <Diacritic name={secondary.right} />
         </Anchor>
       </Row>
     ) as SVGGElement

@@ -12,6 +12,7 @@ import type { CoreName } from "./core.js"
 import type { ExtensionName } from "./extension.js"
 import type { SecondaryCharacter } from "./index.js"
 
+/** Removes `readonly` modifiers from an object. */
 export type Mutable<T> = { -readonly [K in keyof T]: T[K] }
 
 const STRESSED_TO_UNSTRESSED_VOWEL_MAP =
@@ -33,15 +34,17 @@ const unstressedVowel = /* @__PURE__ */ charIn(UNSTRESSED_VOWEL)
 const ANY_VOWEL = "aeiouäëöüáéíóúâêôû"
 const anyVowel = /* @__PURE__ */ charIn(ANY_VOWEL)
 
-const CORE = "pbtdkgfvţḑszšžçxhļcżčjmnňrlř"
+const CORE = "_pbtdkgfvţḑszšžçxhļcżčjmnňrlř"
 const core = /* @__PURE__ */ charIn(CORE)
 
-const EXT = "pbtdkgfvţḑszšžçxhļcżčjmnňrlwyř'"
+const EXT = "_pbtdkgfvţḑszšžçxhļcżčjmnňrlwyř'"
 const ext = /* @__PURE__ */ charIn(EXT)
+
+const extensionOnlyCore = seq(ext, ext.optional())
 
 const letterCore = any(
   seq(ext.optional(), core, ext.optional()),
-  seq(ext, ext.optional()),
+  extensionOnlyCore,
 )
 
 const secondary = seq(
@@ -54,6 +57,28 @@ const secondary = seq(
       seq(letterCore, unstressedVowel, unstressedVowel),
       seq(unstressedVowel, unstressedVowel, letterCore),
       seq(unstressedVowel.optional(), letterCore, unstressedVowel.optional()),
+    ).asGroup(),
+
+    seq(unstressedVowel, unstressedVowel).asGroup(),
+
+    anyVowel.asGroup(),
+  ),
+).compile()
+
+const extensionOnlySecondary = seq(
+  start,
+
+  any(
+    seq(ext, unstressedVowel, ext).asGroup(),
+
+    any(
+      seq(extensionOnlyCore, unstressedVowel, unstressedVowel),
+      seq(unstressedVowel, unstressedVowel, extensionOnlyCore),
+      seq(
+        unstressedVowel.optional(),
+        extensionOnlyCore,
+        unstressedVowel.optional(),
+      ),
     ).asGroup(),
 
     seq(unstressedVowel, unstressedVowel).asGroup(),
@@ -80,38 +105,95 @@ const secondaryWithoutRightDiacritics = seq(
   ),
 ).compile()
 
+const extensionOnlySecondaryWithoutRightDiacritics = seq(
+  start,
+
+  new AtomicRegexPart("()"),
+
+  any(
+    seq(
+      unstressedVowel.optional(),
+      extensionOnlyCore,
+      unstressedVowel.optional(),
+    ).asGroup(),
+
+    seq(unstressedVowel, unstressedVowel).asGroup(),
+
+    anyVowel.asGroup(),
+  ),
+).compile()
+
+/** Options modifiying how secondary characters are translated. */
 export interface SecondaryTranslationOptions {
+  /**
+   * Whether all characters other than the first should be placed on extensions.
+   *
+   * @default false
+   */
+  readonly forcePlaceholderCharacters?: boolean | undefined
+
+  /**
+   * The placeholder character to use when needed.
+   *
+   * @default "STANDARD_PLACEHOLDER"
+   */
+  readonly placeholder?:
+    | "STANDARD_PLACEHOLDER"
+    | "ALPHABETIC_PLACEHOLDER"
+    | undefined
+
+  /**
+   * Whether right diacritics should be used to indicate vowels. When `false`,
+   * VVC(C)(C), (C)(C)CVV, and V(C)C(C)V patterns are translated using multiple
+   * characters.
+   *
+   * @default true
+   */
   readonly useRightDiacritics?: boolean | undefined
-  readonly placeholder?: "STANDARD_PLACEHOLDER" | "ALPHABETIC_PLACEHOLDER"
 }
 
+/**
+ * Converts text into secondary character templates.
+ * @param text The text to be converted. Use spaces to force character breaks,
+ * and use underscore to force placeholders and extension locations.
+ * @param options Options that modify how the secondary characters are
+ * translated.
+ * @returns An array of secondary characters parsed from the text.
+ */
 export function textToSecondaries(
-  word: string,
+  text: string,
   options?: SecondaryTranslationOptions,
 ) {
-  ;({ word } = transformWordButLeaveStressMarkings(word))
+  ;({ word: text } = transformWordButLeaveStressMarkings(text))
 
-  word = word
-    .replace(/[^aeiouäëöüáéíóúâêôûpbtdkgfvţḑszšžçxhļcżčjmnňrlwyř']+/g, " ")
+  text = text
+    .replace(/[^_aeiouäëöüáéíóúâêôûpbtdkgfvţḑszšžçxhļcżčjmnňrlwyř']+/g, " ")
     .trim()
 
   const output: SecondaryCharacter[] = []
 
   let match
 
-  const regex =
+  let regex =
     options?.useRightDiacritics === false
       ? secondaryWithoutRightDiacritics
       : secondary
 
-  while ((match = regex.exec(word))) {
+  while ((match = regex.exec(text))) {
+    if (options?.forcePlaceholderCharacters) {
+      regex =
+        options?.useRightDiacritics === false
+          ? extensionOnlySecondaryWithoutRightDiacritics
+          : extensionOnlySecondary
+    }
+
     let source = match[0]
 
     if (!source) {
       break
     }
 
-    word = word.slice(source.length).trimStart()
+    text = text.slice(source.length).trimStart()
 
     const secondary: Mutable<SecondaryCharacter> = {}
 
@@ -189,6 +271,22 @@ export function textToSecondaries(
       } else if (secondary.core == secondary.bottom) {
         secondary.bottom = "CORE_GEMINATE"
       }
+    }
+
+    if ((secondary.top as any) == "_") {
+      delete secondary.top
+    }
+
+    if ((secondary.core as any) == "_") {
+      delete secondary.core
+
+      if (options?.placeholder == "ALPHABETIC_PLACEHOLDER") {
+        secondary.core = "ALPHABETIC_PLACEHOLDER"
+      }
+    }
+
+    if ((secondary.bottom as any) == "_") {
+      delete secondary.bottom
     }
 
     output.push(secondary)

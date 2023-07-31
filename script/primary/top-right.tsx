@@ -36,17 +36,26 @@ const OFFSETS = deepFreezeAndNullPrototype({
   },
 })
 
+/**
+ * Creates the top-right diacritic of a primary character as an SVG path.
+ * @param props Properties that modify the diacritic.
+ * @returns An `SVGPathElement` containing the diacritic, or `undefined` if no
+ * diacritic is needed.
+ */
 export function PrimaryTopRight({
   affiliation = "CSL",
   essence = "NRM",
 }: {
+  /** The affiliation of this character. */
   readonly affiliation?: Affiliation | undefined
+
+  /** The essence of this character. */
   readonly essence?: Essence | undefined
 }) {
   const diacriticName = DIACRITICS[essence][affiliation]
 
   if (!diacriticName) {
-    return <path />
+    return undefined
   }
 
   return (
@@ -56,5 +65,5 @@ export function PrimaryTopRight({
     >
       <Diacritic name={diacriticName} />
     </Anchor>
-  )
+  ) as SVGPathElement
 }

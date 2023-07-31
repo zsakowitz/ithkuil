@@ -1,82 +1,16 @@
-// const svgElements = new Set([
-//   "a",
-//   "animate",
-//   "animateMotion",
-//   "animateTransform",
-//   "circle",
-//   "clipPath",
-//   "defs",
-//   "desc",
-//   "ellipse",
-//   "feBlend",
-//   "feColorMatrix",
-//   "feComponentTransfer",
-//   "feComposite",
-//   "feConvolveMatrix",
-//   "feDiffuseLighting",
-//   "feDisplacementMap",
-//   "feDistantLight",
-//   "feDropShadow",
-//   "feFlood",
-//   "feFuncA",
-//   "feFuncB",
-//   "feFuncG",
-//   "feFuncR",
-//   "feGaussianBlur",
-//   "feImage",
-//   "feMerge",
-//   "feMergeNode",
-//   "feMorphology",
-//   "feOffset",
-//   "fePointLight",
-//   "feSpecularLighting",
-//   "feSpotLight",
-//   "feTile",
-//   "feTurbulence",
-//   "filter",
-//   "foreignObject",
-//   "g",
-//   "image",
-//   "line",
-//   "linearGradient",
-//   "marker",
-//   "mask",
-//   "metadata",
-//   "mpath",
-//   "path",
-//   "pattern",
-//   "polygon",
-//   "polyline",
-//   "radialGradient",
-//   "rect",
-//   "script",
-//   "set",
-//   "stop",
-//   "style",
-//   "svg",
-//   "symbol",
-//   "switch",
-//   "text",
-//   "textPath",
-//   "title",
-//   "tspan",
-//   "use",
-//   "view",
-// ])
-
+/**
+ * A small JSX library that constructs elements.
+ * @param tag The tag of the element to be constructed.
+ * @param props Properties of the element to be constructed.
+ * @param children Children of the element to be constructed.
+ * @returns The constructed element.
+ */
 export function jsx(
   tag: string | ((...args: any) => SVGElement | HTMLElement),
   props?: Record<string, any> | null | undefined,
   ...children: any[]
 ) {
   if (typeof tag == "function") {
-    let ref
-
-    if (props && typeof props.ref == "function") {
-      ref = props.ref
-      delete props.ref
-    }
-
     if (props && !("children" in props)) {
       if (children.length == 1) {
         props.children = children[0]
@@ -86,10 +20,6 @@ export function jsx(
     }
 
     const el = tag(props)
-
-    if (ref) {
-      ref(el)
-    }
 
     return el
   }
@@ -101,27 +31,27 @@ export function jsx(
   }
 
   for (const key in props) {
-    if (key != "children" && key != "ref") {
+    if (key != "children") {
       el.setAttribute(key, props[key])
     }
   }
 
   el.append(...children.filter((x) => x != null))
 
-  if (props?.ref) {
-    props.ref(el)
-  }
-
   return el
 }
 
 export { jsx as jsxs }
 
+/** The JSX namespace. */
 export namespace JSX {
+  /** The type of all JSX elements. */
   export type Element = SVGElement
 
+  /** Either a number, or a string containing a number. */
   export type NumberLike = `${number}` | number
 
+  /** Constructable elements, and their attributes. */
   export type CoreIntrinsicElements = {
     g: {
       fill?: string
@@ -164,6 +94,7 @@ export namespace JSX {
     }
   }
 
+  /** Finalized forms of the constructable elements. */
   export type IntrinsicElements = {
     [K in keyof CoreIntrinsicElements]: CoreIntrinsicElements[K] & {
       children?:
@@ -172,16 +103,11 @@ export namespace JSX {
         | (string | SVGElement | null | undefined)[]
         | null
         | undefined
-
-      ref?(el: SVGElementTagNameMap[K]): unknown
     }
   }
 
+  /** The attribute used to mark children. */
   export type ElementChildrenAttribute = {
     children: {}
-  }
-
-  export type IntrinsicAttributes = {
-    ref?: ((x: Element) => unknown) | undefined
   }
 }

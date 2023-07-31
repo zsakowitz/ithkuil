@@ -7,8 +7,14 @@ const CORES = deepFreeze({
   OBJ: "M 20 35 l 7.5 -7.5 -26.9 -26.9 7.45 -7.55 -28.05 -28.05 -7.5 7.5 26.9 26.9 -7.5 7.5 28.1 28.1 z",
 })
 
+/**
+ * Creates the core shape of a primary character as an SVG path.
+ * @param props Properties that modify the shape.
+ * @returns An `SVGPathElement` containing the shape.
+ */
 export function PrimaryCore(props: {
-  specification: Specification
+  /** The specification of the character. */
+  readonly specification: Specification
 }): SVGPathElement {
   return (<path d={CORES[props.specification]} />) as SVGPathElement
 }

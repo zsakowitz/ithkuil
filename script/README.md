@@ -20,19 +20,13 @@ In essence, a JSX tag such as this...
 
   <path
     d="..."
-    ref={(el) => {
-      setTimeout(() => {
-        el.style.display = "none"
-      })
-    }}
+    fill="red"
   />
 </g>
 ```
 
 ...is just a shortcut for the equivalent code created using
 `document.createElementNS`, `el.setAttribute`, and `el.appendChild`.
-Additionally, the `ref` attribute may be used to take a reference to the created
-element.
 
 The TypeScript configuration will automatically import used JSX functionality
 into any files that use JSX tags and are marked with a `.tsx` file extension.

@@ -17,65 +17,42 @@ function translatePath(path: SVGPathElement, tx: number, ty: number) {
 }
 
 export function Translate(props: {
-  children: SVGElement | SVGElement[]
-  x: number
-  y: number
+  readonly children: SVGElement | SVGElement[]
+  readonly x?: number | undefined
+  readonly y?: number | undefined
+}): SVGElement
+
+export function Translate(props: {
+  readonly children?: SVGElement | SVGElement[] | undefined
+  readonly x?: number | undefined
+  readonly y?: number | undefined
+}): SVGElement | undefined
+
+export function Translate(props: {
+  readonly children?: SVGElement | SVGElement[] | undefined
+  readonly x?: number | undefined
+  readonly y?: number | undefined
 }) {
+  const x = props.x || 0
+  const y = props.y || 0
+
+  if (!props.children) {
+    return
+  }
+
   if (props.children instanceof SVGPathElement) {
-    return translatePath(props.children, props.x, props.y)
+    return translatePath(props.children, x, y)
   }
 
   if (props.children instanceof SVGGElement) {
     const children = props.children.querySelectorAll("path")
 
     children.forEach((child) => {
-      translatePath(child, props.x, props.y)
+      translatePath(child, x, y)
     })
 
     return props.children
   }
 
-  // if (
-  //   props.children instanceof SVGGElement &&
-  //   !props.children.getAttribute("transform")
-  // ) {
-  //   const children = []
-
-  //   for (const el of props.children.children) {
-  //     if (el instanceof SVGElement) {
-  //       const result = (
-  //         <Translate
-  //           x={props.x}
-  //           y={props.y}
-  //         >
-  //           {el}
-  //         </Translate>
-  //       )
-
-  //       children.push(result)
-  //     }
-  //   }
-
-  //   const g = <g />
-  //   g.append(...children)
-  //   return g
-  // }
-
-  // if (
-  //   props.children instanceof SVGGElement &&
-  //   !props.children.getAttribute("transform")
-  // ) {
-  //   for (const el of props.children.children) {
-  //     ;<Translate
-  //       x={props.x}
-  //       y={props.y}
-  //     >
-  //       {el}
-  //     </Translate>
-  //   }
-
-  //   return props.children
-  // }
-
-  return <g transform={`translate(${props.x},${props.y})`}>{props.children}</g>
+  return <g transform={`translate(${x},${y})`}>{props.children}</g>
 }

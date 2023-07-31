@@ -1,8 +1,12 @@
 const el = document.createElement("pre")
 
-export function debug(...texts: unknown[]) {
+/**
+ * Shows text in a small window at the top-left of the screen.
+ * @param data The text to be shown.
+ */
+export function debug(...data: unknown[]) {
   el.textContent +=
-    texts
+    data
       .map((x) => {
         if (typeof x == "number") {
           return Math.round(x * 1e4) / 1e4

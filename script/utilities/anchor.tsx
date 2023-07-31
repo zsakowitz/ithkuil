@@ -1,6 +1,7 @@
 import { getBBox } from "./get-bbox.js"
 import { Translate } from "./translate.js"
 
+/** The location for a generic anchor. */
 export type AnchorLocation =
   | "tl"
   | "tc"
@@ -12,12 +13,42 @@ export type AnchorLocation =
   | "bc"
   | "br"
 
-export function Anchor(props: {
-  at: AnchorLocation
-  children: SVGElement
-  x?: number
-  y?: number
-}) {
+/**
+ * Options which modify the position and content of an anchor.
+ *
+ * @template T Possible locations an object could be anchored at.
+ */
+export type AnchorOptions<T extends string> = {
+  /** The location to anchor the object at. */
+  readonly at: T
+
+  /** The object to be anchored. */
+  readonly children: SVGElement
+
+  /**
+   * The x-coordinate to anchor the object at.
+   *
+   * @default 0
+   */
+  readonly x?: number
+
+  /**
+   * The y-coordinate to anchor the object at.
+   *
+   * @default 0
+   */
+  readonly y?: number
+}
+
+/**
+ * Anchors an element to any coordinates based on one of its corners or edges or
+ * its center. For example, `<Anchor at="tl">...</Anchor>` anchors the top-left
+ * corner of its content to (0, 0).
+ * @param props Properties modifying the anchor's placement.
+ * @returns A translated element anchored to (x, y) at one of its corners or
+ * edges or its center.
+ */
+export function Anchor(props: AnchorOptions<AnchorLocation>) {
   const children =
     props.children instanceof SVGGraphicsElement
       ? props.children
@@ -50,14 +81,19 @@ export function Anchor(props: {
   )
 }
 
+/** The location for a horizontal anchor. */
 export type AnchorXLocation = "l" | "c" | "r"
 
-export function AnchorX(props: {
-  at: AnchorXLocation
-  children: SVGElement
-  x?: number
-  y?: number
-}) {
+/**
+ * Anchors an element's x-position to any coordinates based on one of its
+ * corners or edges or its center while leaving its vertical position unchanged.
+ * For example, `<AnchorX at="l">...</AnchorX>` anchors the left edge of its
+ * content to x=0.
+ * @param props Properties modifying the anchor's placement.
+ * @returns A translated element anchored to (x, y) at one of its corners or
+ * edges or its center.
+ */
+export function AnchorX(props: AnchorOptions<AnchorXLocation>) {
   const children =
     props.children instanceof SVGGraphicsElement
       ? props.children
@@ -83,14 +119,19 @@ export function AnchorX(props: {
   )
 }
 
+/** The location for a vertical anchor. */
 export type AnchorYLocation = "t" | "c" | "b"
 
-export function AnchorY(props: {
-  at: AnchorYLocation
-  children: SVGElement
-  x?: number
-  y?: number
-}) {
+/**
+ * Anchors an element's y-position to any coordinates based on one of its
+ * corners or edges or its center while leaving its horizontal position
+ * unchanged. For example, `<AnchorY at="t">...</AnchorY>` anchors the top edge
+ * of its content to y=0.
+ * @param props Properties modifying the anchor's placement.
+ * @returns A translated element anchored to (x, y) at one of its corners or
+ * edges or its center.
+ */
+export function AnchorY(props: AnchorOptions<AnchorYLocation>) {
   const children =
     props.children instanceof SVGGraphicsElement
       ? props.children

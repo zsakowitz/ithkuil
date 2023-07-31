@@ -1,5 +1,4 @@
 import { getVerticesOf } from "./vertices.js"
-import { placeElementInDOM } from "./with-element-in-dom.js"
 
 const svg = (<svg />) as SVGSVGElement
 
@@ -14,7 +13,8 @@ function _doPathsIntersect(a: string, b: string, margin = 10) {
     />
   ) as SVGPathElement
 
-  const c2 = placeElementInDOM(el)
+  svg.append(el)
+  document.body.append(svg)
 
   try {
     for (const [x, y] of getVerticesOf(a)) {
@@ -29,14 +29,28 @@ function _doPathsIntersect(a: string, b: string, margin = 10) {
 
     return false
   } finally {
-    c2()
+    svg.remove()
   }
 }
 
+/**
+ * Checks if two paths intersect.
+ * @param a The first path to check.
+ * @param b The second path to check.
+ * @param margin The margin of error allowed.
+ * @returns Whether the paths intersect.
+ */
 export function doPathsIntersect(a: string, b: string, margin = 10) {
   return _doPathsIntersect(a, b, margin) || _doPathsIntersect(b, a, margin)
 }
 
+/**
+ * Checks if two elements intersect.
+ * @param a The first element to check.
+ * @param b The second element to check.
+ * @param margin The margin of error allowed.
+ * @returns Whether the elements intersect.
+ */
 export function doShapesIntersect(a: SVGElement, b: SVGElement, margin = 10) {
   const pathsA = [
     ...(a instanceof SVGPathElement ? [a] : a.getElementsByTagName("path")),
