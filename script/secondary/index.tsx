@@ -1,4 +1,5 @@
 import { Diacritic, type DiacriticName } from "../other/diacritic.js"
+import { Row } from "../other/row.js"
 import { Anchor } from "../utilities/anchor.js"
 import { getBBox } from "../utilities/get-bbox.js"
 import { rotate180AndRotateStartingPoint } from "../utilities/rotate-180.js"
@@ -104,7 +105,7 @@ export function Secondary(props: SecondaryCharacter) {
 
   const coreShape = (<path d={core.shape} />) as SVGPathElement
 
-  const main = (
+  let main = (
     <g>
       {coreShape}
 
@@ -126,10 +127,8 @@ export function Secondary(props: SecondaryCharacter) {
     </g>
   ) as SVGGElement
 
-  let box
-
   if (props.superposed) {
-    box = getBBox(main)
+    const box = getBBox(main)
 
     const diacritic = (
       <Anchor
@@ -144,7 +143,7 @@ export function Secondary(props: SecondaryCharacter) {
   }
 
   if (props.underposed) {
-    box ??= getBBox(main)
+    const box = getBBox(main)
 
     const diacritic = (
       <Anchor
@@ -159,18 +158,18 @@ export function Secondary(props: SecondaryCharacter) {
   }
 
   if (props.right) {
-    box ??= getBBox(main)
-
-    const diacritic = (
-      <Anchor
-        at="cl"
-        x={core.diacritic + 10}
+    main = (
+      <Row
+        compact={true}
+        space={10}
       >
-        <Diacritic name={props.right} />
-      </Anchor>
-    )
+        {main}
 
-    main.appendChild(diacritic)
+        <Anchor at="cl">
+          <Diacritic name={props.right} />
+        </Anchor>
+      </Row>
+    ) as SVGGElement
   }
 
   return main

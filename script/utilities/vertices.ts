@@ -1,7 +1,7 @@
 export function getVerticesOf(path: string) {
   const relativePoints =
     path
-      .match(/[-\d.]+ [-\d.]+ [A-Za-z]/g)
+      .match(/[-+e.\d]+ [-+e.\d]+ [A-Za-z]/g)
       ?.map((x) => x.split(" ", 2).map(Number) as [number, number]) || []
 
   let x = 0

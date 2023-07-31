@@ -3,6 +3,10 @@ import { Lines } from "./other/lines.js"
 import { Row } from "./other/row.js"
 import { textToSecondaries } from "./secondary/from-text.js"
 import { Secondary } from "./secondary/index.js"
+import { AnchorX } from "./utilities/anchor.js"
+import { debug } from "./utilities/debug.js"
+import { doShapesIntersect } from "./utilities/intersection-check.js"
+import { fitViewBox } from "./utilities/fit-view-box.js"
 
 document.body.append(
   <script>
@@ -12,6 +16,9 @@ document.body.append(
 )
 
 const HEIGHT = 100
+
+const a = (<Secondary {...textToSecondaries("mçk")[0]} />) as SVGGElement
+const b = (<Secondary {...textToSecondaries("l")[0]} />) as SVGGElement
 
 const node = (
   <svg
@@ -26,29 +33,13 @@ const node = (
       }.a
     }
   >
-    <Lines />
-
-    {/* <Row compact={true}>
-      {textToSecondaries("zäkëri säköwec", {
-        useRightDiacritics: true,
-      })
-        .slice(0, 2)
-        .map(Secondary)}
-    </Row> */}
-
-    <Secondary {...textToSecondaries("kšš")[0]} />
-
-    {/* <Spread
-      y={120}
-      x={90}
-      columns={7}
-      items={Object.keys(CORES).map((x) => (
-        <Secondary
-          core={x}
-          top="'"
-        />
-      ))}
-    /> */}
+    <AnchorX at="c">
+      <Row compact={true}>
+        {textToSecondaries("zäkëri säköwec", {
+          placeholder: "ALPHABETIC_PLACEHOLDER",
+        }).map(Secondary)}
+      </Row>
+    </AnchorX>
   </svg>
 ) as SVGSVGElement
 
@@ -60,3 +51,7 @@ document.body.style =
   "margin:0;display:flex;align-items:center;justify-content:center"
 
 document.body.appendChild(node)
+
+fitViewBox(node, 10)
+
+node.insertBefore(<Lines />, node.children[0] || null)

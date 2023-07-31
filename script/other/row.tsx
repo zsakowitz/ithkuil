@@ -1,10 +1,10 @@
 import { AnchorX } from "../utilities/anchor.js"
+import { Clone } from "../utilities/clone.js"
 import { forceGetBBox, getBBox } from "../utilities/get-bbox.js"
-import { Point } from "../utilities/point.js"
+import { doShapesIntersect } from "../utilities/intersection-check.js"
 import { Translate } from "../utilities/translate.js"
-import { getVerticesOf } from "../utilities/vertices.js"
 
-const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
+const COMPACT_CHECKING_INTERVAL = 5
 
 export function Row(props: {
   children?: SVGElement | SVGElement[] | undefined
@@ -27,44 +27,41 @@ export function Row(props: {
     row.appendChild(first)
   }
 
-  function getRightmostPoint(): [x: number, y: number] {
-    const mostRecentInsertion = row.children[row.children.length - 1]
-
-    if (!mostRecentInsertion) {
-      return [0, 0]
-    }
-
-    const paths = row.getElementsByTagName("path")
-
-    let rightmostPoint: [x: number, y: number] = [-Infinity, 0]
-
-    for (const path of paths) {
-      const d = path.getAttribute("d") || ""
-
-      for (const vertex of getVerticesOf(d)) {
-        if (vertex[0] > rightmostPoint[0]) {
-          rightmostPoint = vertex
-        }
-      }
-    }
-
-    return rightmostPoint
-  }
-
   if (props.compact) {
-    for (let el of rest || []) {
+    outer: for (let el of rest || []) {
       el = <AnchorX at="l">{el}</AnchorX>
 
-      const rightmostPoint = getRightmostPoint()
-
-      row.appendChild(
-        <Point
-          x={rightmostPoint[0]}
-          y={rightmostPoint[1]}
-        />,
-      )
-
       const rowBox = getBBox(row)
+
+      for (
+        let x = -rowBox.width;
+        x < rowBox.width;
+        x += COMPACT_CHECKING_INTERVAL
+      ) {
+        if (
+          !doShapesIntersect(
+            <Translate
+              x={rowBox.x + rowBox.width + x}
+              y={0}
+            >
+              <Clone>{el}</Clone>
+            </Translate>,
+            row,
+            space,
+          )
+        ) {
+          row.appendChild(
+            <Translate
+              x={rowBox.x + rowBox.width + x}
+              y={0}
+            >
+              {el}
+            </Translate>,
+          )
+
+          continue outer
+        }
+      }
 
       row.appendChild(
         <Translate
