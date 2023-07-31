@@ -11,7 +11,7 @@ import {
 // lets us avoid recalculating the intersection points for each extension.
 
 /** The extensions bias adjunct take. */
-export const BIAS_EXTENSIONS = deepFreeze([
+export const BIAS_EXTENSIONS = /* @__PURE__ */ deepFreeze([
   undefined,
   "l",
   "z",
