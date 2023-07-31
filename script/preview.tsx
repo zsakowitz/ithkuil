@@ -1,11 +1,9 @@
 import "https://esm.sh/snapsvg"
-import { Lines } from "./other/lines.js"
-import { Row } from "./other/row.js"
-import { Secondary } from "./secondary/index.js"
-import { AnchorX } from "./utilities/anchor.js"
-import { fitViewBox } from "./utilities/fit-view-box.js"
-import { CharacterRow, formativeToScript } from "./construct/formative.js"
 import { parseFormative } from "../index.js"
+import { CharacterRow, formativeToScript } from "./construct/formative.js"
+import { fitViewBox } from "./index.js"
+import { Lines } from "./other/lines.js"
+import { AnchorX } from "./utilities/anchor.js"
 
 document.body.append(
   <script>
@@ -48,6 +46,6 @@ document.body.style =
 
 document.body.appendChild(node)
 
-// fitViewBox(node, 10)
+fitViewBox(node, 10)
 
 node.insertBefore(<Lines />, node.children[0] || null)
