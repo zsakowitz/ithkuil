@@ -64,8 +64,8 @@ const isArray = /* @__PURE__ */ (() => Array.isArray)() as (
 ) => arg is readonly unknown[]
 
 /** An object mapping affix degrees to their corresponding diacritics. */
-export const AFFIX_DEGREES = deepFreeze(
-  Object.assign(
+export const AFFIX_DEGREES = /* @__PURE__ */ deepFreeze(
+  /* @__PURE__ */ Object.assign(
     [
       "CURVE_TO_RIGHT",
       "DOT",

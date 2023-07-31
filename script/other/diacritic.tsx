@@ -1,6 +1,7 @@
-import { deepFreeze, deepFreezeAndNullPrototype } from "../../index.js"
+import { deepFreezeAndNullPrototype } from "../../index.js"
 
-const DIACRITICS = deepFreezeAndNullPrototype({
+/** An object containing all diacritics and their SVG paths. */
+export const CORE_DIACRITICS = /* @__PURE__ */ deepFreezeAndNullPrototype({
   DOT: "M 0 0 l 7.5 7.5 l 7.5 -7.5 l -7.5 -7.5 l -7.5 7.5 z",
   HORIZ_BAR: "M 0 0 l 10 -10 l -30 0 l -10 10 l 30 0 z",
   VERT_BAR: "M 0 0 l -10 10 l 0 25 l 10 -10 l 0 -25 z",
@@ -29,20 +30,15 @@ const DIACRITICS = deepFreezeAndNullPrototype({
     "M 0 0 l -1.15 -1.25 q -6.55 11.7 -14.4 12.25 q -7.8 0.5 -17.45 -9.75 l -7.5 7.5 q 6.55 12.05 18.7 9.55 q 12.25 -2.5 21.8 -18.3 m -9.6 -1.25 l -7.5 -7.5 l -7.5 7.5 l 7.5 7.5 l 7.5 -7.5 z",
   CURVE_TO_RIGHT_WITH_DOT:
     "M 0 0 l 1.15 1.25 q 6.55 -11.7 14.4 -12.25 q 7.8 -0.5 17.45 9.75 l 7.5 -7.5 q -6.55 -12.05 -18.7 -9.55 q -12.25 2.5 -21.8 18.3 m 9.6 1.25 l 7.5 7.5 l 7.5 -7.5 l -7.5 -7.5 l -7.5 7.5 z",
-})
-
-/** An object containing all diacritics and their SVG paths. */
-export const CORE_DIACRITICS = deepFreeze({
-  ...DIACRITICS,
-  a: DIACRITICS.DOT,
-  ä: DIACRITICS.HORIZ_BAR,
-  e: DIACRITICS.HORIZ_WITH_BOTTOM_LINE,
-  ë: DIACRITICS.HORIZ_WITH_TOP_LINE,
-  i: DIACRITICS.DIAG_BAR,
-  o: DIACRITICS.CURVE_TO_TOP,
-  ö: DIACRITICS.CURVE_TO_BOTTOM,
-  u: DIACRITICS.VERT_WITH_RIGHT_LINE,
-  ü: DIACRITICS.VERT_WITH_LEFT_LINE,
+  a: "M 0 0 l 7.5 7.5 l 7.5 -7.5 l -7.5 -7.5 l -7.5 7.5 z",
+  ä: "M 0 0 l 10 -10 l -30 0 l -10 10 l 30 0 z",
+  e: "M 0 0 l -8.8 8.8 l 1.2 1.2 l 20 -20 l -30 0 l -10 10 l 27.6 0 z",
+  ë: "M 0 0 l 8.8 -8.8 l -1.2 -1.2 l -20 20 l 30 0 l 10 -10 l -27.6 0 z",
+  i: "M 0 0 l 20 20 l 7.5 -7.5 l -20 -20 l -7.5 7.5 z",
+  o: "M 0 0 q -0.75 -5.3 -5.4 -8.4 q -4.9 -3.3 -12.95 -3.2 l -7.5 7.5 q 14.9 0.4 18.6 8.55 q 3.75 8.2 -7.45 16.9 l 1.25 1.15 q 7.35 -5.2 10.9 -11.4 q 3.3 -5.85 2.55 -11.1 z",
+  ö: "M 0 0 q 0.75 5.3 5.4 8.4 q 4.9 3.3 12.95 3.2 l 7.5 -7.5 q -14.9 -0.4 -18.6 -8.55 q -3.75 -8.2 7.45 -16.9 l -1.25 -1.15 q -7.35 5.2 -10.9 11.4 q -3.3 5.85 -2.55 11.1 z",
+  u: "M 0 0 l 0 25 l 20 -20 l -1.2 -1.2 l -8.8 8.8 l 0 -22.6 l -10 10 z",
+  ü: "M 0 0 l 0 -25 l -20 20 l 1.2 1.2 l 8.8 -8.8 l 0 22.6 l 10 -10 z",
 })
 
 /** The name of a diacritic. */

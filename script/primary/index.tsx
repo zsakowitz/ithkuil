@@ -57,7 +57,7 @@ export interface PrimaryCharacter {
   readonly stem?: Stem | undefined
 }
 
-const DIACRITIC_OFFSET = deepFreezeAndNullPrototype({
+const DIACRITIC_OFFSET = /* @__PURE__ */ deepFreezeAndNullPrototype({
   BSC: 0,
   CTE: 12.5,
   CSV: -2.5,

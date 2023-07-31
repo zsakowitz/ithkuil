@@ -12,7 +12,7 @@ import { TERTIARY_SEGMENTS, type TertiarySegmentName } from "./segment.js"
 import { ValenceSegment } from "./valence.js"
 
 /** An object mapping levels to their corresponding diacritics. */
-export const LEVEL_TO_DIACRITIC_MAP = deepFreeze({
+export const LEVEL_TO_DIACRITIC_MAP = /* @__PURE__ */ deepFreeze({
   MIN: "DOT",
   SBE: "HORIZ_WITH_TOP_LINE",
   IFR: "VERT_WITH_LEFT_LINE",

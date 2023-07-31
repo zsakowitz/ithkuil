@@ -1,4 +1,4 @@
-const el = document.createElement("pre")
+const el = /* @__PURE__ */ document.createElement("pre")
 
 /**
  * Shows text in a small window at the top-left of the screen.

@@ -682,7 +682,11 @@ export const partialFormative = /* @__PURE__ */ union([
 // #endregion
 
 /** A Zod parser matching any type of Ithkuilic word. */
-export const word = union([partialReferential, partialFormative, adjunct])
+export const word = /* @__PURE__ */ union([
+  partialReferential,
+  partialFormative,
+  adjunct,
+])
 
 export { case_ as case }
 export { function_ as function }

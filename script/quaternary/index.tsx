@@ -54,7 +54,7 @@ export type QuaternaryCharacter =
   | CaseAccessorQuaternaryCharacter
 
 /** An object mapping case-scopes to their corresponding diacritics. */
-export const CASE_SCOPE_TO_DIACRITIC_MAP = deepFreeze({
+export const CASE_SCOPE_TO_DIACRITIC_MAP = /* @__PURE__ */ deepFreeze({
   CCN: undefined,
   CCA: "DOT",
   CCS: "DIAG_BAR",
@@ -64,7 +64,7 @@ export const CASE_SCOPE_TO_DIACRITIC_MAP = deepFreeze({
 })
 
 /** An object mapping moods to their corresponding diacritics. */
-export const MOOD_TO_DIACRITIC_MAP = deepFreeze({
+export const MOOD_TO_DIACRITIC_MAP = /* @__PURE__ */ deepFreeze({
   FAC: undefined,
   SUB: "DOT",
   ASM: "DIAG_BAR",
@@ -74,7 +74,7 @@ export const MOOD_TO_DIACRITIC_MAP = deepFreeze({
 })
 
 /** An array mapping cases to their corresponding Secondary extensions. */
-export const CASE_TO_SECONDARY_EXTENSION = deepFreeze([
+export const CASE_TO_SECONDARY_EXTENSION = /* @__PURE__ */ deepFreeze([
   undefined,
   "d",
   "š",
@@ -87,7 +87,7 @@ export const CASE_TO_SECONDARY_EXTENSION = deepFreeze([
 ])
 
 /** An array mapping illocutions to their corresponding Secondary extensions. */
-export const ILLOCUTION_TO_SECONDARY_EXTENSION = deepFreeze({
+export const ILLOCUTION_TO_SECONDARY_EXTENSION = /* @__PURE__ */ deepFreeze({
   ASR: "s",
   DIR: "ḑ",
   DEC: "f",
@@ -100,7 +100,7 @@ export const ILLOCUTION_TO_SECONDARY_EXTENSION = deepFreeze({
 })
 
 /** An array mapping validations to their corresponding Secondary extensions. */
-export const VALIDATION_TO_SECONDARY_EXTENSION = deepFreeze({
+export const VALIDATION_TO_SECONDARY_EXTENSION = /* @__PURE__ */ deepFreeze({
   OBS: "s",
   REC: "ḑ",
   PUP: "f",
@@ -117,7 +117,7 @@ export const VALIDATION_TO_SECONDARY_EXTENSION = deepFreeze({
  * diacritics, which can then be used in Cr roots where no case-scope or mood is
  * present.
  */
-export const DIACRITIC_MAP = deepFreeze([
+export const DIACRITIC_MAP = /* @__PURE__ */ deepFreeze([
   undefined,
   "DOT",
   "HORIZ_BAR",

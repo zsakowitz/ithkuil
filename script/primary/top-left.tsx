@@ -1,6 +1,6 @@
 import { deepFreeze, type Extension, type Perspective } from "../../index.js"
 
-const PATHS = deepFreeze({
+const PATHS = /* @__PURE__ */ deepFreeze({
   M: {
     DEL: "",
     PRX: "M 6.4 -31.95 q -3.28 1.825 -6.4 4.45 l -7.5 7.5 l 1.2 1.2 l 7.5 -7.5 q 4.106 1.688 4.55 0.35 q 0.6 -1.45 0.65 -6 z",

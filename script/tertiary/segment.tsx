@@ -10,7 +10,7 @@ export type TertiarySegmentName = Phase | Effect | Aspect
 
 /** An object containing all tertiary segments. */
 export const TERTIARY_SEGMENTS: Record<Phase | Effect | Aspect, string> =
-  deepFreeze({
+  /* @__PURE__ */ deepFreeze({
     PUN: "M 0 -10 l 0 -30 l -10 10 l 0 30 l 10 -10 z",
     ITR: "M 0 -22.5 l 1.2 1.2 l 6.3 -6.3 l 0 27.6 l 10 -10 l 0 -30 l -17.5 17.5 z",
     REP: "M 0 -17.5 l -1.2 -1.2 l -6.3 6.3 l 0 -27.6 l -10 10 l 0 30 l 17.5 -17.5 z",

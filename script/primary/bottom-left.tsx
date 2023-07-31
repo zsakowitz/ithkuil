@@ -2,7 +2,7 @@ import { deepFreezeAndNullPrototype, type Configuration } from "../../index.js"
 import { Diacritic } from "../other/diacritic.js"
 import { Anchor } from "../utilities/anchor.js"
 
-const DIACRITICS = deepFreezeAndNullPrototype({
+const DIACRITICS = /* @__PURE__ */ deepFreezeAndNullPrototype({
   SS: "DIAG_BAR",
   SC: "VERT_BAR",
   SF: "HORIZ_BAR",
@@ -14,7 +14,7 @@ const DIACRITICS = deepFreezeAndNullPrototype({
   FF: "CURVE_TO_BOTTOM_WITH_LINE",
 })
 
-const OFFSETS = deepFreezeAndNullPrototype({
+const OFFSETS = /* @__PURE__ */ deepFreezeAndNullPrototype({
   SS: { x: 0, y: 0 },
   SC: { x: 0, y: 17.5 },
   SF: { x: -7.5, y: 0 },

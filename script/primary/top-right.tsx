@@ -6,7 +6,7 @@ import {
 import { Diacritic } from "../other/diacritic.js"
 import { Anchor } from "../utilities/anchor.js"
 
-const DIACRITICS = deepFreezeAndNullPrototype({
+const DIACRITICS = /* @__PURE__ */ deepFreezeAndNullPrototype({
   NRM: {
     CSL: "",
     ASO: "DIAG_BAR",
@@ -21,7 +21,7 @@ const DIACRITICS = deepFreezeAndNullPrototype({
   },
 })
 
-const OFFSETS = deepFreezeAndNullPrototype({
+const OFFSETS = /* @__PURE__ */ deepFreezeAndNullPrototype({
   NRM: {
     CSL: { x: 0, y: 0 },
     ASO: { x: 0, y: 0 },

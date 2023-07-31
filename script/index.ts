@@ -20,6 +20,11 @@ export * from "./tertiary/index.js"
 export * from "./tertiary/segment.js"
 export * from "./tertiary/valence.js"
 
+export * from "./quaternary/index.js"
+
+export * from "./construct/affixes.js"
+export * from "./construct/formative.js"
+
 export * from "./utilities/anchor.js"
 export * from "./utilities/blink.js"
 export * from "./utilities/clone.js"

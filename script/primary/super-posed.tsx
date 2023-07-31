@@ -2,7 +2,7 @@ import { deepFreezeAndNullPrototype, type Context } from "../../index.js"
 import { Diacritic } from "../other/diacritic.js"
 import { Anchor } from "../utilities/anchor.js"
 
-const DIACRITICS = deepFreezeAndNullPrototype({
+const DIACRITICS = /* @__PURE__ */ deepFreezeAndNullPrototype({
   FNC: "DOT",
   RPS: "HORIZ_BAR",
   AMG: "DIAG_BAR",

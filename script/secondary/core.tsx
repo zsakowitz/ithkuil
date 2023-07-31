@@ -40,7 +40,7 @@ export type Core = {
 export type CoreName = keyof typeof CORES
 
 /** An object containing all consonantal cores. */
-export const CORES = deepFreeze({
+export const CORES = /* @__PURE__ */ deepFreeze({
   b: {
     shape:
       "M 29.675 -35 l -50 0 l -9.4 9.4 l 23.2 33.05 l 6.2 -6.25 l 0 33.8 l 10 -10 l 0 -36.15 l -1.1 1.1 q -2.967 2.977 -5.95 5.95 l -1.95 2 l -0.65 0.65 l -16.5 -23.5 l 36.2 0 l 10 -10 z",

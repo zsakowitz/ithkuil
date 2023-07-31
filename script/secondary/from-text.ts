@@ -40,14 +40,21 @@ const core = /* @__PURE__ */ charIn(CORE)
 const EXT = "_pbtdkgfvţḑszšžçxhļcżčjmnňrlwyř'"
 const ext = /* @__PURE__ */ charIn(EXT)
 
-const extensionOnlyCore = seq(ext, ext.optional())
+const extensionOnlyCore = /* @__PURE__ */ seq(
+  ext,
+  /* @__PURE__ */ ext.optional(),
+)
 
-const letterCore = any(
-  seq(ext.optional(), core, ext.optional()),
+const letterCore = /* @__PURE__ */ any(
+  /* @__PURE__ */ seq(
+    /* @__PURE__ */ ext.optional(),
+    core,
+    /* @__PURE__ */ ext.optional(),
+  ),
   extensionOnlyCore,
 )
 
-const secondary = seq(
+const secondary = /* @__PURE__ */ seq(
   start,
 
   any(
@@ -65,7 +72,7 @@ const secondary = seq(
   ),
 ).compile()
 
-const extensionOnlySecondary = seq(
+const extensionOnlySecondary = /* @__PURE__ */ seq(
   start,
 
   any(
@@ -87,7 +94,7 @@ const extensionOnlySecondary = seq(
   ),
 ).compile()
 
-const secondaryWithoutRightDiacritics = seq(
+const secondaryWithoutRightDiacritics = /* @__PURE__ */ seq(
   start,
 
   new AtomicRegexPart("()"),
@@ -105,7 +112,7 @@ const secondaryWithoutRightDiacritics = seq(
   ),
 ).compile()
 
-const extensionOnlySecondaryWithoutRightDiacritics = seq(
+const extensionOnlySecondaryWithoutRightDiacritics = /* @__PURE__ */ seq(
   start,
 
   new AtomicRegexPart("()"),

@@ -6,7 +6,7 @@ import {
   type Version,
 } from "../../index.js"
 
-const PATHS = deepFreeze({
+const PATHS = /* @__PURE__ */ deepFreeze({
   STA: {
     PRC: {
       M: [
