@@ -14,7 +14,7 @@ export function debug(...texts: unknown[]) {
 
   el.setAttribute(
     "style",
-    `z-index: 1; position: fixed; top: 1rem; left: 1rem; margin: 0; font-size: 1rem; line-height: 1.25rem; background: #fff8`,
+    `z-index: 1; position: fixed; top: 1rem; left: 1rem; margin: 0; font-size: 1rem; line-height: 1.25rem; background: #fff8; overflow-x: auto; max-width: calc(100vw - 2rem)`,
   )
 
   document.body.append(el)

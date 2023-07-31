@@ -4,8 +4,6 @@ import { Row } from "./other/row.js"
 import { textToSecondaries } from "./secondary/from-text.js"
 import { Secondary } from "./secondary/index.js"
 import { AnchorX } from "./utilities/anchor.js"
-import { debug } from "./utilities/debug.js"
-import { doShapesIntersect } from "./utilities/intersection-check.js"
 import { fitViewBox } from "./utilities/fit-view-box.js"
 
 document.body.append(
@@ -16,9 +14,6 @@ document.body.append(
 )
 
 const HEIGHT = 100
-
-const a = (<Secondary {...textToSecondaries("mçk")[0]} />) as SVGGElement
-const b = (<Secondary {...textToSecondaries("l")[0]} />) as SVGGElement
 
 const node = (
   <svg
@@ -34,7 +29,10 @@ const node = (
     }
   >
     <AnchorX at="c">
-      <Row compact={true}>
+      <Row
+        compact={true}
+        space={10}
+      >
         {textToSecondaries("zäkëri säköwec", {
           placeholder: "ALPHABETIC_PLACEHOLDER",
         }).map(Secondary)}

@@ -1,10 +1,9 @@
+import { getVerticesOf } from "./vertices.js"
 import { placeElementInDOM } from "./with-element-in-dom.js"
 
-const PATH_INTERVAL = 1
+const svg = (<svg />) as SVGSVGElement
 
-export function doPathsIntersect(a: SVGPathElement, b: string, margin = 10) {
-  const length = a.getTotalLength()
-
+function _doPathsIntersect(a: string, b: string, margin = 10) {
   const el = (
     <path
       d={b}
@@ -15,12 +14,13 @@ export function doPathsIntersect(a: SVGPathElement, b: string, margin = 10) {
     />
   ) as SVGPathElement
 
-  const c1 = placeElementInDOM(a)
   const c2 = placeElementInDOM(el)
 
   try {
-    for (let x = 0; x < length; x += PATH_INTERVAL) {
-      const point = a.getPointAtLength(x)
+    for (const [x, y] of getVerticesOf(a)) {
+      const point = svg.createSVGPoint()
+      point.x = x
+      point.y = y
 
       if (el.isPointInStroke(point) || el.isPointInFill(point)) {
         return true
@@ -29,14 +29,20 @@ export function doPathsIntersect(a: SVGPathElement, b: string, margin = 10) {
 
     return false
   } finally {
-    c1()
     c2()
   }
 }
 
+export function doPathsIntersect(a: string, b: string, margin = 10) {
+  return _doPathsIntersect(a, b, margin) || _doPathsIntersect(b, a, margin)
+}
+
 export function doShapesIntersect(a: SVGElement, b: SVGElement, margin = 10) {
-  const pathsA =
-    a instanceof SVGPathElement ? [a] : a.getElementsByTagName("path")
+  const pathsA = [
+    ...(a instanceof SVGPathElement ? [a] : a.getElementsByTagName("path")),
+  ]
+    .map((x) => x.getAttribute("d") || "")
+    .filter((x) => x)
 
   const pathsB =
     b instanceof SVGPathElement ? [b] : b.getElementsByTagName("path")

@@ -162,9 +162,8 @@ export function Secondary(props: SecondaryCharacter) {
       <Row
         compact={true}
         space={10}
+        intro={[...main.querySelectorAll("path")]}
       >
-        {main}
-
         <Anchor at="cl">
           <Diacritic name={props.right} />
         </Anchor>
