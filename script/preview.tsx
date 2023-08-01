@@ -1,6 +1,8 @@
-import "https://esm.sh/snapsvg"
-import { CharacterRow, fitViewBox, formativeToScript } from "./index.js"
+// import "https://esm.sh/snapsvg"
+import { scriptFromText } from "./from-text.js"
+import { CharacterRow, fitViewBox } from "./index.js"
 import { Lines } from "./other/lines.js"
+import { HandleResult } from "./utilities/result.js"
 
 document.body.append(
   <script>
@@ -24,20 +26,42 @@ const node = (
       }.a
     }
   >
-    <CharacterRow>
-      {formativeToScript({
-        type: "UNF/C",
-        root: "rr",
-        case: "PRD",
-        caseScope: "CCQ",
-        slotVAffixes: [{ cs: "nļ", type: 2, degree: 2 }],
-        slotVIIAffixes: [
-          { cs: "c", type: 1, degree: 3 },
-          { cs: "řž", type: 2, degree: 5 },
-        ],
-        vn: "PTI",
-      })}
-    </CharacterRow>
+    <HandleResult
+      ok={(x) => <CharacterRow compact>{x}</CharacterRow>}
+      error={(x) => <text>{x}</text>}
+    >
+      {scriptFromText("kšš lu wag")}
+    </HandleResult>
+
+    {/* <Primary bottom="UNF/K" /> */}
+
+    {/* <CharacterRow>
+      {formativeToScript(parseFormative("wazvejamäm")!)}
+    </CharacterRow> */}
+
+    {/* <path d={NUMERALS.at(-1)!} /> */}
+
+    {/* <Spread
+      items={THOUSANDS.map((x) => (
+        <Anchor at="cc">
+          <path d={x} />
+        </Anchor>
+      ))}
+    /> */}
+
+    {/* <g fill="green">
+      <Numeral value={0} />
+    </g>
+
+    <g fill="purple">
+      <Numeral value={9} />
+    </g>
+
+    <Blink>
+      <g fill="green">
+        <Numeral value={0} />
+      </g>
+    </Blink> */}
   </svg>
 ) as SVGSVGElement
 
@@ -52,4 +76,10 @@ document.body.appendChild(node)
 
 fitViewBox(node, 35)
 
-node.insertBefore(<Lines width={500} />, node.children[0] || null)
+node.insertBefore(
+  <Lines
+    width={500}
+    height={0}
+  />,
+  node.children[0] || null,
+)

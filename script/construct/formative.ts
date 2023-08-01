@@ -30,7 +30,9 @@ import {
   Secondary,
   Tertiary,
   textToSecondaries,
+  type BiasCharacter,
   type PrimaryCharacter,
+  type RegisterCharacter,
   type RowProps,
   type SecondaryCharacter,
   type TertiaryCharacter,
@@ -54,10 +56,17 @@ export type Character =
   | SecondaryCharacter
   | TertiaryCharacter
   | QuaternaryCharacter
+  | BiasCharacter
+  | RegisterCharacter
 
 /** A script character paired with its constructor. */
 export type ConstructableCharacter<T extends Character = Character> =
-  T extends infer U ? U & { construct(character: U): SVGGElement } : never
+  T extends infer U
+    ? U & {
+        construct(character: U): SVGGElement
+        readonly dimmed?: boolean | undefined
+      }
+    : never
 
 const isArray = /* @__PURE__ */ (() => Array.isArray)() as (
   arg: unknown,
@@ -113,7 +122,13 @@ export function affixToScript(
     )
 }
 
-function attachConstructor<T extends Character>(
+/**
+ * Attatches a constructor to a character.
+ * @param character The character to attach a constructor to.
+ * @param construct The constructor for the character.
+ * @returns The original `character`, updated to have a `construct` property.
+ */
+export function attachConstructor<T extends Character>(
   character: T,
   construct: (character: T) => SVGGElement,
 ) {
@@ -124,9 +139,25 @@ function attachConstructor<T extends Character>(
   return character as ConstructableCharacter<T>
 }
 
+/** Options that modify how a formative is rendered. */
+export interface FormativeToScriptOptions {
+  /**
+   * If `true`, the final quaternary character of a formative representing a
+   * case or an illocution/validation will be replaced by diacritics on the
+   * first secondary character, if possible.
+   *
+   * If `false`, cases and illocutions/validations will not be moved to
+   * diacritics.
+   *
+   * @default true
+   */
+  readonly useCaseIllValDiacritics?: boolean | undefined
+}
+
 /**
  * Converts a formative into script.
  * @param formative The formative to be converted.
+ * @param options Options that modify how a formative is rendered.
  * @returns `ConstructableCharacter`s containing data from which the script can
  * be constructed.
  */
@@ -135,6 +166,7 @@ export function formativeToScript(
     /** Affixes with scope over the formative as a whole. */
     readonly slotXIAffixes?: readonly Affix[] | undefined
   },
+  options?: FormativeToScriptOptions,
 ): ConstructableCharacter[] {
   let initialCrRoot: ConstructableCharacter<SecondaryCharacter> | undefined
 
@@ -412,7 +444,7 @@ export function formativeToScript(
     }
   }
 
-  if (initialCrRoot) {
+  if (options?.useCaseIllValDiacritics !== false && initialCrRoot) {
     const finalQuaternary = nonAccessorQuaternaries.pop()
 
     if (
@@ -496,7 +528,15 @@ export function CharacterRow(
     at: "l",
     children: Row({
       ...props,
-      children: props.children.map((x) => x.construct(x as any)),
+      children: props.children.map((character) => {
+        const node = character.construct(character as any)
+
+        if (character.dimmed) {
+          node.setAttribute("fill", "#a0a0a0")
+        }
+
+        return node
+      }),
     }),
   })
 }

@@ -64,7 +64,7 @@ function Extension({
     return <path d={check(top.diag)} />
   }
 
-  return <path />
+  return undefined
 }
 
 function TopExtension({
@@ -81,6 +81,7 @@ function TopExtension({
       x={core.top[1] + (core.top[2] ? -10 : 0)}
       y={getBBox(coreShape).y + (core.top[2] ? 10 : 0)}
     >
+      {/* @ts-ignore */}
       <Extension
         name={name}
         direction={core.top[0]}
@@ -108,6 +109,7 @@ function BottomExtension({
         getBBox(coreShape).y + getBBox(coreShape).height + (reversed ? 0 : -10)
       }
     >
+      {/* @ts-ignore */}
       <Extension
         name={name}
         direction={core.bottom[0]}

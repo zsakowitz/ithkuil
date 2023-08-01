@@ -30,17 +30,18 @@ export const BIAS_EXTENSIONS = /* @__PURE__ */ deepFreeze([
   "f",
 ] satisfies (ExtensionName | undefined)[])
 
-/**
- * Creates a bias adjunct as a group of SVG paths.
- * @param props Information about the bias adjunct.
- * @returns The constructed bias adjunct.
- */
-export function Bias(props: {
+/** Information about a bias character. */
+export interface BiasCharacter {
   /** The bias to be shown. */
   readonly bias: BiasAdjunct
-}) {
-  debug(props.bias)
+}
 
+/**
+ * Creates a bias character as a group of SVG paths.
+ * @param props Information about the bias character.
+ * @returns The constructed bias character.
+ */
+export function Bias(props: BiasCharacter) {
   const index = (ALL_BIAS_ADJUNCTS.indexOf(props.bias) + 1 || 1) - 1
 
   const shape = BIAS_EXTENSIONS[index % 16]

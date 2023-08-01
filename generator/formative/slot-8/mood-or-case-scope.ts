@@ -103,11 +103,12 @@ export const COU_CCP = /* @__PURE__ */ new X("COU", "CCP", "hn", "hnw", key)
 export const HYP_CCV = /* @__PURE__ */ new X("HYP", "CCV", "hň", "hňw", key)
 
 /** An array containing all `MoodOrCaseScope`s. */
-export const ALL_MOOD_OR_CASE_SCOPES = /* @__PURE__ */ deepFreeze([
-  FAC_CCN,
-  SUB_CCA,
-  ASM_CCS,
-  SPC_CCQ,
-  COU_CCP,
-  HYP_CCV,
-])
+export const ALL_MOOD_OR_CASE_SCOPES: readonly MoodOrCaseScope[] =
+  /* @__PURE__ */ deepFreeze([
+    FAC_CCN,
+    SUB_CCA,
+    ASM_CCS,
+    SPC_CCQ,
+    COU_CCP,
+    HYP_CCV,
+  ])

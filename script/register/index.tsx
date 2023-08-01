@@ -41,15 +41,21 @@ const REGISTERS = {
   },
 }
 
+/** Information about a register character. */
+export interface RegisterCharacter {
+  /** The type of this register adjunct. */
+  type?: Exclude<RegisterAdjunct, "END"> | undefined
+
+  /** The mode of this register adjunct. */
+  mode?: RegisterMode | undefined
+}
+
 /**
  * Writes a register adjunct in Ithkuil script.
  * @param props Properties modifying this register adjunct.
  * @returns The register adjunct as an SVG path.
  */
-export function Register(props: {
-  type?: Exclude<RegisterAdjunct, "END"> | undefined
-  mode?: RegisterMode | undefined
-}) {
+export function Register(props: RegisterCharacter) {
   return (
     <path d={REGISTERS[props.mode || "standard"][props.type || "NRR"]} />
   ) as SVGPathElement

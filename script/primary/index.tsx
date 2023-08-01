@@ -113,7 +113,12 @@ export function Primary(primary: PrimaryCharacter): SVGGElement {
       <Translate y={-45}>{PrimarySuperPosed(primary)}</Translate>
 
       {/* @ts-ignore: This can be `undefined`, as we're not using it. */}
-      <Translate y={45}>{PrimaryUnderPosed(primary)}</Translate>
+      <Translate
+        x={-7.5}
+        y={45}
+      >
+        {PrimaryUnderPosed(primary)}
+      </Translate>
     </g>
   ) as SVGGElement
 }

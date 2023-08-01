@@ -11,6 +11,7 @@ export type PreservedWhenDeeplyFrozen =
   | MoodOrCaseScope
   | Core
   | Extension
+  | Function
 
 /**
  * Deeply freezes an object.

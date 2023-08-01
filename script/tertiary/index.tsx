@@ -68,7 +68,7 @@ export function Tertiary(tertiary: TertiaryCharacter) {
     g.appendChild(
       <AnchorX
         at="c"
-        y={-10}
+        y={-15}
         x={5}
       >
         <path d={TERTIARY_SEGMENTS[tertiary.top]} />
@@ -86,7 +86,7 @@ export function Tertiary(tertiary: TertiaryCharacter) {
     g.appendChild(
       <Anchor
         at="tc"
-        y={20}
+        y={15}
         x={-5}
       >
         <path d={TERTIARY_SEGMENTS[tertiary.bottom]} />

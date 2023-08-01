@@ -29,7 +29,7 @@ export type RowCompactModeOption =
        * precision is needed, adjust `spacingImprovements` instead; it has much
        * better performance.
        *
-       * @default 10
+       * @default 5
        */
       readonly baseSpacingInterval?: number
 
@@ -99,7 +99,7 @@ const isArray = /* @__PURE__ */ (() => Array.isArray)() as (
  */
 export function Row(props: RowProps): SVGGElement {
   const INITIAL_CHECKING_INTERVAL = Math.abs(
-    props.compact?.baseSpacingInterval || 10,
+    props.compact?.baseSpacingInterval || 5,
   )
 
   const SPACING_IMPROVEMENT_COUNT = props.compact?.spacingImprovements ?? 5
