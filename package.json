@@ -1,6 +1,6 @@
 {
   "name": "@zsnout/ithkuil",
-  "version": "0.1.24",
+  "version": "0.1.25",
   "description": "A set of tools which can generate and parse romanized Ithkuil text and which can generate Ithkuil script from text and JSON data.",
   "author": "Zachary Sakowitz",
   "license": "MIT",
@@ -13,6 +13,10 @@
     "pretest": "tsc -b",
     "start": "if [ -f playground.ts ]; then\n  npx tsc -b && node playground.js\nelse\n  echo \"import { parseWord, wordToIthkuil } from \"./index.js\"\n\n/**\n * This file allows for quick experimentation with this project's functions. To\n * do so, import anything you need in the statement above and play around with\n * the imports below.\n */\n\n// Be a tribe that works together towards a common goal.\nconst result1 = wordToIthkuil({\n  type: \"UNF/K\",\n  shortcut: true,\n  root: \"l\",\n  ca: { configuration: \"MFS\", affiliation: \"COA\" },\n  context: \"RPS\",\n  illocutionValidation: \"DIR\",\n})\n\nconsole.log(result1)\n\n// me (beneficial, ergative) and you (detrimental, absolutive)\nconst result2 = parseWord(\"royež\")\n\nconsole.log(result2)\" > ./playground.ts\nfi",
     "test": "node test/generate.js && node test/parse.js"
+  },
+  "exports": {
+    "./script/jsx-runtime": "./script/jsx-runtime.js",
+    "./*": "./*"
   },
   "repository": {
     "type": "git",
