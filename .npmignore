@@ -7,7 +7,6 @@
 .git
 
 # Files that shouldn't be packaged
-playground
 test
 playground.ts
 playground.js
