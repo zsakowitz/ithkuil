@@ -131,6 +131,8 @@ export function mergeAdjunctsAndFormative(
     }
   }
 
+  adjuncts.length = 0
+
   slotVAffixes.unshift(...affixes[0])
   slotVAffixes.push(...affixes[1])
   slotVIIAffixes.unshift(...affixes[2])
@@ -245,7 +247,7 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
             ...formativeToScript(mergeAdjunctsAndFormative(adjuncts, result)),
           )
 
-          adjuncts.length == 0
+          adjuncts.length = 0
         }
 
         if (wordType == "formativeFollowingConcatenatedCarrier") {
@@ -278,7 +280,11 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
         const closing: ConstructableCharacter =
           SUPPLETIVE_ADJUNCT_TO_REGISTER_CHARACTER[result.type]
 
+        let usedCase2 = false
+
         if ("referents2" in result && result.referents2) {
+          usedCase2 = true
+
           if (result.perspective2 && result.perspective2 != "M") {
             wordType = {
               close: [
@@ -309,6 +315,8 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
           }
         }
 
+        const case2 = "case2" in result && !usedCase2 ? result.case2 : undefined
+
         const formative = formativeToScript(
           mergeAdjunctsAndFormative(adjuncts, {
             type: "UNF/C",
@@ -318,10 +326,8 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
             slotVAffixes: "affixes" in result ? result.affixes : undefined,
             ca: { essence: "essence" in result ? result.essence : undefined },
             slotVIIAffixes:
-              ("case2" in result ? result.case2 : undefined) && result.case
-                ? [{ case: result.case }]
-                : undefined,
-            case: ("case2" in result ? result.case2 : undefined) || result.case,
+              case2 && result.case ? [{ case: result.case }] : undefined,
+            case: case2 || result.case,
           }),
           { useCaseIllValDiacritics: false },
         )
@@ -366,7 +372,10 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
 
           let case_ = result.case
 
-          if (result.case2) {
+          if (
+            result.case2 &&
+            (!("referents2" in result) || !result.referents2)
+          ) {
             didUseCase2 = true
             affixes.push({ case: result.case || "THM" })
             case_ = result.case2

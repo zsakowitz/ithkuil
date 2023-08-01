@@ -45,6 +45,8 @@
     "./parse/lex/referential": "./parse/lex/referential/index.js",
     "./parse/referential": "./parse/referential/index.js",
     "./script": "./script/index.js",
+    "./script/jsx-runtime": "./script/jsx-runtime.js",
+    "./*.js": "./*.js",
     "./*": "./*.js"
   },
   "repository": {
