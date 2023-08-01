@@ -19,7 +19,7 @@ export function Lines(props: {
         -2 * width
       } 35 h ${2 * width} m ${-width} ${-35 - height} v ${2 * height}`}
       stroke="#ccc"
-      stroke-width="0.5"
+      stroke-width="1"
     />
   ) as SVGPathElement
 }
