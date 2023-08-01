@@ -1,7 +1,10 @@
+export * from "./bias/index.js"
+export * from "./construct/affixes.js"
+export * from "./construct/formative.js"
+export * from "./from-text.js"
 export * from "./other/diacritic.js"
 export * from "./other/lines.js"
 export * from "./other/row.js"
-
 export * from "./primary/bottom-left.js"
 export * from "./primary/bottom-right.js"
 export * from "./primary/core.js"
@@ -10,25 +13,15 @@ export * from "./primary/super-posed.js"
 export * from "./primary/top-left.js"
 export * from "./primary/top-right.js"
 export * from "./primary/under-posed.js"
-
+export * from "./quaternary/index.js"
+export * from "./register/index.js"
 export * from "./secondary/core.js"
 export * from "./secondary/extension.js"
 export * from "./secondary/from-text.js"
 export * from "./secondary/index.js"
-
 export * from "./tertiary/index.js"
 export * from "./tertiary/segment.js"
 export * from "./tertiary/valence.js"
-
-export * from "./quaternary/index.js"
-
-export * from "./bias/index.js"
-
-export * from "./register/index.js"
-
-export * from "./construct/affixes.js"
-export * from "./construct/formative.js"
-
 export * from "./utilities/anchor.js"
 export * from "./utilities/blink.js"
 export * from "./utilities/clone.js"
