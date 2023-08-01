@@ -10,7 +10,7 @@ import {
   type Illocution,
   type Mood,
   type Validation,
-} from "../../index.js"
+} from "../../generator/index.js"
 import { Secondary, type ExtensionName } from "../index.js"
 
 // NOTE: Because quaternary characters are almost just secondary characters, we

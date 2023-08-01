@@ -1,4 +1,3 @@
-// import "https://esm.sh/snapsvg"
 import { scriptFromText } from "./from-text.js"
 import { CharacterRow, fitViewBox } from "./index.js"
 import { Lines } from "./other/lines.js"

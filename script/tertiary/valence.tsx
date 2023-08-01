@@ -1,4 +1,4 @@
-import type { Valence } from "../../index.js"
+import type { Valence } from "../../generator/index.js"
 
 /** An object containing all Valence segments. */
 export const VALENCE: Record<Valence, string> = {

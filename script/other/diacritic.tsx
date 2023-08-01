@@ -1,4 +1,4 @@
-import { deepFreezeAndNullPrototype } from "../../index.js"
+import { deepFreezeAndNullPrototype } from "../../generator/index.js"
 
 /** An object containing all diacritics and their SVG paths. */
 export const CORE_DIACRITICS = /* @__PURE__ */ deepFreezeAndNullPrototype({

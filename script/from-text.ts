@@ -6,7 +6,6 @@ import {
   ALL_SINGLE_REGISTER_ADJUNCTS,
   deepFreeze,
   has,
-  parseWord,
   referentListToPersonalReferenceRoot,
   type Affix,
   type AffixDegree,
@@ -15,7 +14,8 @@ import {
   type PartialFormative,
   type RegisterAdjunct,
   type SuppletiveAdjunctType,
-} from "../index.js"
+} from "../generator/index.js"
+import { parseWord } from "../parser/index.js"
 import {
   Bias,
   MCS,
@@ -32,13 +32,17 @@ import {
 } from "./index.js"
 import type { Result } from "./utilities/result.js"
 
+/**
+ * A helper type which removes properties that may only be undefined from an
+ * object type `T`.
+ */
 export type OmitUndefinedValues<T> = T extends infer U
   ? {
       [K in keyof U as [U[K]] extends [undefined] ? never : K]: U[K]
     }
   : never
 
-const SCOPE_TO_PRECEDENCE = deepFreeze({
+const SCOPE_TO_PRECEDENCE = /* @__PURE__ */ deepFreeze({
   "V:SUB": 0,
   "V:DOM": 1,
   "VII:SUB": 2,
@@ -49,13 +53,19 @@ const SCOPE_TO_PRECEDENCE = deepFreeze({
   ADJACENT: 7,
 })
 
-export const SUPPLETIVE_ADJUNCT_TO_REGISTER_CHARACTER = deepFreeze({
+const SUPPLETIVE_ADJUNCT_TO_REGISTER_CHARACTER = /* @__PURE__ */ deepFreeze({
   CAR: { construct: Register, mode: "alphabetic" },
   QUO: { construct: Register, mode: "alphabetic", type: "DSV" },
   NAM: { construct: Register, mode: "alphabetic", type: "SPF" },
   PHR: { construct: Register, mode: "alphabetic", type: "PNT" },
 } satisfies Record<SuppletiveAdjunctType, ConstructableCharacter<RegisterCharacter>>)
 
+/**
+ * Merges affixual and modular adjuncts into a formative.
+ * @param adjuncts The adjunct to be merged into the formative.
+ * @param formative The original formative.
+ * @returns The newly merged formative.
+ */
 export function mergeAdjunctsAndFormative(
   adjuncts: (AffixualAdjunct | ModularAdjunct)[],
   formative: PartialFormative,
@@ -134,6 +144,11 @@ export function mergeAdjunctsAndFormative(
   return result
 }
 
+/**
+ * Converts romanized text into Ithkuil characters.
+ * @param text The text to be converted.
+ * @returns A `Result` containing an array of `ConstructableCharacter`s.
+ */
 export function scriptFromText(text: string): Result<ConstructableCharacter[]> {
   try {
     const words = text.match(/[\p{ID_Start}'][\p{ID_Start}\p{ID_Continue}']*/gu)

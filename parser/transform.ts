@@ -1,4 +1,4 @@
-import { deepFreezeAndNullPrototype } from "../index.js"
+import { deepFreezeAndNullPrototype } from "../generator/index.js"
 
 /** The types of stress markings in an Ithkuil word. */
 export type Stress =

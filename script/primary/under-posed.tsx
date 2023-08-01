@@ -1,4 +1,4 @@
-import { deepFreezeAndNullPrototype } from "../../index.js"
+import { deepFreezeAndNullPrototype } from "../../generator/index.js"
 import { Diacritic } from "../other/diacritic.js"
 import { Anchor } from "../utilities/anchor.js"
 

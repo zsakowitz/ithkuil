@@ -1,4 +1,4 @@
-import { deepFreeze, type Specification } from "../../index.js"
+import { deepFreeze, type Specification } from "../../generator/index.js"
 
 const CORES = /* @__PURE__ */ deepFreeze({
   BSC: "M -25 -35 l -7.5 7.5 57.5 62.5 7.5 -7.5 -57.5 -62.5 z",

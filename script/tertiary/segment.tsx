@@ -3,7 +3,7 @@ import {
   type Aspect,
   type Effect,
   type Phase,
-} from "../../index.js"
+} from "../../generator/index.js"
 
 /** The name of a tertiary segment. */
 export type TertiarySegmentName = Phase | Effect | Aspect

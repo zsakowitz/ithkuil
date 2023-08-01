@@ -1,4 +1,8 @@
-import { ALL_BIAS_ADJUNCTS, deepFreeze, type BiasAdjunct } from "../../index.js"
+import {
+  ALL_BIAS_ADJUNCTS,
+  deepFreeze,
+  type BiasAdjunct,
+} from "../../generator/index.js"
 import {
   Anchor,
   Diacritic,

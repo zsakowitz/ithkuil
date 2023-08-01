@@ -10,7 +10,7 @@ import {
   type Specification,
   type Stem,
   type Version,
-} from "../../index.js"
+} from "../../generator/index.js"
 import { getBBox } from "../utilities/get-bbox.js"
 import { Translate } from "../utilities/translate.js"
 import { PrimaryBottomLeft } from "./bottom-left.js"

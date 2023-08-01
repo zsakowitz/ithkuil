@@ -1,4 +1,8 @@
-import { deepFreeze, type Extension, type Perspective } from "../../index.js"
+import {
+  deepFreeze,
+  type Extension,
+  type Perspective,
+} from "../../generator/index.js"
 
 const PATHS = /* @__PURE__ */ deepFreeze({
   M: {

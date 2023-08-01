@@ -1,4 +1,4 @@
-import { deepFreeze } from "../../index.js"
+import { deepFreeze } from "../../generator/index.js"
 
 // Note for testing secondaries:
 // The ALPHABETIC_PLACEHOLDER has a reversed horizontal top.

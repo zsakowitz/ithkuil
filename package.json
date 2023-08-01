@@ -1,8 +1,7 @@
 {
   "name": "@zsnout/ithkuil",
   "version": "0.1.19",
-  "description": "Utilities allowing for easy generation and parsing of romanized Ithkuilic text.",
-  "main": "index.js",
+  "description": "A set of tools which can generate and parse romanized Ithkuil text and which can generate Ithkuil script from text and JSON data.",
   "author": "Zachary Sakowitz",
   "license": "MIT",
   "type": "module",
@@ -35,10 +34,8 @@
   },
   "homepage": "https://github.com/zsakowitz/ithkuil#readme",
   "devDependencies": {
-    "@types/snapsvg": "^0.5.3",
     "esbuild": "^0.18.11",
     "prettier": "^2.8.8",
-    "snapsvg": "^0.5.1",
     "typescript": "^5.1.6"
   },
   "dependencies": {
