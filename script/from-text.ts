@@ -30,6 +30,7 @@ import {
   type RegisterCharacter,
   type SecondaryCharacter,
 } from "./index.js"
+import { Break } from "./other/break.js"
 import type { Result } from "./utilities/result.js"
 
 /**
@@ -144,12 +145,7 @@ export function mergeAdjunctsAndFormative(
   return result
 }
 
-/**
- * Converts romanized text into Ithkuil characters.
- * @param text The text to be converted.
- * @returns A `Result` containing an array of `ConstructableCharacter`s.
- */
-export function textToScript(text: string): Result<ConstructableCharacter[]> {
+function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
   try {
     const words = text.match(/[\p{ID_Start}'][\p{ID_Start}\p{ID_Continue}']*/gu)
 
@@ -460,4 +456,32 @@ export function textToScript(text: string): Result<ConstructableCharacter[]> {
       reason: error instanceof Error ? error.message : String(error),
     }
   }
+}
+
+/**
+ * Converts romanized text into Ithkuil characters.
+ * @param text The text to be converted.
+ * @returns A `Result` containing an array of `ConstructableCharacter`s.
+ */
+export function textToScript(text: string): Result<ConstructableCharacter[]> {
+  const output: ConstructableCharacter[] = []
+  let isFirst = true
+
+  for (const sentence of text.split(/[.!?]/g).filter((x) => x.trim() != "")) {
+    const result = sentenceToScript(sentence)
+
+    if (!result.ok) {
+      return result
+    }
+
+    if (!isFirst) {
+      output.push({ construct: Break })
+    }
+
+    output.push(...result.value)
+
+    isFirst = false
+  }
+
+  return { ok: true, value: output }
 }

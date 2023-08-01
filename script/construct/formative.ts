@@ -38,6 +38,7 @@ import {
   type TertiaryCharacter,
   type TertiarySegmentName,
 } from "../index.js"
+import type { BreakCharacter } from "../other/break.js"
 import {
   DIACRITIC_MAP,
   Quaternary,
@@ -58,6 +59,7 @@ export type Character =
   | QuaternaryCharacter
   | BiasCharacter
   | RegisterCharacter
+  | BreakCharacter
 
 /** A script character paired with its constructor. */
 export type ConstructableCharacter<T extends Character = Character> =

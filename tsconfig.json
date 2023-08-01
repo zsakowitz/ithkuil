@@ -16,7 +16,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": ".",
-    "paths": { "@/jsx-runtime": ["./script/jsx-runtime.js"] },
+    "paths": { "@/jsx-runtime": ["./script/jsx-runtime.ts"] },
     "rootDir": ".",
     "skipLibCheck": true,
     "strict": true,
