@@ -4,6 +4,13 @@
  * @param margin The size of the margin placed around the SVG.
  */
 export function fitViewBox(svg: SVGSVGElement, margin = 0) {
+  const nextSibling = svg.nextSibling
+  const parent = svg.parentNode
+
+  svg.remove()
+
+  document.body.append(svg)
+
   const box = svg.getBBox()
 
   svg.setAttribute(
@@ -15,4 +22,10 @@ export function fitViewBox(svg: SVGSVGElement, margin = 0) {
       box.height + 2 * margin,
     ].join(" "),
   )
+
+  svg.remove()
+
+  if (parent) {
+    parent.insertBefore(svg, nextSibling)
+  }
 }
