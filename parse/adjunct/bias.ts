@@ -1,7 +1,7 @@
 import {
   BIAS_ITHKUIL_TO_ADJUNCT_MAP,
   type BiasAdjunct,
-} from "../../generator/adjunct/bias.js"
+} from "../../generate/adjunct/bias.js"
 import { biasAdjunct } from "../lex/adjunct/bias.js"
 
 /**

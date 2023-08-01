@@ -1,4 +1,4 @@
-import type { ParsingAdjunct } from "../../generator/adjunct/parsing.js"
+import type { ParsingAdjunct } from "../../generate/adjunct/parsing.js"
 import { parsingAdjunct } from "../lex/adjunct/parsing.js"
 
 /**

@@ -2,7 +2,7 @@ import type {
   PartialFormative,
   PartialReferential,
   PlainAdjunct,
-} from "../generator/index.js"
+} from "../generate/index.js"
 import { parseAdjunct } from "./adjunct/index.js"
 import { parseFormative } from "./formative/index.js"
 import { parseReferential } from "./referential/index.js"

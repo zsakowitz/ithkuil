@@ -1,5 +1,5 @@
-import type { Mood } from "../../generator/formative/slot-8/mood.js"
-import { deepFreezeAndNullPrototype } from "../../generator/helpers/deep-freeze.js"
+import type { Mood } from "../../generate/formative/slot-8/mood.js"
+import { deepFreezeAndNullPrototype } from "../../generate/helpers/deep-freeze.js"
 
 const CN_TO_MOOD = /* @__PURE__ */ deepFreezeAndNullPrototype({
   h: "FAC",

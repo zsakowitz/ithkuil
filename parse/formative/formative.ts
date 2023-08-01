@@ -1,8 +1,8 @@
-import type { Affix } from "../../generator/affix/index.js"
+import type { Affix } from "../../generate/affix/index.js"
 import type {
   PartialFormative,
   SlotIII,
-} from "../../generator/formative/index.js"
+} from "../../generate/formative/index.js"
 import {
   cnShortcutFormative,
   nonShortcutFormative,

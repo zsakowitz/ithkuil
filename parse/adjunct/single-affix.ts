@@ -1,4 +1,4 @@
-import type { AffixualAdjunct } from "../../generator/adjunct/affixual/index.js"
+import type { AffixualAdjunct } from "../../generate/adjunct/affixual/index.js"
 import { parseAffix } from "../formative/affix.js"
 import { singleAffixAffixualAdjunct } from "../lex/adjunct/single-affix.js"
 import type { Stress } from "../transform.js"

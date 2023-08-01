@@ -1,4 +1,4 @@
-import type { VowelForm } from "../../parser/vowel-form.js"
+import type { VowelForm } from "../../parse/vowel-form.js"
 import type { Core } from "../../script/secondary/core.js"
 import type { Extension } from "../../script/secondary/extension.js"
 import type { MoodOrCaseScope } from "../formative/slot-8/mood-or-case-scope.js"

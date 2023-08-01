@@ -7,7 +7,7 @@ import {
   caToIthkuil,
   geminatedCAToIthkuil,
   type PartialCA,
-} from "../../generator/ca/index.js"
+} from "../../generate/ca/index.js"
 
 function makeCaForms() {
   const ALL_CA_FORMS = new Map<string, PartialCA>()

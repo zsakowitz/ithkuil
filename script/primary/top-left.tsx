@@ -2,7 +2,7 @@ import {
   deepFreeze,
   type Extension,
   type Perspective,
-} from "../../generator/index.js"
+} from "../../generate/index.js"
 
 const PATHS = /* @__PURE__ */ deepFreeze({
   M: {

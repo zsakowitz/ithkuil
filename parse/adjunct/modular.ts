@@ -1,5 +1,5 @@
-import type { ModularAdjunct } from "../../generator/adjunct/modular/index.js"
-import type { ModularAdjunctScope } from "../../generator/adjunct/modular/scope.js"
+import type { ModularAdjunct } from "../../generate/adjunct/modular/index.js"
+import type { ModularAdjunctScope } from "../../generate/adjunct/modular/scope.js"
 import { parseMoodOrCaseScope } from "../formative/mood-or-case-scope.js"
 import { parseAspect, parseNonAspectualVn } from "../formative/vn.js"
 import { modularAdjunct } from "../lex/adjunct/modular.js"

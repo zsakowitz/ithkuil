@@ -1,5 +1,5 @@
-import { type IllocutionOrValidation } from "../../generator/formative/slot-9/illocution-and-validation.js"
-import { ALL_VALIDATIONS } from "../../generator/formative/slot-9/validation.js"
+import { type IllocutionOrValidation } from "../../generate/formative/slot-9/illocution-and-validation.js"
+import { ALL_VALIDATIONS } from "../../generate/formative/slot-9/validation.js"
 import type { VowelForm } from "../vowel-form.js"
 
 const ILLOCUTIONS = [

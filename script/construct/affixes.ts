@@ -8,7 +8,7 @@ import {
   type Affix,
   type AffixDegree,
   type VN,
-} from "../../generator/index.js"
+} from "../../generate/index.js"
 
 /** The Cs form for the Valence affix. */
 export const VAL = "żk"

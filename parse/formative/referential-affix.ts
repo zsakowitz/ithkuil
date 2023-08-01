@@ -1,7 +1,7 @@
 import {
   REFERENT_TO_ITHKUIL_MAP,
   type Referent,
-} from "../../generator/referential/referent/index.js"
+} from "../../generate/referential/referent/index.js"
 
 /**
  * Parses a Cs form as a referential affix.

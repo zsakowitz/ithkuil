@@ -1,4 +1,4 @@
-import type { PlainAdjunct } from "../../generator/adjunct/index.js"
+import type { PlainAdjunct } from "../../generate/adjunct/index.js"
 import { transformWord } from "../transform.js"
 import { buildBiasAdjunct } from "./bias.js"
 import { buildModularAdjunct } from "./modular.js"

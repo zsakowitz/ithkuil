@@ -2,7 +2,7 @@ import {
   ALL_BIAS_ADJUNCTS,
   deepFreeze,
   type BiasAdjunct,
-} from "../../generator/index.js"
+} from "../../generate/index.js"
 import {
   Anchor,
   Diacritic,

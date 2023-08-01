@@ -1,7 +1,7 @@
 import {
   SINGLE_REGISTER_ITHKUIL_TO_ADJUNCT_MAP,
   type SingleRegisterAdjunct,
-} from "../../generator/adjunct/register.js"
+} from "../../generate/adjunct/register.js"
 import { registerAdjunct } from "../lex/adjunct/register.js"
 
 /**

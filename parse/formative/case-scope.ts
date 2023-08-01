@@ -1,5 +1,5 @@
-import type { CaseScope } from "../../generator/formative/slot-8/case-scope.js"
-import { deepFreezeAndNullPrototype } from "../../generator/helpers/deep-freeze.js"
+import type { CaseScope } from "../../generate/formative/slot-8/case-scope.js"
+import { deepFreezeAndNullPrototype } from "../../generate/helpers/deep-freeze.js"
 
 const CN_TO_CASE_SCOPE = /* @__PURE__ */ deepFreezeAndNullPrototype({
   h: "CCN",

@@ -6,7 +6,7 @@ import {
   ALL_PERSPECTIVES,
   caToIthkuil,
   geminatedCAToIthkuil,
-} from "../generator/index.js"
+} from "../generate/index.js"
 
 export function checkForDuplicateCAForms() {
   const caSlots: string[] = []

@@ -1,4 +1,4 @@
-import { ALL_CASES_SKIPPING_DEGREE_8 } from "../../generator/formative/slot-9/index.js"
+import { ALL_CASES_SKIPPING_DEGREE_8 } from "../../generate/formative/slot-9/index.js"
 import type { VowelForm } from "../vowel-form.js"
 
 /**

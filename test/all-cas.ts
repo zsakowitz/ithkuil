@@ -7,7 +7,7 @@ import {
   attemptGemination,
   caToIthkuil,
   geminatedCAToIthkuil,
-} from "../generator/index.js"
+} from "../generate/index.js"
 
 console.log(`Note: Any geminates marked with an asterisk are Ca forms that did
 not match any of Ithkuil's standard rules for geminating Ca forms and

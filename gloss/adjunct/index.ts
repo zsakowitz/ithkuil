@@ -8,7 +8,7 @@ import {
   has,
   type Adjunct,
   type RegisterAdjunct,
-} from "../../generator/index.js"
+} from "../../generate/index.js"
 import { GlossString } from "../glossable.js"
 
 /**

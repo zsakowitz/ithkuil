@@ -2,7 +2,7 @@ import {
   deepFreezeAndNullPrototype,
   type Affiliation,
   type Essence,
-} from "../../generator/index.js"
+} from "../../generate/index.js"
 import { Diacritic } from "../other/diacritic.js"
 import { Anchor } from "../utilities/anchor.js"
 

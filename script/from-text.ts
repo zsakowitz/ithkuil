@@ -1,4 +1,4 @@
-import { ALL_MOOD_OR_CASE_SCOPES } from "../generator/formative/slot-8/mood-or-case-scope.js"
+import { ALL_MOOD_OR_CASE_SCOPES } from "../generate/formative/slot-8/mood-or-case-scope.js"
 import {
   ALL_BIAS_ADJUNCTS,
   ALL_CASE_SCOPES,
@@ -14,8 +14,8 @@ import {
   type PartialFormative,
   type RegisterAdjunct,
   type SuppletiveAdjunctType,
-} from "../generator/index.js"
-import { parseWord } from "../parser/index.js"
+} from "../generate/index.js"
+import { parseWord } from "../parse/index.js"
 import {
   Bias,
   MCS,

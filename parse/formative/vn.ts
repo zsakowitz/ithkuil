@@ -6,7 +6,7 @@ import {
   ALL_VALENCES,
   type Aspect,
   type NonAspectualVN,
-} from "../../generator/formative/slot-8/index.js"
+} from "../../generate/formative/slot-8/index.js"
 import type { VowelForm } from "../vowel-form.js"
 
 const NON_ASPECTUAL_VNS = [

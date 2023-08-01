@@ -1,4 +1,4 @@
-import { deepFreeze, type RegisterAdjunct } from "../../generator/index.js"
+import { deepFreeze, type RegisterAdjunct } from "../../generate/index.js"
 
 /** The mode of a register character. */
 export type RegisterMode =

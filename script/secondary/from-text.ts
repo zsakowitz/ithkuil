@@ -1,4 +1,4 @@
-import { deepFreezeAndNullPrototype } from "../../generator/index.js"
+import { deepFreezeAndNullPrototype } from "../../generate/index.js"
 import {
   AtomicRegexPart,
   any,
@@ -6,7 +6,7 @@ import {
   seq,
   start,
   transformWordButLeaveStressMarkings,
-} from "../../parser/index.js"
+} from "../../parse/index.js"
 import type { DiacriticName } from "../other/diacritic.js"
 import type { CoreName } from "./core.js"
 import type { ExtensionName } from "./extension.js"

@@ -1,13 +1,8 @@
 # `@zsnout/ithkuil`
 
-`@zsnout/ithkuil` is an NPM package that is capable of generating romanized
-Ithkuilic text from JSON objects, a task normally done either by looking up
-various slots and putting them together, or by writing them into an online
-application.
-
-This package allows Ithkuilic text to be generated without needing a UI, which
-is helpful when writing tests, one's own automated tools (e.g. for learning), or
-for verifying translations.
+`@zsnout/ithkuil` is a package containing several utilities for working with New
+Ithkuil text. It can generate romanized text from JSON objects, parse text into
+JSON objects, and write in Ithkuil's writing system using SVG paths.
 
 ## Stability
 
@@ -16,9 +11,9 @@ is completely suitable for use, and has even been tested somewhat.
 
 ## Features
 
-As of May 29, 2023, `@zsnout/ithkuil` can generate every single kind of word in
-Ithkuil. And as of July 6, 2023, it can parse every single kind of word in
-Ithkuil. These word types include:
+`@zsnout/ithkuil` can generate (as of May 29, 2023), parse (as of July 6, 2023),
+and create script for (as of August 1, 2023) every kind of word in Ithkuil,
+including:
 
 - Formatives
 - Specialized Cs-root formatives
@@ -47,40 +42,28 @@ place into a single document. To experiment with all of `@zsnout/ithkuil`'s
 functionality, install it and use your code editor's tools to see the available
 functions it exports.
 
-## IMPORTANT NOTE
+## Important Note
 
-Before using this project, be aware that **_arguments are not validated_**.
-Objects passed into functions such as `formativeToIthkuil` are not automatically
-validated, and will produce unexpected results or throw errors when given
-invalid input.
-
-If you're not 100% sure that you're passing in valid input, validate it with the
-Zod validators provided, such as `zodFormative` and `zodAffixualAdjunct`.
-Alternatively, enable TypeScript on your application, which will give you full
-type safety when using `@zsnout/ithkuil` (and is probably good practice anyway).
-
-The behavior of functions when invalid input is passed in is undefined. As of
-0.1.5, this function call...
+Unlike most packages available online, `@zsnout/ithkuil` does not have a
+top-level export. That is, directly importing from `@zsnout/ithkuil` will fail.
 
 ```ts
-import { formativeToIthkuil } from "@zsnout/ithkuil"
-
-const result = formativeToIthkuil({
-  type: "UNF/C",
-  root: "c",
-  case: "greeting",
-})
-
-console.log(result)
+// INCORRECT:
+import { parseWord } from "@zsnout/ithkuil"
 ```
 
-...logs "calundefined", but it may change in the future.
+Instead, always make sure to import from the proper sub-package. Currently,
+there are four sub-packages:
 
----
+- **`@zsnout/ithkuil/generate`**, which generates romanized text.
+- **`@zsnout/ithkuil/parse`**, which parses romanized text.
+- **`@zsnout/ithkuil/script`**, which generates SVG block script.
+- **`@zsnout/ithkuil/zod`**, which provides Zod validators for this project.
 
-Let us now see `@zsnout/ithkuil` in action. Note that all exports are documented
-using JSDoc and types with TypeScript, so developers comfortable using those
-features will have a wonderful editing experience.
+```ts
+// CORRECT:
+import { parseWord } from "@zsnout/ithkuil/parse"
+```
 
 ## Example 1
 
@@ -315,7 +298,15 @@ try {
 
 ### 0.1.19
 
+- **Massive breaking change:** The exports from `@zsnout/ithkuil/generator` and
+  `@zsnout/ithkuil/parser` are now only available under those names, and are not
+  re-exported from `@zsnout/ithkuil`. In fact, directly importing
+  `@zsnout/ithkuil` will now throw an error.
+
 - **Breaking change:** The `DFT` level has been correctly updated to `DFC`.
+
+- **New feature:** The `@zsnout/ithkuil/script` sub-package has been created,
+  and may be used to generate Ithkuil script as SVG paths.
 
 ### 0.1.18
 

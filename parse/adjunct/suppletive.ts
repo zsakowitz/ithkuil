@@ -1,4 +1,4 @@
-import type { SuppletiveAdjunct } from "../../generator/adjunct/suppletive/index.js"
+import type { SuppletiveAdjunct } from "../../generate/adjunct/suppletive/index.js"
 import { parseCase } from "../formative/case.js"
 import { suppletiveAdjunct } from "../lex/adjunct/suppletive.js"
 import { VowelForm } from "../vowel-form.js"

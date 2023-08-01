@@ -6,8 +6,8 @@ import {
   MoodOrCaseScope,
   SPC_CCQ,
   SUB_CCA,
-} from "../../generator/formative/slot-8/mood-or-case-scope.js"
-import { deepFreeze } from "../../generator/helpers/deep-freeze.js"
+} from "../../generate/formative/slot-8/mood-or-case-scope.js"
+import { deepFreeze } from "../../generate/helpers/deep-freeze.js"
 
 // We can't use `deepFreezeAndNullPrototype` here.
 const CN_TO_MOOD_OR_CASE_SCOPE = /* @__PURE__ */ deepFreeze({

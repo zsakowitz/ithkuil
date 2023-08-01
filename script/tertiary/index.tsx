@@ -1,4 +1,4 @@
-import { deepFreeze, type Level, type Valence } from "../../generator/index.js"
+import { deepFreeze, type Level, type Valence } from "../../generate/index.js"
 import {
   Anchor,
   AnchorX,

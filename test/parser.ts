@@ -1,5 +1,5 @@
-import { ALL_MOOD_OR_CASE_SCOPES } from "../generator/formative/slot-8/mood-or-case-scope.js"
-import { ALL_REFERENTS } from "../generator/referential/referent/referent.js"
+import { ALL_MOOD_OR_CASE_SCOPES } from "../generate/formative/slot-8/mood-or-case-scope.js"
+import { ALL_REFERENTS } from "../generate/referential/referent/referent.js"
 import {
   ALL_AFFILIATIONS,
   ALL_AFFIXUAL_ADJUNCT_SCOPES,

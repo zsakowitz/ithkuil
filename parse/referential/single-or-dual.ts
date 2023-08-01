@@ -1,4 +1,4 @@
-import type { PartialReferential } from "../../generator/referential/referential.js"
+import type { PartialReferential } from "../../generate/referential/referential.js"
 import { parseCase } from "../formative/case.js"
 import { singleOrDualReferential } from "../lex/referential/single-or-dual.js"
 import type { Stress } from "../transform.js"

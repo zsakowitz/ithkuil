@@ -1,4 +1,4 @@
-import { deepFreeze } from "../../generator/index.js"
+import { deepFreeze } from "../../generate/index.js"
 
 /** Information about an extension. */
 export type Extension = {

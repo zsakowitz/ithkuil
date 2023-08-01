@@ -22,7 +22,7 @@ import {
   type PartialFormative,
   type ReferentList,
   type Valence,
-} from "../../generator/index.js"
+} from "../../generate/index.js"
 import {
   AnchorX,
   Primary,

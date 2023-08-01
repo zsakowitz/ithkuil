@@ -4,7 +4,7 @@ import {
   type Function,
   type Stem,
   type Version,
-} from "../../generator/index.js"
+} from "../../generate/index.js"
 
 const PATHS = /* @__PURE__ */ deepFreeze({
   STA: {

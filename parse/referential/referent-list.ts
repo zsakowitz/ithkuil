@@ -1,9 +1,9 @@
-import type { ReferentList } from "../../generator/referential/referent/list.js"
+import type { ReferentList } from "../../generate/referential/referent/list.js"
 import {
   ALL_REFERENTS,
   REFERENT_TO_ITHKUIL_MAP,
   type Referent,
-} from "../../generator/referential/referent/referent.js"
+} from "../../generate/referential/referent/referent.js"
 
 const ALL_REFERENTS_REVERSED = /* @__PURE__ */ ALL_REFERENTS.slice().reverse()
 
