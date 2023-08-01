@@ -70,7 +70,7 @@ import { parseWord } from "@zsnout/ithkuil/parse"
 This example compiles a simple formative.
 
 ```ts
-import { formativeToIthkuil } from "@zsnout/ithkuil"
+import { formativeToIthkuil } from "@zsnout/ithkuil/generate"
 
 const result = formativeToIthkuil({
   root: "kš",
@@ -90,7 +90,7 @@ Just being able to convert formative roots into Ithkuil isn't very exciting.
 Let's try an example with many options.
 
 ```ts
-import { formativeToIthkuil } from "@zsnout/ithkuil"
+import { formativeToIthkuil } from "@zsnout/ithkuil/generate"
 
 const result = formativeToIthkuil({
   type: "UNF/C",
@@ -159,7 +159,7 @@ Not only can `@zsnout/ithkuil` generate formatives, but it can also parse them
 using the `parseFormative` function. Let's try it out.
 
 ```ts
-import { parseFormative } from "@zsnout/ithkuil"
+import { parseFormative } from "@zsnout/ithkuil/parse"
 
 const result = parseFormative("malëuţřait")
 
@@ -197,7 +197,7 @@ as shown below with the example "hlarrau-laza" (a tribe of people owned by a
 cat).
 
 ```ts
-import { parseFormative } from "@zsnout/ithkuil"
+import { parseFormative } from "@zsnout/ithkuil/parse"
 
 // Correct:
 
@@ -230,7 +230,7 @@ Ithkuilic words. Let's try generating an affixual adjunct, as those are used
 frequently to move affixes out of formatives.
 
 ```ts
-import { affixualAdjunctToIthkuil } from "@zsnout/ithkuil"
+import { affixualAdjunctToIthkuil } from "@zsnout/ithkuil/generate"
 
 const result = affixualAdjunctToIthkuil({
   affixes: [
@@ -252,7 +252,7 @@ console.log(result)
 This example creates a referential (1m.BEN-CTE-GID₁/3)
 
 ```ts
-import { referentialToIthkuil } from "@zsnout/ithkuil"
+import { referentialToIthkuil } from "@zsnout/ithkuil/generate"
 
 const result = referentialToIthkuil({
   referents: ["1m:BEN"],
@@ -278,7 +278,7 @@ This example validates that an object is, in fact, an Ithkuilic adjunct. This
 can be useful when integrating this project with external sources.
 
 ```ts
-import { adjunctToIthkuil } from "@zsnout/ithkuil"
+import { adjunctToIthkuil } from "@zsnout/ithkuil/generate"
 import { adjunct } from "@zsnout/ithkuil/zod"
 
 const myAdjunct = getAdjunctFromSomeInternetSource()
@@ -296,12 +296,19 @@ try {
 
 ## Changelog
 
+### 0.1.20
+
+- Fixed issues with examples.
+
 ### 0.1.19
 
-- **Massive breaking change:** The exports from `@zsnout/ithkuil/generator` and
-  `@zsnout/ithkuil/parser` are now only available under those names, and are not
-  re-exported from `@zsnout/ithkuil`. In fact, directly importing
-  `@zsnout/ithkuil` will now throw an error.
+- **Massive breaking change:** `@zsnout/ithkuil/generator`'s exports are now
+  only available under `@zsnout/ithkuil/generate`. They are no longer exported
+  from `@zsnout/ithkuil`.
+
+- **Massive breaking change:** `@zsnout/ithkuil/parser`'s exports are now only
+  available under `@zsnout/ithkuil/parse`. They are no longer exported from
+  `@zsnout/ithkuil`.
 
 - **Breaking change:** The `DFT` level has been correctly updated to `DFC`.
 
