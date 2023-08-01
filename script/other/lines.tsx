@@ -15,9 +15,9 @@ export function Lines(props: {
 
   return (
     <path
-      d={`M -${width} 35 l ${2 * width} 0 M -${width} 0 l ${
-        2 * width
-      } 0 M 0 -${height} l 0 ${2 * height} M -${width} -35 l ${2 * width} 0`}
+      d={`M ${-width} -35 h ${2 * width} m ${-2 * width} 35 h ${2 * width} m ${
+        -2 * width
+      } 35 h ${2 * width} m ${-width} ${-35 - height} v ${2 * height}`}
       stroke="#ccc"
       stroke-width="0.5"
     />
