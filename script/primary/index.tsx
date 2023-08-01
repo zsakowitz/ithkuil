@@ -23,6 +23,9 @@ import { PrimaryUnderPosed } from "./under-posed.js"
 
 /** Information about a primary character. */
 export interface PrimaryCharacter {
+  /** Whether this primary character begins a sentence. */
+  readonly isSentenceInitial?: boolean | undefined
+
   /** The specification of this character. */
   readonly specification?: Specification | undefined
 

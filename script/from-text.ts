@@ -19,6 +19,7 @@ import { parseWord } from "../parse/index.js"
 import {
   Bias,
   MCS,
+  Primary,
   Quaternary,
   Register,
   Secondary,
@@ -27,6 +28,7 @@ import {
   textToSecondaries,
   vnToAffix,
   type ConstructableCharacter,
+  type PrimaryCharacter,
   type RegisterCharacter,
   type SecondaryCharacter,
 } from "./index.js"
@@ -467,6 +469,11 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
             return x
           }),
       )
+    }
+
+    const first = output[0]
+    if (first?.construct == Primary) {
+      ;(first as PrimaryCharacter as any).isSentenceInitial = true
     }
 
     return { ok: true, value: output }

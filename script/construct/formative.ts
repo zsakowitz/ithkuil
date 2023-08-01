@@ -62,13 +62,10 @@ export type Character =
   | BreakCharacter
 
 /** A script character paired with its constructor. */
-export type ConstructableCharacter<T extends Character = Character> =
-  T extends infer U
-    ? U & {
-        construct(character: U): SVGGElement
-        readonly dimmed?: boolean | undefined
-      }
-    : never
+export type ConstructableCharacter<T extends Character = Character> = T & {
+  construct(character: T): SVGGElement
+  readonly dimmed?: boolean | undefined
+}
 
 const isArray = /* @__PURE__ */ (() => Array.isArray)() as (
   arg: unknown,
@@ -106,7 +103,7 @@ export function affixToScript(
   degree: AffixDegree | "ca",
   type: AffixType,
   slot: "v" | "vii" | "xi",
-): ConstructableCharacter[] {
+): ConstructableCharacter<SecondaryCharacter>[] {
   return textToSecondaries(cs, {
     forcePlaceholderCharacters: true,
   })
