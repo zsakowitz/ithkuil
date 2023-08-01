@@ -87,7 +87,7 @@ export function PrimaryBottomRight(props: {
 
   /** The stem of the character. */
   readonly stem?: Stem | undefined
-}) {
+}): SVGPathElement | undefined {
   if (
     (!props.function || props.function == "STA") &&
     (!props.version || props.version == "PRC") &&

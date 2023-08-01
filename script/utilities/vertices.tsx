@@ -26,7 +26,7 @@ export function getVerticesOf(path: string) {
   return output
 }
 
-export function DebugVertices(props: { children: SVGElement }) {
+export function DebugVertices(props: { children: SVGElement }): SVGGElement {
   const vertices =
     props.children instanceof SVGPathElement
       ? getVerticesOf(props.children.getAttribute("d") || "")

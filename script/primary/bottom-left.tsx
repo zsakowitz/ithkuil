@@ -38,7 +38,7 @@ const OFFSETS = /* @__PURE__ */ deepFreezeAndNullPrototype({
 export function PrimaryBottomLeft(props: {
   /** The configuration of the character. */
   readonly configuration?: Configuration | undefined
-}) {
+}): SVGPathElement | undefined {
   if (!props.configuration) {
     return
   }

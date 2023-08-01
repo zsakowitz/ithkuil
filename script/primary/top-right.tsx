@@ -51,7 +51,7 @@ export function PrimaryTopRight({
 
   /** The essence of this character. */
   readonly essence?: Essence | undefined
-}) {
+}): SVGPathElement | undefined {
   const diacriticName = DIACRITICS[essence][affiliation]
 
   if (!diacriticName) {

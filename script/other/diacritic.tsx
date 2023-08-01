@@ -52,6 +52,6 @@ export type DiacriticName = keyof typeof CORE_DIACRITICS
 export function Diacritic(props: {
   /** The name of the diacritic to draw. */
   readonly name: DiacriticName
-}) {
+}): SVGPathElement {
   return (<path d={CORE_DIACRITICS[props.name]} />) as SVGPathElement
 }

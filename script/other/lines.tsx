@@ -9,7 +9,7 @@ export function Lines(props: {
 
   /** The height of the central line. */
   readonly height?: number | undefined
-}) {
+}): SVGPathElement {
   const width = props.width ?? 250
   const height = props.height ?? 250
 
@@ -21,5 +21,5 @@ export function Lines(props: {
       stroke="#ccc"
       stroke-width="0.5"
     />
-  )
+  ) as SVGPathElement
 }

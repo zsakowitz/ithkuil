@@ -18,7 +18,7 @@ export function Point(props: {
 
   /** The size of the displayed point. */
   readonly size?: number | undefined
-}) {
+}): SVGPathElement {
   return (
     <path
       d={"M " + props.x + " " + props.y + " z"}

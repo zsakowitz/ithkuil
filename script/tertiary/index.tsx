@@ -61,7 +61,7 @@ export interface TertiaryCharacter {
  * @param tertiary Information about the tertiary character.
  * @returns An `SVGGElement` containing the tertiary character's elements.
  */
-export function Tertiary(tertiary: TertiaryCharacter) {
+export function Tertiary(tertiary: TertiaryCharacter): SVGGElement {
   let g = (<g />) as SVGGElement
 
   if (tertiary.top) {

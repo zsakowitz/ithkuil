@@ -23,7 +23,7 @@ export function PrimaryUnderPosed({
    * or FRM, or a concatenation type, such as 1 or 2.
    */
   readonly bottom?: "UNF/C" | "UNF/K" | "FRM" | 1 | 2 | undefined
-}) {
+}): SVGPathElement | undefined {
   if (bottom == "UNF/C") {
     return undefined
   }

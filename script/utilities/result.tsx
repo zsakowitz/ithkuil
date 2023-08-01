@@ -6,7 +6,7 @@ export function HandleResult<T, U, V>(props: {
   children: Result<T>
   ok(value: T): U
   error(reason: string): V
-}) {
+}): U | V {
   if (props.children.ok) {
     return props.ok(props.children.value)
   } else {

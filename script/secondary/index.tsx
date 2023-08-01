@@ -136,7 +136,7 @@ function rotate(core: Core): Core {
  * @param secondary Properties that modify the character.
  * @returns An `SVGGElement` containing the character.
  */
-export function Secondary(secondary: SecondaryCharacter) {
+export function Secondary(secondary: SecondaryCharacter): SVGGElement {
   const core = secondary.rotated
     ? rotate(CORES[secondary.core || "STANDARD_PLACEHOLDER"])
     : CORES[secondary.core || "STANDARD_PLACEHOLDER"]

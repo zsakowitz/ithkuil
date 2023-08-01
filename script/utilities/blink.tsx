@@ -15,7 +15,7 @@ export function Blink(props: {
    * @default 1000
    */
   readonly interval?: number | undefined
-}) {
+}): SVGGElement {
   const g = (<g opacity={0}>{props.children}</g>) as SVGGElement
 
   setInterval(() => {

@@ -57,7 +57,7 @@ export interface RegisterCharacter {
  * @param props Properties modifying this register adjunct.
  * @returns The register adjunct as an SVG path.
  */
-export function Register(props: RegisterCharacter) {
+export function Register(props: RegisterCharacter): SVGPathElement {
   return (
     <path d={REGISTERS[props.mode || "standard"][props.type || "NRR"]} />
   ) as SVGPathElement

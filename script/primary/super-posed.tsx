@@ -22,7 +22,7 @@ export function PrimarySuperPosed({
 }: {
   /** The context of the character. */
   readonly context?: Context | undefined
-}) {
+}): SVGPathElement | undefined {
   if (!context || context == "EXS") {
     return undefined
   }

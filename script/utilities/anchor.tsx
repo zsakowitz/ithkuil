@@ -48,7 +48,7 @@ export type AnchorOptions<T extends string> = {
  * @returns A translated element anchored to (x, y) at one of its corners or
  * edges or its center.
  */
-export function Anchor(props: AnchorOptions<AnchorLocation>) {
+export function Anchor(props: AnchorOptions<AnchorLocation>): SVGElement {
   const children =
     props.children instanceof SVGGraphicsElement
       ? props.children
@@ -93,7 +93,7 @@ export type AnchorXLocation = "l" | "c" | "r"
  * @returns A translated element anchored to (x, y) at one of its corners or
  * edges or its center.
  */
-export function AnchorX(props: AnchorOptions<AnchorXLocation>) {
+export function AnchorX(props: AnchorOptions<AnchorXLocation>): SVGElement {
   const children =
     props.children instanceof SVGGraphicsElement
       ? props.children
@@ -131,7 +131,7 @@ export type AnchorYLocation = "t" | "c" | "b"
  * @returns A translated element anchored to (x, y) at one of its corners or
  * edges or its center.
  */
-export function AnchorY(props: AnchorOptions<AnchorYLocation>) {
+export function AnchorY(props: AnchorOptions<AnchorYLocation>): SVGElement {
   const children =
     props.children instanceof SVGGraphicsElement
       ? props.children

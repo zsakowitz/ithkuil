@@ -17,7 +17,7 @@ export function Spread(props: {
 
   /** The vertical separation between the items. */
   readonly y?: number | undefined
-}) {
+}): SVGGElement {
   const g = (<g />) as SVGGElement
 
   const columns = props.columns ?? 5

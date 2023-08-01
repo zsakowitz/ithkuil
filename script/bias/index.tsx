@@ -45,7 +45,7 @@ export interface BiasCharacter {
  * @param props Information about the bias character.
  * @returns The constructed bias character.
  */
-export function Bias(props: BiasCharacter) {
+export function Bias(props: BiasCharacter): SVGGElement {
   const index = (ALL_BIAS_ADJUNCTS.indexOf(props.bias) + 1 || 1) - 1
 
   const shape = BIAS_EXTENSIONS[index % 16]

@@ -32,7 +32,7 @@ export function Translate(props: {
   readonly children?: SVGElement | SVGElement[] | undefined
   readonly x?: number | undefined
   readonly y?: number | undefined
-}) {
+}): SVGElement | undefined {
   const x = props.x || 0
   const y = props.y || 0
 

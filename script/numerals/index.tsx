@@ -75,7 +75,7 @@ export const THOUSANDS = [
  * @param props Information about the numeral.
  * @returns A group of SVG paths.
  */
-export function Numeral(props: { readonly value: number }) {
+export function Numeral(props: { readonly value: number }): SVGGElement {
   let value = Math.min(9999, Math.max(0, Math.round(props.value)))
 
   if (Number.isNaN(value)) {

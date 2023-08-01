@@ -21,6 +21,6 @@ export const VALENCE: Record<Valence, string> = {
 export function ValenceSegment(props: {
   /** The valence segment to construct. */
   readonly valence: Valence
-}) {
+}): SVGPathElement {
   return (<path d={VALENCE[props.valence]} />) as SVGPathElement
 }

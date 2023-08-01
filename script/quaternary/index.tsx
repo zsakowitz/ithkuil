@@ -134,7 +134,7 @@ export const DIACRITIC_MAP = /* @__PURE__ */ deepFreeze([
  * @param quaternary Information about the quaternary character.
  * @returns The rendered quaternary character.
  */
-export function Quaternary(quaternary: QuaternaryCharacter) {
+export function Quaternary(quaternary: QuaternaryCharacter): SVGGElement {
   let top: ExtensionName | undefined
   let bottom: ExtensionName | undefined
 

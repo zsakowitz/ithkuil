@@ -523,7 +523,7 @@ export function CharacterRow(
     /** The characters to be constructed. */
     readonly children: ConstructableCharacter[]
   },
-) {
+): SVGElement {
   return AnchorX({
     at: "l",
     children: Row({

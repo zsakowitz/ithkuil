@@ -51,7 +51,7 @@ export function PrimaryTopLeft(props: {
 
   /** The extension of this character. */
   readonly extension: Extension
-}) {
+}): SVGPathElement {
   return (
     <path d={PATHS[props.perspective][props.extension]} />
   ) as SVGPathElement

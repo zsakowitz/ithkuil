@@ -28,7 +28,7 @@ export function Origin(props: {
 
   /** The size of the displayed point. */
   readonly size?: number | undefined
-}) {
+}): SVGPathElement {
   const d = props.children.getAttribute("d")
 
   if (!d) {
