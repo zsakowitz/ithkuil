@@ -29,38 +29,8 @@ const node = (
       ok={(x) => <CharacterRow compact>{x}</CharacterRow>}
       error={(x) => <text>{x}</text>}
     >
-      {textToScript("kšš lu wag")}
+      {textToScript("lu wag. šu wag.")}
     </HandleResult>
-
-    {/* <Primary bottom="UNF/K" /> */}
-
-    {/* <CharacterRow>
-      {formativeToScript(parseFormative("wazvejamäm")!)}
-    </CharacterRow> */}
-
-    {/* <path d={NUMERALS.at(-1)!} /> */}
-
-    {/* <Spread
-      items={THOUSANDS.map((x) => (
-        <Anchor at="cc">
-          <path d={x} />
-        </Anchor>
-      ))}
-    /> */}
-
-    {/* <g fill="green">
-      <Numeral value={0} />
-    </g>
-
-    <g fill="purple">
-      <Numeral value={9} />
-    </g>
-
-    <Blink>
-      <g fill="green">
-        <Numeral value={0} />
-      </g>
-    </Blink> */}
   </svg>
 ) as SVGSVGElement
 
