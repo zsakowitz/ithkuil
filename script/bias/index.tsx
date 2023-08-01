@@ -3,13 +3,7 @@ import {
   deepFreeze,
   type BiasAdjunct,
 } from "../../generate/index.js"
-import {
-  Anchor,
-  Diacritic,
-  Secondary,
-  debug,
-  type ExtensionName,
-} from "../index.js"
+import { Anchor, Diacritic, Secondary, type ExtensionName } from "../index.js"
 
 // We essentially treat bias adjuncts as specialized secondary characters. This
 // lets us avoid recalculating the intersection points for each extension.

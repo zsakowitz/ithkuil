@@ -65,6 +65,147 @@ there are four sub-packages:
 import { parseWord } from "@zsnout/ithkuil/parse"
 ```
 
+## JSX
+
+If you're generating block script using the `script` module, you may find it
+helpful to use our mini JSX library to make things easier to work with. It's
+completely optional, but it makes writing code much simpler. Here's an example
+without JSX.
+
+```ts
+import {
+  Anchor,
+  CharacterRow,
+  fitViewBox,
+  textToScript,
+} from "@zsnout/ithkuil/script"
+
+function displayText(text: string) {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
+
+  const result = textToScript(text)
+
+  if (result.ok) {
+    const row = CharacterRow({
+      children: result.value,
+      compact: true,
+    })
+
+    const anchored = Anchor({
+      at: "cc",
+      children: row,
+    })
+
+    svg.appendChild(anchored)
+  } else {
+    const text = document.createElementNS("http://www.w3.org/2000/svg", "text")
+
+    text.textContent = result.reason
+
+    svg.appendChild(text)
+  }
+
+  document.body.append(svg)
+
+  fitViewBox(svg)
+}
+
+displayText("Wattunkí ruyün")
+```
+
+And here's the same example with JSX:
+
+```tsx
+import {
+  Anchor,
+  CharacterRow,
+  HandleResult,
+  fitViewBox,
+  textToScript,
+} from "@zsnout/ithkuil/script"
+
+function displayText(text: string) {
+  const svg = (
+    <svg>
+      <HandleResult
+        ok={(value) => (
+          <Anchor at="cc">
+            <CharacterRow compact>{value}</CharacterRow>
+          </Anchor>
+        )}
+        error={(reason) => <text>{reason}</text>}
+      >
+        {textToScript(text)}
+      </HandleResult>
+    </svg>
+  ) as SVGSVGElement
+
+  document.body.append(svg)
+
+  fitViewBox(svg)
+}
+
+displayText("Wattunkí ruyün")
+```
+
+Before setting up JSX, make sure you're in a TypeScript project. Then, follow
+these simple steps:
+
+1. **Check your tsconfig's `moduleResolution` option.** If you see that it's set
+   to `node16` or `nodenext`, follow step 2. Otherwise, skip to step 3. If it's
+   unset, skip to step 3.
+
+2. **If your `moduleResolution` is `node16` or `nodenext`,** add this to the
+   `compilerOptions` object of your tsconfig:
+
+   ```json
+   "paths": {
+     "@zsnout/ithkuil/script/jsx-runtime": [
+       "./node_modules/@zsnout/ithkuil/script/jsx-runtime.js"
+     ]
+   }
+   ```
+
+   If you already have a `paths` key in `compilerOptions`, add the following
+   entry to it instead of replacing the entire `paths` object:
+
+   ```json
+   "@zsnout/ithkuil/script/jsx-runtime": [
+     "./node_modules/@zsnout/ithkuil/script/jsx-runtime.js"
+   ]
+   ```
+
+3. **If you're already using a JSX transform,** you'll now have to add this to
+   the top of every file you want to use `@zsnout/ithkuil`'s JSX library in:
+
+   ```ts
+   /* @jsx react-jsx */
+   /* @jsxRuntime automatic */
+   /* @jsxImportSource @zsnout/ithkuil/script */
+   ```
+
+   **If you're not already using a JSX transform,** you can make
+   `@zsnout/ithkuil` the default one for your project. Just add these options to
+   your tsconfig's `compilerOptions` and you'll be good to go!
+
+   ```json
+   {
+     ...
+     "jsx": "react-jsx",
+     "jsxImportSource": "@zsnout/ithkuil/script",
+     ...
+   }
+   ```
+
+4. **Done!** If you're using the comment-based approach, make sure to include
+   those comments at the top of every file you use `@zsnout/ithkuil`'s JSX in.
+   If you're using the `tsconfig`-based approach, you can just create `.tsx`
+   files and the JSX runtime will work automatically.
+
+Note that the JSX runtime is intentionally very minimal. There are no event
+listeners, no signals, no hooks, very few type definitions, and it only
+generates SVG elements.
+
 ## Example 1
 
 This example compiles a simple formative.
@@ -249,7 +390,7 @@ console.log(result)
 
 ## Example 5
 
-This example creates a referential (1m.BEN-CTE-GID₁/3)
+This example creates a referential (1m.BEN-CTE-GID₁/3).
 
 ```ts
 import { referentialToIthkuil } from "@zsnout/ithkuil/generate"
@@ -272,7 +413,8 @@ console.log(result)
 
 ## Example 6
 
-Every data form has a corresponding Zod parser for it,
+Every data form has a corresponding Zod parser for it, which allows for quick
+and easy validation of it.
 
 This example validates that an object is, in fact, an Ithkuilic adjunct. This
 can be useful when integrating this project with external sources.

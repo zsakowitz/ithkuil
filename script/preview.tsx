@@ -1,4 +1,4 @@
-import { scriptFromText } from "./from-text.js"
+import { textToScript } from "./from-text.js"
 import { CharacterRow, fitViewBox } from "./index.js"
 import { Lines } from "./other/lines.js"
 import { HandleResult } from "./utilities/result.js"
@@ -29,7 +29,7 @@ const node = (
       ok={(x) => <CharacterRow compact>{x}</CharacterRow>}
       error={(x) => <text>{x}</text>}
     >
-      {scriptFromText("kšš lu wag")}
+      {textToScript("kšš lu wag")}
     </HandleResult>
 
     {/* <Primary bottom="UNF/K" /> */}

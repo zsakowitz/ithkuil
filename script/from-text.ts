@@ -149,7 +149,7 @@ export function mergeAdjunctsAndFormative(
  * @param text The text to be converted.
  * @returns A `Result` containing an array of `ConstructableCharacter`s.
  */
-export function scriptFromText(text: string): Result<ConstructableCharacter[]> {
+export function textToScript(text: string): Result<ConstructableCharacter[]> {
   try {
     const words = text.match(/[\p{ID_Start}'][\p{ID_Start}\p{ID_Continue}']*/gu)
 

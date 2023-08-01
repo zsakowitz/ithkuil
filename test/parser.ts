@@ -1,5 +1,4 @@
 import { ALL_MOOD_OR_CASE_SCOPES } from "../generate/formative/slot-8/mood-or-case-scope.js"
-import { ALL_REFERENTS } from "../generate/referential/referent/referent.js"
 import {
   ALL_AFFILIATIONS,
   ALL_AFFIXUAL_ADJUNCT_SCOPES,
@@ -25,7 +24,6 @@ import {
   ALL_SPECIFICATIONS,
   ALL_SUPPLETIVE_ADJUNCT_TYPES,
   ALL_VALENCES,
-  parseWord,
   wordToIthkuil,
   type Affix,
   type PartialCA,
@@ -35,7 +33,9 @@ import {
   type ReferentList,
   type SlotIII,
   type Word,
-} from "../index.js"
+} from "../generate/index.js"
+import { ALL_REFERENTS } from "../generate/referential/referent/referent.js"
+import { parseWord } from "../parse/index.js"
 
 function runTests(numberOfTestCases: number, mode: "short" | "full") {
   function randomItem<const T>(object: {
