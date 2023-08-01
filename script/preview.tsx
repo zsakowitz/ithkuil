@@ -29,7 +29,7 @@ const node = (
       ok={(x) => <CharacterRow compact>{x}</CharacterRow>}
       error={(x) => <text>{x}</text>}
     >
-      {textToScript("lu wag. šu wag.")}
+      {textToScript("Wattunkí ruyün.")}
     </HandleResult>
   </svg>
 ) as SVGSVGElement
