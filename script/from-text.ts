@@ -210,6 +210,17 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
             construct: Register,
             type: result.slice(0, 3) as Exclude<RegisterAdjunct, "END">,
           })
+
+          if (result == "SPF:START") {
+            wordType = {
+              close: [
+                {
+                  construct: Register,
+                  type: result.slice(0, 3) as Exclude<RegisterAdjunct, "END">,
+                },
+              ],
+            }
+          }
         }
 
         continue
