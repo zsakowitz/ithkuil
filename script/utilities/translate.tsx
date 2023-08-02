@@ -16,6 +16,16 @@ function translatePath(path: SVGPathElement, tx: number, ty: number) {
   return path
 }
 
+function translateText(text: SVGTextElement, tx: number, ty: number) {
+  const x = +(text.getAttribute("x") || 0)
+  const y = +(text.getAttribute("y") || 0)
+
+  text.setAttribute("x", "" + (x + tx))
+  text.setAttribute("y", "" + (y + ty))
+
+  return text
+}
+
 export function Translate(props: {
   readonly children: SVGElement | SVGElement[]
   readonly x?: number | undefined
@@ -49,6 +59,12 @@ export function Translate(props: {
 
     children.forEach((child) => {
       translatePath(child, x, y)
+    })
+
+    const texts = props.children.querySelectorAll("text")
+
+    texts.forEach((child) => {
+      translateText(child, x, y)
     })
 
     return props.children

@@ -1,4 +1,5 @@
 import {
+  deepFreeze,
   deepFreezeAndNullPrototype,
   type Affiliation,
   type Configuration,
@@ -11,13 +12,16 @@ import {
   type Stem,
   type Version,
 } from "../../generate/index.js"
+import {
+  EXTENSIONS,
+  rotate180AndRotateStartingPoint,
+  type ExtensionName,
+} from "../index.js"
 import { getBBox } from "../utilities/get-bbox.js"
 import { Translate } from "../utilities/translate.js"
 import { PrimaryBottomLeft } from "./bottom-left.js"
-import { PrimaryBottomRight } from "./bottom-right.js"
 import { PrimaryCore } from "./core.js"
 import { PrimarySuperPosed } from "./super-posed.js"
-import { PrimaryTopLeft } from "./top-left.js"
 import { PrimaryTopRight } from "./top-right.js"
 import { PrimaryUnderPosed } from "./under-posed.js"
 
@@ -67,6 +71,64 @@ const DIACRITIC_OFFSET = /* @__PURE__ */ deepFreezeAndNullPrototype({
   OBJ: 5,
 })
 
+const PRIMARY_TOP_LEFT = deepFreeze({
+  M: {
+    DEL: undefined,
+    PRX: "s",
+    ICP: "t",
+    ATV: "d",
+    GRA: "m",
+    DPL: "n",
+  },
+  G: {
+    DEL: "p",
+    PRX: "g",
+    ICP: "ž",
+    ATV: "ḑ",
+    GRA: "v",
+    DPL: "x",
+  },
+  N: {
+    DEL: "š",
+    PRX: "EXTENSION_GEMINATE",
+    ICP: "w",
+    ATV: "h",
+    GRA: "f",
+    DPL: "ř",
+  },
+  A: {
+    DEL: "b",
+    PRX: "k",
+    ICP: "c",
+    ATV: "č",
+    GRA: "ż",
+    DPL: "j",
+  },
+} satisfies Record<Perspective, Record<Extension, ExtensionName | undefined>>)
+
+const PRIMARY_BOTTOM_RIGHT = deepFreeze({
+  STA: {
+    PRC: {
+      M: ["b", undefined, "p", "š"],
+      D: ["c", "z", "p_WITH_LINE", "w"],
+    },
+    CPT: {
+      M: ["k", "l", "g", "EXTENSION_GEMINATE"],
+      D: ["č", "r_FLIPPED", "g_WITH_LINE", "h"],
+    },
+  },
+  DYN: {
+    PRC: {
+      M: ["d", "m", "CORE_GEMINATE", "t"],
+      D: ["d_WITH_LINE", "n", "ň", "ž"],
+    },
+    CPT: {
+      M: ["ţ", "s", "x", "f"],
+      D: ["ḑ", "r", "ř", "v"],
+    },
+  },
+} satisfies Record<Function, Record<Version, Record<"M" | "D", [ExtensionName, ExtensionName | undefined, ExtensionName, ExtensionName]>>>)
+
 /**
  * Assembles a primary character as an group of SVG paths.
  * @param props Properties that modify the character.
@@ -79,22 +141,37 @@ export function Primary(primary: PrimaryCharacter): SVGGElement {
 
   const coreBox = getBBox(core)
 
+  const topLeft =
+    PRIMARY_TOP_LEFT[primary.perspective || "M"][primary.extension || "DEL"]
+
+  const bottomRight =
+    PRIMARY_BOTTOM_RIGHT[primary.function || "STA"][primary.version || "PRC"][
+      primary.configuration?.startsWith("D") ? "D" : "M"
+    ][primary.stem ?? 1]
+
   return (
     <g>
       {core}
 
-      {/* @ts-ignore: This can be `undefined`, as we're not using it. */}
-      <Translate x={coreBox.x}>
-        <PrimaryTopLeft
-          perspective={primary.perspective || "M"}
-          extension={primary.extension || "DEL"}
-        />
-      </Translate>
+      {topLeft && (
+        <Translate
+          x={coreBox.x + 7.5}
+          y={-35}
+        >
+          <path d={EXTENSIONS[topLeft].diag} />
+        </Translate>
+      )}
 
-      {/* @ts-ignore: This can be `undefined`, as we're not using it. */}
-      <Translate x={coreBox.x + coreBox.width}>
-        {PrimaryBottomRight(primary)}
-      </Translate>
+      {bottomRight && (
+        <Translate
+          x={coreBox.x + coreBox.width - 7.5}
+          y={35}
+        >
+          <path
+            d={rotate180AndRotateStartingPoint(EXTENSIONS[bottomRight].diag)}
+          />
+        </Translate>
+      )}
 
       {/* @ts-ignore: This can be `undefined`, as we're not using it. */}
       <Translate
