@@ -28,6 +28,7 @@ import {
   textToSecondaries,
   vnToAffix,
   type ConstructableCharacter,
+  type DiacriticName,
   type PrimaryCharacter,
   type RegisterCharacter,
   type SecondaryCharacter,
@@ -318,7 +319,16 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
                 ...textToSecondaries(
                   referentListToPersonalReferenceRoot(result.referents2),
                   { forcePlaceholderCharacters: true },
-                ).map((secondary) => attachConstructor(secondary, Secondary)),
+                )
+                  .map((secondary) => attachConstructor(secondary, Secondary))
+                  .map((secondary, index) => {
+                    if (index == 0) {
+                      ;(secondary as any).superposed =
+                        "HORIZ_BAR" satisfies DiacriticName
+                    }
+
+                    return secondary
+                  }),
               ],
             }
           }
@@ -418,7 +428,16 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
             ...textToSecondaries(
               referentListToPersonalReferenceRoot(result.referents),
               { forcePlaceholderCharacters: true },
-            ).map((secondary) => attachConstructor(secondary, Secondary)),
+            )
+              .map((secondary) => attachConstructor(secondary, Secondary))
+              .map((secondary, index) => {
+                if (index == 0) {
+                  ;(secondary as any).superposed =
+                    "HORIZ_BAR" satisfies DiacriticName
+                }
+
+                return secondary
+              }),
           )
         }
 
@@ -441,7 +460,16 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
               ...textToSecondaries(
                 referentListToPersonalReferenceRoot(result.referents2),
                 { forcePlaceholderCharacters: true },
-              ).map((secondary) => attachConstructor(secondary, Secondary)),
+              )
+                .map((secondary) => attachConstructor(secondary, Secondary))
+                .map((secondary, index) => {
+                  if (index == 0) {
+                    ;(secondary as any).superposed =
+                      "HORIZ_BAR" satisfies DiacriticName
+                  }
+
+                  return secondary
+                }),
             )
           }
         } else if (!didUseCase2 && result.case2) {

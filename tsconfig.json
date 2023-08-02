@@ -24,6 +24,8 @@
   "include": [
     "*.ts",
     "*.tsx",
+    "data/**/*.ts",
+    "data/**/*.tsx",
     "generate/**/*.ts",
     "generate/**/*.tsx",
     "gloss/**/*.ts",
