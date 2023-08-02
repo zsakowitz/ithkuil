@@ -1,6 +1,6 @@
 import { getVerticesOf } from "./vertices.js"
 
-const svg = (<svg />) as SVGSVGElement
+const svg = (/* @__PURE__ */ <svg />) as SVGSVGElement
 
 function _doPathsIntersect(a: string, b: string, margin = 10) {
   const el = (

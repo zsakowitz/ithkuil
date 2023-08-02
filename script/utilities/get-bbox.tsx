@@ -1,4 +1,4 @@
-const svg = <svg />
+const svg = /* @__PURE__ */ <svg />
 
 /**
  * Gets the bounding box of an SVG graphics element.

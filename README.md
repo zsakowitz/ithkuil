@@ -55,6 +55,8 @@ import { parseWord } from "@zsnout/ithkuil"
 Instead, always make sure to import from the proper sub-package. Currently,
 there are four sub-packages:
 
+- **`@zsnout/ithkuil/data`**, which has JSON information about all roots and
+  affixes.
 - **`@zsnout/ithkuil/generate`**, which generates romanized text.
 - **`@zsnout/ithkuil/parse`**, which parses romanized text.
 - **`@zsnout/ithkuil/script`**, which generates SVG block script.
@@ -148,59 +150,32 @@ function displayText(text: string) {
 displayText("Wattunkí ruyün")
 ```
 
-Before setting up JSX, make sure you're in a TypeScript project. Then, follow
-these simple steps:
+Before setting up JSX, make sure you're in a TypeScript project.
 
-1. **Check your tsconfig's `moduleResolution` option.** If you see that it's set
-   to `node16` or `nodenext`, follow step 2. Otherwise, skip to step 3. If it's
-   unset, skip to step 3.
+If you don't already have a JSX transform, add these lines to your tsconfig's
+`compilerOptions` to enable JSX:
 
-2. **If your `moduleResolution` is `node16` or `nodenext`,** add this to the
-   `compilerOptions` object of your tsconfig:
+```json
+{
+  "compilerOptions": {
+    ...
+    "jsx": "react-jsx",
+    "jsxImportSource": "@zsnout/ithkuil/script"
+    ...
+  }
+}
+```
 
-   ```json
-   "paths": {
-     "@zsnout/ithkuil/script/jsx-runtime": [
-       "./node_modules/@zsnout/ithkuil/script/jsx-runtime.js"
-     ]
-   }
-   ```
+If you're already using a JSX transform, write this at the top of any files you
+want to use `@zsnout/ithkuil`'s JSX in.
 
-   If you already have a `paths` key in `compilerOptions`, add the following
-   entry to it instead of replacing the entire `paths` object:
+```ts
+/* @jsx react-jsx */
+/* @jsxRuntime automatic */
+/* @jsxImportSource @zsnout/ithkuil/script */
+```
 
-   ```json
-   "@zsnout/ithkuil/script/jsx-runtime": [
-     "./node_modules/@zsnout/ithkuil/script/jsx-runtime.js"
-   ]
-   ```
-
-3. **If you're already using a JSX transform,** you'll now have to add this to
-   the top of every file you want to use `@zsnout/ithkuil`'s JSX library in:
-
-   ```ts
-   /* @jsx react-jsx */
-   /* @jsxRuntime automatic */
-   /* @jsxImportSource @zsnout/ithkuil/script */
-   ```
-
-   **If you're not already using a JSX transform,** you can make
-   `@zsnout/ithkuil` the default one for your project. Just add these options to
-   your tsconfig's `compilerOptions` and you'll be good to go!
-
-   ```json
-   {
-     ...
-     "jsx": "react-jsx",
-     "jsxImportSource": "@zsnout/ithkuil/script",
-     ...
-   }
-   ```
-
-4. **Done!** If you're using the comment-based approach, make sure to include
-   those comments at the top of every file you use `@zsnout/ithkuil`'s JSX in.
-   If you're using the `tsconfig`-based approach, you can just create `.tsx`
-   files and the JSX runtime will work automatically.
+That's it!
 
 Note that the JSX runtime is intentionally very minimal. There are no event
 listeners, no signals, no hooks, very few type definitions, and it only

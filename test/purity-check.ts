@@ -7,6 +7,7 @@
 // `adjunctToIthkuil` functions combined, so we really want to avoid bundling
 // Zod when possible.
 
+import "../data/index.js"
 import "../generate/index.js"
 import "../parse/index.js"
 import "../script/index.js"
