@@ -1,6 +1,6 @@
 {
   "name": "@zsnout/ithkuil",
-  "version": "0.1.38",
+  "version": "0.1.39",
   "description": "A set of tools which can generate and parse romanized Ithkuil text and which can generate Ithkuil script from text and JSON data.",
   "author": "Zachary Sakowitz",
   "license": "MIT",
@@ -15,6 +15,7 @@
     "test": "node test/generate.js && node test/parse.js"
   },
   "exports": {
+    "./script/jsx-runtime": "./script/jsx-runtime.js",
     "./*.js": "./*.js",
     "./*": [
       "./*/index.js",
