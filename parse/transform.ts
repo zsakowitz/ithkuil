@@ -96,7 +96,7 @@ const LETTER_SUBSTITUTIONS = /* @__PURE__ */ deepFreezeAndNullPrototype({
 
 const LETTER_SUBSTITUTION_REGEX =
   // The first element of this character class is the Unicode Byte Order Mark
-  /[​’ʼ‘ìıùṭŧțḍđłḷżṇṛŗ]á|ä|â|é|ë|ê|ì|í|ó|ö|ô|ù|ú|ü|û|č|ç|ţ|ṭ|ḍ|ḑ|ḷ|ļ|š|ž|ẓ|ň|ņ|ṇ|ř|ŗ|r͕|ṛ/g
+  /[​’ʼ‘ìıùṭŧțḍđłḷżṇṛŗ]|á|ä|â|é|ë|ê|ì|í|ó|ö|ô|ù|ú|ü|û|č|ç|ţ|ṭ|ḍ|ḑ|ḷ|ļ|š|ž|ẓ|ň|ņ|ṇ|ř|ŗ|r͕|ṛ/gu
 
 /**
  * Transforms a word by normalizing spelling and parsing and removing stress
