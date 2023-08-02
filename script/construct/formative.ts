@@ -12,7 +12,7 @@ import {
   deepFreeze,
   has,
   referentListToPersonalReferenceRoot,
-  referentialAffixToIthkuil,
+  referentToIthkuil,
   type Affix,
   type AffixDegree,
   type AffixType,
@@ -31,6 +31,7 @@ import {
   Tertiary,
   textToSecondaries,
   type BiasCharacter,
+  type DiacriticName,
   type PrimaryCharacter,
   type RegisterCharacter,
   type RowProps,
@@ -255,20 +256,35 @@ export function formativeToScript(
       if (affix.ca) {
         affixGroup.push(...affixToScript(caToIthkuil(affix.ca), "ca", 1, slot))
       } else if (affix.referent) {
-        referents.push({
-          construct: Quaternary,
-          value: affix.case,
-        })
+        if (affix.perspective && affix.perspective != "M") {
+          referents.push(
+            ...formativeToScript({
+              type: "UNF/C",
+              root: affix.referent,
+              ca: { perspective: affix.perspective },
+              case: affix.case,
+            }),
+          )
+        } else {
+          referents.push({
+            construct: Quaternary,
+            value: affix.case,
+          })
 
-        referents.push(
-          ...textToSecondaries(
-            referentialAffixToIthkuil(affix.referent, affix.perspective || "M"),
-            { forcePlaceholderCharacters: true },
-          ).map((x) => attachConstructor(x, Secondary)),
-        )
+          referents.push(
+            ...textToSecondaries(referentToIthkuil(affix.referent, false), {
+              forcePlaceholderCharacters: true,
+            })
+              .map((x) => attachConstructor(x, Secondary))
+              .map((x, i) => {
+                if (i == 0) {
+                  ;(x as any).superposed = "HORIZ_BAR" satisfies DiacriticName
+                }
 
-        affix.case
-        // TODO: waiting on quaternaries
+                return x
+              }),
+          )
+        }
       } else if (affix.case) {
         if (affix.type) {
           caseAccessors.push({
