@@ -6,12 +6,13 @@ import {
   ALL_SINGLE_REGISTER_ADJUNCTS,
   deepFreeze,
   has,
-  referentListToPersonalReferenceRoot,
+  referentToIthkuil,
   type Affix,
   type AffixDegree,
   type AffixualAdjunct,
   type ModularAdjunct,
   type PartialFormative,
+  type ReferentList,
   type RegisterAdjunct,
   type SuppletiveAdjunctType,
 } from "../generate/index.js"
@@ -63,6 +64,10 @@ const SUPPLETIVE_ADJUNCT_TO_REGISTER_CHARACTER = /* @__PURE__ */ deepFreeze({
   NAM: { construct: Register, mode: "alphabetic", type: "SPF" },
   PHR: { construct: Register, mode: "alphabetic", type: "PNT" },
 } satisfies Record<SuppletiveAdjunctType, ConstructableCharacter<RegisterCharacter>>)
+
+function referentListToString(list: ReferentList): string {
+  return list.map((referent) => referentToIthkuil(referent, false)).join("")
+}
 
 /**
  * Merges affixual and modular adjuncts into a formative.
@@ -316,10 +321,9 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
               close: [
                 { ...closing },
                 { construct: Quaternary, value: result.case2 },
-                ...textToSecondaries(
-                  referentListToPersonalReferenceRoot(result.referents2),
-                  { forcePlaceholderCharacters: true },
-                )
+                ...textToSecondaries(referentListToString(result.referents2), {
+                  forcePlaceholderCharacters: true,
+                })
                   .map((secondary) => attachConstructor(secondary, Secondary))
                   .map((secondary, index) => {
                     if (index == 0) {
@@ -425,10 +429,9 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
         } else {
           output.push(
             { construct: Quaternary, value: result.case },
-            ...textToSecondaries(
-              referentListToPersonalReferenceRoot(result.referents),
-              { forcePlaceholderCharacters: true },
-            )
+            ...textToSecondaries(referentListToString(result.referents), {
+              forcePlaceholderCharacters: true,
+            })
               .map((secondary) => attachConstructor(secondary, Secondary))
               .map((secondary, index) => {
                 if (index == 0) {
@@ -457,10 +460,9 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
                 construct: Quaternary,
                 value: result.case2,
               },
-              ...textToSecondaries(
-                referentListToPersonalReferenceRoot(result.referents2),
-                { forcePlaceholderCharacters: true },
-              )
+              ...textToSecondaries(referentListToString(result.referents2), {
+                forcePlaceholderCharacters: true,
+              })
                 .map((secondary) => attachConstructor(secondary, Secondary))
                 .map((secondary, index) => {
                   if (index == 0) {

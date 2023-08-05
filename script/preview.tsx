@@ -1,4 +1,9 @@
-import { Primary, fitViewBox } from "./index.js"
+import {
+  CharacterRow,
+  HandleResult,
+  fitViewBox,
+  textToScript,
+} from "./index.js"
 import { Lines } from "./other/lines.js"
 
 document.body.append(
@@ -23,18 +28,12 @@ const node = (
       }.a
     }
   >
-    {/* <HandleResult
+    <HandleResult
       ok={(x) => <CharacterRow compact>{x}</CharacterRow>}
       error={(x) => <text>{x}</text>}
     >
-      {textToScript("walial")}
-    </HandleResult> */}
-
-    <Primary
-      specification="OBJ"
-      perspective="G"
-      extension="GRA"
-    />
+      {textToScript("sňlio")}
+    </HandleResult>
   </svg>
 ) as SVGSVGElement
 
