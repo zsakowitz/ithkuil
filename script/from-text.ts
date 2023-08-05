@@ -60,9 +60,9 @@ const SCOPE_TO_PRECEDENCE = /* @__PURE__ */ deepFreeze({
 
 const SUPPLETIVE_ADJUNCT_TO_REGISTER_CHARACTER = /* @__PURE__ */ deepFreeze({
   CAR: { construct: Register, mode: "alphabetic" },
-  QUO: { construct: Register, mode: "alphabetic", type: "DSV" },
-  NAM: { construct: Register, mode: "alphabetic", type: "SPF" },
-  PHR: { construct: Register, mode: "alphabetic", type: "PNT" },
+  QUO: { construct: Register, mode: "transcriptive", type: "DSV" },
+  NAM: { construct: Register, mode: "transliterative", type: "SPF" },
+  PHR: { construct: Register, mode: "transcriptive", type: "PNT" },
 } satisfies Record<SuppletiveAdjunctType, ConstructableCharacter<RegisterCharacter>>)
 
 function referentListToString(list: ReferentList): string {
@@ -214,19 +214,27 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
           result != "END:END" &&
           has(ALL_SINGLE_REGISTER_ADJUNCTS, result)
         ) {
-          output.push({
-            construct: Register,
-            type: result.slice(0, 3) as Exclude<RegisterAdjunct, "END">,
-          })
+          if (result.startsWith("DSV")) {
+            output.push({
+              construct: Register,
+              type: "DSV",
+              mode: "transcriptive",
+            })
+          } else {
+            output.push({
+              construct: Register,
+              type: result.slice(0, 3) as Exclude<RegisterAdjunct, "END">,
+            })
 
-          if (result == "SPF:START") {
-            wordType = {
-              close: [
-                {
-                  construct: Register,
-                  type: result.slice(0, 3) as Exclude<RegisterAdjunct, "END">,
-                },
-              ],
+            if (result == "SPF:START") {
+              wordType = {
+                close: [
+                  {
+                    construct: Register,
+                    type: result.slice(0, 3) as Exclude<RegisterAdjunct, "END">,
+                  },
+                ],
+              }
             }
           }
         }
@@ -296,7 +304,7 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
       }
 
       if ("type" in result) {
-        const closing: ConstructableCharacter =
+        const register: ConstructableCharacter =
           SUPPLETIVE_ADJUNCT_TO_REGISTER_CHARACTER[result.type]
 
         let usedCase2 = false
@@ -307,7 +315,7 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
           if (result.perspective2 && result.perspective2 != "M") {
             wordType = {
               close: [
-                { ...closing },
+                { ...register },
                 ...formativeToScript({
                   type: "UNF/C",
                   root: result.referents2,
@@ -319,7 +327,7 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
           } else {
             wordType = {
               close: [
-                { ...closing },
+                { ...register },
                 { construct: Quaternary, value: result.case2 },
                 ...textToSecondaries(referentListToString(result.referents2), {
                   forcePlaceholderCharacters: true,
@@ -338,7 +346,7 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
           }
         } else {
           wordType = {
-            close: [{ ...closing }],
+            close: [{ ...register }],
           }
         }
 
@@ -370,9 +378,9 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
         ) {
           output.push(...formative)
 
-          output.push({ ...closing })
+          output.push({ ...register })
         } else {
-          output.push({ ...closing })
+          output.push({ ...register })
 
           formative.splice(1, 1)
 
