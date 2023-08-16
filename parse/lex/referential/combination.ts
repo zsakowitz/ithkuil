@@ -1,5 +1,5 @@
 import { any, anyText, seq, text } from "../builder.js"
-import { C, V } from "../forms.js"
+import { C, CNG, V } from "../forms.js"
 
 /**
  * A regular expression matching combination referentials with these capturing
@@ -37,7 +37,7 @@ export const combinationReferential = /* @__PURE__ */ seq(
   anyText("xx", "xp", "xt", "x").asGroup(),
 
   // Slot IV: VxCs...
-  seq(V, C).zeroOrMore().asGroup(),
+  seq(V, CNG).zeroOrMore().asGroup(),
 
   // Slot V: Vc2
   V.optional().asGroup(),
