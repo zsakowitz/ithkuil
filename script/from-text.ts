@@ -523,12 +523,32 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
   }
 }
 
+const sentenceJunctureAffix =
+  /(^|[^\p{ID_Start}\p{ID_Continue}'])(çç|ç[waeiouäëöüìùáéíóúâêôû]|çë[\p{ID_Start}\p{ID_Continue}'])/g
+
 /**
  * Converts romanized text into Ithkuil characters.
  * @param text The text to be converted.
  * @returns A `Result` containing an array of `ConstructableCharacter`s.
  */
 export function textToScript(text: string): Result<ConstructableCharacter[]> {
+  text = text
+    // The ç in the regex is a "c" with an extension of "̧ ".
+    // We replace it with "ç" (a single character) for parsing purposes.
+    .replace(/ç/g, "ç")
+    .replace(
+      sentenceJunctureAffix,
+      (_, previousChar: string, junctureAffix: string) => {
+        return (
+          previousChar +
+          ". " +
+          (junctureAffix == "çç"
+            ? "y"
+            : junctureAffix.slice(junctureAffix.startsWith("çë") ? 2 : 1))
+        )
+      },
+    )
+
   const output: ConstructableCharacter[] = []
   let isFirst = true
 
