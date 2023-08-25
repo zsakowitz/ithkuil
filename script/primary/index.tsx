@@ -71,7 +71,7 @@ const DIACRITIC_OFFSET = /* @__PURE__ */ deepFreezeAndNullPrototype({
   OBJ: 5,
 })
 
-const PRIMARY_TOP_LEFT = deepFreeze({
+const PRIMARY_TOP_LEFT = /* @__PURE__ */ deepFreeze({
   M: {
     DEL: undefined,
     PRX: "s",
@@ -106,7 +106,7 @@ const PRIMARY_TOP_LEFT = deepFreeze({
   },
 } satisfies Record<Perspective, Record<Extension, ExtensionName | undefined>>)
 
-const PRIMARY_BOTTOM_RIGHT = deepFreeze({
+const PRIMARY_BOTTOM_RIGHT = /* @__PURE__ */ deepFreeze({
   STA: {
     PRC: {
       M: ["b", undefined, "p", "š"],

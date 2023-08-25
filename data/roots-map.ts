@@ -1,8 +1,12 @@
 import { roots } from "./roots-latest.js"
 import type { RootEntry } from "./roots.js"
 
-export const rootsMap = new Map<string, RootEntry>()
+export const rootsMap = /* @__PURE__ */ (() => {
+  const map = new Map<string, RootEntry>()
 
-for (const root of roots) {
-  rootsMap.set(root.cr, root)
-}
+  for (const root of roots) {
+    map.set(root.cr, root)
+  }
+
+  return map
+})()

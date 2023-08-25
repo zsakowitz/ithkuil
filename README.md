@@ -12,8 +12,8 @@ is completely suitable for use, and has even been tested somewhat.
 ## Features
 
 `@zsnout/ithkuil` can generate (as of May 29, 2023), parse (as of July 6, 2023),
-and create script for (as of August 1, 2023) every kind of word in Ithkuil,
-including:
+create block script for (as of August 1, 2023), and gloss (as of August
+25, 2023) every kind of word in Ithkuil, including:
 
 - Formatives
 - Specialized Cs-root formatives
@@ -58,6 +58,8 @@ there are four sub-packages:
 - **`@zsnout/ithkuil/data`**, which has JSON information about all roots and
   affixes.
 - **`@zsnout/ithkuil/generate`**, which generates romanized text.
+- **`@zsnout/ithkuil/gloss`**, which turns Ithkuil words from the JSON format
+  into gloss strings.
 - **`@zsnout/ithkuil/parse`**, which parses romanized text.
 - **`@zsnout/ithkuil/script`**, which generates SVG block script.
 - **`@zsnout/ithkuil/zod`**, which provides Zod validators for this project.
@@ -387,6 +389,30 @@ console.log(result)
 ```
 
 ## Example 6
+
+This example shows the glossing capabilities of `@zsnout/ithkuil`.
+
+```ts
+import { glossWord } from "@zsnout/ithkuil/gloss/index.js"
+import { parseWord } from "@zsnout/ithkuil/parse/index.js"
+
+const result2 = parseWord("wetace")
+
+if (result2) {
+  const { short, full } = glossWord(result2)
+
+  // S2-‘that one’-‘female’₁-ABS
+  console.log(short)
+
+  // stem_two-‘that one’-‘female’₁-absolutive
+  console.log(full)
+}
+```
+
+As you can see, `@zsnout/ithkuil` provides simple glossing functionality for
+Ithkuil words.
+
+## Example 7
 
 Every data form has a corresponding Zod parser for it, which allows for quick
 and easy validation of it.

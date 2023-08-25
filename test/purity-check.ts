@@ -9,6 +9,7 @@
 
 import "../data/index.js"
 import "../generate/index.js"
+import "../gloss/index.js"
 import "../parse/index.js"
 import "../script/index.js"
 import "../zod.js"

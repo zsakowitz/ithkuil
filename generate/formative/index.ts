@@ -135,7 +135,7 @@ export type PartialCoreFormative = {
   readonly vn?: Valence | Aspect | Phase | Level | Effect | undefined
 
   /** Whether to use a+Ca and Slot VII shortcuts. */
-  readonly shortcut?: ShortcutType
+  readonly shortcut?: ShortcutType | undefined
 }
 
 /** A nominal formative. */

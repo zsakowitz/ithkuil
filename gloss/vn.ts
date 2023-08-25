@@ -12,28 +12,33 @@ import {
   VALENCE_TO_NAME_MAP,
   type VN,
 } from "../generate/index.js"
-import { GlossString } from "./glossable.js"
+import { asGloss, GlossString } from "./glossable.js"
 
+/**
+ * Glosses a Vn form.
+ * @param vn The Vn form to be glossed.
+ * @returns A `GlossString` representing the Vn form.
+ */
 export function glossVn(vn: VN) {
-  if (has(ALL_ASPECTS, vn)) {
-    return new GlossString(vn, ASPECT_TO_NAME_MAP[vn].toLowerCase())
-  }
-
   if (has(ALL_VALENCES, vn)) {
-    return new GlossString(vn, VALENCE_TO_NAME_MAP[vn].toLowerCase())
+    return new GlossString(vn, asGloss(VALENCE_TO_NAME_MAP[vn]))
   }
 
   if (has(ALL_PHASES, vn)) {
-    return new GlossString(vn, PHASE_TO_NAME_MAP[vn].toLowerCase())
+    return new GlossString(vn, asGloss(PHASE_TO_NAME_MAP[vn]))
   }
 
   if (has(ALL_EFFECTS, vn)) {
-    return new GlossString(vn, EFFECT_TO_NAME_MAP[vn].toLowerCase())
+    return new GlossString(vn, asGloss(EFFECT_TO_NAME_MAP[vn]))
   }
 
   if (has(ALL_LEVELS, vn)) {
-    return new GlossString(vn, LEVEL_TO_NAME_MAP[vn].toLowerCase())
+    return new GlossString(vn, asGloss(LEVEL_TO_NAME_MAP[vn]))
   }
 
-  return new GlossString("RTR", "retrospective")
+  if (has(ALL_ASPECTS, vn)) {
+    return new GlossString(vn, asGloss(ASPECT_TO_NAME_MAP[vn]))
+  }
+
+  throw new Error("Invalid Vn form: '" + vn + "'.")
 }
