@@ -13,44 +13,23 @@ export class GlossString {
 
     /** The long form of the gloss. */
     readonly full: string,
-
-    /** The short form of the gloss, with Markdown formatting. */
-    readonly shortMD = short,
-
-    /** The long form of the gloss, with Markdown formatting. */
-    readonly fullMD = full,
   ) {
     Object.freeze(this)
   }
 
   isEmpty() {
-    return !(this.short || this.full || this.shortMD || this.fullMD)
+    return !(this.short || this.full)
   }
 
   plusGloss(other: GlossString) {
-    return new GlossString(
-      this.short + other.short,
-      this.full + other.full,
-      this.shortMD + other.shortMD,
-      this.fullMD + other.fullMD,
-    )
+    return new GlossString(this.short + other.short, this.full + other.full)
   }
 
   plusString(other: string) {
-    return new GlossString(
-      this.short + other,
-      this.full + other,
-      this.shortMD + other,
-      this.fullMD + other,
-    )
+    return new GlossString(this.short + other, this.full + other)
   }
 
-  plusStrings(short: string, full: string, shortMD = short, fullMD = full) {
-    return new GlossString(
-      this.short + short,
-      this.full + full,
-      this.shortMD + shortMD,
-      this.fullMD + fullMD,
-    )
+  plusStrings(short: string, full: string) {
+    return new GlossString(this.short + short, this.full + full)
   }
 }
