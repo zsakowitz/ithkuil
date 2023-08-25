@@ -1,3 +1,5 @@
+import type { AffixEntry } from "../../data/affixes.js"
+import type { RootEntry } from "../../data/roots.js"
 import type { VowelForm } from "../../parse/vowel-form.js"
 import type { Core } from "../../script/secondary/core.js"
 import type { Extension } from "../../script/secondary/extension.js"
@@ -6,12 +8,14 @@ import { type WithWYAlternative } from "./with-wy-alternative.js"
 
 /** Types which remain the same after being deeply frozen. */
 export type PreservedWhenDeeplyFrozen =
+  | Function
   | WithWYAlternative
   | VowelForm
   | MoodOrCaseScope
+  | AffixEntry
+  | RootEntry
   | Core
   | Extension
-  | Function
 
 /**
  * Deeply freezes an object.

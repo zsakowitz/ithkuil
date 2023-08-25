@@ -6,7 +6,7 @@ export interface RootEntry {
   readonly cr: string
 
   /** The root's stems. */
-  readonly stems: [
+  readonly stems: readonly [
     (string | undefined)?,
     (string | undefined)?,
     (string | undefined)?,
@@ -14,7 +14,7 @@ export interface RootEntry {
   ]
 
   /** The root's stems (in CPT version). */
-  readonly CPT: [
+  readonly CPT: readonly [
     undefined?,
     (string | undefined)?,
     (string | undefined)?,
@@ -31,7 +31,7 @@ export interface RootEntry {
   readonly CSV?: string | undefined
 
   /** The root's OBJ meanings. */
-  readonly OBJ: [
+  readonly OBJ: readonly [
     undefined?,
     (string | undefined)?,
     (string | undefined)?,
@@ -42,7 +42,7 @@ export interface RootEntry {
   readonly DYN?: string | undefined
 
   /** Additional information about each stem. */
-  readonly wikidata: [
+  readonly wikidata: readonly [
     undefined?,
     (string | undefined)?,
     (string | undefined)?,

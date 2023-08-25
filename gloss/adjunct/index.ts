@@ -9,7 +9,9 @@ import {
   type Adjunct,
   type RegisterAdjunct,
 } from "../../generate/index.js"
+import { glossCn } from "../cn.js"
 import { GlossString } from "../glossable.js"
+import { glossVn } from "../vn.js"
 
 /**
  * Glosses an adjunct.
@@ -63,7 +65,57 @@ export function glossAdjunct(adjunct: Adjunct): GlossString {
   }
 
   if ("vn1" in adjunct && adjunct.vn1) {
-    throw new Error("TODO:")
+    const segments: GlossString[] = []
+
+    if (adjunct.type == "PARENT") {
+      segments.push(new GlossString("{parent}", "{parent formative only}"))
+    } else if (adjunct.type == "CONCAT") {
+      segments.push(
+        new GlossString("{concat.}", "{concatenated formative only}"),
+      )
+    }
+
+    if (adjunct.vn1) {
+      segments.push(glossVn(adjunct.vn1))
+    }
+
+    if (adjunct.cn) {
+      segments.push(glossCn(adjunct.cn, true))
+    }
+
+    if (adjunct.vn2) {
+      segments.push(glossVn(adjunct.vn2))
+    }
+
+    if (adjunct.vn3) {
+      segments.push(glossVn(adjunct.vn3))
+    }
+
+    if (adjunct.scope == "FORMATIVE") {
+      segments.push(
+        new GlossString(
+          "{under adj.}",
+          "{scope over formative, but not adjacent adjuncts}",
+        ),
+      )
+    } else if (adjunct.scope == "ADJACENT") {
+      segments.push(
+        new GlossString(
+          "{over adj.}",
+          "{scope over formative and adjacent adjuncts}",
+        ),
+      )
+    } else if (adjunct.scope == "CASE/MOOD") {
+      segments.push(new GlossString("{case/mood}", "{scope over case/mood}"))
+    } else if (adjunct.scope == "CASE/MOOD+ILL/VAL") {
+      segments.push(new GlossString("{form.}", "{scope over formative}"))
+    }
+
+    const nextSegments = segments.filter((x) => !x.isEmpty())
+
+    return nextSegments.length == 0
+      ? new GlossString("{blank}", "{empty modular adjunct}")
+      : nextSegments.reduce((a, b) => a.plusString("-").plusGloss(b))
   }
 
   if ("type" in adjunct && adjunct.type) {

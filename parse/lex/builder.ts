@@ -179,7 +179,7 @@ export function charNotIn(chars: string) {
  * @param parts The parts that may be matched.
  * @returns A `RegexPart` matching any of the passed parts.
  */
-export function any(...parts: [RegexPart, RegexPart, ...RegexPart[]]) {
+export function any(...parts: RegexPart[]) {
   return new RegexPartWithAlternates(parts.join("|"))
 }
 
@@ -189,7 +189,7 @@ export function any(...parts: [RegexPart, RegexPart, ...RegexPart[]]) {
  * @param texts The texts that may be matched.
  * @returns A `RegexPart` matching any of the passed texts.
  */
-export function anyText(...texts: [string, string, ...string[]]) {
+export function anyText(...texts: string[]) {
   return new RegexPartWithAlternates(texts.map((x) => escapeRegex(x)).join("|"))
 }
 
@@ -198,7 +198,7 @@ export function anyText(...texts: [string, string, ...string[]]) {
  * @param parts The parts that will be matched.
  * @returns A `RegexPart` matching all of the passed parts in order.
  */
-export function seq(...parts: [RegexPart, RegexPart, ...RegexPart[]]) {
+export function seq(...parts: RegexPart[]) {
   return new RegexPart(
     parts
       .map((x) =>

@@ -214,6 +214,21 @@ export const REFERENT_TO_REFERENT_OBJECT_MAP = /* @__PURE__ */ deepFreeze({
   "PVS:DET": { target: "PVS", effect: "DET" },
 })
 
+/** An object mapping from referent targets to their names. */
+export const REFERENT_TARGET_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({
+  "1m": "Speaker",
+  "2m": "Monadic Addressee",
+  "2p": "Polyadic Addressee",
+  ma: "Animate Third Party",
+  pa: "Animate Third Parties",
+  mi: "Inanimate Third Party",
+  pi: "Inanimate Third Parties",
+  Mx: "Mixed Third Parties",
+  Rdp: "Reduplicative",
+  Obv: "Obviative",
+  PVS: "Provisional",
+} satisfies Record<ReferentTarget, string>)
+
 /**
  * Deconstructs an referent into its separate components.
  * @param referent The referent to be deconstructed.

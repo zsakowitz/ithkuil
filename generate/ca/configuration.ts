@@ -78,6 +78,36 @@ export const CONFIGURATION_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
   MFF: "ż",
 })
 
+/** An object mapping from configurations to their names. */
+export const CONFIGURATION_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({
+  UPX: "Uniplex",
+  DPX: "Duplex",
+
+  DSS: "Duplex Similar Separate",
+  DSC: "Duplex Similar Connected",
+  DSF: "Duplex Similar Fused",
+
+  DDS: "Duplex Dissimilar Separate",
+  DDC: "Duplex Dissimilar Connected",
+  DDF: "Duplex Dissimilar Fused",
+
+  DFS: "Duplex Fuzzy Separate",
+  DFC: "Duplex Fuzzy Connected",
+  DFF: "Duplex Fuzzy Fused",
+
+  MSS: "Multiplex Similar Separate",
+  MSC: "Multiplex Similar Connected",
+  MSF: "Multiplex Similar Fused",
+
+  MDS: "Multiplex Dissimilar Separate",
+  MDC: "Multiplex Dissimilar Connected",
+  MDF: "Multiplex Dissimilar Fused",
+
+  MFS: "Multiplex Fuzzy Separate",
+  MFC: "Multiplex Fuzzy Connected",
+  MFF: "Multiplex Fuzzy Fused",
+})
+
 /**
  * Converts a configuration into Ithkuil.
  * @param configuration The configuration to be converted.

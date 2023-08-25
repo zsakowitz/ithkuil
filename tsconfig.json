@@ -26,6 +26,8 @@
     "*.tsx",
     "data/**/*.ts",
     "data/**/*.tsx",
+    "from-gloss/**/*.ts",
+    "from-gloss/**/*.tsx",
     "generate/**/*.ts",
     "generate/**/*.tsx",
     "gloss/**/*.ts",
