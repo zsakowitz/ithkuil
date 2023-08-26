@@ -1,14 +1,25 @@
 import {
   ALL_ASPECTS,
+  ALL_CASES,
+  ALL_CASE_SCOPES,
   ALL_EFFECTS,
+  ALL_ILLOCUTIONS,
   ALL_LEVELS,
+  ALL_MOODS,
   ALL_PHASES,
   ALL_VALENCES,
+  ALL_VALIDATIONS,
   has,
   type Affix,
   type AffixDegree,
+  type Case,
+  type CaseScope,
+  type Illocution,
+  type Mood,
+  type PartialCA,
   type VN,
-} from "../../generate/index.js"
+  type Validation,
+} from "../index.js"
 
 /** The Cs form for the Valence affix. */
 export const VAL = "żk"
@@ -89,9 +100,76 @@ export function vnToAffix(vn: VN): Affix {
 
   const index = ALL_ASPECTS.indexOf(vn)
 
+  if (index == -1) {
+    throw new Error("Invalid Vn form: '" + vn + "'.")
+  }
+
   return {
     cs: [AP1, AP2, AP3, AP4][Math.floor(index / 9)]!,
     degree: ((index % 9) + 1) as AffixDegree,
     type: 1,
   }
+}
+
+/**
+ * Converts a Ca, Vn, Cn, Vc, Vk, or Vf form into an affix.
+ * @param item The Ca, Vn, Cn, Vc, Vk, or Vf form to be converted.
+ * @returns The Ca, Vn, Cn, Vc, Vk, or Vf form as an affix, or undefined if no
+ * affix is needed. `undefined` is only returned for FAC mood and CCN
+ * case-scope, which are not specifiable via affixes.
+ */
+export function toAffix(
+  item: PartialCA | VN | Mood | CaseScope | Case | Illocution | Validation,
+): Affix | undefined {
+  if (typeof item == "object") {
+    return { ca: item }
+  }
+
+  if (has(ALL_ILLOCUTIONS, item)) {
+    return {
+      cs: IVL,
+      degree: (ALL_ILLOCUTIONS.indexOf(item) + 1) as AffixDegree,
+      type: 1,
+    }
+  }
+
+  if (has(ALL_VALIDATIONS, item)) {
+    return {
+      cs: IVL,
+      degree: (ALL_VALIDATIONS.indexOf(item) + 1) as AffixDegree,
+      type: 1,
+    }
+  }
+
+  if (has(ALL_CASES, item)) {
+    return {
+      case: item,
+    }
+  }
+
+  if (has(ALL_MOODS, item)) {
+    if (item == "FAC") {
+      return
+    }
+
+    return {
+      cs: MCS,
+      degree: ALL_MOODS.indexOf(item) as AffixDegree,
+      type: 1,
+    }
+  }
+
+  if (has(ALL_CASE_SCOPES, item)) {
+    if (item == "CCN") {
+      return
+    }
+
+    return {
+      cs: MCS,
+      degree: (ALL_CASE_SCOPES.indexOf(item) + (5 % 10)) as AffixDegree,
+      type: 1,
+    }
+  }
+
+  return vnToAffix(item)
 }

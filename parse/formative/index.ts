@@ -12,7 +12,6 @@ export * from "./case.js"
 export * from "./formative.js"
 export * from "./illocution-validation.js"
 export * from "./mood.js"
-export * from "./referential-affix.js"
 
 const SHORTCUT_REGEX = /^(?:w|y|hl|hr|hm|hn)/
 

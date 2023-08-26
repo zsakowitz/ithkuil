@@ -86,7 +86,10 @@ export function buildCombinationReferential(
       essence: stress == "ultimate" ? "RPV" : undefined,
     }
   } else {
-    const [referents, perspective] = parseReferentListAndPerspective(match[2]!)
+    const [referents, perspective] = parseReferentListAndPerspective(
+      match[2]!,
+      false,
+    )
 
     return {
       referents,

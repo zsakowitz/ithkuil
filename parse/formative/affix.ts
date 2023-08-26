@@ -4,10 +4,10 @@ import {
 } from "../../generate/affix/index.js"
 import { ALL_CASES } from "../../generate/formative/slot-9/case.js"
 import { deepFreeze } from "../../generate/helpers/deep-freeze.js"
+import { parseReferentListAndPerspective } from "../index.js"
 import type { VowelForm } from "../vowel-form.js"
 import { parseCa } from "./ca.js"
 import { parseCase } from "./case.js"
-import { parseReferentialAffixCs } from "./referential-affix.js"
 
 const INVALID_AFFIX_CS_FORMS = /* @__PURE__ */ deepFreeze([
   "w",
@@ -50,47 +50,23 @@ export function parseAffix(vx: VowelForm, cs: string, isAlone: boolean): Affix {
   }
 
   if (vx.sequence == 4) {
-    const affix = parseReferentialAffixCs(cs)
+    const [referents, perspective] = parseReferentListAndPerspective(cs, true)
 
-    if (affix) {
-      const { referent, perspective } = affix
-
-      return {
-        referent,
-        perspective,
-        case: ALL_CASES[vx.degree - 1]! as ReferentialAffixCase,
-      }
-    } else {
-      throw new Error(
-        "Expected a referential affix in the '" +
-          ALL_CASES[vx.degree - 1] +
-          "' case; found '" +
-          cs +
-          "'.",
-      )
+    return {
+      referents,
+      perspective,
+      case: ALL_CASES[vx.degree - 1]! as ReferentialAffixCase,
     }
   }
 
   if (vx.sequence == 3) {
     if (isAlone) {
-      const affix = parseReferentialAffixCs(cs)
+      const [referents, perspective] = parseReferentListAndPerspective(cs, true)
 
-      if (affix) {
-        const { referent, perspective } = affix
-
-        return {
-          referent,
-          perspective,
-          case: ALL_CASES[8 + vx.degree]! as ReferentialAffixCase,
-        }
-      } else {
-        throw new Error(
-          "Expected a referential affix in the '" +
-            ALL_CASES[8 + vx.degree] +
-            "' case; found '" +
-            cs +
-            "'.",
-        )
+      return {
+        referents,
+        perspective,
+        case: ALL_CASES[8 + vx.degree]! as ReferentialAffixCase,
       }
     } else {
       if (INVALID_AFFIX_CS_FORMS.includes(cs)) {

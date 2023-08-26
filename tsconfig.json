@@ -12,7 +12,7 @@
     "noImplicitOverride": true,
     "noImplicitReturns": true,
     "noUncheckedIndexedAccess": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
     "outDir": ".",
     "rootDir": ".",
@@ -26,8 +26,6 @@
     "*.tsx",
     "data/**/*.ts",
     "data/**/*.tsx",
-    // "from-gloss/**/*.ts",
-    // "from-gloss/**/*.tsx",
     "generate/**/*.ts",
     "generate/**/*.tsx",
     "gloss/**/*.ts",
@@ -38,6 +36,8 @@
     "script/**/*.tsx",
     "test/**/*.ts",
     "test/**/*.tsx",
+    "ungloss/**/*.ts",
+    "ungloss/**/*.tsx",
     "script/jsx-runtime.ts"
   ],
   "exclude": ["node_modules", "**/*.js"]

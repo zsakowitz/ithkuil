@@ -3,7 +3,7 @@ import { type Affix } from "../generate/index.js"
 import { glossCa } from "./ca.js"
 import { glossCase } from "./case.js"
 import { GlossString } from "./glossable.js"
-import { glossReferent } from "./referent.js"
+import { glossReferentListAndPerspective } from "./referent-list-and-perspective.js"
 
 const AFFIX_TYPE_1 = "₁"
 const AFFIX_TYPE_2 = "₂"
@@ -32,21 +32,13 @@ export function glossAffix(affix: Affix, isTypeless: boolean) {
     return glossCa(affix.ca, true)
   }
 
-  if (affix.referent) {
-    let referent = glossReferent(affix.referent)
+  if (affix.referents) {
+    let referent = glossReferentListAndPerspective(
+      affix.referents,
+      affix.perspective,
+    )
 
-    if (affix.perspective && affix.perspective != "M") {
-      referent = new GlossString("[", "[")
-        .plusGloss(referent)
-        .plusString("+")
-        .plusStrings(
-          affix.perspective,
-          affix.perspective == "G" ? "agglomerative" : "nomic",
-        )
-        .plusString("]")
-    }
-
-    return new GlossString("(", "(")
+    return GlossString.of("(")
       .plusGloss(referent)
       .plusString("-")
       .plusGloss(glossCase(affix.case || "THM"))
@@ -61,14 +53,14 @@ export function glossAffix(affix: Affix, isTypeless: boolean) {
 
       const type = getAffixType(affix.type)
 
-      return new GlossString("(", "(")
+      return GlossString.of("(")
         .plusGloss(label)
         .plusGloss(glossCase(affix.case))
         .plusString(")")
         .plusString(type)
     }
 
-    return new GlossString("(", "(")
+    return GlossString.of("(")
       .plusStrings("case:", "case_stacking:")
       .plusGloss(glossCase(affix.case))
       .plusString(")")

@@ -8,6 +8,16 @@ import {
   ALL_PHASES,
   ALL_VALENCES,
   ALL_VALIDATIONS,
+  AP1,
+  AP2,
+  AP3,
+  AP4,
+  EFE,
+  IVL,
+  LVL,
+  MCS,
+  PHS,
+  VAL,
   caToIthkuil,
   deepFreeze,
   has,
@@ -47,7 +57,6 @@ import {
   type QuaternaryCharacter,
   type StandardQuaternaryCharacter,
 } from "../quaternary/index.js"
-import { AP1, AP2, AP3, AP4, EFE, IVL, LVL, MCS, PHS, VAL } from "./affixes.js"
 
 // Throughout this script, Slot XI is used to refer to affixes which have scope
 // over the formative as a whole.
@@ -255,12 +264,12 @@ export function formativeToScript(
     for (const affix of affixes) {
       if (affix.ca) {
         affixGroup.push(...affixToScript(caToIthkuil(affix.ca), "ca", 1, slot))
-      } else if (affix.referent) {
+      } else if (affix.referents) {
         if (affix.perspective && affix.perspective != "M") {
           referents.push(
             ...formativeToScript({
               type: "UNF/C",
-              root: affix.referent,
+              root: affix.referents,
               ca: { perspective: affix.perspective },
               case: affix.case,
             }),
@@ -272,9 +281,12 @@ export function formativeToScript(
           })
 
           referents.push(
-            ...textToSecondaries(referentToIthkuil(affix.referent, false), {
-              forcePlaceholderCharacters: true,
-            })
+            ...textToSecondaries(
+              affix.referents
+                .map((referent) => referentToIthkuil(referent, false))
+                .join(""),
+              { forcePlaceholderCharacters: true },
+            )
               .map((x) => attachConstructor(x, Secondary))
               .map((x, i) => {
                 if (i == 0) {

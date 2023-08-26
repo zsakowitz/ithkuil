@@ -48,15 +48,45 @@ export function parseReferentList(list: string): ReferentList {
 /**
  * Parses a referent list along with an optional perspective (e.g. `"smlx"`).
  * @param list The referent list and perspective to be parsed.
+ * @param isReferentialAffix Whether the referent list is from a referential affix.
  * @returns An array containing two items: an array of parsed referents, and an
  * optional perspective.
  */
 export function parseReferentListAndPerspective(
   list: string,
+  isReferentialAffix: true,
+): [referentList: ReferentList, perspective: "G" | "N" | undefined]
+
+/**
+ * Parses a referent list along with an optional perspective (e.g. `"smlx"`).
+ * @param list The referent list and perspective to be parsed.
+ * @param isReferentialAffix Whether the referent list is from a referential affix.
+ * @returns An array containing two items: an array of parsed referents, and an
+ * optional perspective.
+ */
+export function parseReferentListAndPerspective(
+  list: string,
+  isReferentialAffix: boolean,
+): [referentList: ReferentList, perspective: "G" | "N" | "A" | undefined]
+
+/**
+ * Parses a referent list along with an optional perspective (e.g. `"smlx"`).
+ * @param list The referent list and perspective to be parsed.
+ * @param isReferentialAffix Whether the referent list is from a referential affix.
+ * @returns An array containing two items: an array of parsed referents, and an
+ * optional perspective.
+ */
+export function parseReferentListAndPerspective(
+  list: string,
+  isReferentialAffix: boolean,
 ): [referentList: ReferentList, perspective: "G" | "N" | "A" | undefined] {
   let perspective: "G" | "N" | "A" | undefined
 
   for (const [value, persp] of PERSPECTIVES) {
+    if (isReferentialAffix && persp == "A") {
+      continue
+    }
+
     if (list.startsWith(value)) {
       list = list.slice(value.length)
       perspective = persp
@@ -74,7 +104,7 @@ export function parseReferentListAndPerspective(
 
   outer: while (list.length) {
     for (const referent of ALL_REFERENTS_REVERSED) {
-      const value = REFERENT_TO_ITHKUIL_MAP.false[referent]
+      const value = REFERENT_TO_ITHKUIL_MAP[`${isReferentialAffix}`][referent]
 
       if (list.startsWith(value)) {
         output.push(referent)

@@ -238,7 +238,7 @@ const result = formativeToIthkuil({
     // Referential Affix
     {
       // 1m:BEN Referent
-      referent: "1m:BEN",
+      referents: ["1m:BEN"],
 
       // Ergative Case
       case: "ERG",
@@ -438,6 +438,23 @@ try {
 ```
 
 ## Changelog
+
+### 0.1.52
+
+- **Breaking change:** Multiple referents may now be stored in a referential
+  affix. As such, all referential affixes now use the `referents` property
+  instead of the singular `referent` property, and take a `ReferentList` instead
+  of a single `Referent`.
+
+- **Breaking change:** `parseReferentialAffixCs` has been merged into
+  `parseReferentListAndPerspective`. As such, `parseReferentListAndPerspective`
+  now takes a boolean argument indicating whether it is parsing a referential
+  affix.
+
+- **Breaking change:** The `vnToAffix`, `toAffix`, and
+  `mergeAdjunctsAndFormative` functions have been moved from
+  `@zsnout/ithkuil/script` to `@zsnout/ithkuil/generate` to allow for them to be
+  imported without needing an SVG document in place.
 
 ### 0.1.20
 

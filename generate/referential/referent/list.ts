@@ -150,15 +150,15 @@ export function referentListToIthkuil(
 }
 
 /**
- * Converts a referent into an Ithkuilic referential affix.
- * @param referent The referent to be converted.
+ * Converts a `ReferentList` into an Ithkuilic referential affix.
+ * @param referents The `ReferentList` to be converted.
  * @param perspective The perspective to be attatched to the referent.
  * @returns Romanized Ithkuilic text representing the referent.
  */
 export function referentialAffixToIthkuil(
-  referent: Referent,
+  referents: ReferentList,
   perspective: "M" | "G" | "N",
-) {
+): string {
   if (
     // @ts-ignore
     perspective == "A"
@@ -168,28 +168,33 @@ export function referentialAffixToIthkuil(
     )
   }
 
-  const ref = referentToIthkuil(referent, true)
-  const persp = referentialPerspectiveToIthkuil(perspective)
-  const persp2 = referentialPerspectiveToIthkuilAlt(perspective)
+  const options = allPermutationsOf(referents.slice().sort()).flatMap(
+    (referents) => [
+      referents.map((referent) => referentToIthkuil(referent, true)).join("") +
+        referentialPerspectiveToIthkuil(perspective),
 
-  if (isLegalConsonantForm(ref + persp)) {
-    return ref + persp
+      referents.map((referent) => referentToIthkuil(referent, true)).join("") +
+        referentialPerspectiveToIthkuilAlt(perspective),
+
+      referentialPerspectiveToIthkuil(perspective) +
+        referents.map((referent) => referentToIthkuil(referent, true)).join(""),
+
+      referentialPerspectiveToIthkuilAlt(perspective) +
+        referents.map((referent) => referentToIthkuil(referent, true)).join(""),
+    ],
+  )
+
+  for (const option of options) {
+    if (isLegalConsonantForm(option)) {
+      return option
+    }
   }
 
-  if (isLegalConsonantForm(persp + ref)) {
-    return persp + ref
+  if (options[0]) {
+    return options[0]
   }
 
-  if (isLegalConsonantForm(ref + persp2)) {
-    return ref + persp2
-  }
-
-  if (isLegalConsonantForm(persp2 + ref)) {
-    return persp2 + ref
-  }
-
-  // The following may be phonotactically invalid.
-  return ref + persp2
+  throw new Error("Unable to construct referential affix.")
 }
 
 function nonReferentialAffixReferentToIthkuil(referent: Referent) {

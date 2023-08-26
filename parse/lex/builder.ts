@@ -58,7 +58,7 @@ export class RegexPart {
    * @returns The new RegexPart.
    */
   matchEntireText() {
-    return new RegexPart("^(?:" + this.source + ")$")
+    return new RegexPart("^" + this.source + "$")
   }
 
   /**
@@ -122,7 +122,16 @@ export class AtomicRegexPart extends RegexPart {
 }
 
 /** A subclass of `RegexPart` used for matchers that include multiple paths. */
-export class RegexPartWithAlternates extends RegexPart {}
+export class RegexPartWithAlternates extends RegexPart {
+  /**
+   * Creates a new RegexPart that matches this part's content, but only if it
+   * will match the entire source string.
+   * @returns The new RegexPart.
+   */
+  override matchEntireText() {
+    return new RegexPart("^(?:" + this.source + ")$")
+  }
+}
 
 /**
  * Escapes text for use in a regular expression (e.g. `hello$world.` becomes

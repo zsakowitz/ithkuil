@@ -20,11 +20,12 @@ import {
 } from "../helpers/with-wy-alternative.js"
 import {
   referentialAffixToIthkuil,
-  type Referent,
+  type ReferentList,
 } from "../referential/referent/index.js"
 import { type AffixDegree } from "./degree.js"
 import { type AffixType } from "./type.js"
 
+export * from "./affixes.js"
 export * from "./degree.js"
 export * from "./type.js"
 
@@ -111,7 +112,7 @@ export type Affix =
       readonly cs: string
 
       readonly ca?: undefined
-      readonly referent?: undefined
+      readonly referents?: undefined
       readonly case?: undefined
     }
   | {
@@ -119,12 +120,12 @@ export type Affix =
       readonly ca: PartialCA
 
       readonly cs?: undefined
-      readonly referent?: undefined
+      readonly referents?: undefined
       readonly case?: undefined
     }
   | {
-      /** The referent of this affix. */
-      readonly referent: Referent
+      /** The referents of this affix. */
+      readonly referents: ReferentList
 
       /** The perspective of the referent. */
       readonly perspective?: "M" | "G" | "N" | undefined
@@ -147,7 +148,7 @@ export type Affix =
 
       readonly cs?: undefined
       readonly ca?: undefined
-      readonly referent?: undefined
+      readonly referents?: undefined
     }
   | {
       /** The case used in this case accessor affix. */
@@ -155,20 +156,20 @@ export type Affix =
 
       readonly cs?: undefined
       readonly ca?: undefined
-      readonly referent?: undefined
+      readonly referents?: undefined
       readonly type?: undefined
     }
 
 /** Metadata about the affix. */
 export type AffixMetadata = {
   /** Whether or not the affix is in reversed form. */
-  reversed: boolean
+  readonly reversed: boolean
 
   /** Whether to insert a glottal stop in the vowel form. */
-  insertGlottalStop?: boolean
+  readonly insertGlottalStop?: boolean | undefined
 
   /** Whether the inserted glottal stop will be in word-final position. */
-  isGlottalStopWordFinal?: boolean
+  readonly isGlottalStopWordFinal?: boolean | undefined
 }
 
 /**
@@ -184,7 +185,7 @@ export function affixToIthkuil(
   let vowel = WithWYAlternative.of(
     "ca" in affix && affix.ca
       ? "üö"
-      : "referent" in affix && affix.referent
+      : "referent" in affix && affix.referents
       ? REFERENTIAL_AFFIX_CASE_TO_ITHKUIL_MAP[affix.case ?? "THM"]
       : "case" in affix && affix.case
       ? caseToIthkuil(affix.case, false, true)
@@ -198,8 +199,8 @@ export function affixToIthkuil(
   const consonant =
     "ca" in affix && affix.ca
       ? caToIthkuil(affix.ca)
-      : "referent" in affix && affix.referent
-      ? referentialAffixToIthkuil(affix.referent, affix.perspective ?? "M")
+      : "referent" in affix && affix.referents
+      ? referentialAffixToIthkuil(affix.referents, affix.perspective ?? "M")
       : "case" in affix && affix.case
       ? ("type" in affix && affix.type
           ? CASE_AFFIX_TO_CS_MAP[`${affix.isInverse}`][affix.type]

@@ -29,7 +29,7 @@ export function buildSingleOrDualReferential(
     : undefined
 
   const [referents2, perspective2] = match[5]
-    ? parseReferentListAndPerspective(match[5])
+    ? parseReferentListAndPerspective(match[5], false)
     : [undefined, undefined]
 
   const essence = stress == "ultimate" ? "RPV" : undefined
@@ -55,6 +55,7 @@ export function buildSingleOrDualReferential(
   } else {
     const [referents, perspective] = parseReferentListAndPerspective(
       match[2]!.replace(/ë/g, ""),
+      false,
     )
 
     return {

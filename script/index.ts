@@ -1,5 +1,4 @@
 export * from "./bias/index.js"
-export * from "./construct/affixes.js"
 export * from "./construct/formative.js"
 export * from "./from-text.js"
 export * from "./other/break.js"

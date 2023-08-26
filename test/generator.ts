@@ -61,7 +61,7 @@ strictEqual(result3, "tiuxpoiküötu'ó")
 const result4 = formativeToIthkuil({
   root: "l",
   type: "UNF/C",
-  slotVIIAffixes: [{ referent: "1m:BEN", case: "ERG", perspective: "G" }],
+  slotVIIAffixes: [{ referents: ["1m:BEN"], case: "ERG", perspective: "G" }],
 })
 
 strictEqual(result4, "laloerļa")
@@ -153,7 +153,7 @@ strictEqual(result13, "aežraitļíöha")
 const result14 = formativeToIthkuil({
   type: "UNF/C",
   root: { cs: "c", degree: 3 },
-  slotVIIAffixes: [{ referent: "1m:DET", case: "IND" }],
+  slotVIIAffixes: [{ referents: ["1m:DET"], case: "IND" }],
   vn: "CNT",
 })
 
