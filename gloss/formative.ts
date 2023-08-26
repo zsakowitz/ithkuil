@@ -31,9 +31,9 @@ export function glossFormative(formative: PartialFormative) {
   const slot1 =
     formative.type == "UNF/C"
       ? formative.concatenationType == 1
-        ? new GlossString("T1-", "type_one-")
+        ? new GlossString("T1", "type_one")
         : formative.concatenationType == 2
-        ? new GlossString("T2-", "type_two-")
+        ? new GlossString("T2", "type_two")
         : GlossString.of("")
       : GlossString.of("")
 

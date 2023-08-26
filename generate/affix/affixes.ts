@@ -137,7 +137,7 @@ export function toAffix(
     return {
       cs: IVL,
       degree: (ALL_VALIDATIONS.indexOf(item) + 1) as AffixDegree,
-      type: 1,
+      type: 2,
     }
   }
 
