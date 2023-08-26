@@ -1189,6 +1189,28 @@ export function unglossFormative(gloss: string): PartialFormative {
   }
 }
 
+const PlusPerspective = anyText("+M", "+G", "+N", "+A")
+
+const referentialReferentRegex = any(
+  seq(Referent, PlusPerspective.optional()),
+  seq(
+    text("["),
+    Referent,
+    seq(text("+"), Referent).zeroOrMore(),
+    PlusPerspective.optional(),
+    text("]"),
+  ),
+  seq(
+    text("["),
+    Referent,
+    seq(text("+"), Referent).zeroOrMore(),
+    text("]"),
+    PlusPerspective.optional(),
+  ),
+)
+  .matchEntireText()
+  .compile()
+
 function parseReferentialReferentGloss(gloss: string) {
   let perspective: Perspective | undefined
 
@@ -1228,6 +1250,38 @@ function parseReferentialReferentGloss(gloss: string) {
  * something with that much complexity.
  * @param gloss The gloss to be parsed.
  * @returns The parsed referential.
+ *
+ * ## Syntax
+ *
+ * The referential should be a list of segments separated by hyphens. The first
+ * segment must either be a referent, `[CAR]`, `[QUO]`, `[NAM]`, or `[PHR]`. The
+ * exact details of referent syntax are below.
+ *
+ * Because there are three different kinds of referentials, there is a different
+ * "layout" for each.
+ *
+ * To create a single referential, specify an initial segment and two optional
+ * cases. Examples include `1m`, `[2m+ma]+A-ERG`, and `Rdp-ERG-EFF`.
+ *
+ * To create a dual referential, specify an initial segment, two cases, and
+ * another referent. Examples include `1m-ERG-AFF-2m` and `ma+N-LOC-IND-1m`.
+ *
+ * To create a combination referential, specify an initial segment, an optional
+ * case, an optional specification, and then any formative tail segments, such
+ * as affixes or Ca, Vn, Cn, Vc, or Vk information.
+ *
+ * ## Referent Syntax
+ *
+ * A single referent is a target, such as `1m`, `2m`, `2p`, `ma`, `mi`, `pa`,
+ * `pi`, `Mx`, `Rdp`, `Obv`, or `PVS`, optionally followed by `.BEN` or `.DET`.
+ * Examples include `1m`, `2m.DET`, and `Obv.BEN`.
+ *
+ * A referent list is multiple referents enclosed in square brackets separated
+ * by plus signs, as in `[1m+2m]` and `[Mx.BEN+Obv.DET+ma]`.
+ *
+ * A full referent may either be a referent list or a referent list with an
+ * optional perspective inside square brackets, such as `1m`, `[1m+2m]`,
+ * `[ma.BEN+G]`, or `[2m+pi.DET+N]`.
  */
 export function unglossReferential(gloss: string): PartialReferential {
   let essence: Essence = "NRM"
@@ -1239,7 +1293,7 @@ export function unglossReferential(gloss: string): PartialReferential {
 
   const segments = gloss.split(segmentSplitterRegex)
 
-  let firstSegment = segments[0]!
+  const firstSegment = segments.shift()!
 
   let type: SuppletiveAdjunctType | undefined
   let referents: ReferentList | undefined
@@ -1248,8 +1302,8 @@ export function unglossReferential(gloss: string): PartialReferential {
   if (
     firstSegment == "[CAR]" ||
     firstSegment == "[QUO]" ||
-    firstSegment == "[PHR]" ||
-    firstSegment == "[NAM]"
+    firstSegment == "[NAM]" ||
+    firstSegment == "[PHR]"
   ) {
     type = firstSegment.slice(1, -1) as SuppletiveAdjunctType
   } else {
@@ -1258,20 +1312,74 @@ export function unglossReferential(gloss: string): PartialReferential {
 
   const core = type ? { type } : { referents: referents!, perspective }
 
+  const secondSegment = segments.shift()
+
+  if (!secondSegment) {
+    return { ...core, essence }
+  }
+
+  let case_: Case | undefined
+
+  if (has(ALL_CASES, secondSegment)) {
+    case_ = secondSegment
+
+    if (segments.length == 1 && has(ALL_CASES, segments[0])) {
+      return {
+        ...core,
+        case: case_,
+        case2: segments[0],
+        essence,
+      }
+    }
+
+    if (
+      segments.length == 2 &&
+      has(ALL_CASES, segments[0]) &&
+      segments[1] &&
+      referentialReferentRegex.test(segments[1])
+    ) {
+      const [referents2, perspective2] = parseReferentialReferentGloss(
+        segments[1],
+      )
+
+      return {
+        ...core,
+        essence,
+        case: case_,
+        case2: segments[0],
+        referents2,
+        perspective2,
+      }
+    }
+  } else {
+    segments.unshift(secondSegment)
+  }
+
+  let case2: Case | undefined
+  let specification: Specification | undefined
+
+  const thirdSegment = segments.shift()
+
+  if (has(ALL_SPECIFICATIONS, thirdSegment)) {
+    specification = thirdSegment
+  } else if (thirdSegment) {
+    segments.unshift(thirdSegment)
+  }
+
+  const finalSegment = segments.pop()
+
+  if (has(ALL_CASES, finalSegment)) {
+    case2 = finalSegment
+  } else if (finalSegment) {
+    segments.push(finalSegment)
+  }
+
   return {
     ...core,
     essence,
+    case: case_,
+    specification,
+    affixes: parseTailSegments(segments).map(tailSegmentToAffix),
+    case2,
   }
 }
-
-/**
- * 1. [CAR] or referent
- * 2. case?
- * a.
- *   3. (BSC/CTE/CSV/OBJ)?
- *   4. tail
- * b.
- *   3. case?
- *   4. referent
- * 5. (\\RPV)?
- */
