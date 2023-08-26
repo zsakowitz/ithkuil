@@ -25,6 +25,7 @@ import {
   type Affix,
   type AffixShortcut,
   type AffixType,
+  type CA,
   type Case,
   type CaseScope,
   type Configuration,
@@ -36,6 +37,7 @@ import {
   type Mood,
   type PartialCA,
   type PartialFormative,
+  type PartialReferential,
   type Perspective,
   type Referent,
   type ReferentEffect,
@@ -43,6 +45,7 @@ import {
   type SlotIII,
   type Specification,
   type Stem,
+  type SuppletiveAdjunctType,
   type VN,
   type Version,
 } from "../generate/index.js"
@@ -140,8 +143,8 @@ const caRegex = Ca.matchEntireText().compile()
 
 const Case = anyText(...ALL_CASES)
 
-const caseAccessorRegex = seq(
-  anyText("(acc:", "(ia:"),
+const caseRelatedRegex = seq(
+  anyText("(acc:", "(ia:", "(case:", "("),
   Case,
   text(")"),
   charIn("123₁₂₃").optional(),
@@ -156,19 +159,26 @@ const segmentSplitterRegex = seq(
   seq(anyText(...ALL_REFERENTIAL_AFFIX_CASES), text(")")).not(),
 ).compile("g")
 
-function parseCaseAccessorGloss(gloss: string): Affix {
+function parseCaseRelatedGloss(gloss: string): Affix {
   const original = gloss
 
   let isInverse = false
+  let isStacking = false
 
   if (gloss.startsWith("(acc:")) {
     gloss = gloss.slice(5)
   } else if (gloss.startsWith("(ia:")) {
     isInverse = true
     gloss = gloss.slice(4)
+  } else if (gloss.startsWith("(case:")) {
+    isStacking = true
+    gloss = gloss.slice(6)
+  } else {
+    isStacking = true
+    gloss = gloss.slice(1)
   }
 
-  let type: AffixType = 1
+  let type: AffixType | undefined
 
   if (gloss.endsWith("2") || gloss.endsWith("₂")) {
     type = 2
@@ -177,15 +187,24 @@ function parseCaseAccessorGloss(gloss: string): Affix {
     type = 3
     gloss = gloss.slice(0, -2)
   } else if (gloss.endsWith("1") || gloss.endsWith("₁")) {
+    type = 1
     gloss = gloss.slice(0, -2)
   } else {
     gloss = gloss.slice(0, -1)
   }
 
   if (has(ALL_CASES, gloss)) {
+    if (isStacking) {
+      if (type) {
+        throw new Error("Cannot specify a type on a case-stacking affix.")
+      }
+
+      return { case: gloss }
+    }
+
     return {
       case: gloss,
-      type,
+      type: type ?? 1,
       isInverse,
     }
   }
@@ -412,6 +431,239 @@ const TYPE_3_REFERENTIAL_AFFIX_CASES = /* @__PURE__ */ deepFreeze([
   "PAR",
 ])
 
+function parseTailSegments(segments: readonly string[]) {
+  return segments.map<TailSegment>((segment) => {
+    if (
+      segment.startsWith("{") &&
+      segment.endsWith("}") &&
+      has(ALL_MOODS, segment.slice(1, -1))
+    ) {
+      const mood = segment.slice(1, -1) as Mood
+
+      if (mood == "FAC") {
+        throw new Error("FAC mood cannot replace Slot VI.")
+      }
+
+      return { type: "viMood" as const, mood }
+    }
+
+    if (
+      segment.startsWith("{") &&
+      segment.endsWith("}") &&
+      has(ALL_CASE_SCOPES, segment.slice(1, -1))
+    ) {
+      const caseScope = segment.slice(1, -1) as CaseScope
+
+      if (caseScope == "CCN") {
+        throw new Error("CCN case-scope cannot replace Slot VI.")
+      }
+
+      return { type: "viCaseScope" as const, caseScope }
+    }
+
+    if (segment.startsWith("(")) {
+      segment = segment.slice(1, -1)
+
+      if (caRegex.test(segment)) {
+        return {
+          type: "affix" as const,
+          affix: { ca: parseCaGloss(segment) },
+        }
+      }
+
+      if (
+        has(ALL_VALENCES, segment) ||
+        has(ALL_PHASES, segment) ||
+        has(ALL_EFFECTS, segment) ||
+        has(ALL_LEVELS, segment) ||
+        has(ALL_ASPECTS, segment) ||
+        has(ALL_MOODS, segment) ||
+        has(ALL_CASE_SCOPES, segment) ||
+        has(ALL_CASES, segment) ||
+        has(ALL_ILLOCUTION_OR_VALIDATIONS, segment)
+      ) {
+        if (segment == "FAC") {
+          throw new Error("FAC mood cannot be specified as an affix.")
+        }
+
+        if (segment == "CCN") {
+          throw new Error("CCN case-scope cannot be specified as an affix.")
+        }
+
+        return {
+          type: "affix" as const,
+          affix: toAffix(segment)!,
+        }
+      }
+
+      if (segment == "ASR") {
+        return {
+          type: "affix" as const,
+          affix: toAffix("ASR")!,
+        }
+      }
+
+      if (affixRegex.test(segment)) {
+        return {
+          type: "affix" as const,
+          affix: parseAffixGloss(segment) as Affix,
+        }
+      }
+
+      segment = "(" + segment + ")"
+
+      if (caseRelatedRegex.test(segment)) {
+        return {
+          type: "affix" as const,
+          affix: parseCaseRelatedGloss(segment),
+        }
+      }
+
+      if (referentRegex.test(segment)) {
+        return {
+          type: "affix" as const,
+          affix: parseReferentialAffixGloss(segment),
+        }
+      }
+
+      throw new Error("Invalid formative tail segment: '" + segment + "'.")
+    }
+
+    if (caRegex.test(segment)) {
+      if (
+        ["ca", "cA", "Ca", "CA", "{ca}", "{cA}", "{Ca}", "{CA}"].includes(
+          segment,
+        )
+      ) {
+        return { type: "emptyCa" as const }
+      }
+
+      return {
+        type: "ca" as const,
+        ca: parseCaGloss(segment),
+      }
+    }
+
+    if (
+      has(ALL_VALENCES, segment) ||
+      has(ALL_PHASES, segment) ||
+      has(ALL_EFFECTS, segment) ||
+      has(ALL_LEVELS, segment) ||
+      has(ALL_ASPECTS, segment)
+    ) {
+      return {
+        type: "vn" as const,
+        vn: segment satisfies VN as VN,
+      }
+    }
+
+    if (has(ALL_MOODS, segment)) {
+      return {
+        type: "mood" as const,
+        mood: segment,
+      }
+    }
+
+    if (has(ALL_CASE_SCOPES, segment)) {
+      return {
+        type: "caseScope" as const,
+        caseScope: segment,
+        priority: 1,
+      }
+    }
+
+    if (has(ALL_CASES, segment)) {
+      return {
+        type: "case" as const,
+        case: segment,
+      }
+    }
+
+    if (has(ALL_ILLOCUTION_OR_VALIDATIONS, segment)) {
+      return {
+        type: "vk" as const,
+        vk: segment,
+      }
+    }
+
+    if (segment == "ASR") {
+      return {
+        type: "affix" as const,
+        affix: toAffix("ASR")!,
+      }
+    }
+
+    if (affixRegex.test(segment)) {
+      return {
+        type: "affix" as const,
+        affix: parseAffixGloss(segment) as Affix,
+      }
+    }
+
+    throw new Error("Invalid formative tail segment: '" + segment + "'.")
+  })
+}
+
+function unglossTailSegments(
+  segments: readonly string[],
+  type: "UNF/C" | "UNF/K" | "FRM",
+) {
+  const affixes = parseTailSegments(segments)
+
+  let case_: Case | undefined
+  let illocutionValidation: IllocutionOrValidation | undefined
+
+  const finalAffix = affixes.pop()
+
+  if (type == "UNF/C" && finalAffix?.type == "vk") {
+    type = "UNF/K"
+    illocutionValidation = finalAffix.vk
+  } else if (finalAffix?.type == "case") {
+    case_ = finalAffix.case
+  } else if (finalAffix) {
+    affixes.push(finalAffix)
+  }
+
+  if (
+    type == "UNF/C" &&
+    !case_ &&
+    affixes.some((x) => x.type == "mood" || x.type == "viMood") &&
+    !affixes.some((x) => x.type == "viCaseScope" || x.type == "caseScope")
+  ) {
+    type = "UNF/K"
+  }
+
+  let mood: Mood | undefined
+  let caseScope: CaseScope | undefined
+
+  const secondToFinalAffix = affixes.pop()
+
+  if (type == "UNF/K") {
+    if (secondToFinalAffix?.type == "mood") {
+      mood = secondToFinalAffix.mood
+    } else if (secondToFinalAffix) {
+      affixes.push(secondToFinalAffix)
+    }
+  } else {
+    if (secondToFinalAffix?.type == "caseScope") {
+      caseScope = secondToFinalAffix.caseScope
+    } else if (secondToFinalAffix) {
+      affixes.push(secondToFinalAffix)
+    }
+  }
+
+  let vn: VN | undefined
+
+  const thirdToFinalAffix = affixes.pop()
+
+  if (thirdToFinalAffix?.type == "vn") {
+    vn = thirdToFinalAffix.vn
+  } else if (thirdToFinalAffix) {
+    affixes.push(thirdToFinalAffix)
+  }
+  return { affixes, vn, mood, caseScope, case_, illocutionValidation, type }
+}
+
 /**
  * Parses a formative gloss string. Note that the syntax supported here is
  * different from that outputted by `glossWord`, as it is difficult to parse
@@ -510,6 +762,13 @@ const TYPE_3_REFERENTIAL_AFFIX_CASES = /* @__PURE__ */ deepFreeze([
  *
  * If none of the above apply, all affixes are assumed to be in Slot VII.
  *
+ * ## Shortcuts
+ *
+ * To specify a Ca shortcut, write the Ca before the main root. To specify an
+ * affix shortcut, write (NEG/4), (DCD/4), or (DCD/5) before the main root. To
+ * specify a mood/case-scope shortcut, surround the mood or case-scope with
+ * curly brackets, as in `{HYP}` or `{CCV}`.
+ *
  * ## Additional Notes
  *
  * We will assume that formative glosses are split into two main chunks: the
@@ -538,6 +797,10 @@ const TYPE_3_REFERENTIAL_AFFIX_CASES = /* @__PURE__ */ deepFreeze([
  * Cn slot, it will be treated as the main Ca slot, replacing the unmarked Ca.
  */
 export function unglossFormative(gloss: string): PartialFormative {
+  if (gloss.endsWith("\\FRM")) {
+    gloss = gloss.slice(0, -4) + "-FRM"
+  }
+
   const segments = gloss.split(segmentSplitterRegex)
 
   let concatenationType: 1 | 2 | undefined
@@ -788,228 +1051,9 @@ export function unglossFormative(gloss: string): PartialFormative {
     segments.pop()
   }
 
-  const affixes = segments.map((segment) => {
-    if (
-      segment.startsWith("{") &&
-      segment.endsWith("}") &&
-      has(ALL_MOODS, segment.slice(1, -1))
-    ) {
-      const mood = segment.slice(1, -1) as Mood
-
-      if (mood == "FAC") {
-        throw new Error("FAC mood cannot replace Slot VI.")
-      }
-
-      return { type: "viMood" as const, mood }
-    }
-
-    if (
-      segment.startsWith("{") &&
-      segment.endsWith("}") &&
-      has(ALL_CASE_SCOPES, segment.slice(1, -1))
-    ) {
-      const caseScope = segment.slice(1, -1) as CaseScope
-
-      if (caseScope == "CCN") {
-        throw new Error("CCN case-scope cannot replace Slot VI.")
-      }
-
-      return { type: "viCaseScope" as const, caseScope }
-    }
-
-    if (segment.startsWith("(")) {
-      segment = segment.slice(1, -1)
-
-      if (caRegex.test(segment)) {
-        return {
-          type: "affix" as const,
-          affix: { ca: parseCaGloss(segment) },
-        }
-      }
-
-      if (
-        has(ALL_VALENCES, segment) ||
-        has(ALL_PHASES, segment) ||
-        has(ALL_EFFECTS, segment) ||
-        has(ALL_LEVELS, segment) ||
-        has(ALL_ASPECTS, segment) ||
-        has(ALL_MOODS, segment) ||
-        has(ALL_CASE_SCOPES, segment) ||
-        has(ALL_CASES, segment) ||
-        has(ALL_ILLOCUTION_OR_VALIDATIONS, segment)
-      ) {
-        if (segment == "FAC") {
-          throw new Error("FAC mood cannot be specified as an affix.")
-        }
-
-        if (segment == "CCN") {
-          throw new Error("CCN case-scope cannot be specified as an affix.")
-        }
-
-        return {
-          type: "affix" as const,
-          affix: toAffix(segment)!,
-        }
-      }
-
-      if (segment == "ASR") {
-        return {
-          type: "affix" as const,
-          affix: toAffix("ASR")!,
-        }
-      }
-
-      if (affixRegex.test(segment)) {
-        return {
-          type: "affix" as const,
-          affix: parseAffixGloss(segment) as Affix,
-        }
-      }
-
-      segment = "(" + segment + ")"
-
-      if (caseAccessorRegex.test(segment)) {
-        return {
-          type: "affix" as const,
-          affix: parseCaseAccessorGloss(segment),
-        }
-      }
-
-      if (referentRegex.test(segment)) {
-        return {
-          type: "affix" as const,
-          affix: parseReferentialAffixGloss(segment),
-        }
-      }
-
-      throw new Error("Invalid formative tail segment: '" + segment + "'.")
-    }
-
-    if (caRegex.test(segment)) {
-      if (
-        ["ca", "cA", "Ca", "CA", "{ca}", "{cA}", "{Ca}", "{CA}"].includes(
-          segment,
-        )
-      ) {
-        return { type: "emptyCa" as const }
-      }
-
-      return {
-        type: "ca" as const,
-        ca: parseCaGloss(segment),
-      }
-    }
-
-    if (
-      has(ALL_VALENCES, segment) ||
-      has(ALL_PHASES, segment) ||
-      has(ALL_EFFECTS, segment) ||
-      has(ALL_LEVELS, segment) ||
-      has(ALL_ASPECTS, segment)
-    ) {
-      return {
-        type: "vn" as const,
-        vn: segment satisfies VN as VN,
-      }
-    }
-
-    if (has(ALL_MOODS, segment)) {
-      return {
-        type: "mood" as const,
-        mood: segment,
-      }
-    }
-
-    if (has(ALL_CASE_SCOPES, segment)) {
-      return {
-        type: "caseScope" as const,
-        caseScope: segment,
-        priority: 1,
-      }
-    }
-
-    if (has(ALL_CASES, segment)) {
-      return {
-        type: "case" as const,
-        case: segment,
-      }
-    }
-
-    if (has(ALL_ILLOCUTION_OR_VALIDATIONS, segment)) {
-      return {
-        type: "vk" as const,
-        vk: segment,
-      }
-    }
-
-    if (segment == "ASR") {
-      return {
-        type: "affix" as const,
-        affix: toAffix("ASR")!,
-      }
-    }
-
-    if (affixRegex.test(segment)) {
-      return {
-        type: "affix" as const,
-        affix: parseAffixGloss(segment) as Affix,
-      }
-    }
-
-    throw new Error("Invalid formative tail segment: '" + segment + "'.")
-  })
-
-  let case_: Case | undefined
-  let illocutionValidation: IllocutionOrValidation | undefined
-
-  const finalAffix = affixes.pop()
-
-  if (type == "UNF/C" && finalAffix?.type == "vk") {
-    type = "UNF/K"
-    illocutionValidation = finalAffix.vk
-  } else if (finalAffix?.type == "case") {
-    case_ = finalAffix.case
-  } else if (finalAffix) {
-    affixes.push(finalAffix)
-  }
-
-  if (
-    type == "UNF/C" &&
-    !case_ &&
-    affixes.some((x) => x.type == "mood" || x.type == "viMood") &&
-    !affixes.some((x) => x.type == "viCaseScope" || x.type == "caseScope")
-  ) {
-    type = "UNF/K"
-  }
-
-  let mood: Mood | undefined
-  let caseScope: CaseScope | undefined
-
-  const secondToFinalAffix = affixes.pop()
-
-  if (type == "UNF/K") {
-    if (secondToFinalAffix?.type == "mood") {
-      mood = secondToFinalAffix.mood
-    } else if (secondToFinalAffix) {
-      affixes.push(secondToFinalAffix)
-    }
-  } else {
-    if (secondToFinalAffix?.type == "caseScope") {
-      caseScope = secondToFinalAffix.caseScope
-    } else if (secondToFinalAffix) {
-      affixes.push(secondToFinalAffix)
-    }
-  }
-
-  let vn: VN | undefined
-
-  const thirdToFinalAffix = affixes.pop()
-
-  if (thirdToFinalAffix?.type == "vn") {
-    vn = thirdToFinalAffix.vn
-  } else if (thirdToFinalAffix) {
-    affixes.push(thirdToFinalAffix)
-  }
+  const tail = unglossTailSegments(segments, type)
+  let { affixes, vn, mood, caseScope, case_, illocutionValidation } = tail
+  ;({ type } = tail)
 
   let isUsingSlotVIIIShortcut = false
   let slotVAffixes: Affix[] | undefined
@@ -1040,7 +1084,7 @@ export function unglossFormative(gloss: string): PartialFormative {
 
       if (caSplitIndex != -1) {
         splitIndex = caSplitIndex
-        ca = affixes[caSplitIndex]!.ca!
+        ca = (affixes[caSplitIndex] as { ca: CA }).ca
       } else {
         ca = {}
 
@@ -1051,7 +1095,7 @@ export function unglossFormative(gloss: string): PartialFormative {
             if (moodSplitIndex != -1) {
               splitIndex = moodSplitIndex
               isUsingSlotVIIIShortcut = true
-              mood = affixes[moodSplitIndex]!.mood!
+              mood = (affixes[moodSplitIndex] as { mood: Mood }).mood
             }
           }
         } else {
@@ -1063,7 +1107,9 @@ export function unglossFormative(gloss: string): PartialFormative {
             if (caseScopeSplitIndex != -1) {
               splitIndex = caseScopeSplitIndex
               isUsingSlotVIIIShortcut = true
-              caseScope = affixes[caseScopeSplitIndex]!.caseScope!
+              caseScope = (
+                affixes[caseScopeSplitIndex] as { caseScope: CaseScope }
+              ).caseScope
             }
           }
         }
@@ -1142,3 +1188,90 @@ export function unglossFormative(gloss: string): PartialFormative {
     illocutionValidation,
   }
 }
+
+function parseReferentialReferentGloss(gloss: string) {
+  let perspective: Perspective | undefined
+
+  if (gloss.startsWith("[")) {
+    gloss = gloss.slice(1)
+  }
+
+  if (gloss.endsWith("]")) {
+    gloss = gloss.slice(0, -1)
+  }
+
+  if (
+    gloss.endsWith("+M") ||
+    gloss.endsWith("+G") ||
+    gloss.endsWith("+N") ||
+    gloss.endsWith("+A")
+  ) {
+    perspective = gloss.slice(-1) as Perspective
+    gloss = gloss.slice(0, -2)
+  }
+
+  if (gloss.endsWith("]")) {
+    gloss = gloss.slice(0, -1)
+  }
+
+  const referents = gloss.split("+").map(parseReferentGloss) as [
+    Referent,
+    ...Referent[],
+  ]
+
+  return [referents as ReferentList, perspective] as const
+}
+
+/**
+ * Parses a referential gloss string. Note that the syntax supported here is
+ * different from that outputted by `glossWord`, as it is difficult to parse
+ * something with that much complexity.
+ * @param gloss The gloss to be parsed.
+ * @returns The parsed referential.
+ */
+export function unglossReferential(gloss: string): PartialReferential {
+  let essence: Essence = "NRM"
+
+  if (gloss.endsWith("\\RPV")) {
+    gloss = gloss.slice(0, -4)
+    essence = "RPV"
+  }
+
+  const segments = gloss.split(segmentSplitterRegex)
+
+  let firstSegment = segments[0]!
+
+  let type: SuppletiveAdjunctType | undefined
+  let referents: ReferentList | undefined
+  let perspective: Perspective | undefined
+
+  if (
+    firstSegment == "[CAR]" ||
+    firstSegment == "[QUO]" ||
+    firstSegment == "[PHR]" ||
+    firstSegment == "[NAM]"
+  ) {
+    type = firstSegment.slice(1, -1) as SuppletiveAdjunctType
+  } else {
+    ;[referents, perspective] = parseReferentialReferentGloss(firstSegment)
+  }
+
+  const core = type ? { type } : { referents: referents!, perspective }
+
+  return {
+    ...core,
+    essence,
+  }
+}
+
+/**
+ * 1. [CAR] or referent
+ * 2. case?
+ * a.
+ *   3. (BSC/CTE/CSV/OBJ)?
+ *   4. tail
+ * b.
+ *   3. case?
+ *   4. referent
+ * 5. (\\RPV)?
+ */

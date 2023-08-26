@@ -3,6 +3,7 @@ import {
   SUPPLETIVE_ADJUNCT_TYPE_TO_NAME_MAP,
   type PartialReferential,
 } from "../generate/index.js"
+import { end } from "../parse/index.js"
 import { glossAffix } from "./affix.js"
 import { glossCase } from "./case.js"
 import { GlossString } from "./glossable.js"
@@ -64,6 +65,11 @@ export function glossReferential(referential: PartialReferential) {
 
   if (referential.essence == "RPV") {
     ending = ending.plusString("\\RPV")
+
+    ending = new GlossString(
+      ending.short.replace("-\\", "\\"),
+      ending.full.replace("-\\", "\\"),
+    )
   }
 
   let head = referential.type
