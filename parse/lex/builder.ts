@@ -203,6 +203,16 @@ export function anyText(...texts: string[]) {
 }
 
 /**
+ * Creates a `RegexPart` matching any of the passed texts, giving precedence to
+ * the first one.
+ * @param texts The texts that may be matched.
+ * @returns A `RegexPart` matching any of the passed texts.
+ */
+export function anyTextArray(texts: readonly string[]) {
+  return new RegexPartWithAlternates(texts.map((x) => escapeRegex(x)).join("|"))
+}
+
+/**
  * Creates a `RegexPart` matching each of the passed parts in order.
  * @param parts The parts that will be matched.
  * @returns A `RegexPart` matching all of the passed parts in order.

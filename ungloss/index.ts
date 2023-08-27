@@ -20,6 +20,7 @@ import {
   ALL_SPECIFICATIONS,
   ALL_VALENCES,
   deepFreeze,
+  deepFreezeAndNullPrototype,
   has,
   referentObjectToReferent,
   toAffix,
@@ -63,19 +64,113 @@ import {
   type VN,
   type Version,
 } from "../generate/index.js"
-import { any, anyText, charIn, seq, text } from "../parse/index.js"
+import {
+  any,
+  anyText,
+  anyTextArray,
+  charIn,
+  seq,
+  text,
+} from "../parse/index.js"
 
-const Consonant = charIn("pbtdkgfvţḑszšžçxhļcżčjmnňrlwyř")
+// Taken from https://github.com/ngoriyasjil/IthkuilGloss/blob/181241b89c962d83b999a669c298366b07df53b9/src/ithkuil/iv/gloss/Constants.kt#L27C4-L27C4
 
-const consonantSequenceRegex = Consonant.oneOrMore().matchEntireText().compile()
+const LETTER_SUBSTITUTIONS = /* @__PURE__ */ deepFreezeAndNullPrototype({
+  "​": "",
+  // The previous line is keyed with the Unicode Byte Order Mark
+
+  "’": "'",
+  ʼ: "'",
+  "‘": "'",
+  č: "č",
+  ç: "ç",
+  ṭ: "ţ",
+  ŧ: "ţ",
+  ț: "ţ",
+  ţ: "ţ",
+  ṭ: "ţ",
+  ḍ: "ḑ",
+  đ: "ḑ",
+  ḍ: "ḑ",
+  ḑ: "ḑ",
+  ł: "ļ",
+  ḷ: "ļ",
+  ḷ: "ļ",
+  ļ: "ļ",
+  š: "š",
+  ž: "ž",
+  ż: "ż",
+  ẓ: "ż",
+  ẓ: "ż",
+  ṇ: "ň",
+  ň: "ň",
+  ņ: "ň",
+  ṇ: "ň",
+  ṛ: "ř",
+  ř: "ř",
+  ŗ: "ř",
+  r͕: "ř",
+  ŗ: "ř",
+  ṛ: "ř",
+
+  Č: "Č",
+  Ç: "Ç",
+  Ṭ: "Ţ",
+  Ŧ: "Ţ",
+  Ț: "Ţ",
+  Ţ: "Ţ",
+  Ṭ: "Ţ",
+  Ḍ: "Ḑ",
+  Đ: "Ḑ",
+  Ḍ: "Ḑ",
+  Ḑ: "Ḑ",
+  Ł: "Ļ",
+  Ḷ: "Ļ",
+  Ḷ: "Ļ",
+  Ļ: "Ļ",
+  Š: "Š",
+  Ž: "Ž",
+  Ż: "Ż",
+  Ẓ: "Ż",
+  Ẓ: "Ż",
+  Ṇ: "Ň",
+  Ň: "Ň",
+  Ņ: "Ň",
+  Ṇ: "Ň",
+  Ṛ: "Ř",
+  Ř: "Ř",
+  Ŗ: "Ř",
+  R͕: "Ř",
+  Ŗ: "Ř",
+  Ṛ: "Ř",
+})
+
+const LETTER_SUBSTITUTION_REGEX =
+  // The first element of this character class is the Unicode Byte Order Mark
+  /[​’ʼ‘ṭŧțḍđłḷẓṇṛŗṬŦȚḌĐŁḶẒṆṚŖ]|č|ç|ţ|ṭ|ḍ|ḑ|ḷ|ļ|š|ž|ż|ẓ|ň|ņ|ṇ|ř|ŗ|r͕|ṛ|Č|Ç|Ţ|Ṭ|Ḍ|Ḑ|Ḷ|Ļ|Š|Ž|Ż|Ẓ|Ň|Ņ|Ṇ|Ř|Ŗ|R͕|Ṛ/gu
+
+function substituteLetters(word: string) {
+  return word.replace(
+    LETTER_SUBSTITUTION_REGEX,
+    (letter) => (LETTER_SUBSTITUTIONS as any)[letter],
+  )
+}
+
+// Consonants
+
+const Consonant = /* @__PURE__ */ charIn("pbtdkgfvţḑszšžçxhļcżčjmnňrlwyř")
+
+const consonantSequenceRegex = /* @__PURE__ */ Consonant.oneOrMore()
+  .matchEntireText()
+  .compile()
 
 // Referents
 
-const ReferentTarget = anyText(...ALL_REFERENT_TARGETS)
+const ReferentTarget = /* @__PURE__ */ anyTextArray(ALL_REFERENT_TARGETS)
 
-const Referent = seq(
+const Referent = /* @__PURE__ */ seq(
   ReferentTarget,
-  anyText(
+  /* @__PURE__ */ anyText(
     ".BEN",
     ".NEU",
     ".DET",
@@ -91,20 +186,26 @@ const Referent = seq(
   ).optional(),
 )
 
-const ReferentList = any(
+const ReferentList = /* @__PURE__ */ any(
   Referent,
-  seq(text("["), Referent, seq(text("+"), Referent).zeroOrMore(), text("]")),
+  /* @__PURE__ */ seq(
+    /* @__PURE__ */ text("["),
+    Referent,
+    /* @__PURE__ */ seq(/* @__PURE__ */ text("+"), Referent).zeroOrMore(),
+    /* @__PURE__ */ text("]"),
+  ),
 )
 
-const referentListRegex = ReferentList.matchEntireText().compile()
+const referentListRegex =
+  /* @__PURE__ */ ReferentList.matchEntireText().compile()
 
-const referentRegex = seq(
+const referentRegex = /* @__PURE__ */ seq(
   text("("),
   Referent,
   seq(text("+"), Referent).zeroOrMore(),
   anyText("+M", "+G", "+N").optional(),
   text("-"),
-  anyText(...ALL_REFERENTIAL_AFFIX_CASES),
+  anyTextArray(ALL_REFERENTIAL_AFFIX_CASES),
   text(")"),
 )
   .matchEntireText()
@@ -112,32 +213,33 @@ const referentRegex = seq(
 
 // Affixes
 
-const TypelessAffix = seq(
-  Consonant.oneOrMore(),
-  text("/"),
-  charIn("0123456789"),
+const TypelessAffix = /* @__PURE__ */ seq(
+  /* @__PURE__ */ Consonant.oneOrMore(),
+  /* @__PURE__ */ text("/"),
+  /* @__PURE__ */ charIn("0123456789"),
 )
 
-const typelessAffixRegex = TypelessAffix.matchEntireText().compile()
+const typelessAffixRegex =
+  /* @__PURE__ */ TypelessAffix.matchEntireText().compile()
 
-const Affix = seq(
-  Consonant.oneOrMore(),
-  text("/"),
-  charIn("0123456789"),
-  charIn("123₁₂₃").optional(),
+const Affix = /* @__PURE__ */ seq(
+  /* @__PURE__ */ Consonant.oneOrMore(),
+  /* @__PURE__ */ text("/"),
+  /* @__PURE__ */ charIn("0123456789"),
+  /* @__PURE__ */ charIn("123₁₂₃").optional(),
 )
 
-const affixRegex = Affix.matchEntireText().compile()
+const affixRegex = /* @__PURE__ */ Affix.matchEntireText().compile()
 
 // Ca
 
-const Affiliation = anyText(...ALL_AFFILIATIONS)
-const Configuration = anyText(...ALL_CONFIGURATIONS)
-const Extension = anyText(...ALL_EXTENSIONS)
-const Perspective = anyText(...ALL_PERSPECTIVES)
-const Essence = anyText(...ALL_ESSENCES)
+const Affiliation = /* @__PURE__ */ anyTextArray(ALL_AFFILIATIONS)
+const Configuration = /* @__PURE__ */ anyTextArray(ALL_CONFIGURATIONS)
+const Extension = /* @__PURE__ */ anyTextArray(ALL_EXTENSIONS)
+const Perspective = /* @__PURE__ */ anyTextArray(ALL_PERSPECTIVES)
+const Essence = /* @__PURE__ */ anyTextArray(ALL_ESSENCES)
 
-const AnyCaslot = any(
+const AnyCaslot = /* @__PURE__ */ any(
   Affiliation,
   Configuration,
   Extension,
@@ -145,19 +247,30 @@ const AnyCaslot = any(
   Essence,
 )
 
-const Ca = any(
-  seq(charIn("Cc"), charIn("Aa")),
-  seq(text("{"), charIn("Cc"), charIn("Aa"), text("}")),
-  seq(AnyCaslot, seq(text("."), AnyCaslot).zeroOrMore()),
+const Ca = /* @__PURE__ */ any(
+  /* @__PURE__ */ seq(
+    /* @__PURE__ */ charIn("Cc"),
+    /* @__PURE__ */ charIn("Aa"),
+  ),
+  /* @__PURE__ */ seq(
+    /* @__PURE__ */ text("{"),
+    /* @__PURE__ */ charIn("Cc"),
+    /* @__PURE__ */ charIn("Aa"),
+    /* @__PURE__ */ text("}"),
+  ),
+  /* @__PURE__ */ seq(
+    AnyCaslot,
+    /* @__PURE__ */ seq(/* @__PURE__ */ text("."), AnyCaslot).zeroOrMore(),
+  ),
 )
 
-const caRegex = Ca.matchEntireText().compile()
+const caRegex = /* @__PURE__ */ Ca.matchEntireText().compile()
 
 // Case-Stacking Affixes
 
-const Case = anyText(...ALL_CASES)
+const Case = /* @__PURE__ */ anyTextArray(ALL_CASES)
 
-const caseRelatedRegex = seq(
+const caseRelatedRegex = /* @__PURE__ */ seq(
   anyText("(acc:", "(ia:", "(case:", "("),
   Case,
   text(")"),
@@ -168,9 +281,9 @@ const caseRelatedRegex = seq(
 
 // General
 
-const segmentSplitterRegex = seq(
+const segmentSplitterRegex = /* @__PURE__ */ seq(
   text("-"),
-  seq(anyText(...ALL_REFERENTIAL_AFFIX_CASES), text(")")).not(),
+  seq(anyTextArray(ALL_REFERENTIAL_AFFIX_CASES), text(")")).not(),
 ).compile("g")
 
 function parseCaseRelatedGloss(gloss: string): Affix {
@@ -811,6 +924,8 @@ function unglossTailSegments(
  * Cn slot, it will be treated as the main Ca slot, replacing the unmarked Ca.
  */
 export function unglossFormative(gloss: string): PartialFormative | undefined {
+  gloss = substituteLetters(gloss)
+
   if (gloss.endsWith("\\FRM")) {
     gloss = gloss.slice(0, -4) + "-FRM"
   }
@@ -1203,23 +1318,23 @@ export function unglossFormative(gloss: string): PartialFormative | undefined {
   }
 }
 
-const PlusPerspective = anyText("+M", "+G", "+N", "+A")
+const PlusPerspective = /* @__PURE__ */ anyText("+M", "+G", "+N", "+A")
 
-const referentialReferentRegex = any(
-  seq(Referent, PlusPerspective.optional()),
-  seq(
-    text("["),
+const referentialReferentRegex = /* @__PURE__ */ any(
+  /* @__PURE__ */ seq(Referent, /* @__PURE__ */ PlusPerspective.optional()),
+  /* @__PURE__ */ seq(
+    /* @__PURE__ */ text("["),
     Referent,
-    seq(text("+"), Referent).zeroOrMore(),
-    PlusPerspective.optional(),
-    text("]"),
+    /* @__PURE__ */ seq(/* @__PURE__ */ text("+"), Referent).zeroOrMore(),
+    /* @__PURE__ */ PlusPerspective.optional(),
+    /* @__PURE__ */ text("]"),
   ),
-  seq(
-    text("["),
+  /* @__PURE__ */ seq(
+    /* @__PURE__ */ text("["),
     Referent,
-    seq(text("+"), Referent).zeroOrMore(),
-    text("]"),
-    PlusPerspective.optional(),
+    /* @__PURE__ */ seq(/* @__PURE__ */ text("+"), Referent).zeroOrMore(),
+    /* @__PURE__ */ text("]"),
+    /* @__PURE__ */ PlusPerspective.optional(),
   ),
 )
   .matchEntireText()
@@ -1300,6 +1415,8 @@ function parseReferentialReferentGloss(gloss: string) {
 export function unglossReferential(
   gloss: string,
 ): PartialReferential | undefined {
+  gloss = substituteLetters(gloss)
+
   let essence: Essence = "NRM"
 
   if (gloss.endsWith("\\RPV")) {
@@ -1432,6 +1549,8 @@ export function unglossSimpleAdjunct(
   | SingleRegisterAdjunct
   | SuppletiveAdjunct
   | undefined {
+  gloss = substituteLetters(gloss)
+
   if (has(ALL_BIAS_ADJUNCTS, gloss)) {
     return gloss
   }
@@ -1527,6 +1646,8 @@ export function unglossSimpleAdjunct(
 export function unglossAffixualAdjunct(
   gloss: string,
 ): AffixualAdjunct | undefined {
+  gloss = substituteLetters(gloss)
+
   let appliesToConcatenatedStemOnly = false
 
   const segments = gloss.split(segmentSplitterRegex).filter((segment) => {
@@ -1621,6 +1742,8 @@ export function unglossAffixualAdjunct(
 export function unglossModularAdjunct(
   gloss: string,
 ): ModularAdjunct | undefined {
+  gloss = substituteLetters(gloss)
+
   let type: ModularAdjunctType | undefined
   let scope: ModularAdjunctScope | undefined
 
@@ -1792,4 +1915,72 @@ export function unglossModularAdjunct(
     vn2,
     vn3,
   }
+}
+
+/**
+ * The result of an ungloss operation.
+ * @template L The label of the ungloss.
+ * @template T The word type this ungloss contains.
+ */
+export type UnglossResult<L extends string, T> =
+  | { readonly label: L; readonly type: "success"; readonly value: T }
+  | { readonly label: L; readonly type: "error"; readonly reason: string }
+  | { readonly label: L; readonly type: "notApplicable" }
+
+/**
+ * Parses a gloss string into several different formats. Note that the syntax
+ * supported here is different from that outputted by `glossWord`, as it is
+ * difficult to parse something with that much complexity.
+ * @param gloss The gloss to be parsed.
+ * @returns An object containing information about the parsed word.
+ */
+export function unglossWord(
+  gloss: string,
+): readonly [
+  UnglossResult<"formative", PartialFormative>,
+  UnglossResult<"referential", PartialReferential>,
+  UnglossResult<
+    "adjunct",
+    BiasAdjunct | ParsingAdjunct | SingleRegisterAdjunct | SuppletiveAdjunct
+  >,
+  UnglossResult<"affixual", AffixualAdjunct>,
+  UnglossResult<"modular", ModularAdjunct>,
+] {
+  gloss = substituteLetters(gloss)
+
+  function attemptGloss<L extends string, T>(
+    label: L,
+    ungloss: (gloss: string) => T | undefined,
+  ): UnglossResult<L, T> {
+    try {
+      const value = ungloss(gloss)
+
+      if (value) {
+        return {
+          label,
+          type: "success",
+          value,
+        }
+      } else {
+        return {
+          label,
+          type: "notApplicable",
+        }
+      }
+    } catch (error) {
+      return {
+        label,
+        type: "error",
+        reason: String(error instanceof Error ? error.message : error),
+      }
+    }
+  }
+
+  return [
+    attemptGloss("formative", unglossFormative),
+    attemptGloss("referential", unglossReferential),
+    attemptGloss("adjunct", unglossSimpleAdjunct),
+    attemptGloss("affixual", unglossAffixualAdjunct),
+    attemptGloss("modular", unglossModularAdjunct),
+  ]
 }
