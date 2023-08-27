@@ -1,33 +1,86 @@
 import { stdin, stdout } from "node:process"
-import { createInterface } from "node:readline/promises"
-import { wordToIthkuil } from "../generate/index.js"
+import { createInterface } from "node:readline"
+import { wordToIthkuil, type Word } from "../generate/index.js"
 import { glossWord } from "../gloss/index.js"
 import { parseWord } from "../parse/index.js"
-import { unglossReferential } from "../ungloss/index.js"
+import {
+  unglossAffixualAdjunct,
+  unglossFormative,
+  unglossModularAdjunct,
+  unglossReferential,
+  unglossSimpleAdjunct,
+} from "../ungloss/index.js"
+
+const colors = {
+  black: "\u001b[30m",
+  blue: "\u001b[34m",
+  cyan: "\u001b[36m",
+  dim: "\u001b[2m",
+  green: "\u001b[32m",
+  magenta: "\u001b[35m",
+  red: "\u001b[31m",
+  reset: "\u001b[0m",
+  white: "\u001b[37m",
+  yellow: "\u001b[33m",
+} as const
 
 const rl = createInterface(stdin, stdout)
 
-while (true) {
-  const inputGloss = await rl.question("\nInput gloss:    ")
+const MAX_LABEL_LENGTH = 14
+const MAX_WORD_LENGTH = 20
 
+function ask(question: string) {
+  return new Promise<string>((resolve) => rl.question(question, resolve))
+}
+
+function show<T extends Word>(
+  inputGloss: string,
+  label: string,
+  ungloss: (gloss: string) => T | undefined,
+) {
   try {
-    const referential = unglossReferential(inputGloss)
+    const parsed = ungloss(inputGloss)
 
-    const word = wordToIthkuil(referential)
-    const reparsedFormative = parseWord(word)
+    if (parsed) {
+      const word = wordToIthkuil(parsed)
+      const reparsed = parseWord(word)
 
-    if (!reparsedFormative) {
-      throw new Error("Invalid word: '" + word + "'.")
+      if (reparsed) {
+        const gloss = glossWord(reparsed)
+
+        console.log(
+          colors.blue +
+            label.padStart(MAX_LABEL_LENGTH) +
+            colors.yellow +
+            word.padEnd(MAX_WORD_LENGTH) +
+            " " +
+            colors.reset +
+            gloss.short,
+        )
+      }
     }
-
-    const regloss = glossWord(reparsedFormative)
-
-    console.log("Interpretation: " + regloss.short)
-    console.log("Interpretation: " + regloss.full)
-    console.log("Output:         " + word)
   } catch (error) {
-    console.error(
-      "Error: " + (error instanceof Error ? error.message : String(error)),
+    console.log(
+      colors.red +
+        colors.dim +
+        label.padStart(MAX_LABEL_LENGTH) +
+        (error instanceof Error ? error.message : String(error)) +
+        colors.reset,
     )
   }
+}
+
+while (true) {
+  const inputGloss = await ask(
+    "\n" +
+      colors.blue +
+      "Input gloss: ".padStart(MAX_LABEL_LENGTH) +
+      colors.reset,
+  )
+
+  show(inputGloss, "Formative: ", unglossFormative)
+  show(inputGloss, "Referential: ", unglossReferential)
+  show(inputGloss, "Adjunct: ", unglossSimpleAdjunct)
+  show(inputGloss, "Affixual: ", unglossAffixualAdjunct)
+  show(inputGloss, "Modular: ", unglossModularAdjunct)
 }

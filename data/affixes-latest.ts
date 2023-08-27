@@ -1,5 +1,5 @@
-import type { AffixEntry } from "./affixes.js"
 import { deepFreeze } from "../generate/helpers/deep-freeze.js"
+import type { AffixEntry } from "./affixes.js"
 
 export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
   {

@@ -1,6 +1,7 @@
 import {
   ALL_AFFILIATIONS,
   ALL_ASPECTS,
+  ALL_BIAS_ADJUNCTS,
   ALL_CASES,
   ALL_CASE_SCOPES,
   ALL_CONFIGURATIONS,
@@ -15,6 +16,7 @@ import {
   ALL_PHASES,
   ALL_REFERENTIAL_AFFIX_CASES,
   ALL_REFERENT_TARGETS,
+  ALL_REGISTER_ADJUNCTS,
   ALL_SPECIFICATIONS,
   ALL_VALENCES,
   deepFreeze,
@@ -25,7 +27,11 @@ import {
   type Affix,
   type AffixShortcut,
   type AffixType,
+  type AffixualAdjunct,
+  type AffixualAdjunctScope,
+  type BiasAdjunct,
   type CA,
+  type CN,
   type Case,
   type CaseScope,
   type Configuration,
@@ -34,7 +40,12 @@ import {
   type Extension,
   type Function,
   type IllocutionOrValidation,
+  type ModularAdjunct,
+  type ModularAdjunctScope,
+  type ModularAdjunctType,
   type Mood,
+  type NonAspectualVN,
+  type ParsingAdjunct,
   type PartialCA,
   type PartialFormative,
   type PartialReferential,
@@ -42,9 +53,12 @@ import {
   type Referent,
   type ReferentEffect,
   type ReferentList,
+  type RegisterAdjunct,
+  type SingleRegisterAdjunct,
   type SlotIII,
   type Specification,
   type Stem,
+  type SuppletiveAdjunct,
   type SuppletiveAdjunctType,
   type VN,
   type Version,
@@ -526,7 +540,7 @@ function parseTailSegments(segments: readonly string[]) {
         }
       }
 
-      throw new Error("Invalid formative tail segment: '" + segment + "'.")
+      throw new Error("Invalid tail segment: '" + segment + "'.")
     }
 
     if (caRegex.test(segment)) {
@@ -600,7 +614,7 @@ function parseTailSegments(segments: readonly string[]) {
       }
     }
 
-    throw new Error("Invalid formative tail segment: '" + segment + "'.")
+    throw new Error("Invalid tail segment: '" + segment + "'.")
   })
 }
 
@@ -669,7 +683,7 @@ function unglossTailSegments(
  * different from that outputted by `glossWord`, as it is difficult to parse
  * something with that much complexity.
  * @param gloss The gloss to be parsed.
- * @returns The parsed formative.
+ * @returns The parsed formative, or `undefined` if no root is present.
  *
  * ## Supported Syntax
  *
@@ -796,7 +810,7 @@ function unglossTailSegments(
  * non-default case-scope or mood is present which has not been placed into the
  * Cn slot, it will be treated as the main Ca slot, replacing the unmarked Ca.
  */
-export function unglossFormative(gloss: string): PartialFormative {
+export function unglossFormative(gloss: string): PartialFormative | undefined {
   if (gloss.endsWith("\\FRM")) {
     gloss = gloss.slice(0, -4) + "-FRM"
   }
@@ -975,7 +989,7 @@ export function unglossFormative(gloss: string): PartialFormative {
   }
 
   if (!root) {
-    throw new Error("No root detected.")
+    return
   }
 
   if (caShortcut && function_ == "DYN") {
@@ -1249,7 +1263,7 @@ function parseReferentialReferentGloss(gloss: string) {
  * different from that outputted by `glossWord`, as it is difficult to parse
  * something with that much complexity.
  * @param gloss The gloss to be parsed.
- * @returns The parsed referential.
+ * @returns The parsed referential, or `undefined` if no referent is detected.
  *
  * ## Syntax
  *
@@ -1267,8 +1281,8 @@ function parseReferentialReferentGloss(gloss: string) {
  * another referent. Examples include `1m-ERG-AFF-2m` and `ma+N-LOC-IND-1m`.
  *
  * To create a combination referential, specify an initial segment, an optional
- * case, an optional specification, and then any formative tail segments, such
- * as affixes or Ca, Vn, Cn, Vc, or Vk information.
+ * case, an optional specification, and then any tail segments, such as affixes
+ * or Ca, Vn, Cn, Vc, or Vk information.
  *
  * ## Referent Syntax
  *
@@ -1283,7 +1297,9 @@ function parseReferentialReferentGloss(gloss: string) {
  * optional perspective inside square brackets, such as `1m`, `[1m+2m]`,
  * `[ma.BEN+G]`, or `[2m+pi.DET+N]`.
  */
-export function unglossReferential(gloss: string): PartialReferential {
+export function unglossReferential(
+  gloss: string,
+): PartialReferential | undefined {
   let essence: Essence = "NRM"
 
   if (gloss.endsWith("\\RPV")) {
@@ -1306,8 +1322,10 @@ export function unglossReferential(gloss: string): PartialReferential {
     firstSegment == "[PHR]"
   ) {
     type = firstSegment.slice(1, -1) as SuppletiveAdjunctType
-  } else {
+  } else if (referentialReferentRegex.test(firstSegment)) {
     ;[referents, perspective] = parseReferentialReferentGloss(firstSegment)
+  } else {
+    return
   }
 
   const core = type ? { type } : { referents: referents!, perspective }
@@ -1381,5 +1399,397 @@ export function unglossReferential(gloss: string): PartialReferential {
     specification,
     affixes: parseTailSegments(segments).map(tailSegmentToAffix),
     case2,
+  }
+}
+
+/**
+ * Parses a simple adjunct gloss string. Note that the syntax supported here is
+ * different from that outputted by `glossWord`, as it is difficult to parse
+ * something with that much complexity.
+ * @param gloss The gloss to be parsed.
+ * @returns The parsed adjunct, or `undefined` if the gloss doesn't represent an
+ * adjunct.
+ *
+ * ## Syntax
+ *
+ * Bias adjuncts are represented by their abbreviations, such as `SOL` for
+ * solicitative, `COI` for coincidental, and `DOL` for dolorous.
+ *
+ * Parsing adjuncts are represented with `mono:`, `ulti:`, `ante:`, and `penu:`.
+ *
+ * Register adjuncts are represented with `DSV`, `PNT`, `SPF`, `EXM`, `CGT`,
+ * `DSV_END`, `PNT_END`, `SPF_END`, `EXM_END`, `CGT_END`, and `END`.
+ *
+ * Suppletive adjuncts are represented by the type (`[CAR]`, `[QUO]`, `[NAM]`,
+ * or `[PHR]`) followed by a case (such as `ERG`, `ALL`, or `POS`), separated
+ * with hyphens, as in `[CAR]-ABL`.
+ */
+export function unglossSimpleAdjunct(
+  gloss: string,
+):
+  | BiasAdjunct
+  | ParsingAdjunct
+  | SingleRegisterAdjunct
+  | SuppletiveAdjunct
+  | undefined {
+  if (has(ALL_BIAS_ADJUNCTS, gloss)) {
+    return gloss
+  }
+
+  if (gloss.toLowerCase() == "mono:") {
+    return "monosyllabic"
+  }
+
+  if (gloss.toLowerCase() == "ulti:") {
+    return "ultimate"
+  }
+
+  if (gloss.toLowerCase() == "ante:") {
+    return "antepenultimate"
+  }
+
+  if (gloss.toLowerCase() == "penu:") {
+    return "penultimate"
+  }
+
+  if (has(ALL_REGISTER_ADJUNCTS, gloss)) {
+    if (gloss == "NRR") {
+      throw new Error("Cannot ungloss 'NRR' register.")
+    }
+
+    if (gloss == "END") {
+      return "END:END"
+    }
+
+    return `${gloss}:START`
+  }
+
+  if (
+    gloss.length == 7 &&
+    gloss.slice(3, 7) == "_END" &&
+    has(ALL_REGISTER_ADJUNCTS, gloss.slice(0, 3))
+  ) {
+    const register = gloss.slice(0, 3) as RegisterAdjunct
+
+    if (register == "NRR") {
+      throw new Error("Cannot ungloss 'NRR_END' register.")
+    }
+
+    return `${register}:END`
+  }
+
+  const segments = gloss.split(segmentSplitterRegex)
+
+  if (
+    has(["[CAR]", "[QUO]", "[NAM]", "[PHR]"], segments[0]) &&
+    ((segments.length == 2 && has(ALL_CASES, segments[1])) ||
+      (segments.length == 1 && segments[1] == null))
+  ) {
+    return {
+      type: segments[0]!.slice(1, -1) as SuppletiveAdjunctType,
+      case: segments[1] || "THM",
+    }
+  }
+
+  return
+}
+
+/**
+ * Parses an affixual adjunct gloss string. Note that the syntax supported here
+ * is different from that outputted by `glossWord`, as it is difficult to parse
+ * something with that much complexity.
+ * @param gloss The gloss to be parsed.
+ * @returns The parsed adjunct, or `undefined` if the gloss doesn't represent an
+ * affixual adjunct.
+ *
+ * ## Syntax
+ *
+ * An affixual adjunct gloss should just be a string of tail segments, such as
+ * affixes or Ca, Vn, Cn, Vc, or Vk information.
+ *
+ * To indicate that this adjunct should be represented on the concatenated
+ * formative only, include "concat" as a segment.
+ *
+ * To indicate the scope of the first affix in this adjunct, write `form`,
+ * `adj`, `vii.dom`, `vii.sub`, `v.dom`, or `v.sub` as a segment directly after
+ * the first affix.
+ *
+ * To indicate the scope of other affixes in this adjunct, write `FORM`, `ADJ`,
+ * `VII:DOM`, `VII:SUB`, `V:DOM`, or `V:SUB` as the final segment of the
+ * adjunct.
+ *
+ * These are all valid affixual adjuncts:
+ *
+ * - `r/1`
+ * - `(mi-ERG)-V:SUB-EFF`
+ * - `r/1-r/3-VII:DOM`
+ */
+export function unglossAffixualAdjunct(
+  gloss: string,
+): AffixualAdjunct | undefined {
+  let appliesToConcatenatedStemOnly = false
+
+  const segments = gloss.split(segmentSplitterRegex).filter((segment) => {
+    if (segment.toLowerCase().includes("concat")) {
+      if (appliesToConcatenatedStemOnly) {
+        throw new Error("Specified `appliesToConcatenatedStemOnly` twice.")
+      }
+
+      appliesToConcatenatedStemOnly = true
+      return false
+    }
+
+    return true
+  })
+
+  let scope: AffixualAdjunctScope | undefined
+
+  if (segments[1]) {
+    const secondSegment = segments[1].toLowerCase()
+
+    if (secondSegment.includes("form")) {
+      scope = "FORMATIVE"
+    } else if (secondSegment.includes("adj")) {
+      scope = "ADJACENT"
+    } else if (secondSegment.includes("vii") && secondSegment.includes("dom")) {
+      scope = "VII:DOM"
+    } else if (secondSegment.includes("vii") && secondSegment.includes("sub")) {
+      scope = "VII:SUB"
+    } else if (secondSegment.includes("v") && secondSegment.includes("dom")) {
+      scope = "V:DOM"
+    } else if (secondSegment.includes("v") && secondSegment.includes("sub")) {
+      scope = "V:SUB"
+    }
+
+    if (scope) {
+      segments.splice(1, 1)
+    }
+  }
+
+  let scope2: AffixualAdjunctScope | undefined
+
+  if (segments[segments.length - 1]) {
+    const finalSegment = segments[segments.length - 1]!.toLowerCase()
+
+    if (finalSegment.includes("form")) {
+      scope2 = "FORMATIVE"
+    } else if (finalSegment.includes("adj")) {
+      scope2 = "ADJACENT"
+    } else if (finalSegment.includes("vii") && finalSegment.includes("dom")) {
+      scope2 = "VII:DOM"
+    } else if (finalSegment.includes("vii") && finalSegment.includes("sub")) {
+      scope2 = "VII:SUB"
+    } else if (finalSegment.includes("v") && finalSegment.includes("dom")) {
+      scope2 = "V:DOM"
+    } else if (finalSegment.includes("v") && finalSegment.includes("sub")) {
+      scope2 = "V:SUB"
+    }
+
+    if (scope2) {
+      segments.splice(-1, 1)
+    }
+  }
+
+  const affixes = parseTailSegments(segments).map(tailSegmentToAffix)
+
+  if (affixes.length == 0) {
+    return
+  }
+
+  if (scope2 && affixes.length == 1) {
+    throw new Error(
+      "Cannot specify two affixual adjunct scopes when only one affix is present.",
+    )
+  }
+
+  return {
+    affixes: affixes satisfies Affix[] as [Affix, ...Affix[]],
+    scope,
+    scope2,
+    appliesToConcatenatedStemOnly,
+  }
+}
+
+/**
+ * Parses a modular adjunct gloss string. Note that the syntax supported here is
+ * different from that outputted by `glossWord`, as it is difficult to parse
+ * something with that much complexity.
+ * @param gloss The gloss to be parsed.
+ * @returns The parsed adjunct, or `undefined` if the gloss doesn't represent a
+ * modular adjunct.
+ */
+export function unglossModularAdjunct(
+  gloss: string,
+): ModularAdjunct | undefined {
+  let type: ModularAdjunctType | undefined
+  let scope: ModularAdjunctScope | undefined
+
+  const segments = gloss.split(segmentSplitterRegex).filter((segment) => {
+    segment = segment.toLowerCase()
+
+    if (segment.includes("parent")) {
+      if (type) {
+        throw new Error("Modular adjunct type is specified twice.")
+      }
+
+      type = "PARENT"
+      return false
+    }
+
+    if (segment.includes("concat")) {
+      if (type) {
+        throw new Error("Modular adjunct type is specified twice.")
+      }
+
+      type = "CONCAT"
+      return false
+    }
+
+    if (segment.includes("form")) {
+      if (scope) {
+        throw new Error("Modular adjunct scope is specified twice.")
+      }
+
+      scope = "CASE/MOOD+ILL/VAL"
+      return false
+    }
+
+    if (
+      (segment.includes("case") && segment.includes("mood")) ||
+      segment.includes("mcs")
+    ) {
+      if (scope) {
+        throw new Error("Modular adjunct scope is specified twice.")
+      }
+
+      scope = "CASE/MOOD"
+      return false
+    }
+
+    if (
+      segment.includes("adj") &&
+      (segment.includes("under") || segment.includes("below"))
+    ) {
+      if (scope) {
+        throw new Error("Modular adjunct scope is specified twice.")
+      }
+
+      scope = "FORMATIVE"
+      return false
+    }
+
+    if (segment.includes("adj")) {
+      if (scope) {
+        throw new Error("Modular adjunct scope is specified twice.")
+      }
+
+      scope = "ADJACENT"
+      return false
+    }
+
+    return true
+  })
+
+  let vn1: VN | undefined
+  let vn2: VN | undefined
+  let vn3: NonAspectualVN | undefined
+  let cn: CN | undefined
+
+  {
+    const segment = segments[0]
+
+    if (
+      has(ALL_VALENCES, segment) ||
+      has(ALL_PHASES, segment) ||
+      has(ALL_EFFECTS, segment) ||
+      has(ALL_LEVELS, segment) ||
+      has(ALL_ASPECTS, segment)
+    ) {
+      vn1 = segment
+      segments.shift()
+    }
+  }
+
+  {
+    const segment = segments[0]
+
+    if (has(ALL_MOODS, segment) || has(ALL_CASE_SCOPES, segment)) {
+      cn = segment
+      segments.shift()
+    }
+  }
+
+  if (!vn1 && !cn) {
+    return
+  }
+
+  {
+    const segment = segments[0]
+
+    if (segment) {
+      if (
+        has(ALL_VALENCES, segment) ||
+        has(ALL_PHASES, segment) ||
+        has(ALL_EFFECTS, segment) ||
+        has(ALL_LEVELS, segment) ||
+        has(ALL_ASPECTS, segment)
+      ) {
+        vn2 = segment
+        segments.shift()
+      } else {
+        throw new Error("Invalid modular segment: '" + segment + "'.")
+      }
+    }
+  }
+
+  {
+    if (!scope) {
+      const segment = segments[0]
+
+      if (segment) {
+        if (
+          has(ALL_VALENCES, segment) ||
+          has(ALL_PHASES, segment) ||
+          has(ALL_EFFECTS, segment) ||
+          has(ALL_LEVELS, segment)
+        ) {
+          vn3 = segment
+          segments.shift()
+        } else {
+          throw new Error("Invalid modular segment: '" + segment + "'.")
+        }
+      }
+    }
+  }
+
+  if (segments.length) {
+    throw new Error("Too many modular segments.")
+  }
+
+  if (scope) {
+    return {
+      type,
+      vn1: vn1 || "MNO",
+      cn,
+      vn2,
+      scope,
+    }
+  }
+
+  if (!vn3) {
+    if (vn2 && !has(ALL_ASPECTS, vn2)) {
+      vn3 = vn2
+      vn2 = undefined
+    } else {
+      vn3 = "MNO"
+    }
+  }
+
+  return {
+    type,
+    vn1: vn1 || "MNO",
+    cn,
+    vn2,
+    vn3,
   }
 }

@@ -66,9 +66,7 @@ export type Word = PartialReferential | PartialFormative | Adjunct
  * // "üohnêi"
  * ```
  */
-export function wordToIthkuil(
-  word: PartialReferential | PartialFormative | Adjunct,
-): string {
+export function wordToIthkuil(word: Word): string {
   if (typeof word == "string") {
     return adjunctToIthkuil(word)
   }
