@@ -124,7 +124,7 @@ export function glossFormative(formative: PartialFormative) {
       const root =
         associatedRoot.stems[formative.stem ?? 1] || associatedRoot.stems[0]
 
-      slot3 = GlossString.of("‘" + root + "’")
+      slot3 = GlossString.of("“" + root + "”")
     } else {
       slot3 = GlossString.of(formative.root)
     }
