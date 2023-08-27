@@ -78,6 +78,14 @@ while (true) {
       colors.reset,
   )
 
+  console.clear()
+  console.log(
+    colors.blue +
+      "Input gloss: ".padStart(MAX_LABEL_LENGTH) +
+      colors.reset +
+      inputGloss,
+  )
+
   show(inputGloss, "Formative: ", unglossFormative)
   show(inputGloss, "Referential: ", unglossReferential)
   show(inputGloss, "Adjunct: ", unglossSimpleAdjunct)
