@@ -9,6 +9,7 @@ import { parseReferential } from "./referential/index.js"
 
 export * from "./adjunct/index.js"
 export * from "./formative/index.js"
+export * from "./from-text.js"
 export * from "./lex/index.js"
 export * from "./referential/index.js"
 export * from "./transform.js"
