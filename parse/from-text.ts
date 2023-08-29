@@ -48,8 +48,12 @@ export type ParsedItem =
         readonly [source: string, formative: PartialNominalFormative],
         ...(readonly [source: string, formative: PartialNominalFormative])[],
       ]
+
+      readonly properNoun?: undefined
     }
-  | { readonly type: "sentenceBreak" }
+  | {
+      readonly type: "sentenceBreak"
+    }
 
 function parseSentence(text: string): Result<ParsedItem[]> {
   try {
