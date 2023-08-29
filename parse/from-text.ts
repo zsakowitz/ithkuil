@@ -6,7 +6,11 @@ import {
   type Word,
 } from "../generate/index.js"
 import { parseWord } from "../parse/index.js"
-import type { Result } from "../script/utilities/result.js"
+
+/** A result type showing either success or failure. */
+export type Result<T> =
+  | { readonly ok: true; readonly value: T }
+  | { readonly ok: false; readonly reason: string }
 
 /**
  * A helper type which removes properties that may only be undefined from an
@@ -22,18 +26,17 @@ export type OmitUndefinedValues<T> = T extends infer U
 export type ParsedItem =
   | {
       readonly type: "word"
-
       readonly word: Word
-
+      readonly source: string
       readonly properNoun?: string | undefined
     }
   | {
       readonly type: "chain"
 
       readonly words: readonly [
-        PartialNominalFormative,
-        ...PartialNominalFormative[],
-        PartialFormative,
+        readonly [source: string, formative: PartialNominalFormative],
+        ...(readonly [source: string, formative: PartialNominalFormative])[],
+        readonly [source: string, formative: PartialFormative],
       ]
 
       readonly properNoun?: string | undefined
@@ -42,8 +45,8 @@ export type ParsedItem =
       readonly type: "brokenChain"
 
       readonly words: readonly [
-        PartialNominalFormative,
-        ...PartialNominalFormative[],
+        readonly [source: string, formative: PartialNominalFormative],
+        ...(readonly [source: string, formative: PartialNominalFormative])[],
       ]
     }
   | { readonly type: "sentenceBreak" }
@@ -60,17 +63,25 @@ function parseSentence(text: string): Result<ParsedItem[]> {
 
     let wordType:
       | { type: "word" }
-      | { type: "carrier"; word: Word }
+      | { type: "carrier"; word: Word; source: string }
       | {
           type: "chain"
-          words: [PartialNominalFormative, ...PartialFormative[]]
+          words: [
+            [string, PartialNominalFormative],
+            ...[string, PartialFormative][],
+          ]
           includesCarrier: boolean
           expects: "formative" | "properNoun"
         } = { type: "word" }
 
     for (const word of words) {
       if (wordType.type == "carrier") {
-        output.push({ type: "word", word: wordType.word, properNoun: word })
+        output.push({
+          type: "word",
+          word: wordType.word,
+          source: wordType.source,
+          properNoun: word,
+        })
 
         wordType = { type: "word" }
 
@@ -101,7 +112,7 @@ function parseSentence(text: string): Result<ParsedItem[]> {
             wordType.includesCarrier = true
           }
 
-          wordType.words.push(result)
+          wordType.words.push([word, result])
 
           if (
             result.type != "UNF/C" ||
@@ -124,12 +135,12 @@ function parseSentence(text: string): Result<ParsedItem[]> {
               type: "chain",
               expects: "formative",
               includesCarrier: result.root == "s",
-              words: [result],
+              words: [[word, result]],
             }
           } else if (result.root == "s") {
-            wordType = { type: "carrier", word: result }
+            wordType = { type: "carrier", word: result, source: word }
           } else {
-            output.push({ type: "word", word: result })
+            output.push({ type: "word", word: result, source: word })
             wordType = { type: "word" }
           }
         }
@@ -144,16 +155,20 @@ function parseSentence(text: string): Result<ParsedItem[]> {
             "type" in result &&
             has(ALL_SUPPLETIVE_ADJUNCT_TYPES, result.type))
         ) {
-          wordType = { type: "carrier", word: result }
+          wordType = { type: "carrier", word: result, source: word }
         } else {
-          output.push({ type: "word", word: result })
+          output.push({ type: "word", word: result, source: word })
           wordType = { type: "word" }
         }
       }
     }
 
     if (wordType.type == "carrier") {
-      output.push({ type: "word", word: wordType.word })
+      output.push({
+        type: "word",
+        word: wordType.word,
+        source: wordType.source,
+      })
     } else if (wordType.type == "chain") {
       output.push({ type: "brokenChain", words: wordType.words as any })
     }
