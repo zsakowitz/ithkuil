@@ -183,7 +183,7 @@ export function textToSecondaries(
   ;({ word: text } = transformWordButLeaveStressMarkings(text))
 
   text = text
-    .replace(/[^_aeiouäëöüáéíóúâêôûpbtdkgfvţḑszšžçxhļcżčjmnňrlwyř']+/g, " ")
+    .replace(/[^aeiouäëöüáéíóúâêôûpbtdkgfvţḑszšžçxhļcżčjmnňrlwyř'_]+/g, " ")
     .trim()
 
   const output: SecondaryCharacter[] = []
