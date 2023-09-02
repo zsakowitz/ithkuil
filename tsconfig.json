@@ -7,7 +7,7 @@
     "jsxImportSource": "@zsnout/ithkuil/script",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "moduleResolution": "nodenext",
-    "module": "ESNext",
+    "module": "nodenext",
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
     "noImplicitReturns": true,

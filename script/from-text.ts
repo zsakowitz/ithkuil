@@ -54,7 +54,9 @@ function referentListToString(list: ReferentList): string {
 
 function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
   try {
-    const words = text.match(/[\p{ID_Start}'][\p{ID_Start}\p{ID_Continue}']*/gu)
+    const words = text.match(
+      /[\p{ID_Start}'][\p{ID_Start}\p{ID_Continue}'-]*/gu,
+    )
 
     if (!words) {
       return { ok: true, value: [] }
@@ -72,7 +74,9 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
         }
       | undefined
 
-    for (const word of words) {
+    for (let index = 0; index < words.length; index++) {
+      let word = words[index]!
+
       if (typeof wordType == "object") {
         if (wordType.open) {
           output.push(...wordType.open)
@@ -91,6 +95,12 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
         wordType = undefined
 
         continue
+      }
+
+      if (word.includes("-")) {
+        const [thisWord, ...rest] = word.split("-")
+        word = thisWord!
+        words.splice(index + 1, 0, rest.join("-"))
       }
 
       const result = parseWord(word) as OmitUndefinedValues<
