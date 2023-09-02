@@ -1,5 +1,5 @@
-import { deepFreeze } from "../generate/helpers/deep-freeze.js"
 import type { AffixEntry } from "./affixes.js"
+import { deepFreeze } from "../generate/helpers/deep-freeze.js"
 
 export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
   {
@@ -374,7 +374,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "ẓ",
+    cs: "ż",
     abbreviation: "PLA",
     degrees: [
       ,
@@ -1991,7 +1991,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "fẓ",
+    cs: "fż",
     abbreviation: "LOA",
     degrees: [
       ,
@@ -2215,7 +2215,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "gẓ",
+    cs: "gż",
     abbreviation: "EMC",
     degrees: [
       ,
@@ -2775,7 +2775,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "kẓ",
+    cs: "kż",
     abbreviation: "XTM",
     degrees: [
       ,
@@ -3095,7 +3095,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "lẓ",
+    cs: "lż",
     abbreviation: "XX9",
     degrees: [
       ,
@@ -3559,7 +3559,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "mẓ",
+    cs: "mż",
     abbreviation: "AP3",
     degrees: [
       ,
@@ -4055,7 +4055,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "ňẓ",
+    cs: "ňż",
     abbreviation: "BOD",
     degrees: [
       ,
@@ -4732,7 +4732,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "rẓ",
+    cs: "rż",
     abbreviation: "PRB",
     degrees: [
       ,
@@ -5196,7 +5196,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "řẓ",
+    cs: "řż",
     abbreviation: "SVS",
     degrees: [
       ,
@@ -6172,7 +6172,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "ţẓ",
+    cs: "ţż",
     abbreviation: "X15",
     degrees: [
       ,
@@ -6444,7 +6444,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "vẓ",
+    cs: "vż",
     abbreviation: "PSA",
     degrees: [
       ,
@@ -6716,7 +6716,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "xẓ",
+    cs: "xż",
     abbreviation: "CK3",
     degrees: [
       ,
@@ -6972,7 +6972,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "zẓ",
+    cs: "zż",
     abbreviation: "MSE",
     degrees: [
       ,
@@ -6988,7 +6988,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "ẓb",
+    cs: "żb",
     abbreviation: "TGO",
     degrees: [
       ,
@@ -7004,7 +7004,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "ẓč",
+    cs: "żč",
     abbreviation: "PG1",
     degrees: [
       ,
@@ -7020,7 +7020,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "ẓd",
+    cs: "żd",
     abbreviation: "MET",
     degrees: [
       ,
@@ -7036,7 +7036,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "ẓf",
+    cs: "żf",
     abbreviation: "SCA",
     degrees: [
       ,
@@ -7052,7 +7052,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "ẓg",
+    cs: "żg",
     abbreviation: "BRE",
     degrees: [
       ,
@@ -7068,7 +7068,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "ẓj",
+    cs: "żj",
     abbreviation: "PG2",
     degrees: [
       ,
@@ -7084,7 +7084,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "ẓk",
+    cs: "żk",
     abbreviation: "VAL",
     degrees: [
       ,
@@ -7100,7 +7100,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "ẓl",
+    cs: "żl",
     abbreviation: "S11",
     degrees: [
       ,
@@ -7116,7 +7116,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "ẓm",
+    cs: "żm",
     abbreviation: "CRV",
     degrees: [
       ,
@@ -7132,7 +7132,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "ẓp",
+    cs: "żp",
     abbreviation: "HUM",
     degrees: [
       ,
@@ -7148,7 +7148,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "ẓr",
+    cs: "żr",
     abbreviation: "S12",
     degrees: [
       ,
@@ -7164,7 +7164,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "ẓř",
+    cs: "żř",
     abbreviation: "SDP",
     degrees: [
       ,
@@ -7180,7 +7180,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "ẓt",
+    cs: "żt",
     abbreviation: "VPF",
     degrees: [
       ,
@@ -7196,7 +7196,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "ẓţ",
+    cs: "żţ",
     abbreviation: "PIB",
     degrees: [
       ,
@@ -7213,7 +7213,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     description: "Polyatomic Ions group B",
   },
   {
-    cs: "ẓv",
+    cs: "żv",
     abbreviation: "CGL",
     degrees: [
       ,
@@ -7229,7 +7229,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
     ],
   },
   {
-    cs: "ẓw",
+    cs: "żw",
     abbreviation: "S13",
     degrees: [
       ,

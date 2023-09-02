@@ -96,13 +96,13 @@ export async function getAffixes(apiKey: string) {
     }
 
     output.push({
-      cs,
-      abbreviation,
-      degrees: [undefined, ...degrees.map((x) => x || undefined)] satisfies (
-        | string
-        | undefined
-      )[] as any,
-      description: description || undefined,
+      cs: cs.replace(/ẓ/g, "ż"),
+      abbreviation: abbreviation.replace(/ẓ/g, "ż"),
+      degrees: [
+        void 0,
+        ...degrees.map((x) => x?.replace(/ẓ/g, "ż") || void 0),
+      ] satisfies (string | undefined)[] as any,
+      description: description?.replace(/ẓ/g, "ż") || void 0,
     })
   }
 

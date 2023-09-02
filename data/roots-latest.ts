@@ -1375,7 +1375,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓř",
+    cr: "żř",
     stems: [
       "slot/groove/furrow",
       "indentation/groove/channel",
@@ -2376,7 +2376,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓč",
+    cr: "żč",
     stems: [
       "carve/gut/eviscerate",
       "carving",
@@ -2388,7 +2388,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓf",
+    cr: "żf",
     stems: [
       "pierce/puncture/breach/hole/tunnel",
       "pierce through",
@@ -2412,7 +2412,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "rẓč",
+    cr: "rżč",
     stems: [
       "excavation/dredging/mining",
       "excavation/exhumation (to reshape or find something inside)",
@@ -2424,7 +2424,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓdw",
+    cr: "żdw",
     stems: [
       "leave behind tunnel/hollow",
       "burrow/hollowing out",
@@ -4482,14 +4482,14 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓkw",
+    cr: "żkw",
     stems: ["telephone †", "📞 telephone", "landline?"],
     CPT: [],
     OBJ: [],
     wikidata: [],
   },
   {
-    cr: "ẓkl",
+    cr: "żkl",
     stems: [
       "smartphone †",
       "📱 smartphone",
@@ -4501,7 +4501,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓkr",
+    cr: "żkr",
     stems: [
       "digital tablet/pad †",
       "digital tablet/pad",
@@ -5650,7 +5650,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓb",
+    cr: "żb",
     stems: [
       "planarity/local flatness",
       "degree of local flatness",
@@ -5674,7 +5674,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓd",
+    cr: "żd",
     stems: [
       "girth/circumference",
       "degree of girth",
@@ -5722,7 +5722,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "zẓ",
+    cr: "zż",
     stems: [
       "binary polarity/switching",
       "degree of binary switching",
@@ -5746,7 +5746,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓx",
+    cr: "żx",
     stems: [
       "outward spread",
       "degree of 2D spread",
@@ -5770,7 +5770,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "bẓ",
+    cr: "bż",
     stems: [
       "depth",
       "degree of depth",
@@ -5806,7 +5806,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "gẓ",
+    cr: "gż",
     stems: [
       "temporal interval",
       "degree of elapsed time",
@@ -5878,7 +5878,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓţ",
+    cr: "żţ",
     stems: [
       "3D shapelessness",
       "degree of 3D shapelessness",
@@ -5890,7 +5890,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓḑ",
+    cr: "żḑ",
     stems: [
       "linear curvature",
       "degree of linear curvature",
@@ -6637,7 +6637,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓl",
+    cr: "żl",
     stems: [
       "median planar middle (splitting largest cross section left+right)",
       "median planar middle (splitting largest cross section left+right)",
@@ -6649,7 +6649,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓr",
+    cr: "żr",
     stems: [
       "frontal planar middle (splitting largest cross section front+back)",
       "frontal planar middle (splitting largest cross section front+back)",
@@ -6661,7 +6661,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓw",
+    cr: "żw",
     stems: [
       "transverse planar middle (splitting largest cross section top+bottom)",
       "transverse planar middle (splitting largest cross section top+bottom)",
@@ -6862,7 +6862,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ḑẓ",
+    cr: "ḑż",
     stems: [
       "stay put/remain/retain/leaving as-is",
       "staying put/remaining in place for short-term",
@@ -7272,7 +7272,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓky",
+    cr: "żky",
     stems: [
       "modulation of electromagnetic wave for communication purposes",
       "amplitude modulation",
@@ -8115,7 +8115,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "vẓ",
+    cr: "vż",
     stems: [
       "subjective interpretation/“reading”",
       "interpreting signs",
@@ -8254,7 +8254,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓt",
+    cr: "żt",
     stems: [
       "law/statute/legal compliance",
       "law/statute",
@@ -8266,7 +8266,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓtr",
+    cr: "żtr",
     stems: [
       "legal enforcement/legal authority",
       "legal enforcement",
@@ -8278,7 +8278,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓdy",
+    cr: "żdy",
     stems: [
       "criminal warrant/seizure of evidence/detention of suspect/arrest of suspect",
       "criminal warrant",
@@ -8290,7 +8290,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓdr",
+    cr: "żdr",
     stems: [
       "incarceration/arraignment/indictment",
       "incarceration",
@@ -8302,7 +8302,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓtl",
+    cr: "żtl",
     stems: [
       "criminal adjudication/crime/prosecution/verdict",
       "criminal adjudication/crime",
@@ -8314,7 +8314,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "rẓt",
+    cr: "rżt",
     stems: [
       "punishment/justice/sentence/penance",
       "punishment",
@@ -9299,7 +9299,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓk",
+    cr: "żk",
     stems: [
       "self-righteousness/sanctimoniousness/hypocrisy",
       "self-righteousness/sanctimoniousness",
@@ -9486,7 +9486,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓm",
+    cr: "żm",
     stems: [
       "heedlessness/impetuosity/imprudence/indiscretion/temerity/foolhardiness/rashness",
       "heedlessness/impetuosity",
@@ -9522,7 +9522,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ňẓ",
+    cr: "ňż",
     stems: [
       "emotionalism/whim-worshipping/mysticism",
       "emotion/melodrama driven in one’s daily decisions",
@@ -9793,7 +9793,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓẓ",
+    cr: "żż",
     stems: ["effrontery/appall/aghast", "effrontery", "appall", "aghast"],
     CPT: [, , , "185"],
     OBJ: [],
@@ -10493,7 +10493,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓj",
+    cr: "żj",
     stems: [
       "intimidation⬌being intimidated",
       "intimidation⬌being intimidated relationship",
@@ -10505,7 +10505,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓxm",
+    cr: "żxm",
     stems: [
       "making a threat⬌being threatened",
       "making a threat⬌being threatened relationship",
@@ -10517,7 +10517,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓxw",
+    cr: "żxw",
     stems: [
       "harassment⬌being harassed (non-sexual)",
       "harassment⬌being harassed relationship (non-sexual)",
@@ -10529,7 +10529,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓxl",
+    cr: "żxl",
     stems: [
       "menace⬌facing a menace",
       "menace⬌facing a menace relationship",
@@ -10541,7 +10541,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓxr",
+    cr: "żxr",
     stems: [
       "bullying⬌being bullied",
       "bullying⬌being bullied relationship",
@@ -10980,7 +10980,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "řẓ",
+    cr: "řż",
     stems: [
       "sound of a low hum/whir/rumble",
       "sound of a low hum",
@@ -11268,7 +11268,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓp",
+    cr: "żp",
     stems: [
       "percussive idiophone",
       "concussion/percussion idiophone",
@@ -11280,7 +11280,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓpw",
+    cr: "żpw",
     stems: [
       "musical block/stick/clave",
       "musical block",
@@ -11292,7 +11292,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓpy",
+    cr: "żpy",
     stems: [
       "castanet/clapper/spoon",
       "castanet",
@@ -11304,7 +11304,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓpl",
+    cr: "żpl",
     stems: [
       "triangle/vibraphone/xylophone plaque",
       "musical triangle",
@@ -11316,14 +11316,14 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓpr",
+    cr: "żpr",
     stems: ["cymbal/gong", "cymbal", "finger/hand cymbal (zill, taal)", "gong"],
     CPT: [, , , "212"],
     OBJ: [],
     wikidata: [],
   },
   {
-    cr: "ẓpř",
+    cr: "żpř",
     stems: [
       "bell/chime/singing bowl",
       "bell",
@@ -11335,7 +11335,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓpç",
+    cr: "żpç",
     stems: [
       "rattle/quijada/flexatone",
       "musical rattle/shaker",
@@ -11347,7 +11347,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓpf",
+    cr: "żpf",
     stems: [
       "tambourine/maraca/rainstick",
       "tambourine w/o membrane",
@@ -11359,7 +11359,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓpţ",
+    cr: "żpţ",
     stems: [
       "scraped ideophone",
       "güiro/güira/guayo/guacharaca/reco-reco",
@@ -11371,7 +11371,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓpļ",
+    cr: "żpļ",
     stems: [
       "slit/steel/tank drum",
       "slit drum",
@@ -11383,7 +11383,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓph",
+    cr: "żph",
     stems: [
       "musical saw/thunder sheet/daxophone",
       "musical saw",
@@ -11395,7 +11395,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓphw",
+    cr: "żphw",
     stems: [
       "pot/steelpan/hang",
       "clay/ceramic pot (ghatam, fou)",
@@ -11407,7 +11407,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓmw",
+    cr: "żmw",
     stems: [
       "lamellophone/jaw harp/morsing/mbira",
       "jaw harp",
@@ -11419,7 +11419,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓmy",
+    cr: "żmy",
     stems: [
       "nail violin/waterphone/glass harmonica",
       "nail violin",
@@ -12726,7 +12726,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓ",
+    cr: "ż",
     stems: [
       "see/sight/vision",
       "sight",
@@ -12880,7 +12880,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓh",
+    cr: "żh",
     stems: [
       "rough/bristly texture",
       "rough-textured like sandpaper",
@@ -12976,7 +12976,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "xẓ",
+    cr: "xż",
     stems: [
       "dusty/powdery texture",
       "dusty/soot-like/ash-like texture",
@@ -13542,7 +13542,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓgř",
+    cr: "żgř",
     stems: [
       "internal burning/tingling/prickly",
       "feeling an internal burning sensation",
@@ -13554,7 +13554,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓg",
+    cr: "żg",
     stems: [
       "ache/sharp pain/radiating pain",
       "having/feeling a bruise",
@@ -13832,7 +13832,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓn",
+    cr: "żn",
     stems: [
       "affective sexual response",
       "sexual arousal response",
@@ -14110,7 +14110,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓmm",
+    cr: "żmm",
     stems: ["enjoyment/excitement/thrill", "enjoyment", "excitement", "thrill"],
     CPT: [, , , "236"],
     OBJ: [],
@@ -14860,7 +14860,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓgr",
+    cr: "żgr",
     stems: [
       "apprehension/anxiety/fear",
       "apprehension",
@@ -16142,7 +16142,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "vẓw",
+    cr: "vżw",
     stems: [
       "over-the-shoulder sash",
       "wearing an over-the-shoulder sash",
@@ -16154,7 +16154,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓmr",
+    cr: "żmr",
     stems: [
       "jewel",
       "wearing a jewel",
@@ -16166,7 +16166,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓmř",
+    cr: "żmř",
     stems: [
       "piece of jewelery",
       "wearing a piece of jewelery",
@@ -16634,7 +16634,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓy",
+    cr: "ży",
     stems: [
       "flail/mace",
       "flail (weapon)",
@@ -16907,7 +16907,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓvw",
+    cr: "żvw",
     stems: [
       "elecroshock weapon",
       "taser",
@@ -16919,7 +16919,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓvy",
+    cr: "żvy",
     stems: [
       "directed energy weapon",
       "electromagnetic energy weapon (e.g., laser-based)",
@@ -17331,7 +17331,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓml",
+    cr: "żml",
     stems: [
       "trampoline/rebounder/bounce house",
       "trampoline ",
@@ -20739,7 +20739,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "lẓ",
+    cr: "lż",
     stems: [
       "nine",
       "set/group of nine entities",
@@ -20787,7 +20787,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "kẓ",
+    cr: "kż",
     stems: [
       "hundred million",
       "set/group of hundred million entities",
@@ -20859,7 +20859,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ţẓ",
+    cr: "ţż",
     stems: [
       "fifteen",
       "set/group of fifteen entities",
@@ -20883,7 +20883,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓv",
+    cr: "żv",
     stems: [
       "multiplication/division",
       "multiplying/dividing",
@@ -21317,7 +21317,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓgl",
+    cr: "żgl",
     stems: [
       "Y-shape",
       "Y-shape",
@@ -22157,7 +22157,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "rẓ",
+    cr: "rż",
     stems: [
       "chemical element",
       "chemical element",
@@ -22414,28 +22414,28 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓtw",
+    cr: "żtw",
     stems: ["cobalt", "cobalt", "Co cation", "Co anion"],
     CPT: [, "oxidized Co", "reduced Co", "306"],
     OBJ: [],
     wikidata: [],
   },
   {
-    cr: "ẓty",
+    cr: "żty",
     stems: ["rhodium", "rhodium", "Rh cation", "Rh anion"],
     CPT: [, "oxidized Rh", "reduced Rh", "306"],
     OBJ: [],
     wikidata: [],
   },
   {
-    cr: "ẓtf",
+    cr: "żtf",
     stems: ["iridium", "iridium", "Ir cation", "Ir anion"],
     CPT: [, "oxidized Ir", "reduced Ir", "306"],
     OBJ: [],
     wikidata: [],
   },
   {
-    cr: "ẓtv",
+    cr: "żtv",
     stems: ["meitnerium", "meitnerium", "Mt cation", "Mt anion"],
     CPT: [, "oxidized Mt", "reduced Mt", "306"],
     OBJ: [],
@@ -22470,7 +22470,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "mẓ",
+    cr: "mż",
     stems: ["copper", "copper", "Cu cation", "Cu anion"],
     CPT: [, "oxidized Cu", "reduced Cu", "306"],
     OBJ: [],
@@ -22995,7 +22995,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "rẓb",
+    cr: "rżb",
     stems: [
       "chemical compound/chemical reaction",
       "chemical compound",
@@ -23007,7 +23007,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "rẓbw",
+    cr: "rżbw",
     stems: [
       "chemical compound by type of molecule bond",
       "covalent compound",
@@ -23343,7 +23343,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓtç",
+    cr: "żtç",
     stems: [
       "dynamite",
       "dynamite",
@@ -27834,7 +27834,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓň",
+    cr: "żň",
     stems: [
       "degree of physical stamina/endurance/resistance to pain",
       "degree of stamina/endurance",
@@ -28666,7 +28666,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "lẓl",
+    cr: "lżl",
     stems: [
       "major vein 3",
       "subclavian vein",
@@ -28877,14 +28877,14 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "rẓg",
+    cr: "rżg",
     stems: ["naso-pharyngeal cavity", "sinus", "tonsil", "eustachian tube"],
     CPT: [],
     OBJ: [],
     wikidata: [],
   },
   {
-    cr: "rẓgw",
+    cr: "rżgw",
     stems: [
       "upper gastrointestinal tract",
       "pharynx",
@@ -28896,7 +28896,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "rẓgy",
+    cr: "rżgy",
     stems: [
       "linguistic structure of throat",
       "larynx",
@@ -28908,7 +28908,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "rẓgl",
+    cr: "rżgl",
     stems: [
       "respiratory structure",
       "trachea",
@@ -28920,7 +28920,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "rẓgr",
+    cr: "rżgr",
     stems: ["throat", "hyoid bone", "thyroid cartilage", "cricoid cartilage"],
     CPT: [],
     OBJ: [],
@@ -30514,7 +30514,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓlw",
+    cr: "żlw",
     stems: [
       "thoraco-vertebral ligament 3",
       "intra-articular sternocostal ligament",
@@ -30550,7 +30550,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓly",
+    cr: "żly",
     stems: [
       "vertebral ligament 3",
       "anterior longitudinal ligament",
@@ -38566,7 +38566,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "pẓ",
+    cr: "pż",
     stems: [
       "rhinoceros",
       "🦏 Indian/Javan rhino (genus Rhinoceros)",
@@ -46351,7 +46351,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓbv",
+    cr: "żbv",
     stems: [
       "tremellomycetes 1",
       "snow fungus/snow ear/silver ear fungus/white jelly mushroom (genus Tremella)",
@@ -46375,7 +46375,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓdv",
+    cr: "żdv",
     stems: [
       "tremellomycetes 2",
       "unusual tremellales fungus/yeast",
@@ -46387,7 +46387,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ẓgv",
+    cr: "żgv",
     stems: [
       "dacrymycetes/bartheletiomycetes",
       "dacrymycetaceous fungus",

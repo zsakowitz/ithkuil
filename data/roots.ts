@@ -107,17 +107,25 @@ export async function getRoots(apiKey: string) {
     }
 
     output.push({
-      cr,
-      stems: entry.slice(1, 5).map((x) => x || void 0) as any,
-      CPT: [undefined, ...entry.slice(6, 9).map((x) => x || void 0)] as any,
-      BSC: entry[14] || void 0,
-      CTE: entry[15] || void 0,
-      CSV: entry[16] || void 0,
-      OBJ: [undefined, ...entry.slice(17, 20).map((x) => x || void 0)] as any,
-      DYN: entry[21] || void 0,
+      cr: cr.replace(/ẓ/g, "ż"),
+      stems: entry
+        .slice(1, 5)
+        .map((x) => x?.replace(/ẓ/g, "ż") || void 0) as any,
+      CPT: [
+        void 0,
+        ...entry.slice(6, 9).map((x) => x?.replace(/ẓ/g, "ż") || void 0),
+      ] as any,
+      BSC: entry[14]?.replace(/ẓ/g, "ż") || void 0,
+      CTE: entry[15]?.replace(/ẓ/g, "ż") || void 0,
+      CSV: entry[16]?.replace(/ẓ/g, "ż") || void 0,
+      OBJ: [
+        void 0,
+        ...entry.slice(17, 20).map((x) => x?.replace(/ẓ/g, "ż") || void 0),
+      ] as any,
+      DYN: entry[21]?.replace(/ẓ/g, "ż") || void 0,
       wikidata: [
-        undefined,
-        ...entry.slice(22, 25).map((x) => x || void 0),
+        void 0,
+        ...entry.slice(22, 25).map((x) => x?.replace(/ẓ/g, "ż") || void 0),
       ] as any,
     })
   }
