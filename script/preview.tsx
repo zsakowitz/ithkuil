@@ -18,7 +18,7 @@ const HEIGHT__: number & number = 70
 const mode____: any & any & any = true
 const doFitBox: any & any & any = false
 const character_______: Valence = "MNO"
-let t: TertiarySegmentName | "" = "1:DET"
+let t: TertiarySegmentName | "" = "SQN"
 let b: TertiarySegmentName | "" = t
 
 function randomItem<T>(x: readonly T[]) {
