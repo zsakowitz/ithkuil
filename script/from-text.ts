@@ -120,6 +120,7 @@ function sentenceToScript(
           output.push({
             construct: Bias,
             bias: result,
+            handwritten,
           })
         } else if (
           result != "END:END" &&
@@ -128,12 +129,14 @@ function sentenceToScript(
           if (result.startsWith("DSV")) {
             output.push({
               construct: Register,
+              handwritten,
               type: "DSV",
               mode: "transcriptive",
             })
           } else {
             output.push({
               construct: Register,
+              handwritten,
               type: result.slice(0, 3) as Exclude<RegisterAdjunct, "END">,
             })
 
@@ -142,6 +145,7 @@ function sentenceToScript(
                 close: [
                   {
                     construct: Register,
+                    handwritten,
                     type: result.slice(0, 3) as Exclude<RegisterAdjunct, "END">,
                   },
                 ],
@@ -194,8 +198,8 @@ function sentenceToScript(
         if (wordType == "formativeFollowingConcatenatedCarrier") {
           if (!isConcatenated) {
             wordType = {
-              open: [{ construct: Register, mode: "alphabetic" }],
-              close: [{ construct: Register, mode: "alphabetic" }],
+              open: [{ construct: Register, mode: "alphabetic", handwritten }],
+              close: [{ construct: Register, mode: "alphabetic", handwritten }],
             }
           }
         } else if (result.root == "s") {
@@ -203,8 +207,8 @@ function sentenceToScript(
             wordType = "formativeFollowingConcatenatedCarrier"
           } else {
             wordType = {
-              open: [{ construct: Register, mode: "alphabetic" }],
-              close: [{ construct: Register, mode: "alphabetic" }],
+              open: [{ construct: Register, mode: "alphabetic", handwritten }],
+              close: [{ construct: Register, mode: "alphabetic", handwritten }],
             }
           }
         }
@@ -218,8 +222,7 @@ function sentenceToScript(
       }
 
       if ("type" in result) {
-        const register: ConstructableCharacter =
-          SUPPLETIVE_ADJUNCT_TO_REGISTER_CHARACTER[result.type]
+        const register = SUPPLETIVE_ADJUNCT_TO_REGISTER_CHARACTER[result.type]
 
         let usedCase2 = false
 
@@ -229,7 +232,7 @@ function sentenceToScript(
           if (result.perspective2 && result.perspective2 != "M") {
             wordType = {
               close: [
-                { ...register },
+                { ...register, handwritten },
                 ...formativeToScript(
                   {
                     type: "UNF/C",
@@ -244,8 +247,8 @@ function sentenceToScript(
           } else {
             wordType = {
               close: [
-                { ...register },
-                { construct: Quaternary, value: result.case2 },
+                { ...register, handwritten },
+                { construct: Quaternary, handwritten, value: result.case2 },
                 ...textToSecondaries(referentListToString(result.referents2), {
                   forcePlaceholderCharacters: true,
                   handwritten,
@@ -264,7 +267,7 @@ function sentenceToScript(
           }
         } else {
           wordType = {
-            close: [{ ...register }],
+            close: [{ ...register, handwritten }],
           }
         }
 
@@ -286,7 +289,7 @@ function sentenceToScript(
         )
 
         if (formative.at(-1)?.construct != Quaternary) {
-          formative.push({ construct: Quaternary })
+          formative.push({ construct: Quaternary, handwritten })
         }
 
         if (
@@ -296,9 +299,9 @@ function sentenceToScript(
         ) {
           output.push(...formative)
 
-          output.push({ ...register })
+          output.push({ ...register, handwritten })
         } else {
-          output.push({ ...register })
+          output.push({ ...register, handwritten })
 
           formative.splice(1, 1)
 
@@ -355,7 +358,7 @@ function sentenceToScript(
           adjuncts.length = 0
         } else {
           output.push(
-            { construct: Quaternary, value: result.case },
+            { construct: Quaternary, value: result.case, handwritten },
             ...textToSecondaries(referentListToString(result.referents), {
               forcePlaceholderCharacters: true,
               handwritten,
@@ -390,6 +393,7 @@ function sentenceToScript(
               {
                 construct: Quaternary,
                 value: result.case2,
+                handwritten,
               },
               ...textToSecondaries(referentListToString(result.referents2), {
                 forcePlaceholderCharacters: true,
@@ -407,7 +411,11 @@ function sentenceToScript(
             )
           }
         } else if (!didUseCase2 && result.case2) {
-          output.push({ construct: Quaternary, value: result.case2 })
+          output.push({
+            construct: Quaternary,
+            value: result.case2,
+            handwritten,
+          })
         }
 
         continue
@@ -488,7 +496,7 @@ export function textToScript(
     }
 
     if (!isFirst) {
-      output.push({ construct: Break })
+      output.push({ construct: Break, handwritten })
     }
 
     output.push(...result.value)

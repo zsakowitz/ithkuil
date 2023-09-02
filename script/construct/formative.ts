@@ -75,6 +75,7 @@ export type Character =
 export type ConstructableCharacter<T extends Character = Character> = T & {
   construct(character: T): SVGGElement
   readonly dimmed?: boolean | undefined
+  readonly handwritten?: boolean | undefined
 }
 
 const isArray = /* @__PURE__ */ (() => Array.isArray)() as (
@@ -208,6 +209,8 @@ export function formativeToScript(
     function: formative.function,
     version: formative.version,
     stem: formative.stem,
+
+    handwritten: options.handwritten,
   })
 
   if (isArray(formative.root)) {
@@ -302,6 +305,7 @@ export function formativeToScript(
           referents.push({
             construct: Quaternary,
             value: affix.case,
+            handwritten: options.handwritten,
           })
 
           referents.push(

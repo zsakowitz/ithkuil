@@ -1,5 +1,12 @@
 import type { RegisterAdjunct } from "../generate/index.js"
-import { Lines, Register, fitViewBox, type RegisterMode } from "./index.js"
+import {
+  CharacterRow,
+  HandleResult,
+  Lines,
+  fitViewBox,
+  textToScript,
+  type RegisterMode,
+} from "./index.js"
 
 document.body.append(
   <script>
@@ -9,7 +16,7 @@ document.body.append(
 )
 
 const lines___: any & any & any = true
-const HEIGHT__: number & number = 30
+const HEIGHT__: number & number = 100
 const mode____: any & any & any = true
 const doFitBox: any & any & any = false
 const t__________: RegisterMode = "transliterative"
@@ -22,6 +29,10 @@ function randomItem<T>(x: readonly T[]) {
 
   return x[Math.floor(Math.random() * x.length)]!
 }
+
+const output = textToScript("sňlio", true)
+
+console.log(output)
 
 const node = (
   <svg
@@ -41,18 +52,18 @@ const node = (
     stroke-linecap="round"
     stroke-linejoin="round"
   >
-    <Register
+    {/* <Register
       handwritten={!!mode____}
       mode={t__________}
       type={b_______}
-    />
+    /> */}
 
-    {/* <HandleResult
+    <HandleResult
       ok={(x) => <CharacterRow compact>{x}</CharacterRow>}
       error={(x) => <text>{x}</text>}
     >
-      {textToScript("sňlio")}
-    </HandleResult> */}
+      {output}
+    </HandleResult>
 
     {/* <Secondary
       handwritten={!!mode____}
