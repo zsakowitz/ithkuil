@@ -79,9 +79,9 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
         }
 
         output.push(
-          ...textToSecondaries(word).map((secondary) =>
-            attachConstructor(secondary, Secondary),
-          ),
+          ...textToSecondaries(word, {
+            placeholder: "ALPHABETIC_PLACEHOLDER",
+          }).map((secondary) => attachConstructor(secondary, Secondary)),
         )
 
         if (wordType.close) {
