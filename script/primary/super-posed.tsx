@@ -18,8 +18,12 @@ const DIACRITICS = /* @__PURE__ */ deepFreezeAndNullPrototype({
  * diacritic is needed.
  */
 export function PrimarySuperPosed({
+  handwritten,
   context,
 }: {
+  /** Whether this character is handwritten. */
+  readonly handwritten: boolean
+
   /** The context of the character. */
   readonly context?: Context | undefined
 }): SVGPathElement | undefined {
@@ -31,7 +35,10 @@ export function PrimarySuperPosed({
 
   return (
     <Anchor at="bc">
-      <Diacritic name={diacriticName} />
+      <Diacritic
+        handwritten={handwritten}
+        name={diacriticName}
+      />
     </Anchor>
   ) as SVGPathElement
 }

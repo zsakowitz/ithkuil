@@ -1,39 +1,122 @@
+import type { Valence } from "../generate/index.js"
 import {
-  CharacterRow,
-  HandleResult,
+  Lines,
+  Tertiary,
   fitViewBox,
-  textToScript,
+  type CoreName,
+  type ExtensionName,
 } from "./index.js"
-import { Lines } from "./other/lines.js"
 
 document.body.append(
   <script>
-    new EventSource('/esbuild').addEventListener('change', () ={">"}
-    location.reload())
+    {`new EventSource("/esbuild").addEventListener("change", () =>
+    location.reload())`}
   </script>,
 )
 
-const HEIGHT = 200
+const lines___: any & any & any = true
+const HEIGHT__: number & number = 70
+const mode____: any & any & any = true
+const doFitBox: any & any & any = false
+const character_______: Valence = "PTI"
+const top__: ExtensionName | "" = ""
+const botto: ExtensionName | "" = ""
+
+function randomItem<T>(x: readonly T[]) {
+  if (x.length == 0) {
+    throw new Error()
+  }
+
+  return x[Math.floor(Math.random() * x.length)]!
+}
 
 const node = (
   <svg
     viewBox={
       {
-        a: `${-HEIGHT * (innerWidth / innerHeight)} -${HEIGHT} ${
-          2 * HEIGHT * (innerWidth / innerHeight)
-        } ${2 * HEIGHT}` as const,
+        a: `${-HEIGHT__ * (innerWidth / innerHeight)} ${-HEIGHT__} ${
+          2 * HEIGHT__ * (innerWidth / innerHeight)
+        } ${2 * HEIGHT__}` as const,
         b: "-50 -50 100 100" as const,
         c: "-50 -50 60 60" as const,
         d: "-40 -45 30 30" as const,
       }.a
     }
+    fill="none"
+    stroke="black"
+    stroke-width={4}
+    stroke-linecap="round"
+    stroke-linejoin="round"
   >
-    <HandleResult
+    <Tertiary
+      handwritten
+      valence={character_______}
+    />
+
+    {/* <HandleResult
       ok={(x) => <CharacterRow compact>{x}</CharacterRow>}
       error={(x) => <text>{x}</text>}
     >
       {textToScript("sňlio")}
-    </HandleResult>
+    </HandleResult> */}
+
+    {/* <Secondary
+      handwritten={!!mode____}
+      core={character_____}
+      top={top__ ? top__ : undefined}
+      bottom={botto ? botto : undefined}
+    />
+
+    <Blink>
+      <Secondary
+        handwritten={!!mode____}
+        core={character_____}
+      />
+    </Blink> */}
+
+    {/* <Spread
+      columns={12}
+      y={120}
+      items={Object.entries(HANDWRITTEN_CORES)
+        .concat(Object.entries(HANDWRITTEN_CORES))
+        .filter(([, v]) => v.shape)
+        .map(([k]) => k)
+        .map((x) => (
+          <g>
+            <Secondary
+              handwritten
+              core={x}
+              top={randomItem(Object.keys(EXTENSIONS))}
+              bottom={randomItem(Object.keys(EXTENSIONS))}
+            />
+
+            <Blink>
+              <Secondary
+                handwritten
+                core={x}
+              />
+            </Blink>
+          </g>
+        ))}
+    /> */}
+
+    {/* <Row space={0}>
+      <Secondary
+        handwritten
+        core="STRESSED_SYLLABLE_PLACEHOLDER"
+        top="z"
+        right="ä"
+        bottom="k"
+      />
+
+      <Secondary
+        handwritten
+        superposed="ë"
+        top="r"
+        core="STRESSED_SYLLABLE_PLACEHOLDER"
+        underposed="i"
+      />
+    </Row> */}
   </svg>
 ) as SVGSVGElement
 
@@ -46,12 +129,16 @@ document.body.style =
 
 document.body.appendChild(node)
 
-fitViewBox(node, 35)
+if (doFitBox) {
+  fitViewBox(node, typeof doFitBox == "number" ? doFitBox : 20)
+}
 
-node.insertBefore(
-  <Lines
-    width={500}
-    height={0}
-  />,
-  node.children[0] || null,
-)
+if (lines___) {
+  node.insertBefore(
+    <Lines
+      width={500}
+      height={0}
+    />,
+    node.children[0] || null,
+  )
+}

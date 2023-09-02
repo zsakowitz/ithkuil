@@ -4,7 +4,26 @@
  * @returns The resulting path.
  */
 export function rotate180(x: string) {
-  return x.replace(/(?<!M[\s\d.-]+)[\d.-]+/g, (x) => -x as any)
+  const all = x.split(" ")
+
+  return all
+    .map((text, index) => {
+      const value = +text
+
+      if (
+        isNaN(value) ||
+        index == 1 ||
+        index == 2 ||
+        all[index - 3] == "a" ||
+        all[index - 4] == "a" ||
+        all[index - 5] == "a"
+      ) {
+        return text
+      }
+
+      return -value
+    })
+    .join(" ")
 }
 
 /**
@@ -13,5 +32,22 @@ export function rotate180(x: string) {
  * @returns The resulting path.
  */
 export function rotate180AndRotateStartingPoint(x: string) {
-  return x.replace(/[\d.-]+/g, (x) => -x as any)
+  const all = x.split(" ")
+
+  return all
+    .map((text, index) => {
+      const value = +text
+
+      if (
+        isNaN(value) ||
+        all[index - 3] == "a" ||
+        all[index - 4] == "a" ||
+        all[index - 5] == "a"
+      ) {
+        return text
+      }
+
+      return -value
+    })
+    .join(" ")
 }

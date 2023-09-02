@@ -29,6 +29,18 @@ const OFFSETS = /* @__PURE__ */ deepFreezeAndNullPrototype({
   FF: { x: 0, y: 10 },
 })
 
+const HANDWRITTEN_OFFSETS = /* @__PURE__ */ deepFreezeAndNullPrototype({
+  SS: { x: 0, y: 0 },
+  SC: { x: 0, y: 0 },
+  SF: { x: 0, y: 0 },
+  DS: { x: 0, y: 0 },
+  DC: { x: 0, y: 0 },
+  DF: { x: 0, y: 0 },
+  FS: { x: 0, y: 0 },
+  FC: { x: 0, y: 0 },
+  FF: { x: 0, y: 15 },
+})
+
 /**
  * Creates the bottom-left diacritic of a primary character as an SVG path.
  * @param props Properties that modify the diacritic.
@@ -36,6 +48,9 @@ const OFFSETS = /* @__PURE__ */ deepFreezeAndNullPrototype({
  * diacritic is needed.
  */
 export function PrimaryBottomLeft(props: {
+  /** Whether this item is handwritten. */
+  readonly handwritten: boolean
+
   /** The configuration of the character. */
   readonly configuration?: Configuration | undefined
 }): SVGPathElement | undefined {
@@ -49,9 +64,12 @@ export function PrimaryBottomLeft(props: {
     return (
       <Anchor
         at="bl"
-        {...OFFSETS[diacriticName as keyof typeof DIACRITICS]}
+        {...(props.handwritten ? HANDWRITTEN_OFFSETS : OFFSETS)[
+          diacriticName as keyof typeof DIACRITICS
+        ]}
       >
         <Diacritic
+          handwritten={props.handwritten}
           name={DIACRITICS[diacriticName as keyof typeof DIACRITICS]}
         />
       </Anchor>

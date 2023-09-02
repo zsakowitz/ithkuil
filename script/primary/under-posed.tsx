@@ -16,8 +16,12 @@ const DIACRITICS = /* @__PURE__ */ deepFreezeAndNullPrototype({
  * diacritic is needed.
  */
 export function PrimaryUnderPosed({
+  handwritten,
   bottom = "UNF/C",
 }: {
+  /** Whether this character is handwritten. */
+  readonly handwritten: boolean
+
   /**
    * The bottom item on this character. May be a relation, such as UNF/C, UNF/K,
    * or FRM, or a concatenation type, such as 1 or 2.
@@ -32,7 +36,10 @@ export function PrimaryUnderPosed({
 
   return (
     <Anchor at="tc">
-      <Diacritic name={diacriticName} />
+      <Diacritic
+        handwritten={handwritten}
+        name={diacriticName}
+      />
     </Anchor>
   ) as SVGPathElement
 }

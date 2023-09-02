@@ -19,6 +19,9 @@ import { Secondary, type ExtensionName } from "../index.js"
 
 /** Information about a case-accessor quaternary character. */
 export type CaseAccessorQuaternaryCharacter = {
+  /** Whether this character is handwritten. */
+  readonly handwritten: boolean
+
   /** The case-accessor affix type of this quaternary character. */
   readonly type: AffixType
 
@@ -34,6 +37,9 @@ export type CaseAccessorQuaternaryCharacter = {
 
 /** Information about a non-case-accessor quaternary character. */
 export type StandardQuaternaryCharacter = {
+  /** Whether this character is handwritten. */
+  readonly handwritten: boolean
+
   /** The mood shown on this quaternary character. */
   readonly mood?: Mood | undefined
 
@@ -152,6 +158,7 @@ export function Quaternary(quaternary: QuaternaryCharacter): SVGGElement {
 
   if (quaternary.type) {
     return Secondary({
+      handwritten: quaternary.handwritten,
       superposed:
         quaternary.type == 2
           ? "DOT"
@@ -171,6 +178,7 @@ export function Quaternary(quaternary: QuaternaryCharacter): SVGGElement {
     })
   } else {
     return Secondary({
+      handwritten: quaternary.handwritten,
       superposed: quaternary.mood
         ? MOOD_TO_DIACRITIC_MAP[quaternary.mood]
         : undefined,

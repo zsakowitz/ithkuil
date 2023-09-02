@@ -31,7 +31,7 @@ export type RowCompactModeOption =
        *
        * @default 5
        */
-      readonly baseSpacingInterval?: number
+      readonly baseSpacingInterval?: number | undefined
 
       /**
        * The number of improvements to make when finding intersections in
@@ -46,7 +46,7 @@ export type RowCompactModeOption =
        *
        * @default 5
        */
-      readonly spacingImprovements?: number
+      readonly spacingImprovements?: number | undefined
     }
   | (boolean & {
       readonly baseSpacingInterval?: undefined

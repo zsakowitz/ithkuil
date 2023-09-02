@@ -3,17 +3,17 @@ import type { PrimaryCharacter } from "./index.js"
 /** An elidable primary character. */
 export interface ElidablePrimaryCharacter extends PrimaryCharacter {
   readonly isSentenceInitial: true
-  readonly affiliation?: "CSL"
-  readonly bottom?: "UNF/C" | "UNF/K" | "FRM"
-  readonly configuration?: "UPX"
-  readonly context?: "EXS"
-  readonly essence?: "NRM"
-  readonly extension?: "DEL"
-  readonly function?: "STA"
-  readonly perspective?: "M"
-  readonly specification?: "BSC"
-  readonly stem?: 1
-  readonly version?: "PRC"
+  readonly affiliation?: "CSL" | undefined
+  readonly bottom?: "UNF/C" | "UNF/K" | "FRM" | undefined
+  readonly configuration?: "UPX" | undefined
+  readonly context?: "EXS" | undefined
+  readonly essence?: "NRM" | undefined
+  readonly extension?: "DEL" | undefined
+  readonly function?: "STA" | undefined
+  readonly perspective?: "M" | undefined
+  readonly specification?: "BSC" | undefined
+  readonly stem?: 1 | undefined
+  readonly version?: "PRC" | undefined
 }
 
 export function isElidable(

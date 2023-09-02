@@ -36,6 +36,21 @@ const OFFSETS = /* @__PURE__ */ deepFreezeAndNullPrototype({
   },
 })
 
+const HANDWRITTEN_OFFSETS = /* @__PURE__ */ deepFreezeAndNullPrototype({
+  NRM: {
+    CSL: { x: 0, y: 0 },
+    ASO: { x: 0, y: 0 },
+    VAR: { x: 0, y: 0 },
+    COA: { x: 0, y: 0 },
+  },
+  RPV: {
+    CSL: { x: 0, y: 0 },
+    ASO: { x: 0, y: 0 },
+    VAR: { x: 0, y: 0 },
+    COA: { x: 0, y: 0 },
+  },
+})
+
 /**
  * Creates the top-right diacritic of a primary character as an SVG path.
  * @param props Properties that modify the diacritic.
@@ -43,9 +58,13 @@ const OFFSETS = /* @__PURE__ */ deepFreezeAndNullPrototype({
  * diacritic is needed.
  */
 export function PrimaryTopRight({
+  handwritten,
   affiliation = "CSL",
   essence = "NRM",
 }: {
+  /** Whether this item is handwritten. */
+  readonly handwritten: boolean
+
   /** The affiliation of this character. */
   readonly affiliation?: Affiliation | undefined
 
@@ -61,9 +80,12 @@ export function PrimaryTopRight({
   return (
     <Anchor
       at="tr"
-      {...OFFSETS[essence][affiliation]}
+      {...(handwritten ? HANDWRITTEN_OFFSETS : OFFSETS)[essence][affiliation]}
     >
-      <Diacritic name={diacriticName} />
+      <Diacritic
+        handwritten={handwritten}
+        name={diacriticName}
+      />
     </Anchor>
   ) as SVGPathElement
 }

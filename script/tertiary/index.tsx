@@ -26,6 +26,9 @@ export const LEVEL_TO_DIACRITIC_MAP = /* @__PURE__ */ deepFreeze({
 
 /** Information about a tertiary character. */
 export interface TertiaryCharacter {
+  /** Whether this character is handwritten. */
+  readonly handwritten: boolean
+
   /** The absolute level shown on the character. */
   readonly absoluteLevel?: Level | undefined
 
@@ -78,7 +81,10 @@ export function Tertiary(tertiary: TertiaryCharacter): SVGGElement {
 
   g.appendChild(
     <AnchorX at="c">
-      <ValenceSegment valence={tertiary.valence || "MNO"} />
+      <ValenceSegment
+        handwritten={tertiary.handwritten}
+        valence={tertiary.valence || "MNO"}
+      />
     </AnchorX>,
   )
 
@@ -101,7 +107,10 @@ export function Tertiary(tertiary: TertiaryCharacter): SVGGElement {
           at="bc"
           y={-35}
         >
-          <Diacritic name={LEVEL_TO_DIACRITIC_MAP[tertiary.absoluteLevel]} />
+          <Diacritic
+            handwritten={tertiary.handwritten}
+            name={LEVEL_TO_DIACRITIC_MAP[tertiary.absoluteLevel]}
+          />
         </Anchor>,
       )
     } else if (tertiary.compact) {
@@ -116,7 +125,10 @@ export function Tertiary(tertiary: TertiaryCharacter): SVGGElement {
             at="c"
             x={-2}
           >
-            <Diacritic name={LEVEL_TO_DIACRITIC_MAP[tertiary.absoluteLevel]} />
+            <Diacritic
+              handwritten={tertiary.handwritten}
+              name={LEVEL_TO_DIACRITIC_MAP[tertiary.absoluteLevel]}
+            />
           </AnchorX>
         </Row>
       ) as SVGGElement
@@ -128,7 +140,10 @@ export function Tertiary(tertiary: TertiaryCharacter): SVGGElement {
           at="bc"
           y={box.y - 10}
         >
-          <Diacritic name={LEVEL_TO_DIACRITIC_MAP[tertiary.absoluteLevel]} />
+          <Diacritic
+            handwritten={tertiary.handwritten}
+            name={LEVEL_TO_DIACRITIC_MAP[tertiary.absoluteLevel]}
+          />
         </Anchor>,
       )
     }
@@ -141,7 +156,10 @@ export function Tertiary(tertiary: TertiaryCharacter): SVGGElement {
           at="tc"
           y={35}
         >
-          <Diacritic name={LEVEL_TO_DIACRITIC_MAP[tertiary.relativeLevel]} />
+          <Diacritic
+            handwritten={tertiary.handwritten}
+            name={LEVEL_TO_DIACRITIC_MAP[tertiary.relativeLevel]}
+          />
         </Anchor>,
       )
     } else if (tertiary.compact) {
@@ -155,7 +173,10 @@ export function Tertiary(tertiary: TertiaryCharacter): SVGGElement {
             at="c"
             x={-2}
           >
-            <Diacritic name={LEVEL_TO_DIACRITIC_MAP[tertiary.relativeLevel]} />
+            <Diacritic
+              handwritten={tertiary.handwritten}
+              name={LEVEL_TO_DIACRITIC_MAP[tertiary.relativeLevel]}
+            />
           </AnchorX>
         </Row>
       ) as SVGGElement
@@ -167,7 +188,10 @@ export function Tertiary(tertiary: TertiaryCharacter): SVGGElement {
           at="tc"
           y={box.y + box.height + 10}
         >
-          <Diacritic name={LEVEL_TO_DIACRITIC_MAP[tertiary.relativeLevel]} />
+          <Diacritic
+            handwritten={tertiary.handwritten}
+            name={LEVEL_TO_DIACRITIC_MAP[tertiary.relativeLevel]}
+          />
         </Anchor>,
       )
     }

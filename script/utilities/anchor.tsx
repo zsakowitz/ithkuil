@@ -30,14 +30,14 @@ export type AnchorOptions<T extends string> = {
    *
    * @default 0
    */
-  readonly x?: number
+  readonly x?: number | undefined
 
   /**
    * The y-coordinate to anchor the object at.
    *
    * @default 0
    */
-  readonly y?: number
+  readonly y?: number | undefined
 }
 
 /**

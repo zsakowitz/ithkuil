@@ -1,7 +1,14 @@
+/** Information describing a break character. */
 export interface BreakCharacter {
-  readonly size?: number
+  /** The width of this character. */
+  readonly size?: number | undefined
 }
 
+/**
+ * Constructs a `BreakCharacter`.
+ * @param props Properties modifying this character's behavior.
+ * @returns An `SVGGElement` representing the character.
+ */
 export function Break(props: BreakCharacter): SVGGElement {
   const size = props.size ?? 50
 

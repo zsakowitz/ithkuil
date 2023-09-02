@@ -132,6 +132,9 @@ const extensionOnlySecondaryWithoutRightDiacritics = /* @__PURE__ */ seq(
 
 /** Options modifiying how secondary characters are translated. */
 export interface SecondaryTranslationOptions {
+  /** Whether these characters should be handwritten. */
+  readonly handwritten: boolean
+
   /**
    * Whether all characters other than the first should be placed on extensions.
    *
@@ -178,7 +181,7 @@ export interface SecondaryTranslationOptions {
  */
 export function textToSecondaries(
   text: string,
-  options?: SecondaryTranslationOptions,
+  options: SecondaryTranslationOptions,
 ) {
   ;({ word: text } = transformWordButLeaveStressMarkings(text))
 
@@ -213,7 +216,9 @@ export function textToSecondaries(
 
     text = text.slice(source.length).trimStart()
 
-    const secondary: Mutable<SecondaryCharacter> = {}
+    const secondary: Mutable<SecondaryCharacter> = {
+      handwritten: options.handwritten,
+    }
 
     if (options?.placeholder == "ALPHABETIC_PLACEHOLDER") {
       secondary.core = "ALPHABETIC_PLACEHOLDER"

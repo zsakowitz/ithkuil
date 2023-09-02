@@ -54,43 +54,46 @@ export namespace JSX {
   /** Constructable elements, and their attributes. */
   export type CoreIntrinsicElements = {
     g: {
-      fill?: string
-      opacity?: NumberLike
-      stroke?: string
-      "stroke-linecap"?: "round"
-      "stroke-width"?: NumberLike
-      transform?: string
+      fill?: string | undefined
+      opacity?: NumberLike | undefined
+      stroke?: string | undefined
+      "stroke-linecap"?: "round" | undefined
+      "stroke-width"?: NumberLike | undefined
+      transform?: string | undefined
     }
 
     path: {
-      d?: string
-      fill?: string
-      opacity?: NumberLike
-      stroke?: string
-      "stroke-width"?: NumberLike
-      "stroke-linejoin"?: "round"
-      "stroke-linecap"?: "round"
-      transform?: string
+      d?: string | undefined
+      fill?: string | undefined
+      opacity?: NumberLike | undefined
+      stroke?: string | undefined
+      "stroke-width"?: NumberLike | undefined
+      "stroke-linejoin"?: "round" | undefined
+      "stroke-linecap"?: "round" | undefined
+      transform?: string | undefined
     }
 
     script: {
-      src?: string
+      src?: string | undefined
     }
 
     svg: {
-      viewBox?: `${number} ${number} ${number} ${number}`
+      viewBox?: `${number} ${number} ${number} ${number}` | undefined
+      fill?: string | undefined
+      stroke?: string | undefined
+      "stroke-width"?: NumberLike | undefined
     }
 
     text: {
-      fill?: string
-      "font-family"?: string
-      "font-size"?: NumberLike
-      "font-weight"?: NumberLike
-      "paint-order"?: "stroke" | "fill"
-      stroke?: string
-      "stroke-width"?: NumberLike
-      x?: NumberLike
-      y?: NumberLike
+      fill?: string | undefined
+      "font-family"?: string | undefined
+      "font-size"?: NumberLike | undefined
+      "font-weight"?: NumberLike | undefined
+      "paint-order"?: "stroke" | "fill" | undefined
+      stroke?: string | undefined
+      "stroke-width"?: NumberLike | undefined
+      x?: NumberLike | undefined
+      y?: NumberLike | undefined
     }
   }
 

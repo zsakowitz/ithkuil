@@ -20,13 +20,16 @@ import {
 import { getBBox } from "../utilities/get-bbox.js"
 import { Translate } from "../utilities/translate.js"
 import { PrimaryBottomLeft } from "./bottom-left.js"
-import { PrimaryCore } from "./core.js"
+import { HANDWRITTEN_CORE_EXTENSIONS, PrimaryCore } from "./core.js"
 import { PrimarySuperPosed } from "./super-posed.js"
 import { PrimaryTopRight } from "./top-right.js"
 import { PrimaryUnderPosed } from "./under-posed.js"
 
 /** Information about a primary character. */
 export interface PrimaryCharacter {
+  /** Whether this item is handwritten. */
+  readonly handwritten: boolean
+
   /** Whether this primary character begins a sentence. */
   readonly isSentenceInitial?: boolean | undefined
 
@@ -70,6 +73,15 @@ const DIACRITIC_OFFSET = /* @__PURE__ */ deepFreezeAndNullPrototype({
   CSV: -2.5,
   OBJ: 5,
 })
+
+const HANDWRITTEN_DIACRITIC_OFFSET = /* @__PURE__ */ deepFreezeAndNullPrototype(
+  {
+    BSC: 0,
+    CTE: 5,
+    CSV: 0,
+    OBJ: 0,
+  },
+)
 
 const PRIMARY_TOP_LEFT = /* @__PURE__ */ deepFreeze({
   M: {
@@ -136,8 +148,9 @@ const PRIMARY_BOTTOM_RIGHT = /* @__PURE__ */ deepFreeze({
  */
 export function Primary(primary: PrimaryCharacter): SVGGElement {
   const specification = primary.specification || "BSC"
+  const handwritten = !!primary.handwritten
 
-  const core = PrimaryCore({ specification })
+  const core = PrimaryCore({ handwritten, specification })
 
   const coreBox = getBBox(core)
 
@@ -149,33 +162,48 @@ export function Primary(primary: PrimaryCharacter): SVGGElement {
       primary.configuration?.startsWith("D") ? "D" : "M"
     ][primary.stem ?? 1]
 
+  const topLeftDirection = handwritten
+    ? HANDWRITTEN_CORE_EXTENSIONS[specification][0]
+    : "diag"
+
+  const bottomRightDirection = handwritten
+    ? HANDWRITTEN_CORE_EXTENSIONS[specification][1]
+    : "diag"
+
   return (
     <g>
       {core}
 
       {topLeft && (
         <Translate
-          x={coreBox.x + 7.5}
+          x={coreBox.x + (handwritten ? 0 : 7.5)}
           y={-35}
         >
-          <path d={EXTENSIONS[topLeft].diag} />
+          <path d={EXTENSIONS[topLeft][topLeftDirection]} />
         </Translate>
       )}
 
       {bottomRight && (
         <Translate
-          x={coreBox.x + coreBox.width - 7.5}
+          x={coreBox.x + coreBox.width - (handwritten ? 0 : 7.5)}
           y={35}
         >
           <path
-            d={rotate180AndRotateStartingPoint(EXTENSIONS[bottomRight].diag)}
+            d={rotate180AndRotateStartingPoint(
+              EXTENSIONS[bottomRight][bottomRightDirection],
+            )}
           />
         </Translate>
       )}
 
       {/* @ts-ignore: This can be `undefined`, as we're not using it. */}
       <Translate
-        x={coreBox.x - DIACRITIC_OFFSET[specification]}
+        x={
+          coreBox.x -
+          (handwritten ? HANDWRITTEN_DIACRITIC_OFFSET : DIACRITIC_OFFSET)[
+            specification
+          ]
+        }
         y={35}
       >
         {PrimaryBottomLeft(primary)}
@@ -183,7 +211,13 @@ export function Primary(primary: PrimaryCharacter): SVGGElement {
 
       {/* @ts-ignore: This can be `undefined`, as we're not using it. */}
       <Translate
-        x={coreBox.x + coreBox.width + DIACRITIC_OFFSET[specification]}
+        x={
+          coreBox.x +
+          coreBox.width +
+          (handwritten ? HANDWRITTEN_DIACRITIC_OFFSET : DIACRITIC_OFFSET)[
+            specification
+          ]
+        }
         y={-35}
       >
         {PrimaryTopRight(primary)}
