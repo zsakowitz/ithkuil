@@ -8,7 +8,11 @@ import {
   type DiacriticName,
   type RowCompactModeOption,
 } from "../index.js"
-import { TERTIARY_SEGMENTS, type TertiarySegmentName } from "./segment.js"
+import {
+  HANDWRITTEN_TERTIARY_SEGMENTS,
+  TERTIARY_SEGMENTS,
+  type TertiarySegmentName,
+} from "./segment.js"
 import { ValenceSegment } from "./valence.js"
 
 /** An object mapping levels to their corresponding diacritics. */
@@ -72,9 +76,15 @@ export function Tertiary(tertiary: TertiaryCharacter): SVGGElement {
       <AnchorX
         at="c"
         y={-15}
-        x={5}
+        x={tertiary.handwritten ? 0 : 5}
       >
-        <path d={TERTIARY_SEGMENTS[tertiary.top]} />
+        <path
+          d={
+            (tertiary.handwritten
+              ? HANDWRITTEN_TERTIARY_SEGMENTS
+              : TERTIARY_SEGMENTS)[tertiary.top]
+          }
+        />
       </AnchorX>,
     )
   }
@@ -93,9 +103,15 @@ export function Tertiary(tertiary: TertiaryCharacter): SVGGElement {
       <Anchor
         at="tc"
         y={15}
-        x={-5}
+        x={tertiary.handwritten ? 0 : -5}
       >
-        <path d={TERTIARY_SEGMENTS[tertiary.bottom]} />
+        <path
+          d={
+            (tertiary.handwritten
+              ? HANDWRITTEN_TERTIARY_SEGMENTS
+              : TERTIARY_SEGMENTS)[tertiary.bottom]
+          }
+        />
       </Anchor>,
     )
   }

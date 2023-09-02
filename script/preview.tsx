@@ -3,8 +3,7 @@ import {
   Lines,
   Tertiary,
   fitViewBox,
-  type CoreName,
-  type ExtensionName,
+  type TertiarySegmentName,
 } from "./index.js"
 
 document.body.append(
@@ -18,9 +17,9 @@ const lines___: any & any & any = true
 const HEIGHT__: number & number = 70
 const mode____: any & any & any = true
 const doFitBox: any & any & any = false
-const character_______: Valence = "PTI"
-const top__: ExtensionName | "" = ""
-const botto: ExtensionName | "" = ""
+const character_______: Valence = "MNO"
+let t: TertiarySegmentName | "" = "1:DET"
+let b: TertiarySegmentName | "" = t
 
 function randomItem<T>(x: readonly T[]) {
   if (x.length == 0) {
@@ -49,8 +48,10 @@ const node = (
     stroke-linejoin="round"
   >
     <Tertiary
-      handwritten
+      handwritten={!!mode____}
       valence={character_______}
+      top={t ? t : undefined}
+      bottom={b ? b : undefined}
     />
 
     {/* <HandleResult
