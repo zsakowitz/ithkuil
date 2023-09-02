@@ -30,6 +30,9 @@ export const BIAS_EXTENSIONS = /* @__PURE__ */ deepFreeze([
 
 /** Information about a bias character. */
 export interface BiasCharacter {
+  /** Whether this character is handwritten. */
+  readonly handwritten?: boolean | undefined
+
   /** The bias to be shown. */
   readonly bias: BiasAdjunct
 }
@@ -46,6 +49,7 @@ export function Bias(props: BiasCharacter): SVGGElement {
   const column = Math.floor(index / 16)
 
   const g = Secondary({
+    handwritten: props.handwritten,
     top: column % 2 ? shape : undefined,
     core: "BIAS",
     rotated: index < 32,
@@ -59,7 +63,10 @@ export function Bias(props: BiasCharacter): SVGGElement {
         x={-12.5}
         y={-12.5}
       >
-        <Diacritic name="DOT" />
+        <Diacritic
+          handwritten={props.handwritten}
+          name="DOT"
+        />
       </Anchor>,
     )
   }
@@ -71,7 +78,10 @@ export function Bias(props: BiasCharacter): SVGGElement {
         x={12.5}
         y={-12.5}
       >
-        <Diacritic name="DOT" />
+        <Diacritic
+          handwritten={props.handwritten}
+          name="DOT"
+        />
       </Anchor>,
     )
   }

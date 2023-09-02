@@ -20,7 +20,7 @@ import { Secondary, type ExtensionName } from "../index.js"
 /** Information about a case-accessor quaternary character. */
 export type CaseAccessorQuaternaryCharacter = {
   /** Whether this character is handwritten. */
-  readonly handwritten: boolean
+  readonly handwritten?: boolean | undefined
 
   /** The case-accessor affix type of this quaternary character. */
   readonly type: AffixType
@@ -38,7 +38,7 @@ export type CaseAccessorQuaternaryCharacter = {
 /** Information about a non-case-accessor quaternary character. */
 export type StandardQuaternaryCharacter = {
   /** Whether this character is handwritten. */
-  readonly handwritten: boolean
+  readonly handwritten?: boolean | undefined
 
   /** The mood shown on this quaternary character. */
   readonly mood?: Mood | undefined

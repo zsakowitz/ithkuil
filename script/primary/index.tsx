@@ -28,7 +28,7 @@ import { PrimaryUnderPosed } from "./under-posed.js"
 /** Information about a primary character. */
 export interface PrimaryCharacter {
   /** Whether this item is handwritten. */
-  readonly handwritten: boolean
+  readonly handwritten?: boolean | undefined
 
   /** Whether this primary character begins a sentence. */
   readonly isSentenceInitial?: boolean | undefined

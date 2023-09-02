@@ -82,7 +82,7 @@ export const HANDWRITTEN_REGISTERS = /* @__PURE__ */ deepFreeze({
 /** Information about a register character. */
 export interface RegisterCharacter {
   /** Whether this character is handwritten. */
-  readonly handwritten: boolean
+  readonly handwritten?: boolean | undefined
 
   /** The type of this register adjunct. */
   readonly type?: Exclude<RegisterAdjunct, "END"> | undefined

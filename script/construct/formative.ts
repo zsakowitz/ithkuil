@@ -105,7 +105,8 @@ export const AFFIX_DEGREES = /* @__PURE__ */ deepFreeze(
  * @param cs The Cs of the affix to be converted.
  * @param degree The degree of the affix.
  * @param type The type of the affix.
- * @param rotated The slot the affix is placed in.
+ * @param slot The slot the affix is placed in.
+ * @param handwritten Whether the outputted characters should be handwritten.
  * @returns An array of `ConstructableCharacter`s.
  */
 export function affixToScript(
@@ -113,9 +114,11 @@ export function affixToScript(
   degree: AffixDegree | "ca",
   type: AffixType,
   slot: "v" | "vii" | "xi",
+  handwritten?: boolean | undefined,
 ): ConstructableCharacter<SecondaryCharacter>[] {
   return textToSecondaries(cs, {
     forcePlaceholderCharacters: true,
+    handwritten,
   })
     .map((secondary) => attachConstructor(secondary, Secondary))
     .map((secondary, index) =>
@@ -150,6 +153,9 @@ export function attachConstructor<T extends Character>(
 
 /** Options that modify how a formative is rendered. */
 export interface FormativeToScriptOptions {
+  /** Whether the outputted characters should be handwritten. */
+  readonly handwritten?: boolean | undefined
+
   /**
    * If `true`, the final quaternary character of a formative representing a
    * case or an illocution/validation will be replaced by diacritics on the
@@ -175,7 +181,7 @@ export function formativeToScript(
     /** Affixes with scope over the formative as a whole. */
     readonly slotXIAffixes?: readonly Affix[] | undefined
   },
-  options?: FormativeToScriptOptions,
+  options: FormativeToScriptOptions,
 ): ConstructableCharacter[] {
   let initialCrRoot: ConstructableCharacter<SecondaryCharacter> | undefined
 
@@ -208,7 +214,7 @@ export function formativeToScript(
     head.push(
       ...textToSecondaries(
         referentListToPersonalReferenceRoot(formative.root as ReferentList),
-        { forcePlaceholderCharacters: true },
+        { handwritten: options.handwritten, forcePlaceholderCharacters: true },
       ).map((x, i) => {
         ;(x as ConstructableCharacter<SecondaryCharacter>).construct = Secondary
 
@@ -223,11 +229,18 @@ export function formativeToScript(
     )
   } else if (typeof formative.root == "object") {
     head.push(
-      ...affixToScript(formative.root.cs, formative.root.degree, 1, "vii"),
+      ...affixToScript(
+        formative.root.cs,
+        formative.root.degree,
+        1,
+        "vii",
+        options.handwritten,
+      ),
     )
   } else {
     const secondaries = textToSecondaries(formative.root, {
       forcePlaceholderCharacters: true,
+      handwritten: options.handwritten,
     }).map((x) => attachConstructor(x, Secondary))
 
     initialCrRoot = secondaries[0]
@@ -263,16 +276,27 @@ export function formativeToScript(
 
     for (const affix of affixes) {
       if (affix.ca) {
-        affixGroup.push(...affixToScript(caToIthkuil(affix.ca), "ca", 1, slot))
+        affixGroup.push(
+          ...affixToScript(
+            caToIthkuil(affix.ca),
+            "ca",
+            1,
+            slot,
+            options.handwritten,
+          ),
+        )
       } else if (affix.referents) {
         if (affix.perspective && affix.perspective != "M") {
           referents.push(
-            ...formativeToScript({
-              type: "UNF/C",
-              root: affix.referents,
-              ca: { perspective: affix.perspective },
-              case: affix.case,
-            }),
+            ...formativeToScript(
+              {
+                type: "UNF/C",
+                root: affix.referents,
+                ca: { perspective: affix.perspective },
+                case: affix.case,
+              },
+              { handwritten: options.handwritten },
+            ),
           )
         } else {
           referents.push({
@@ -285,7 +309,10 @@ export function formativeToScript(
               affix.referents
                 .map((referent) => referentToIthkuil(referent, false))
                 .join(""),
-              { forcePlaceholderCharacters: true },
+              {
+                handwritten: options.handwritten,
+                forcePlaceholderCharacters: true,
+              },
             )
               .map((x) => attachConstructor(x, Secondary))
               .map((x, i) => {
@@ -301,6 +328,7 @@ export function formativeToScript(
         if (affix.type) {
           caseAccessors.push({
             construct: Quaternary,
+            handwritten: options.handwritten,
             value: affix.case,
             type: affix.type,
             isInverse: affix.isInverse,
@@ -309,6 +337,7 @@ export function formativeToScript(
         } else {
           nonAccessorQuaternaries.push({
             construct: Quaternary,
+            handwritten: options.handwritten,
             value: affix.case,
           })
         }
@@ -371,6 +400,7 @@ export function formativeToScript(
         } else if (affix.cs == IVL && affix.type != 3 && affix.degree != 0) {
           nonAccessorQuaternaries.push({
             construct: Quaternary,
+            handwritten: options.handwritten,
             value:
               affix.type == 1
                 ? ALL_ILLOCUTIONS[affix.degree]!
@@ -378,7 +408,13 @@ export function formativeToScript(
           })
         } else {
           affixGroup.push(
-            ...affixToScript(affix.cs, affix.degree, affix.type, slot),
+            ...affixToScript(
+              affix.cs,
+              affix.degree,
+              affix.type,
+              slot,
+              options.handwritten,
+            ),
           )
         }
       }
@@ -411,6 +447,7 @@ export function formativeToScript(
     ) {
       nonAccessorQuaternaries.push({
         construct: Quaternary,
+        handwritten: options.handwritten,
         value: formative.illocutionValidation,
       })
     }
@@ -418,16 +455,23 @@ export function formativeToScript(
     if (formative.mood && formative.mood != "FAC") {
       moods.push([formative.mood, "vii"])
     } else {
-      extraQuaternary = { construct: Quaternary }
+      extraQuaternary = {
+        construct: Quaternary,
+        handwritten: options.handwritten,
+      }
     }
   } else {
     if (formative.case && formative.case != "THM") {
       nonAccessorQuaternaries.push({
         construct: Quaternary,
+        handwritten: options.handwritten,
         value: formative.case,
       })
     } else {
-      extraQuaternary = { construct: Quaternary }
+      extraQuaternary = {
+        construct: Quaternary,
+        handwritten: options.handwritten,
+      }
     }
 
     if (formative.caseScope && formative.caseScope != "CCN") {
@@ -522,6 +566,7 @@ export function formativeToScript(
   ) {
     tertiaries.push({
       construct: Tertiary,
+      handwritten: options.handwritten,
       absoluteLevel: absoluteLevels.shift(),
       top: modulars.shift(),
       valence: valences.shift(),

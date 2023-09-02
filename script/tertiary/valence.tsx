@@ -33,7 +33,7 @@ export const HANDWRITTEN_VALENCE = /* @__PURE__ */ deepFreeze({
  */
 export function ValenceSegment(props: {
   /** Whether this segment is handwritten. */
-  readonly handwritten: boolean
+  readonly handwritten?: boolean | undefined
 
   /** The valence segment to construct. */
   readonly valence: Valence

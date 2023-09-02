@@ -22,7 +22,7 @@ export function PrimarySuperPosed({
   context,
 }: {
   /** Whether this character is handwritten. */
-  readonly handwritten: boolean
+  readonly handwritten?: boolean | undefined
 
   /** The context of the character. */
   readonly context?: Context | undefined

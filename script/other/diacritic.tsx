@@ -82,7 +82,7 @@ export type DiacriticName = keyof typeof CORE_DIACRITICS
  */
 export function Diacritic(props: {
   /** Whether this diacritic is handwritten. */
-  readonly handwritten: boolean
+  readonly handwritten?: boolean | undefined
 
   /** The name of the diacritic to draw. */
   readonly name: DiacriticName

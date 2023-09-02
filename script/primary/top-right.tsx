@@ -63,7 +63,7 @@ export function PrimaryTopRight({
   essence = "NRM",
 }: {
   /** Whether this item is handwritten. */
-  readonly handwritten: boolean
+  readonly handwritten?: boolean | undefined
 
   /** The affiliation of this character. */
   readonly affiliation?: Affiliation | undefined

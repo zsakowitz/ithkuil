@@ -133,7 +133,7 @@ const extensionOnlySecondaryWithoutRightDiacritics = /* @__PURE__ */ seq(
 /** Options modifiying how secondary characters are translated. */
 export interface SecondaryTranslationOptions {
   /** Whether these characters should be handwritten. */
-  readonly handwritten: boolean
+  readonly handwritten?: boolean | undefined
 
   /**
    * Whether all characters other than the first should be placed on extensions.

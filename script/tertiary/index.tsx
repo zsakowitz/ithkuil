@@ -31,7 +31,7 @@ export const LEVEL_TO_DIACRITIC_MAP = /* @__PURE__ */ deepFreeze({
 /** Information about a tertiary character. */
 export interface TertiaryCharacter {
   /** Whether this character is handwritten. */
-  readonly handwritten: boolean
+  readonly handwritten?: boolean | undefined
 
   /** The absolute level shown on the character. */
   readonly absoluteLevel?: Level | undefined

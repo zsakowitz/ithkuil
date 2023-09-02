@@ -20,7 +20,7 @@ export function PrimaryUnderPosed({
   bottom = "UNF/C",
 }: {
   /** Whether this character is handwritten. */
-  readonly handwritten: boolean
+  readonly handwritten?: boolean | undefined
 
   /**
    * The bottom item on this character. May be a relation, such as UNF/C, UNF/K,

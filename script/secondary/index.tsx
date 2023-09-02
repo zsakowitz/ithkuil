@@ -10,7 +10,7 @@ import { EXTENSIONS, type ExtensionName } from "./extension.js"
 /** Information about a secondary character. */
 export interface SecondaryCharacter {
   /** Whether this character is handwritten. */
-  readonly handwritten: boolean
+  readonly handwritten?: boolean | undefined
 
   /** The top extension of the character. */
   readonly top?: ExtensionName | undefined
@@ -48,10 +48,10 @@ function Extension({
   direction,
   reversed,
 }: {
-  handwritten: boolean
-  name: ExtensionName
-  direction: "vert" | "diag" | "horiz"
-  reversed: boolean
+  readonly handwritten?: boolean | undefined
+  readonly name: ExtensionName
+  readonly direction: "vert" | "diag" | "horiz"
+  readonly reversed: boolean
 }) {
   const top = EXTENSIONS[name]
 
@@ -78,10 +78,10 @@ function TopExtension({
   handwritten,
   name,
 }: {
-  handwritten: boolean
-  core: Core
-  coreShape: SVGPathElement
-  name: ExtensionName
+  readonly handwritten?: boolean | undefined
+  readonly core: Core
+  readonly coreShape: SVGPathElement
+  readonly name: ExtensionName
 }) {
   return (
     <g>
@@ -110,10 +110,10 @@ function BottomExtension({
   handwritten,
   name,
 }: {
-  handwritten: boolean
-  core: Core
-  coreShape: SVGPathElement
-  name: ExtensionName
+  readonly handwritten?: boolean | undefined
+  readonly core: Core
+  readonly coreShape: SVGPathElement
+  readonly name: ExtensionName
 }) {
   const reversed = !core.bottom[2]
 

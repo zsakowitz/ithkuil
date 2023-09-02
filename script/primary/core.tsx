@@ -31,7 +31,7 @@ export const HANDWRITTEN_CORE_EXTENSIONS = /* @__PURE__ */ deepFreeze({
  */
 export function PrimaryCore(props: {
   /** Whether this item is handwritten. */
-  readonly handwritten: boolean
+  readonly handwritten?: boolean | undefined
 
   /** The specification of the character. */
   readonly specification: Specification | "BSC_ALT"

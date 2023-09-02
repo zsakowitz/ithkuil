@@ -49,7 +49,7 @@ const HANDWRITTEN_OFFSETS = /* @__PURE__ */ deepFreezeAndNullPrototype({
  */
 export function PrimaryBottomLeft(props: {
   /** Whether this item is handwritten. */
-  readonly handwritten: boolean
+  readonly handwritten?: boolean | undefined
 
   /** The configuration of the character. */
   readonly configuration?: Configuration | undefined

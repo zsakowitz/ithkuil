@@ -46,13 +46,16 @@ const SUPPLETIVE_ADJUNCT_TO_REGISTER_CHARACTER = /* @__PURE__ */ deepFreeze({
   QUO: { construct: Register, mode: "transcriptive", type: "DSV" },
   NAM: { construct: Register, mode: "transliterative", type: "SPF" },
   PHR: { construct: Register, mode: "transcriptive", type: "PNT" },
-} satisfies Record<SuppletiveAdjunctType, ConstructableCharacter<RegisterCharacter>>)
+} satisfies Record<SuppletiveAdjunctType, Omit<ConstructableCharacter<RegisterCharacter>, "handwritten">>)
 
 function referentListToString(list: ReferentList): string {
   return list.map((referent) => referentToIthkuil(referent, false)).join("")
 }
 
-function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
+function sentenceToScript(
+  text: string,
+  handwritten?: boolean | undefined,
+): Result<ConstructableCharacter[]> {
   try {
     const words = text.match(
       /[\p{ID_Start}'][\p{ID_Start}\p{ID_Continue}'-]*/gu,
@@ -84,6 +87,7 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
 
         output.push(
           ...textToSecondaries(word, {
+            handwritten,
             placeholder: "ALPHABETIC_PLACEHOLDER",
           }).map((secondary) => attachConstructor(secondary, Secondary)),
         )
@@ -174,11 +178,14 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
           output.push(
             ...formativeToScript(
               mergeAdjunctsAndFormative(concatenatedModifiers, result),
+              { handwritten },
             ),
           )
         } else {
           output.push(
-            ...formativeToScript(mergeAdjunctsAndFormative(adjuncts, result)),
+            ...formativeToScript(mergeAdjunctsAndFormative(adjuncts, result), {
+              handwritten,
+            }),
           )
 
           adjuncts.length = 0
@@ -223,12 +230,15 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
             wordType = {
               close: [
                 { ...register },
-                ...formativeToScript({
-                  type: "UNF/C",
-                  root: result.referents2,
-                  ca: { perspective: result.perspective2 },
-                  case: result.case2,
-                }),
+                ...formativeToScript(
+                  {
+                    type: "UNF/C",
+                    root: result.referents2,
+                    ca: { perspective: result.perspective2 },
+                    case: result.case2,
+                  },
+                  { handwritten },
+                ),
               ],
             }
           } else {
@@ -238,6 +248,7 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
                 { construct: Quaternary, value: result.case2 },
                 ...textToSecondaries(referentListToString(result.referents2), {
                   forcePlaceholderCharacters: true,
+                  handwritten,
                 })
                   .map((secondary) => attachConstructor(secondary, Secondary))
                   .map((secondary, index) => {
@@ -271,7 +282,7 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
               case2 && result.case ? [{ case: result.case }] : undefined,
             case: case2 || result.case,
           }),
-          { useCaseIllValDiacritics: false },
+          { useCaseIllValDiacritics: false, handwritten },
         )
 
         if (formative.at(-1)?.construct != Quaternary) {
@@ -337,6 +348,7 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
                 slotVAffixes: affixes,
                 case: case_,
               }),
+              { handwritten },
             ),
           )
 
@@ -346,6 +358,7 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
             { construct: Quaternary, value: result.case },
             ...textToSecondaries(referentListToString(result.referents), {
               forcePlaceholderCharacters: true,
+              handwritten,
             })
               .map((secondary) => attachConstructor(secondary, Secondary))
               .map((secondary, index) => {
@@ -362,12 +375,15 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
         if ("referents2" in result && result.referents2) {
           if (result.perspective2 && result.perspective2 != "M") {
             output.push(
-              ...formativeToScript({
-                type: "UNF/C",
-                root: result.referents2,
-                ca: { perspective: result.perspective2 },
-                case: result.case2,
-              }),
+              ...formativeToScript(
+                {
+                  type: "UNF/C",
+                  root: result.referents2,
+                  ca: { perspective: result.perspective2 },
+                  case: result.case2,
+                },
+                { handwritten },
+              ),
             )
           } else {
             output.push(
@@ -377,6 +393,7 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
               },
               ...textToSecondaries(referentListToString(result.referents2), {
                 forcePlaceholderCharacters: true,
+                handwritten,
               })
                 .map((secondary) => attachConstructor(secondary, Secondary))
                 .map((secondary, index) => {
@@ -406,7 +423,7 @@ function sentenceToScript(text: string): Result<ConstructableCharacter[]> {
       output.push(
         ...formativeToScript(
           mergeAdjunctsAndFormative(adjuncts, { root: "s", type: "UNF/C" }),
-          { useCaseIllValDiacritics: false },
+          { useCaseIllValDiacritics: false, handwritten },
         )
           .slice(2)
           .map((x) => {
@@ -436,9 +453,13 @@ const sentenceJunctureAffix =
 /**
  * Converts romanized text into Ithkuil characters.
  * @param text The text to be converted.
+ * @param handwritten Whether the outputted characters should be handwritten.
  * @returns A `Result` containing an array of `ConstructableCharacter`s.
  */
-export function textToScript(text: string): Result<ConstructableCharacter[]> {
+export function textToScript(
+  text: string,
+  handwritten?: boolean | undefined,
+): Result<ConstructableCharacter[]> {
   text = text
     // The ç in the regex is a "c" with an extension of "̧ ".
     // We replace it with "ç" (a single character) for parsing purposes.
@@ -460,7 +481,7 @@ export function textToScript(text: string): Result<ConstructableCharacter[]> {
   let isFirst = true
 
   for (const sentence of text.split(/[.!?]/g).filter((x) => x.trim() != "")) {
-    const result = sentenceToScript(sentence)
+    const result = sentenceToScript(sentence, handwritten)
 
     if (!result.ok) {
       return result
