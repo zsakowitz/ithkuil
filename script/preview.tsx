@@ -1,10 +1,5 @@
-import type { Valence } from "../generate/index.js"
-import {
-  Lines,
-  Tertiary,
-  fitViewBox,
-  type TertiarySegmentName,
-} from "./index.js"
+import type { RegisterAdjunct } from "../generate/index.js"
+import { Lines, Register, fitViewBox, type RegisterMode } from "./index.js"
 
 document.body.append(
   <script>
@@ -14,12 +9,11 @@ document.body.append(
 )
 
 const lines___: any & any & any = true
-const HEIGHT__: number & number = 70
+const HEIGHT__: number & number = 30
 const mode____: any & any & any = true
 const doFitBox: any & any & any = false
-const character_______: Valence = "MNO"
-let t: TertiarySegmentName | "" = "SQN"
-let b: TertiarySegmentName | "" = t
+const t__________: RegisterMode = "transliterative"
+const b_______: RegisterAdjunct = "SPF"
 
 function randomItem<T>(x: readonly T[]) {
   if (x.length == 0) {
@@ -47,11 +41,10 @@ const node = (
     stroke-linecap="round"
     stroke-linejoin="round"
   >
-    <Tertiary
+    <Register
       handwritten={!!mode____}
-      valence={character_______}
-      top={t ? t : undefined}
-      bottom={b ? b : undefined}
+      mode={t__________}
+      type={b_______}
     />
 
     {/* <HandleResult

@@ -1,7 +1,7 @@
-import { deepFreezeAndNullPrototype } from "../../generate/index.js"
+import { deepFreeze } from "../../generate/index.js"
 
 /** An object containing all diacritics and their SVG paths. */
-export const CORE_DIACRITICS = /* @__PURE__ */ deepFreezeAndNullPrototype({
+export const CORE_DIACRITICS = /* @__PURE__ */ deepFreeze({
   DOT: "M 0 0 l 7.5 7.5 l 7.5 -7.5 l -7.5 -7.5 l -7.5 7.5 z",
   HORIZ_BAR: "M 0 0 l 10 -10 l -30 0 l -10 10 l 30 0 z",
   VERT_BAR: "M 0 0 l -10 10 l 0 25 l 10 -10 l 0 -25 z",
@@ -42,36 +42,35 @@ export const CORE_DIACRITICS = /* @__PURE__ */ deepFreezeAndNullPrototype({
 })
 
 /** An object containing all handwritten diacritics. */
-export const HANDWRITTEN_DIACRITICS =
-  /* @__PURE__ */ deepFreezeAndNullPrototype({
-    DOT: "M 0 0 a -0.75 -0.75 0 0 0 -0.75 -0.75 a -0.75 -0.75 0 0 0 -0.75 0.75 a -0.75 -0.75 0 0 0 0.75 0.75 a -0.75 -0.75 0 0 0 0.75 -0.75",
-    HORIZ_BAR: "M 0 0 h 20",
-    VERT_BAR: "M 0 0 v 20",
-    DIAG_BAR: "M 0 0 l 20 20",
-    TWO_PART_DIAG_BAR: "M 0 0 h 20 l -12.5 -15",
-    HORIZ_WITH_TOP_LINE: "M 0 0 h -15 a 2.5 2.5 0 0 1 0 -5",
-    HORIZ_WITH_BOTTOM_LINE: "M 0 0 h 15 a 2.5 2.5 0 0 1 0 5",
-    VERT_WITH_LEFT_LINE: "M 0 0 v -15 a 2.5 2.5 0 0 0 -5 0",
-    VERT_WITH_RIGHT_LINE: "M 0 0 v 15 a 2.5 2.5 0 0 0 5 0",
-    CURVE_TO_LEFT: "M 0 0 a 12.5 12.5 0 0 1 -20 0",
-    CURVE_TO_RIGHT: "M 0 0 a 12.5 12.5 0 0 0 -20 0",
-    CURVE_TO_TOP: "M 0 0 c 7.5 -7.5 3.75 -17.25 -11.25 -15",
-    CURVE_TO_BOTTOM: "M 0 0 c -7.5 7.5 -3.75 17.25 11.25 15",
-    CURVE_TO_BOTTOM_WITH_LINE: "M 0 0 c -7.5 7.5 -3.75 17.25 11.25 15 l -10 15",
-    CURVE_TO_LEFT_WITH_DOT:
-      "M 0 0 a 12.5 12.5 0 0 1 -20 0 m 9.25 -4.25 a 0.75 0.75 0 0 0 0.75 0.75 a 0.75 0.75 0 0 0 0.75 -0.75 a 0.75 0.75 0 0 0 -0.75 -0.75 a 0.75 0.75 0 0 0 -0.75 0.75",
-    CURVE_TO_RIGHT_WITH_DOT:
-      "M 0 0 a -12.5 -12.5 0 0 1 20 0 m -9.25 4.25 a -0.75 -0.75 0 0 0 -0.75 -0.75 a -0.75 -0.75 0 0 0 -0.75 0.75 a -0.75 -0.75 0 0 0 0.75 0.75 a -0.75 -0.75 0 0 0 0.75 -0.75",
-    a: "M 0 0 a -0.75 -0.75 0 0 0 -0.75 -0.75 a -0.75 -0.75 0 0 0 -0.75 0.75 a -0.75 -0.75 0 0 0 0.75 0.75 a -0.75 -0.75 0 0 0 0.75 -0.75",
-    ä: "M 0 0 h 20",
-    e: "M 0 0 h 15 a 2.5 2.5 0 0 1 0 5",
-    ë: "M 0 0 h -15 a 2.5 2.5 0 0 1 0 -5",
-    i: "M 0 0 l 20 20",
-    o: "M 0 0 c 7.5 -7.5 3.75 -17.25 -11.25 -15",
-    ö: "M 0 0 c -7.5 7.5 -3.75 17.25 11.25 15",
-    u: "M 0 0 v 15 a 2.5 2.5 0 0 0 5 0",
-    ü: "M 0 0 v -15 a 2.5 2.5 0 0 0 -5 0",
-  } satisfies Record<DiacriticName, string>)
+export const HANDWRITTEN_DIACRITICS = /* @__PURE__ */ deepFreeze({
+  DOT: "M 0 0 a -0.75 -0.75 0 0 0 -0.75 -0.75 a -0.75 -0.75 0 0 0 -0.75 0.75 a -0.75 -0.75 0 0 0 0.75 0.75 a -0.75 -0.75 0 0 0 0.75 -0.75",
+  HORIZ_BAR: "M 0 0 h 20",
+  VERT_BAR: "M 0 0 v 20",
+  DIAG_BAR: "M 0 0 l 20 20",
+  TWO_PART_DIAG_BAR: "M 0 0 h 20 l -12.5 -15",
+  HORIZ_WITH_TOP_LINE: "M 0 0 h -15 a 2.5 2.5 0 0 1 0 -5",
+  HORIZ_WITH_BOTTOM_LINE: "M 0 0 h 15 a 2.5 2.5 0 0 1 0 5",
+  VERT_WITH_LEFT_LINE: "M 0 0 v -15 a 2.5 2.5 0 0 0 -5 0",
+  VERT_WITH_RIGHT_LINE: "M 0 0 v 15 a 2.5 2.5 0 0 0 5 0",
+  CURVE_TO_LEFT: "M 0 0 a 12.5 12.5 0 0 1 -20 0",
+  CURVE_TO_RIGHT: "M 0 0 a 12.5 12.5 0 0 0 -20 0",
+  CURVE_TO_TOP: "M 0 0 c 7.5 -7.5 3.75 -17.25 -11.25 -15",
+  CURVE_TO_BOTTOM: "M 0 0 c -7.5 7.5 -3.75 17.25 11.25 15",
+  CURVE_TO_BOTTOM_WITH_LINE: "M 0 0 c -7.5 7.5 -3.75 17.25 11.25 15 l -10 15",
+  CURVE_TO_LEFT_WITH_DOT:
+    "M 0 0 a 12.5 12.5 0 0 1 -20 0 m 9.25 -4.25 a 0.75 0.75 0 0 0 0.75 0.75 a 0.75 0.75 0 0 0 0.75 -0.75 a 0.75 0.75 0 0 0 -0.75 -0.75 a 0.75 0.75 0 0 0 -0.75 0.75",
+  CURVE_TO_RIGHT_WITH_DOT:
+    "M 0 0 a -12.5 -12.5 0 0 1 20 0 m -9.25 4.25 a -0.75 -0.75 0 0 0 -0.75 -0.75 a -0.75 -0.75 0 0 0 -0.75 0.75 a -0.75 -0.75 0 0 0 0.75 0.75 a -0.75 -0.75 0 0 0 0.75 -0.75",
+  a: "M 0 0 a -0.75 -0.75 0 0 0 -0.75 -0.75 a -0.75 -0.75 0 0 0 -0.75 0.75 a -0.75 -0.75 0 0 0 0.75 0.75 a -0.75 -0.75 0 0 0 0.75 -0.75",
+  ä: "M 0 0 h 20",
+  e: "M 0 0 h 15 a 2.5 2.5 0 0 1 0 5",
+  ë: "M 0 0 h -15 a 2.5 2.5 0 0 1 0 -5",
+  i: "M 0 0 l 20 20",
+  o: "M 0 0 c 7.5 -7.5 3.75 -17.25 -11.25 -15",
+  ö: "M 0 0 c -7.5 7.5 -3.75 17.25 11.25 15",
+  u: "M 0 0 v 15 a 2.5 2.5 0 0 0 5 0",
+  ü: "M 0 0 v -15 a 2.5 2.5 0 0 0 -5 0",
+} satisfies Record<DiacriticName, string>)
 
 /** The name of a diacritic. */
 export type DiacriticName = keyof typeof CORE_DIACRITICS
