@@ -187,7 +187,7 @@ function parseSentence(text: string): Result<ParsedItem[]> {
 }
 
 const sentenceJunctureAffix =
-  /(^|[^\p{ID_Start}\p{ID_Continue}'])(çç|ç[waeiouäëöüìùáéíóúâêôû]|çë[\p{ID_Start}\p{ID_Continue}'])/g
+  /(^|[^\p{ID_Start}\p{ID_Continue}'])(çç|ç[waeiouäëöüìùáéíóúâêôû]|çë[\p{ID_Start}\p{ID_Continue}'])/gu
 
 /**
  * Parses romanized Ithkuilic text into a series of items.
