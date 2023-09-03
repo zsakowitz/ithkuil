@@ -32,7 +32,7 @@ export function numericAdjunctToNumerals(
     const amount = value % 10000n
     value = value / 10000n
 
-    output.push({
+    output.unshift({
       construct: Numeral,
       value: Number(amount),
       handwritten,
