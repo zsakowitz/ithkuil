@@ -12,7 +12,7 @@
 // ].map(center)
 
 import { deepFreeze } from "../../generate/index.js"
-import { Anchor } from "../index.js"
+import { Anchor, Translate } from "../index.js"
 
 // export const TENS = [
 //   "",
@@ -189,8 +189,7 @@ export const HANDWRITTEN_THOUSANDS = /* @__PURE__ */ deepFreeze([
 
 /** The positions of handwritten thousands diacritics. */
 export const HANDWRITTEN_THOUSANDS_POSITIONS = /* @__PURE__ */ deepFreeze([
-  [2, -20],
-  [10, 6.875],
+  // 0000s
   [0, 0],
   [0, 0],
   [0, 0],
@@ -199,7 +198,117 @@ export const HANDWRITTEN_THOUSANDS_POSITIONS = /* @__PURE__ */ deepFreeze([
   [0, 0],
   [0, 0],
   [0, 0],
-])
+  [0, 0],
+  [0, 0],
+
+  // 1000s
+  [-13, -26],
+  [-13, -5],
+  [-20, -26],
+  [-13, -26],
+  [-15, -21],
+  [-13, -21],
+  [-13, -31],
+  [-13, -21],
+  [-16, -21],
+  [-13, -21],
+
+  // 2000s
+  [-10.5, -24.5],
+  [-10.5, -9.5],
+  [-15, -29],
+  [-10.5, -24.5],
+  [-10.5, -24.5],
+  [-10.5, -24.5],
+  [-10.5, -29.5],
+  [-10.5, -24.5],
+  [-13.5, -24.5],
+  [-10.5, -24.5],
+
+  // 3000s
+  [-10.5, -32.5],
+  [-10.5, -12.5],
+  [-15, -40],
+  [-13.5, -32.5],
+  [-13.5, -32.5],
+  [-10.5, -32.5],
+  [-10.5, -37.5],
+  [-10.5, -32.5],
+  [-13.5, -32.5],
+  [-10.5, -32.5],
+
+  // 4000s
+  [4.5, -27.5],
+  [4.5, -12.5],
+  [1, -30],
+  [5.5, -27.5],
+  [5.5, -27.5],
+  [4.5, -27.5],
+  [4.5, -32.5],
+  [4.5, -27.5],
+  [4.5, -27.5],
+  [4.5, -27.5],
+
+  // 5000s
+  [4.5, -25],
+  [4.5, -10],
+  [0, -30],
+  [4.5, -25],
+  [4.5, -25],
+  [4.5, -25],
+  [4.5, -30],
+  [4.5, -25],
+  [1.5, -25],
+  [4.5, -25],
+
+  // 6000s
+  [-10.5, -25],
+  [-10.5, -10],
+  [-15, -30],
+  [-10.5, -25],
+  [-10.5, -25],
+  [-10.5, -25],
+  [-10.5, -30],
+  [-10.5, -25],
+  [-13.5, -25],
+  [-10.5, -25],
+
+  // 7000s
+  [-7.5, -27.5],
+  [-7.5, -12.5],
+  [-9, -35],
+  [-7.5, -27.5],
+  [-7.5, -27.5],
+  [-7.5, -27.5],
+  [-7.5, -32.5],
+  [-7.5, -27.5],
+  [-10.5, -27.5],
+  [-7.5, -27.5],
+
+  // 8000s
+  [1.5, -32.5],
+  [1.5, -12.5],
+  [0, -40],
+  [1.5, -32.5],
+  [1.5, -27.5],
+  [1.5, -32.5],
+  [1.5, -37.5],
+  [1.5, -32.5],
+  [-1.5, -32.5],
+  [1.5, -32.5],
+
+  // 9000s
+  [-10.5, -20.5],
+  [-10.5, -0.5],
+  [-15, -25],
+  [-10.5, -20.5],
+  [-10.5, -20.5],
+  [-10.5, -20.5],
+  [-10.5, -25.5],
+  [-10.5, -15.5],
+  [-13.5, -20.5],
+  [-10.5, -20.5],
+] satisfies [x: number, y: number][])
 
 /** Information representing a numeric character. */
 export interface NumeralCharacter {
@@ -264,74 +373,18 @@ export function Numeral(numeral: NumeralCharacter): SVGGElement {
       <path d={HANDWRITTEN_THOUSANDS[thousands]} />
     ) as SVGPathElement
 
-    let x = 0
-    let y = 0
+    const [x, y] = HANDWRITTEN_THOUSANDS_POSITIONS[10 * thousands + ones] || [
+      0, 0,
+    ]
 
-    if (thousands == 1) {
-      y = -6
-    } else if (thousands == 3 || thousands == 8 || thousands == 9) {
-      y = -5
-    } else if (thousands == 4) {
-      y = 5
-      x = 1
-    }
-
-    if (ones == 2) {
-      g.append(
-        Anchor({
-          at: "br",
-          x,
-          y: y - 20,
-          children,
-          value: 10 * thousands + ones,
-        }),
-      )
-    } else {
-      if (thousands == 4) {
-        y -= 5
-      } else if (thousands == 3) {
-        x -= 3
-      }
-
-      if (ones == 4) {
-        if (thousands == 1) {
-          y += 5
-          x -= 2
-        } else if (thousands == 8) {
-          y += 5
-        }
-      }
-
-      if ((ones == 5 || ones == 7 || ones == 9) && thousands == 1) {
-        y += 5
-      }
-
-      if (ones == 8 && thousands == 1) {
-        y += 5
-        x -= 5
-      }
-
-      if (ones == 7 && thousands == 9) {
-        y += 5
-      }
-
-      g.append(
-        Anchor({
-          at: "cc",
-          x:
-            ones == 8
-              ? thousands == 4
-                ? -3
-                : -6
-              : ones == 3 || ones == 4
-              ? x - 3
-              : -3,
-          y: ones == 6 ? y - 25 : ones != 1 ? y - 20 : -5,
-          value: 10 * thousands + ones,
-          children,
-        }),
-      )
-    }
+    g.append(
+      <Translate
+        x={x}
+        y={y}
+      >
+        {children}
+      </Translate>,
+    )
   }
 
   return g
