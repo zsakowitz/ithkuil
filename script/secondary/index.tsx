@@ -239,7 +239,7 @@ export function Secondary(secondary: SecondaryCharacter): SVGGElement {
     main = (
       <Row
         compact={true}
-        space={10}
+        space={handwritten ? 15 : 10}
         intro={[...main.querySelectorAll("path")]}
       >
         <Anchor at="cl">
