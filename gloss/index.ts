@@ -31,7 +31,11 @@ function assertWordIsNotFormative<T>(
  * @returns A `GlossString` representing the word.
  */
 export function glossWord(word: Word) {
-  if (typeof word == "string") {
+  if (
+    typeof word == "string" ||
+    typeof word == "number" ||
+    typeof word == "bigint"
+  ) {
     return glossAdjunct(word)
   }
 

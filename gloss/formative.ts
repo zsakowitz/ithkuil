@@ -117,6 +117,11 @@ export function glossFormative(formative: PartialFormative) {
       },
       true,
     )
+  } else if (
+    typeof formative.root == "number" ||
+    typeof formative.root == "bigint"
+  ) {
+    slot3 = GlossString.of(String(formative.root))
   } else {
     const associatedRoot = rootsMap.get(formative.root)
 

@@ -3,6 +3,7 @@ import { transformWord } from "../transform.js"
 import { buildBiasAdjunct } from "./bias.js"
 import { buildModularAdjunct } from "./modular.js"
 import { buildMultipleAffixAffixualAdjunct } from "./multiple-affix.js"
+import { buildNumericAdjunct } from "./numeric.js"
 import { buildParsingAdjunct } from "./parsing.js"
 import { buildRegisterAdjunct } from "./register.js"
 import { buildSingleAffixAffixualAdjunct } from "./single-affix.js"
@@ -11,6 +12,7 @@ import { buildSuppletiveAdjunct } from "./suppletive.js"
 export * from "./bias.js"
 export * from "./modular.js"
 export * from "./multiple-affix.js"
+export * from "./numeric.js"
 export * from "./parsing.js"
 export * from "./register.js"
 export * from "./single-affix.js"
@@ -28,6 +30,7 @@ export function parseAdjunct(text: string): PlainAdjunct | undefined {
 
   return (
     buildBiasAdjunct(word) ||
+    buildNumericAdjunct(word) ||
     buildParsingAdjunct(word) ||
     buildRegisterAdjunct(word) ||
     buildSuppletiveAdjunct(word) ||

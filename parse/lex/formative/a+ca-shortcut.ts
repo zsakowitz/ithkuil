@@ -1,4 +1,4 @@
-import { anyText, seq } from "../builder.js"
+import { RegexPart, any, anyText, seq } from "../builder.js"
 import { C, H, V, VG, VNG } from "../forms.js"
 
 const ccShortcut = /* @__PURE__ */ anyText("w", "y", "hl", "hr", "hm", "hn")
@@ -25,7 +25,7 @@ export const shortcutFormative = /* @__PURE__ */ seq(
   /* @__PURE__ */ V.asGroup(),
 
   // Slot III: Cr
-  /* @__PURE__ */ C.asGroup(),
+  /* @__PURE__ */ any(C, new RegexPart("\\d+")).asGroup(),
 
   // Slot V: (VxCs...')
   /* @__PURE__ */ seq(/* @__PURE__ */ seq(VNG, C).zeroOrMore(), VG, C)

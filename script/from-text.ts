@@ -28,6 +28,7 @@ import {
   type RegisterCharacter,
   type SecondaryCharacter,
 } from "./index.js"
+import { numericAdjunctToNumerals } from "./numerals/from-number.js"
 import { Break } from "./other/break.js"
 import type { Result } from "./utilities/result.js"
 
@@ -58,7 +59,7 @@ function sentenceToScript(
 ): Result<ConstructableCharacter[]> {
   try {
     const words = text.match(
-      /[\p{ID_Start}'][\p{ID_Start}\p{ID_Continue}'-]*/gu,
+      /[\p{ID_Start}\d'_][\p{ID_Start}\p{ID_Continue}\d'_-]*/gu,
     )
 
     if (!words) {
@@ -113,6 +114,12 @@ function sentenceToScript(
 
       if (!result) {
         return { ok: false, reason: `Expected word, found ${word}.` }
+      }
+
+      if (typeof result == "number" || typeof result == "bigint") {
+        output.push(...numericAdjunctToNumerals(result, handwritten))
+
+        continue
       }
 
       if (typeof result == "string") {
@@ -456,7 +463,7 @@ function sentenceToScript(
 }
 
 const sentenceJunctureAffix =
-  /(^|[^\p{ID_Start}\p{ID_Continue}'_])(çç|ç[waeiouäëöüìùáéíóúâêôû]|çë[\p{ID_Start}\p{ID_Continue}'_])/gu
+  /(^|[^\p{ID_Start}\p{ID_Continue}\d'_])(çç|ç[waeiouäëöüìùáéíóúâêôû]|çë[\p{ID_Start}\p{ID_Continue}\d'_])/gu
 
 /**
  * Converts romanized text into Ithkuil characters.

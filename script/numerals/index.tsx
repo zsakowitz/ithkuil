@@ -12,7 +12,7 @@
 // ].map(center)
 
 import { deepFreeze } from "../../generate/index.js"
-import { Anchor, Translate } from "../index.js"
+import { Translate } from "../index.js"
 
 // export const TENS = [
 //   "",
@@ -316,7 +316,7 @@ export interface NumeralCharacter {
   readonly handwritten?: boolean | undefined
 
   /** The value of this character. */
-  readonly value: number
+  readonly value: number | bigint
 }
 
 /** A digit from zero to nine. */
@@ -328,7 +328,7 @@ export type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
  * @returns A group of SVG paths.
  */
 export function Numeral(numeral: NumeralCharacter): SVGGElement {
-  let value = Math.min(9999, Math.max(0, Math.round(numeral.value)))
+  let value = Math.min(9999, Math.max(0, Math.round(Number(numeral.value))))
 
   if (Number.isNaN(value)) {
     value = 0

@@ -67,7 +67,11 @@ export type Word = PartialReferential | PartialFormative | Adjunct
  * ```
  */
 export function wordToIthkuil(word: Word): string {
-  if (typeof word == "string") {
+  if (
+    typeof word == "string" ||
+    typeof word == "number" ||
+    typeof word == "bigint"
+  ) {
     return adjunctToIthkuil(word)
   }
 

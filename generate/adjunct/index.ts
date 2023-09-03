@@ -12,6 +12,7 @@ import {
   modularAdjunctToIthkuil,
   type ModularAdjunct,
 } from "./modular/index.js"
+import { numericAdjunctToIthkuil, type NumericAdjunct } from "./numeric.js"
 import {
   ALL_PARSING_ADJUNCTS,
   parsingAdjunctToIthkuil,
@@ -33,6 +34,7 @@ import {
 export * from "./affixual/index.js"
 export * from "./bias.js"
 export * from "./modular/index.js"
+export * from "./numeric.js"
 export * from "./parsing.js"
 export * from "./register.js"
 export * from "./suppletive/index.js"
@@ -42,6 +44,7 @@ export type Adjunct =
   | AffixualAdjunct
   | BiasAdjunct
   | ModularAdjunct
+  | NumericAdjunct
   | ParsingAdjunct
   | RegisterAdjunct
   | SingleRegisterAdjunct
@@ -52,6 +55,7 @@ export type PlainAdjunct =
   | AffixualAdjunct
   | BiasAdjunct
   | ModularAdjunct
+  | NumericAdjunct
   | ParsingAdjunct
   | SingleRegisterAdjunct
   | SuppletiveAdjunct
@@ -66,6 +70,10 @@ export type PlainAdjunct =
  * adjuncts, this function returns exactly what you would expect.
  */
 export function adjunctToIthkuil(adjunct: Adjunct): string {
+  if (typeof adjunct == "number" || typeof adjunct == "bigint") {
+    return numericAdjunctToIthkuil(adjunct)
+  }
+
   if (typeof adjunct == "string") {
     if (has(ALL_BIAS_ADJUNCTS, adjunct)) {
       return biasAdjunctToIthkuil(adjunct)

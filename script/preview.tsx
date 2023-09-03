@@ -6,6 +6,8 @@ import {
   fitViewBox,
   textToScript,
   type RegisterMode,
+  HandleResult,
+  CharacterRow,
 } from "./index.js"
 import { HANDWRITTEN_THOUSANDS, Numeral } from "./numerals/index.js"
 
@@ -16,7 +18,7 @@ document.body.append(
   </script>,
 )
 
-const lines___: any & any & any = false
+const lines___: any & any & any = true
 const HEIGHT__: number & number = 100
 const mode____: any & any & any = true
 const doFitBox: any & any & any = true
@@ -32,11 +34,7 @@ function randomItem<T>(x: readonly T[]) {
 }
 
 const output = textToScript(
-  "wat" +
-    Object.keys(CORES)
-      .filter((x) => x.length == 1 && x != "h")
-      .map((x) => "a" + x + "l")
-      .join(""),
+  "a23896234234672324673232389623423467232467323al",
   true,
 )
 
@@ -71,7 +69,7 @@ const node = (
     stroke-linecap="round"
     stroke-linejoin="round"
   >
-    <Spread
+    {/* <Spread
       y={150}
       columns={10}
       items={Array(10)
@@ -86,7 +84,7 @@ const node = (
               />
             )),
         )}
-    />
+    /> */}
 
     {/* {numeral} */}
 
@@ -150,12 +148,12 @@ const node = (
       type={b_______}
     /> */}
 
-    {/* <HandleResult
+    <HandleResult
       ok={(x) => <CharacterRow>{x}</CharacterRow>}
       error={(x) => <text>{x}</text>}
     >
       {output}
-    </HandleResult> */}
+    </HandleResult>
 
     {/* <Secondary
       handwritten={!!mode____}

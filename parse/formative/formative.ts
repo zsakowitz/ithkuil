@@ -176,6 +176,8 @@ export function buildNonShortcutFormative(
     root = parseReferentList(match[3]!)
   } else if (vv?.degree == 0) {
     throw new Error("Invalid Vv slot: " + vv + ".")
+  } else if (!Number.isNaN(parseInt(match[3]!, 10))) {
+    root = BigInt(match[3]!)
   } else {
     root = match[3]!
 
@@ -345,6 +347,8 @@ export function buildCnShortcutFormative(
     root = parseReferentList(match[3]!)
   } else if (vv?.degree == 0) {
     throw new Error("Invalid Vv slot: " + vv + ".")
+  } else if (!Number.isNaN(parseInt(match[3]!, 10))) {
+    root = BigInt(match[3]!)
   } else {
     root = match[3]!
 
@@ -485,6 +489,8 @@ export function buildShortcutFormative(
 
   if (vv.degree == 0) {
     root = parseReferentList(match[3]!)
+  } else if (!Number.isNaN(parseInt(match[3]!, 10))) {
+    root = BigInt(match[3]!)
   } else {
     root = match[3]!
   }

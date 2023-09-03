@@ -22,6 +22,10 @@ import { glossVn } from "./vn.js"
  * @returns A `GlossString` representing the adjunct.
  */
 export function glossAdjunct(adjunct: Adjunct): GlossString {
+  if (typeof adjunct == "number" || typeof adjunct == "bigint") {
+    return GlossString.of("" + adjunct)
+  }
+
   if (typeof adjunct == "string") {
     if (has(ALL_BIAS_ADJUNCTS, adjunct)) {
       return new GlossString(

@@ -134,6 +134,7 @@ export function slotIIToIthkuil(
     ]
 
   if (
+    typeof metadata.slotIII == "string" &&
     metadata.slotIII.replace(/(.)\1/g, "$1").length <= 2 &&
     metadata.slotI == "" &&
     value == "a"

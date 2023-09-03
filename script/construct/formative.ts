@@ -49,6 +49,8 @@ import {
   type TertiaryCharacter,
   type TertiarySegmentName,
 } from "../index.js"
+import { numericAdjunctToNumerals } from "../numerals/from-number.js"
+import type { NumeralCharacter } from "../numerals/index.js"
 import type { BreakCharacter } from "../other/break.js"
 import {
   QUATERNARY_DIACRITIC_MAP,
@@ -69,6 +71,7 @@ export type Character =
   | QuaternaryCharacter
   | BiasCharacter
   | RegisterCharacter
+  | NumeralCharacter
   | BreakCharacter
 
 /** A script character paired with its constructor. */
@@ -240,6 +243,16 @@ export function formativeToScript(
         options.handwritten,
       ),
     )
+  } else if (
+    typeof formative.root == "number" ||
+    typeof formative.root == "bigint"
+  ) {
+    const numerals = numericAdjunctToNumerals(
+      formative.root,
+      options.handwritten,
+    )
+
+    head.push(...numerals)
   } else {
     const secondaries = textToSecondaries(formative.root, {
       forcePlaceholderCharacters: true,

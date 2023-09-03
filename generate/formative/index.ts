@@ -271,9 +271,11 @@ const isArray = /* @__PURE__ */ (() => Array.isArray)() as (
  * @returns Romanized Ithkuilic text representing the formative.
  */
 function completeFormativeToIthkuil(formative: Formative) {
-  const slot3 =
+  const slot3: string =
     typeof formative.root == "string"
       ? formative.root
+      : typeof formative.root == "number" || typeof formative.root == "bigint"
+      ? String(formative.root)
       : isArray(formative.root)
       ? referentListToPersonalReferenceRoot(formative.root)
       : formative.root.cs
