@@ -7,11 +7,7 @@ import {
   textToScript,
   type RegisterMode,
 } from "./index.js"
-import {
-  HANDWRITTEN_HUNDREDS,
-  HANDWRITTEN_THOUSANDS,
-  Numeral,
-} from "./numerals/index.js"
+import { HANDWRITTEN_THOUSANDS, Numeral } from "./numerals/index.js"
 
 document.body.append(
   <script>
@@ -77,15 +73,19 @@ const node = (
   >
     <Spread
       y={150}
-      columns={5}
+      columns={10}
       items={Array(10)
         .fill(0)
-        .map((_, i) => (
-          <Numeral
-            handwritten
-            value={1000 * i + 2}
-          />
-        ))}
+        .flatMap((_, i) =>
+          Array(10)
+            .fill(0)
+            .map((_, j) => (
+              <Numeral
+                handwritten
+                value={1000 * i + j}
+              />
+            )),
+        )}
     />
 
     {/* {numeral} */}

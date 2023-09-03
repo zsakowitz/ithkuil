@@ -264,41 +264,74 @@ export function Numeral(numeral: NumeralCharacter): SVGGElement {
       <path d={HANDWRITTEN_THOUSANDS[thousands]} />
     ) as SVGPathElement
 
-    if (ones == 1) {
-      g.append(Anchor({ at: "cc", x: -3, y: -5, children }))
-    } else if (ones == 2) {
-      let x = 0
-      let y = 0
+    let x = 0
+    let y = 0
 
-      if (thousands == 1) {
-        y = -6
-      } else if (thousands == 3 || thousands == 8 || thousands == 9) {
-        y = -5
-      } else if (thousands == 4) {
-        y = 5
-        x = 1
-      }
-
-      g.append(Anchor({ at: "br", x, y: y - 20, children }))
+    if (thousands == 1) {
+      y = -6
+    } else if (thousands == 3 || thousands == 8 || thousands == 9) {
+      y = -5
+    } else if (thousands == 4) {
+      y = 5
+      x = 1
     }
 
-    // g.appendChild(
-    //   <Anchor
-    //     at="br"
-    //     x={HANDWRITTEN_THOUSANDS_POSITIONS[ones]?.[0]}
-    //     y={HANDWRITTEN_THOUSANDS_POSITIONS[ones]?.[1]}
-    //   ></Anchor>,
-    // )
+    if (ones == 2) {
+      g.append(
+        Anchor({
+          at: "br",
+          x,
+          y: y - 20,
+          children,
+          value: 10 * thousands + ones,
+        }),
+      )
+    } else {
+      if (thousands == 4) {
+        y -= 5
+      } else if (thousands == 3) {
+        x -= 3
+      }
 
-    // return (
-    //   <Row
-    //     compact
-    //     space={numeral.handwritten ? 15 : 10}
-    //     intro={[...g.children] as SVGElement[]}
-    //     children={<path d={HANDWRITTEN_THOUSANDS[thousands]} />}
-    //     reverse
-    //   />
-    // ) as SVGGElement
+      if (ones == 4) {
+        if (thousands == 1) {
+          y += 5
+          x -= 2
+        } else if (thousands == 8) {
+          y += 5
+        }
+      }
+
+      if ((ones == 5 || ones == 7 || ones == 9) && thousands == 1) {
+        y += 5
+      }
+
+      if (ones == 8 && thousands == 1) {
+        y += 5
+        x -= 5
+      }
+
+      if (ones == 7 && thousands == 9) {
+        y += 5
+      }
+
+      g.append(
+        Anchor({
+          at: "cc",
+          x:
+            ones == 8
+              ? thousands == 4
+                ? -3
+                : -6
+              : ones == 3 || ones == 4
+              ? x - 3
+              : -3,
+          y: ones == 6 ? y - 25 : ones != 1 ? y - 20 : -5,
+          value: 10 * thousands + ones,
+          children,
+        }),
+      )
+    }
   }
 
   return g

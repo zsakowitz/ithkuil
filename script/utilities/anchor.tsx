@@ -40,6 +40,10 @@ export type AnchorOptions<T extends string> = {
   readonly y?: number | undefined
 }
 
+const ALL_ANCHORS: [x: number, y: number][] = []
+
+Object.assign(window, { ALL_ANCHORS })
+
 /**
  * Anchors an element to any coordinates based on one of its corners or edges or
  * its center. For example, `<Anchor at="tl">...</Anchor>` anchors the top-left
@@ -59,22 +63,26 @@ export function Anchor(props: AnchorOptions<AnchorLocation>): SVGElement {
   const y = props.at[0] as "t" | "c" | "b"
   const x = props.at[1] as "l" | "c" | "r"
 
+  const finalX =
+    (x == "l"
+      ? -box.x
+      : x == "r"
+      ? -box.x - box.width
+      : -box.x - box.width / 2) + (props.x ?? 0)
+
+  const finalY =
+    (y == "t"
+      ? -box.y
+      : y == "b"
+      ? -box.y - box.height
+      : -box.y - box.height / 2) + (props.y ?? 0)
+
+  ALL_ANCHORS[props.value] = [finalX, finalY]
+
   return (
     <Translate
-      x={
-        (x == "l"
-          ? -box.x
-          : x == "r"
-          ? -box.x - box.width
-          : -box.x - box.width / 2) + (props.x ?? 0)
-      }
-      y={
-        (y == "t"
-          ? -box.y
-          : y == "b"
-          ? -box.y - box.height
-          : -box.y - box.height / 2) + (props.y ?? 0)
-      }
+      x={finalX}
+      y={finalY}
     >
       {children}
     </Translate>
