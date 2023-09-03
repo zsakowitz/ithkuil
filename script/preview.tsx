@@ -34,7 +34,7 @@ function randomItem<T>(x: readonly T[]) {
   return x[Math.floor(Math.random() * x.length)]!
 }
 
-const output = textToScript("sňlio", true)
+const output = textToScript("taličřá", true)
 
 console.log(output)
 
@@ -56,7 +56,7 @@ const node = (
     stroke-linecap="round"
     stroke-linejoin="round"
   >
-    <Spread
+    {/* <Spread
       y={200}
       columns={16}
       items={ALL_BIAS_ADJUNCTS.slice(0, -1).map((bias) => (
@@ -83,7 +83,7 @@ const node = (
           </Translate>
         </g>
       ))}
-    />
+    /> */}
 
     {/* <Register
       handwritten={!!mode____}
@@ -91,12 +91,12 @@ const node = (
       type={b_______}
     /> */}
 
-    {/* <HandleResult
-      ok={(x) => <CharacterRow compact>{x}</CharacterRow>}
+    <HandleResult
+      ok={(x) => <CharacterRow>{x}</CharacterRow>}
       error={(x) => <text>{x}</text>}
     >
       {output}
-    </HandleResult> */}
+    </HandleResult>
 
     {/* <Secondary
       handwritten={!!mode____}
