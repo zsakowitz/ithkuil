@@ -34,9 +34,7 @@ function randomItem<T>(x: readonly T[]) {
   return x[Math.floor(Math.random() * x.length)]!
 }
 
-const output = textToScript("taličřá", true)
-
-console.log(output)
+const output = textToScript("hla jon", true)
 
 const node = (
   <svg
