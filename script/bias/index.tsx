@@ -1,8 +1,4 @@
-import {
-  ALL_BIAS_ADJUNCTS,
-  deepFreeze,
-  type BiasAdjunct,
-} from "../../generate/index.js"
+import { deepFreeze, type BiasAdjunct } from "../../generate/index.js"
 import { Anchor, Diacritic, Secondary, type ExtensionName } from "../index.js"
 
 // We essentially treat bias adjuncts as specialized secondary characters. This
@@ -37,13 +33,86 @@ export interface BiasCharacter {
   readonly bias: BiasAdjunct
 }
 
+/** This is required because MNF bias is still named EXP in the script document. */
+const ALL_BIAS_ADJUNCTS_BY_SCRIPT_INDEX = /* @__PURE__ */ deepFreeze([
+  "ACC",
+  "ACH",
+  "ADS",
+  "ANN",
+  "ANP",
+  "APB",
+  "APH",
+  "ARB",
+  "ATE",
+  "CMD",
+  "CNV",
+  "COI",
+  "CRP",
+  "CRR",
+  "CTP",
+  "CTV",
+  "DCC",
+  "DEJ",
+  "DES",
+  "DFD",
+  "DIS",
+  "DLC",
+  "DOL",
+  "DPB",
+  "DRS",
+  "DUB",
+  "EUH",
+  "EUP",
+  "EXA",
+  "EXG",
+  "MNF",
+  "FOR",
+  "FSC",
+  "GRT",
+  "IDG",
+  "IFT",
+  "IPL",
+  "IPT",
+  "IRO",
+  "ISP",
+  "IVD",
+  "MAN",
+  "OPT",
+  "PES",
+  "PPT",
+  "PPX",
+  "PPV",
+  "PSC",
+  "PSM",
+  "RAC",
+  "RFL",
+  "RSG",
+  "RPU",
+  "RVL",
+  "SAT",
+  "SGS",
+  "SKP",
+  "SOL",
+  "STU",
+  "TRP",
+  "VEX",
+])
+
 /**
  * Creates a bias character as a group of SVG paths.
  * @param props Information about the bias character.
  * @returns The constructed bias character.
  */
 export function Bias(props: BiasCharacter): SVGGElement {
-  const index = (ALL_BIAS_ADJUNCTS.indexOf(props.bias) + 1 || 1) - 1
+  const index = ALL_BIAS_ADJUNCTS_BY_SCRIPT_INDEX.indexOf(props.bias)
+
+  if (index == -1) {
+    return Secondary({
+      handwritten: props.handwritten,
+      core: "BIAS",
+      rotated: true,
+    })
+  }
 
   const shape = BIAS_EXTENSIONS[index % 16]
   const column = Math.floor(index / 16)

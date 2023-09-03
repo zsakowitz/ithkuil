@@ -434,8 +434,8 @@ export const HANDWRITTEN_CORES = /* @__PURE__ */ deepFreeze({
     bottom: ["vert", 0],
   } satisfies HandwrittenCore as HandwrittenCore,
   BIAS: {
-    shape: "M -27.5 -35 h 55 l -30 35 a 38 17.5 0 0 1 -20 35",
-    top: ["horiz", -27.5, true],
-    bottom: ["horiz", -22.5, true],
+    shape: "M 27.5 35 h -55 l 30 -35 c -60 -15 -20 -35 20 -35",
+    top: ["horiz", 22.5],
+    bottom: ["horiz", 27.5],
   } satisfies HandwrittenCore as HandwrittenCore,
 } satisfies Record<CoreName, HandwrittenCore> as Record<CoreName, HandwrittenCore>)

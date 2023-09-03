@@ -138,14 +138,16 @@ function BottomExtension({
   )
 }
 
-function rotate(core: Core): Core {
+function rotate(core: Core, handwritten?: boolean | undefined): Core {
   return {
     top: [
       core.bottom[0],
       -core.bottom[1],
-      (core.bottom[0] == "horiz") === !!core.bottom,
+      handwritten
+        ? !!core.bottom
+        : (core.bottom[0] == "horiz") === !!core.bottom,
     ],
-    bottom: [core.top[0], -core.top[1], !core.top],
+    bottom: [core.top[0], -core.top[1], handwritten ? !!core.top : !core.top],
     shape: rotate180AndRotateStartingPoint(core.shape),
   }
 }
@@ -163,6 +165,7 @@ export function Secondary(secondary: SecondaryCharacter): SVGGElement {
         (handwritten ? HANDWRITTEN_CORES : CORES)[
           secondary.core || "STANDARD_PLACEHOLDER"
         ],
+        handwritten,
       )
     : (handwritten ? HANDWRITTEN_CORES : CORES)[
         secondary.core || "STANDARD_PLACEHOLDER"

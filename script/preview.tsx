@@ -1,4 +1,4 @@
-import type { RegisterAdjunct } from "../generate/index.js"
+import { ALL_BIAS_ADJUNCTS, type RegisterAdjunct } from "../generate/index.js"
 import {
   CharacterRow,
   HandleResult,
@@ -6,6 +6,10 @@ import {
   fitViewBox,
   textToScript,
   type RegisterMode,
+  Spread,
+  Bias,
+  Translate,
+  Secondary,
 } from "./index.js"
 
 document.body.append(
@@ -18,7 +22,7 @@ document.body.append(
 const lines___: any & any & any = true
 const HEIGHT__: number & number = 100
 const mode____: any & any & any = true
-const doFitBox: any & any & any = false
+const doFitBox: any & any & any = true
 const t__________: RegisterMode = "transliterative"
 const b_______: RegisterAdjunct = "SPF"
 
@@ -52,18 +56,47 @@ const node = (
     stroke-linecap="round"
     stroke-linejoin="round"
   >
+    <Spread
+      y={200}
+      columns={16}
+      items={ALL_BIAS_ADJUNCTS.slice(0, -1).map((bias) => (
+        <g>
+          <Bias
+            bias={bias}
+            handwritten
+          />
+
+          <Translate
+            x={0}
+            y={50}
+          >
+            <text
+              fill="blue"
+              stroke-width={0}
+            >
+              {bias}
+            </text>
+          </Translate>
+
+          <Translate y={100}>
+            <Bias bias={bias} />
+          </Translate>
+        </g>
+      ))}
+    />
+
     {/* <Register
       handwritten={!!mode____}
       mode={t__________}
       type={b_______}
     /> */}
 
-    <HandleResult
+    {/* <HandleResult
       ok={(x) => <CharacterRow compact>{x}</CharacterRow>}
       error={(x) => <text>{x}</text>}
     >
       {output}
-    </HandleResult>
+    </HandleResult> */}
 
     {/* <Secondary
       handwritten={!!mode____}
