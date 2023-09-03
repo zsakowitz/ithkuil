@@ -15,7 +15,9 @@ export function Break(props: BreakCharacter): SVGGElement {
   return (
     <g>
       <path
-        fill="transparent"
+        fill="none"
+        stroke="none"
+        stroke-width={0}
         d={`M -${size / 2} -35 v 70 h ${size} v -70 h -${size} z`}
       />
     </g>
