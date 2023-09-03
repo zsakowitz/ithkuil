@@ -144,10 +144,20 @@ function rotate(core: Core, handwritten?: boolean | undefined): Core {
       core.bottom[0],
       -core.bottom[1],
       handwritten
-        ? !!core.bottom
+        ? core.bottom[0] == "horiz"
+          ? !!core.bottom
+          : !core.bottom
         : (core.bottom[0] == "horiz") === !!core.bottom,
     ],
-    bottom: [core.top[0], -core.top[1], handwritten ? !!core.top : !core.top],
+    bottom: [
+      core.top[0],
+      -core.top[1],
+      handwritten
+        ? core.top[0] == "horiz"
+          ? !!core.top
+          : !core.top
+        : !core.top,
+    ],
     shape: rotate180AndRotateStartingPoint(core.shape),
   }
 }

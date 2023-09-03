@@ -608,7 +608,11 @@ export function CharacterRow(
         const node = character.construct(character as any)
 
         if (character.dimmed) {
-          node.setAttribute("fill", "#a0a0a0")
+          if (character.handwritten) {
+            node.setAttribute("stroke", "#808080")
+          } else {
+            node.setAttribute("fill", "#808080")
+          }
         }
 
         return node

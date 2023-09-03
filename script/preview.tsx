@@ -10,6 +10,7 @@ import {
   Bias,
   Translate,
   Secondary,
+  CORES,
 } from "./index.js"
 
 document.body.append(
@@ -34,7 +35,14 @@ function randomItem<T>(x: readonly T[]) {
   return x[Math.floor(Math.random() * x.length)]!
 }
 
-const output = textToScript("hla jon", true)
+const output = textToScript(
+  "wat" +
+    Object.keys(CORES)
+      .filter((x) => x.length == 1 && x != "h")
+      .map((x) => "a" + x + "l")
+      .join(""),
+  true,
+)
 
 const node = (
   <svg
