@@ -6,20 +6,25 @@ import {
 import { Diacritic } from "../other/diacritic.js"
 import { Anchor } from "../utilities/anchor.js"
 
-const DIACRITICS = /* @__PURE__ */ deepFreezeAndNullPrototype({
-  NRM: {
-    CSL: "",
-    ASO: "DIAG_BAR",
-    VAR: "VERT_BAR",
-    COA: "HORIZ_BAR",
-  },
-  RPV: {
-    CSL: "HORIZ_WITH_BOTTOM_LINE",
-    ASO: "VERT_WITH_LEFT_LINE",
-    VAR: "CURVE_TO_TOP",
-    COA: "CURVE_TO_BOTTOM",
-  },
-})
+/**
+ * An object mapping from affiliation and essence to their corresponding
+ * diacritics.
+ */
+export const AFFILIATION_ESSENCE_DIACRITICS =
+  /* @__PURE__ */ deepFreezeAndNullPrototype({
+    NRM: {
+      CSL: "",
+      ASO: "DIAG_BAR",
+      VAR: "VERT_BAR",
+      COA: "HORIZ_BAR",
+    },
+    RPV: {
+      CSL: "HORIZ_WITH_BOTTOM_LINE",
+      ASO: "VERT_WITH_LEFT_LINE",
+      VAR: "CURVE_TO_TOP",
+      COA: "CURVE_TO_BOTTOM",
+    },
+  })
 
 const OFFSETS = /* @__PURE__ */ deepFreezeAndNullPrototype({
   NRM: {
@@ -71,7 +76,7 @@ export function PrimaryTopRight({
   /** The essence of this character. */
   readonly essence?: Essence | undefined
 }): SVGPathElement | undefined {
-  const diacriticName = DIACRITICS[essence][affiliation]
+  const diacriticName = AFFILIATION_ESSENCE_DIACRITICS[essence][affiliation]
 
   if (!diacriticName) {
     return undefined

@@ -123,7 +123,7 @@ export const VALIDATION_TO_SECONDARY_EXTENSION = /* @__PURE__ */ deepFreeze({
  * diacritics, which can then be used in Cr roots where no case-scope or mood is
  * present.
  */
-export const DIACRITIC_MAP = /* @__PURE__ */ deepFreeze([
+export const QUATERNARY_DIACRITIC_MAP = /* @__PURE__ */ deepFreeze([
   undefined,
   "DOT",
   "HORIZ_BAR",

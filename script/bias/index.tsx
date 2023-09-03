@@ -37,7 +37,7 @@ export interface BiasCharacter {
  * This is required because MNF bias is treated as its old name, EXP in the
  * script.
  */
-const ALL_BIAS_ADJUNCTS_BY_SCRIPT_INDEX = /* @__PURE__ */ deepFreeze([
+export const ALL_BIAS_ADJUNCTS_BY_SCRIPT_INDEX = /* @__PURE__ */ deepFreeze([
   "ACC",
   "ACH",
   "ADS",

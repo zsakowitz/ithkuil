@@ -51,7 +51,7 @@ import {
 } from "../index.js"
 import type { BreakCharacter } from "../other/break.js"
 import {
-  DIACRITIC_MAP,
+  QUATERNARY_DIACRITIC_MAP,
   Quaternary,
   type CaseAccessorQuaternaryCharacter,
   type QuaternaryCharacter,
@@ -532,10 +532,11 @@ export function formativeToScript(
         const index = ALL_CASES_SKIPPING_DEGREE_8.indexOf(finalQuaternary.value)
 
         // @ts-expect-error: We can mutate here because we own `initialCrRoot`.
-        initialCrRoot.superposed = DIACRITIC_MAP[Math.floor(index / 9)]
+        initialCrRoot.superposed =
+          QUATERNARY_DIACRITIC_MAP[Math.floor(index / 9)]
 
         // @ts-expect-error: We can mutate here because we own `initialCrRoot`.
-        initialCrRoot.underposed = DIACRITIC_MAP[index % 9]
+        initialCrRoot.underposed = QUATERNARY_DIACRITIC_MAP[index % 9]
       } else if (
         formative.type == "UNF/K" &&
         has(ALL_ILLOCUTIONS, finalQuaternary.value)
@@ -543,7 +544,7 @@ export function formativeToScript(
         const index = ALL_ILLOCUTIONS.indexOf(finalQuaternary.value)
 
         // @ts-expect-error: We can mutate here because we own `initialCrRoot`.
-        initialCrRoot.superposed = DIACRITIC_MAP[index]
+        initialCrRoot.superposed = QUATERNARY_DIACRITIC_MAP[index]
       } else if (
         formative.type == "UNF/K" &&
         has(ALL_VALIDATIONS, finalQuaternary.value)
@@ -551,7 +552,7 @@ export function formativeToScript(
         const index = ALL_VALIDATIONS.indexOf(finalQuaternary.value)
 
         // @ts-expect-error: We can mutate here because we own `initialCrRoot`.
-        initialCrRoot.underposed = DIACRITIC_MAP[index]
+        initialCrRoot.underposed = QUATERNARY_DIACRITIC_MAP[index]
       } else {
         nonAccessorQuaternaries.push(finalQuaternary)
       }

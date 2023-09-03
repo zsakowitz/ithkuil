@@ -83,7 +83,10 @@ const HANDWRITTEN_DIACRITIC_OFFSET = /* @__PURE__ */ deepFreezeAndNullPrototype(
   },
 )
 
-const PRIMARY_TOP_LEFT = /* @__PURE__ */ deepFreeze({
+/**
+ * An object mapping from perspective and extension into secondary extensions.
+ */
+export const PRIMARY_TOP_LEFT = /* @__PURE__ */ deepFreeze({
   M: {
     DEL: undefined,
     PRX: "s",
@@ -118,7 +121,11 @@ const PRIMARY_TOP_LEFT = /* @__PURE__ */ deepFreeze({
   },
 } satisfies Record<Perspective, Record<Extension, ExtensionName | undefined>>)
 
-const PRIMARY_BOTTOM_RIGHT = /* @__PURE__ */ deepFreeze({
+/**
+ * An object mapping from function, version, M/D, and stem into secondary
+ * extensions.
+ */
+export const PRIMARY_BOTTOM_RIGHT = /* @__PURE__ */ deepFreeze({
   STA: {
     PRC: {
       M: ["b", undefined, "p", "š"],

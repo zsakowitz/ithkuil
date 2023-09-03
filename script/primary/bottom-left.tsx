@@ -5,7 +5,8 @@ import {
 import { Diacritic } from "../other/diacritic.js"
 import { Anchor } from "../utilities/anchor.js"
 
-const DIACRITICS = /* @__PURE__ */ deepFreezeAndNullPrototype({
+/** An object mapping from Ca forms to their corresponding diacritics. */
+export const CA_DIACRITICS = /* @__PURE__ */ deepFreezeAndNullPrototype({
   SS: "DIAG_BAR",
   SC: "VERT_BAR",
   SF: "HORIZ_BAR",
@@ -60,17 +61,17 @@ export function PrimaryBottomLeft(props: {
 
   const diacriticName = props.configuration.slice(1)
 
-  if (diacriticName in DIACRITICS) {
+  if (diacriticName in CA_DIACRITICS) {
     return (
       <Anchor
         at="bl"
         {...(props.handwritten ? HANDWRITTEN_OFFSETS : OFFSETS)[
-          diacriticName as keyof typeof DIACRITICS
+          diacriticName as keyof typeof CA_DIACRITICS
         ]}
       >
         <Diacritic
           handwritten={props.handwritten}
-          name={DIACRITICS[diacriticName as keyof typeof DIACRITICS]}
+          name={CA_DIACRITICS[diacriticName as keyof typeof CA_DIACRITICS]}
         />
       </Anchor>
     ) as SVGPathElement
