@@ -7,10 +7,22 @@ import { Point } from "./point.js"
  * @returns The vertices of the path, in absolute coordinates.
  */
 export function getVerticesOf(path: string) {
-  const relativePoints =
-    path
-      .match(/[-+e.\d]+ [-+e.\d]+ [A-Za-z]|[-+e.\d]+ [-+e.\d]+$/g)
-      ?.map((x) => x.split(" ", 2).map(Number) as [number, number]) || []
+  const matches =
+    path.match(/(?:h|v) [-+e.\d]+|[-+e.\d]+ [-+e.\d]+($|(?= [A-Za-z]))/g) || []
+
+  const relativePoints = matches.map<[number, number]>((x) => {
+    const [first, second] = x.split(" ", 2) as [string, string]
+
+    if (first == "h") {
+      return [+second, 0]
+    }
+
+    if (first == "v") {
+      return [0, +second]
+    }
+
+    return [+first, +second]
+  })
 
   let x = 0
   let y = 0
