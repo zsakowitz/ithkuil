@@ -1,4 +1,4 @@
-const svg = /* @__PURE__ */ <svg />
+let svg: SVGSVGElement | undefined
 
 /**
  * Gets the bounding box of an SVG graphics element.
@@ -6,6 +6,10 @@ const svg = /* @__PURE__ */ <svg />
  * @returns The bounding box (in SVG units) of the element.
  */
 export function getBBox(element: SVGGraphicsElement) {
+  if (!svg) {
+    svg = (<svg />) as SVGSVGElement
+  }
+
   const nextSibling = element.nextSibling
   const parent = element.parentNode
 

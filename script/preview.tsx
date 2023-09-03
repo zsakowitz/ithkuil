@@ -1,17 +1,17 @@
-import { ALL_BIAS_ADJUNCTS, type RegisterAdjunct } from "../generate/index.js"
+import { type RegisterAdjunct } from "../generate/index.js"
 import {
-  CharacterRow,
-  HandleResult,
+  CORES,
   Lines,
+  Spread,
   fitViewBox,
   textToScript,
   type RegisterMode,
-  Spread,
-  Bias,
-  Translate,
-  Secondary,
-  CORES,
 } from "./index.js"
+import {
+  HANDWRITTEN_HUNDREDS,
+  HANDWRITTEN_THOUSANDS,
+  Numeral,
+} from "./numerals/index.js"
 
 document.body.append(
   <script>
@@ -20,7 +20,7 @@ document.body.append(
   </script>,
 )
 
-const lines___: any & any & any = true
+const lines___: any & any & any = false
 const HEIGHT__: number & number = 100
 const mode____: any & any & any = true
 const doFitBox: any & any & any = true
@@ -44,6 +44,19 @@ const output = textToScript(
   true,
 )
 
+function getColor(index: number) {
+  const colors = ["blue", "green", "red", "purple", "orange"]
+  return colors[~~index % colors.length]!
+}
+
+const value = (HANDWRITTEN_THOUSANDS.length - 1) * 1000 + 4
+
+const numeral = (<Numeral value={value} />) as SVGGElement
+
+// debug("v:", value)
+// debug("w:", getBBox(numeral).width)
+// debug("h:", (getBBox(numeral).height - 70) / 2)
+
 const node = (
   <svg
     viewBox={
@@ -62,6 +75,46 @@ const node = (
     stroke-linecap="round"
     stroke-linejoin="round"
   >
+    <Spread
+      y={150}
+      columns={5}
+      items={Array(10)
+        .fill(0)
+        .map((_, i) => (
+          <Numeral
+            handwritten
+            value={1000 * i + 2}
+          />
+        ))}
+    />
+
+    {/* {numeral} */}
+
+    {/* {[
+      "blue",
+      "red",
+      "green",
+      "purple",
+      "orange",
+      "blue",
+      "red",
+      "green",
+      "purple",
+      "orange",
+    ]
+      .map((color, value) => (
+        <Anchor at="cc">
+          <g
+            opacity={0.5}
+            fill={color}
+          >
+            <Numeral value={0} />
+          </g>
+        </Anchor>
+      ))
+      .slice(0)
+      .slice(0, 10)} */}
+
     {/* <Spread
       y={200}
       columns={16}
@@ -97,12 +150,12 @@ const node = (
       type={b_______}
     /> */}
 
-    <HandleResult
+    {/* <HandleResult
       ok={(x) => <CharacterRow>{x}</CharacterRow>}
       error={(x) => <text>{x}</text>}
     >
       {output}
-    </HandleResult>
+    </HandleResult> */}
 
     {/* <Secondary
       handwritten={!!mode____}
