@@ -361,7 +361,6 @@ export const BIAS_ADJUNCT_TO_DESCRIPTION_MAP = /* @__PURE__ */ deepFreeze({
   EUP: "“Let’s just say that...” or “Well, let me put it this way...”",
   EXA: "“Dammit!” “Look, don’t you get it?...” “Look, I’m trying to tell you...”",
   EXG: "“It’s now or never!”",
-  EXP: "“Ah!” “Well, now!” “So!” [Italian “Allora!”]x",
   FOR: "“It’s just as well that...” or “All’s well that ends well...”",
   FSC: "“Cool!” “Wow!” “Awesome!”",
   GRT: "“Ah! What bliss...!” “Oh, there’s nothing like...” [physical pleasure only]",
