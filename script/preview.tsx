@@ -1,13 +1,11 @@
 import { type RegisterAdjunct } from "../generate/index.js"
 import {
-  CORES,
   Lines,
+  Secondary,
   Spread,
   fitViewBox,
   textToScript,
   type RegisterMode,
-  HandleResult,
-  CharacterRow,
 } from "./index.js"
 import { HANDWRITTEN_THOUSANDS, Numeral } from "./numerals/index.js"
 
@@ -18,7 +16,7 @@ document.body.append(
   </script>,
 )
 
-const lines___: any & any & any = true
+const lines___: any & any & any = false
 const HEIGHT__: number & number = 100
 const mode____: any & any & any = true
 const doFitBox: any & any & any = true
@@ -69,6 +67,21 @@ const node = (
     stroke-linecap="round"
     stroke-linejoin="round"
   >
+    {/* <Spread
+      columns={2}
+      items={"ļc řc čc".split(" ").flatMap(([core, ext]) =>
+        [false, true].map((rotated) => (
+          <Secondary
+            handwritten
+            top={ext}
+            core={core}
+            bottom={ext}
+            rotated={rotated}
+          />
+        )),
+      )}
+    /> */}
+
     {/* <Spread
       y={150}
       columns={10}
@@ -148,12 +161,12 @@ const node = (
       type={b_______}
     /> */}
 
-    <HandleResult
+    {/* <HandleResult
       ok={(x) => <CharacterRow>{x}</CharacterRow>}
       error={(x) => <text>{x}</text>}
     >
       {output}
-    </HandleResult>
+    </HandleResult> */}
 
     {/* <Secondary
       handwritten={!!mode____}
