@@ -358,7 +358,12 @@ function completeFormativeToIthkuil(formative: Formative) {
     formative.vn == "MNO" &&
     (formative.type == "UNF/K"
       ? formative.mood != "FAC"
-      : formative.caseScope != "CCN")
+      : formative.caseScope != "CCN") &&
+    formative.ca.affiliation == "CSL" &&
+    formative.ca.configuration == "UPX" &&
+    formative.ca.extension == "DEL" &&
+    formative.ca.perspective == "M" &&
+    formative.ca.essence == "NRM"
   ) {
     didVIIIShortcut = true
 
