@@ -59,8 +59,8 @@ const result3 = referentialToIthkuil({
 strictEqual(result3, "tiuxpoiküötu'ó")
 
 const result4 = formativeToIthkuil({
-  root: "l",
   type: "UNF/C",
+  root: "l",
   slotVIIAffixes: [{ referents: ["1m:BEN"], case: "ERG", perspective: "G" }],
 })
 
@@ -206,7 +206,7 @@ const result19 = formativeToIthkuil({
   root: "k",
 })
 
-strictEqual(result19, "kálaha")
+strictEqual(result19, "ákala")
 
 const result20 = formativeToIthkuil({
   type: "FRM",
@@ -214,7 +214,7 @@ const result20 = formativeToIthkuil({
   root: "lk",
 })
 
-strictEqual(result20, "alkálaha")
+strictEqual(result20, "álkala")
 
 const result21 = formativeToIthkuil({
   type: "FRM",
@@ -222,7 +222,7 @@ const result21 = formativeToIthkuil({
   root: "kl",
 })
 
-strictEqual(result21, "klálaha")
+strictEqual(result21, "áklala")
 
 const result22 = suppletiveAdjunctToIthkuil({
   type: "NAM",
@@ -230,3 +230,11 @@ const result22 = suppletiveAdjunctToIthkuil({
 })
 
 strictEqual(result22, "hnëi")
+
+const result23 = formativeToIthkuil({
+  type: "FRM",
+  root: "l",
+  vn: "PAU",
+})
+
+strictEqual(result23, "láleiwa")

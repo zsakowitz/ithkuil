@@ -185,7 +185,7 @@ export function affixToIthkuil(
   let vowel = WithWYAlternative.of(
     "ca" in affix && affix.ca
       ? "üö"
-      : "referent" in affix && affix.referents
+      : "referents" in affix && affix.referents
       ? REFERENTIAL_AFFIX_CASE_TO_ITHKUIL_MAP[affix.case ?? "THM"]
       : "case" in affix && affix.case
       ? caseToIthkuil(affix.case, false, true)
@@ -199,7 +199,7 @@ export function affixToIthkuil(
   const consonant =
     "ca" in affix && affix.ca
       ? caToIthkuil(affix.ca)
-      : "referent" in affix && affix.referents
+      : "referents" in affix && affix.referents
       ? referentialAffixToIthkuil(affix.referents, affix.perspective ?? "M")
       : "case" in affix && affix.case
       ? ("type" in affix && affix.type

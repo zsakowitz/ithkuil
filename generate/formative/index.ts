@@ -548,6 +548,16 @@ function completeFormativeToIthkuil(formative: Formative) {
 
   // Framed verbal formatives
   if (formative.type == "FRM") {
+    if (
+      countVowelForms(slot1 + slot2 + slot3 + slot4 + slot5 + slot6 + slot7) <
+        2 &&
+      slot2 == "" &&
+      formative.vn == "MNO" &&
+      formative.caseScope == "CCN"
+    ) {
+      slot2 = "a"
+    }
+
     const slot8 = didVIIIShortcut
       ? ""
       : slotVIIIToIthkuil(
@@ -559,7 +569,7 @@ function completeFormativeToIthkuil(formative: Formative) {
             omitDefault:
               countVowelForms(
                 slot1 + slot2 + slot3 + slot4 + slot5 + slot6 + slot7,
-              ) >= 3,
+              ) >= 2,
           },
         ).withPreviousText(slot3 + slot4 + slot5 + slot6 + slot7)
 

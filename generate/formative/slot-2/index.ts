@@ -11,6 +11,7 @@ import {
   UÖ_ÖË,
   WithWYAlternative,
 } from "../../helpers/with-wy-alternative.js"
+import { isLegalWordInitialConsonantForm } from "../../index.js"
 import { type SlotIII } from "../slot-3/index.js"
 import { type Function } from "../slot-4/index.js"
 import { type AffixShortcut } from "./affix-shortcut.js"
@@ -135,15 +136,12 @@ export function slotIIToIthkuil(
 
   if (
     typeof metadata.slotIII == "string" &&
-    metadata.slotIII.replace(/(.)\1/g, "$1").length <= 2 &&
+    isLegalWordInitialConsonantForm(metadata.slotIII.replace(/(.)\1/g, "$1")) &&
     metadata.slotI == "" &&
-    value == "a"
+    value == "a" &&
+    !metadata.doesSlotVHaveAtLeastTwoAffixes
   ) {
-    if (metadata.doesSlotVHaveAtLeastTwoAffixes) {
-      return "a'"
-    } else {
-      return ""
-    }
+    return ""
   }
 
   if (typeof value != "string") {

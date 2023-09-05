@@ -362,7 +362,7 @@ function runTests(numberOfTestCases: number, mode: "short" | "full") {
           get() {
             return "root" in this
               ? "formative"
-              : "referent" in this
+              : "referents" in this
               ? "referential"
               : "adjunct"
           },
