@@ -26,5 +26,5 @@ export * from "./vowel-form.js"
 export function parseWord(
   word: string,
 ): PartialFormative | PartialReferential | PlainAdjunct | undefined {
-  return parseReferential(word) || parseAdjunct(word) || parseFormative(word)
+  return parseReferential(word) ?? parseAdjunct(word) ?? parseFormative(word)
 }
