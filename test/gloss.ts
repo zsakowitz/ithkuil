@@ -11,7 +11,7 @@ while (true) {
   try {
     const parsedWord = parseWord(inputWord)
 
-    if (!parsedWord) {
+    if (parsedWord == null) {
       throw new Error("Invalid word: '" + inputWord + "'.")
     }
 

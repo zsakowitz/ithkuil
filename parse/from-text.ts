@@ -108,7 +108,7 @@ function parseSentence(text: string): Result<ParsedItem[]> {
 
       const result = parseWord(word)!
 
-      if (!result) {
+      if (result == null) {
         return { ok: false, reason: `“${word}” is not a valid word.` }
       }
 

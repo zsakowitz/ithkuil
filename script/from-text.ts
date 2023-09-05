@@ -112,7 +112,7 @@ function sentenceToScript(
         ReturnType<typeof parseWord>
       >
 
-      if (!result) {
+      if (result == null) {
         return { ok: false, reason: `Expected word, found ${word}.` }
       }
 
