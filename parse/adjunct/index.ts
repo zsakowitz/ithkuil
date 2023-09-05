@@ -29,13 +29,13 @@ export function parseAdjunct(text: string): PlainAdjunct | undefined {
   const { word, stress } = transformWord(text)
 
   return (
-    buildBiasAdjunct(word) ||
-    buildNumericAdjunct(word) ||
-    buildParsingAdjunct(word) ||
-    buildRegisterAdjunct(word) ||
-    buildSuppletiveAdjunct(word) ||
-    buildModularAdjunct(word, stress) ||
-    buildSingleAffixAffixualAdjunct(word, stress) ||
+    buildBiasAdjunct(word) ??
+    buildNumericAdjunct(word) ??
+    buildParsingAdjunct(word) ??
+    buildRegisterAdjunct(word) ??
+    buildSuppletiveAdjunct(word) ??
+    buildModularAdjunct(word, stress) ??
+    buildSingleAffixAffixualAdjunct(word, stress) ??
     buildMultipleAffixAffixualAdjunct(word, stress)
   )
 }
