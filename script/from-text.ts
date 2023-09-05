@@ -145,6 +145,7 @@ function sentenceToScript(
               construct: Register,
               handwritten,
               type: result.slice(0, 3) as Exclude<RegisterAdjunct, "END">,
+              mode: result == "SPF:START" ? "alphabetic" : "standard",
             })
 
             if (result == "SPF:START") {
@@ -153,7 +154,8 @@ function sentenceToScript(
                   {
                     construct: Register,
                     handwritten,
-                    type: result.slice(0, 3) as Exclude<RegisterAdjunct, "END">,
+                    type: "SPF",
+                    mode: "alphabetic",
                   },
                 ],
               }
