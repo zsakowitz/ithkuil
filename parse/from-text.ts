@@ -58,7 +58,7 @@ export type ParsedItem =
 function parseSentence(text: string): Result<ParsedItem[]> {
   try {
     const words = text.match(
-      /[\p{ID_Start}\d'_][\p{ID_Start}\p{ID_Continue}\d'_]*/gu,
+      /[\p{ID_Start}\d\u02BC\u0027\u2019'_][\p{ID_Start}\p{ID_Continue}\d\u02BC\u0027\u2019'_]*/gu,
     )
 
     if (!words) {
@@ -189,7 +189,7 @@ function parseSentence(text: string): Result<ParsedItem[]> {
 }
 
 const sentenceJunctureAffix =
-  /(^|[^\p{ID_Start}\p{ID_Continue}\d'_])(çç|ç[waeiouäëöüìùáéíóúâêôû]|çë[\p{ID_Start}\p{ID_Continue}\d'_])/gu
+  /(^|[^\p{ID_Start}\p{ID_Continue}\d\u02BC\u0027\u2019'_])(çç|ç[waeiouäëöüìùáéíóúâêôû]|çë[\p{ID_Start}\p{ID_Continue}\d\u02BC\u0027\u2019'_])/gu
 
 /**
  * Parses romanized Ithkuilic text into a series of items.

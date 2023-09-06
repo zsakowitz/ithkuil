@@ -59,7 +59,7 @@ function sentenceToScript(
 ): Result<ConstructableCharacter[]> {
   try {
     const words = text.match(
-      /[\p{ID_Start}\d'_][\p{ID_Start}\p{ID_Continue}\d'_-]*/gu,
+      /[\p{ID_Start}\d\u02BC\u0027\u2019'_][\p{ID_Start}\p{ID_Continue}\d\u02BC\u0027\u2019'_-]*/gu,
     )
 
     if (!words) {
@@ -465,7 +465,7 @@ function sentenceToScript(
 }
 
 const sentenceJunctureAffix =
-  /(^|[^\p{ID_Start}\p{ID_Continue}\d'_])(çç|ç[waeiouäëöüìùáéíóúâêôû]|çë[\p{ID_Start}\p{ID_Continue}\d'_])/gu
+  /(^|[^\p{ID_Start}\p{ID_Continue}\d\u02BC\u0027\u2019'_])(çç|ç[waeiouäëöüìùáéíóúâêôû]|çë[\p{ID_Start}\p{ID_Continue}\d\u02BC\u0027\u2019'_])/gu
 
 /**
  * Converts romanized text into Ithkuil characters.
