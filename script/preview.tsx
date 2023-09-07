@@ -18,8 +18,8 @@ document.body.append(
 
 const lines___: any & any & any = false
 const HEIGHT__: number & number = 100
-const mode____: any & any & any = true
-const doFitBox: any & any & any = true
+const mode____: any & any & any = false
+const doFitBox: any & any & any = false
 const t__________: RegisterMode = "transliterative"
 const b_______: RegisterAdjunct = "SPF"
 
@@ -58,15 +58,21 @@ const node = (
         } ${2 * HEIGHT__}` as const,
         b: "-50 -50 100 100" as const,
         c: "-50 -50 60 60" as const,
-        d: "-40 -45 30 30" as const,
-      }.a
+        d: "10 -45 30 30" as const,
+      }.b
     }
-    fill="none"
-    stroke="black"
-    stroke-width={4}
-    stroke-linecap="round"
-    stroke-linejoin="round"
+    // fill="none"
+    // stroke="blue"
+    // stroke-width={4}
+    // stroke-linecap="round"
+    // stroke-linejoin="round"
   >
+    <Secondary
+      top="y"
+      core="p"
+      bottom="y"
+    />
+
     {/* <Spread
       columns={2}
       items={"ļc řc čc".split(" ").flatMap(([core, ext]) =>
