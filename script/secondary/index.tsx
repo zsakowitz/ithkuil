@@ -185,7 +185,7 @@ export function Secondary(secondary: SecondaryCharacter): SVGGElement {
 
   let main = (
     <g>
-      <g fill="red">{coreShape}</g>
+      {coreShape}
 
       {secondary.top ? (
         <TopExtension
