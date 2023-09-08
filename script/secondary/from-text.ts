@@ -218,6 +218,7 @@ export function textToSecondaries(
 
     const secondary: Mutable<SecondaryCharacter> = {
       handwritten: options.handwritten,
+      core: "STANDARD_PLACEHOLDER",
     }
 
     if (options?.placeholder == "ALPHABETIC_PLACEHOLDER") {
