@@ -314,7 +314,10 @@ export function formativeToScript(
   for (const [type, value] of [
     ["v", formative.slotVAffixes],
     ["vii", formative.slotVIIAffixes],
-    ["vii", formative.vn ? [toAffix(formative.vn)] : []],
+    [
+      "vii",
+      formative.vn && formative.vn != "MNO" ? [toAffix(formative.vn)] : [],
+    ],
     [
       "vii",
       [formative.type == "UNF/K" ? formative.mood : formative.caseScope]
