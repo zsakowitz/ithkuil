@@ -195,8 +195,6 @@ export function formativeToScript(
   },
   options: FormativeToScriptOptions,
 ) {
-  // TODO: Change 'handwritten' property globally
-
   const handwritten = !!options.handwritten
 
   /**
@@ -528,50 +526,22 @@ export function formativeToScript(
 
   const affixes = (
     [
-      [v, false, ,],
-      [vii, true, ,],
-      [xi, false, "DOT"],
+      [v, "v"],
+      [vii, "vii"],
+      [xi, "xi"],
     ] as const
-  ).flatMap(([affixes, rotated, right]) =>
+  ).flatMap(([affixes, type]) =>
     affixes.flatMap((affix) => {
       if (affix.ca) {
-        return textToSecondaries(caToIthkuil(affix.ca), {
-          handwritten,
-          forcePlaceholderCharacters: true,
-        }).map((secondary, index, array) =>
-          attachConstructor<SecondaryCharacter>(
-            {
-              ...secondary,
-              rotated,
-              right: index == array.length - 1 ? right : undefined,
-              underposed: index == 0 ? "CURVE_TO_LEFT" : undefined,
-            },
-            Secondary,
-          ),
-        )
+        return affixToScript(caToIthkuil(affix.ca), "ca", 1, type, handwritten)
       }
 
-      return textToSecondaries(affix.cs, {
+      return affixToScript(
+        affix.cs,
+        affix.degree,
+        affix.type,
+        type,
         handwritten,
-        forcePlaceholderCharacters: true,
-      }).map((secondary, index, array) =>
-        attachConstructor<SecondaryCharacter>(
-          {
-            ...secondary,
-            rotated,
-            right: index == array.length - 1 ? right : undefined,
-            underposed: index ? undefined : AFFIX_DEGREES[affix.degree],
-            superposed:
-              index == 0
-                ? affix.type == 2
-                  ? "DOT"
-                  : affix.type == 3
-                  ? "HORIZ_BAR"
-                  : undefined
-                : undefined,
-          },
-          Secondary,
-        ),
       )
     }),
   )

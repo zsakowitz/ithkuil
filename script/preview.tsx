@@ -1,8 +1,8 @@
 import { type RegisterAdjunct } from "../generate/index.js"
 import {
+  CharacterRow,
+  HandleResult,
   Lines,
-  Secondary,
-  Spread,
   fitViewBox,
   textToScript,
   type RegisterMode,
@@ -19,7 +19,7 @@ document.body.append(
 const lines___: any & any & any = false
 const HEIGHT__: number & number = 100
 const mode____: any & any & any = false
-const doFitBox: any & any & any = false
+const doFitBox: any & any & any = true
 const t__________: RegisterMode = "transliterative"
 const b_______: RegisterAdjunct = "SPF"
 
@@ -31,10 +31,7 @@ function randomItem<T>(x: readonly T[]) {
   return x[Math.floor(Math.random() * x.length)]!
 }
 
-const output = textToScript(
-  "a23896234234672324673232389623423467232467323al",
-  true,
-)
+const output = textToScript("walgklpyucklpdfgüöřpšgř", true)
 
 function getColor(index: number) {
   const colors = ["blue", "green", "red", "purple", "orange"]
@@ -61,17 +58,17 @@ const node = (
         d: "10 -45 30 30" as const,
       }.b
     }
-    // fill="none"
-    // stroke="blue"
-    // stroke-width={4}
-    // stroke-linecap="round"
-    // stroke-linejoin="round"
+    fill="none"
+    stroke="black"
+    stroke-width={4}
+    stroke-linecap="round"
+    stroke-linejoin="round"
   >
-    <Secondary
+    {/* <Secondary
       top="y"
       core="p"
       bottom="y"
-    />
+    /> */}
 
     {/* <Spread
       columns={2}
@@ -167,12 +164,12 @@ const node = (
       type={b_______}
     /> */}
 
-    {/* <HandleResult
+    <HandleResult
       ok={(x) => <CharacterRow>{x}</CharacterRow>}
       error={(x) => <text>{x}</text>}
     >
       {output}
-    </HandleResult> */}
+    </HandleResult>
 
     {/* <Secondary
       handwritten={!!mode____}
