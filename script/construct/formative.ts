@@ -544,7 +544,7 @@ export function formativeToScript(
               ...secondary,
               rotated,
               right: index == array.length - 1 ? right : undefined,
-              underposed: "CURVE_TO_LEFT",
+              underposed: index == 0 ? "CURVE_TO_LEFT" : undefined,
             },
             Secondary,
           ),
@@ -561,6 +561,14 @@ export function formativeToScript(
             rotated,
             right: index == array.length - 1 ? right : undefined,
             underposed: index ? undefined : AFFIX_DEGREES[affix.degree],
+            superposed:
+              index == 0
+                ? affix.type == 2
+                  ? "DOT"
+                  : affix.type == 3
+                  ? "HORIZ_BAR"
+                  : undefined
+                : undefined,
           },
           Secondary,
         ),
