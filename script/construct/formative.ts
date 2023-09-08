@@ -2,9 +2,11 @@ import {
   ALL_ASPECTS,
   ALL_CASES,
   ALL_CASES_SKIPPING_DEGREE_8,
+  ALL_CASE_SCOPES,
   ALL_EFFECTS,
   ALL_ILLOCUTIONS,
   ALL_LEVELS,
+  ALL_MOODS,
   ALL_PHASES,
   ALL_VALENCES,
   ALL_VALIDATIONS,
@@ -22,16 +24,22 @@ import {
   deepFreeze,
   has,
   referentListToPersonalReferenceRoot,
-  referentToIthkuil,
+  toAffix,
   type Affix,
   type AffixDegree,
   type AffixType,
+  type CaStackingAffix,
+  type Case,
+  type CaseAccessorAffix,
   type CaseScope,
+  type Illocution,
   type Level,
   type Mood,
   type PartialFormative,
-  type ReferentList,
+  type PlainAffix,
+  type ReferentialAffix,
   type Valence,
+  type Validation,
 } from "../../generate/index.js"
 import {
   AnchorX,
@@ -41,7 +49,7 @@ import {
   Tertiary,
   textToSecondaries,
   type BiasCharacter,
-  type DiacriticName,
+  type Mutable,
   type PrimaryCharacter,
   type RegisterCharacter,
   type RowProps,
@@ -182,20 +190,30 @@ export interface FormativeToScriptOptions {
  */
 export function formativeToScript(
   formative: PartialFormative & {
-    /** Affixes with scope over the formative as a whole. */
+    /** Additional affixes which apply to the formative as a whole. */
     readonly slotXIAffixes?: readonly Affix[] | undefined
   },
   options: FormativeToScriptOptions,
-): ConstructableCharacter[] {
-  let initialCrRoot: ConstructableCharacter<SecondaryCharacter> | undefined
+) {
+  // TODO: Change 'handwritten' property globally
+
+  const handwritten = !!options.handwritten
+
+  /**
+   * Formative layout:
+   * 1. Primary
+   * 2. Secondary root
+   * 3. Slot V affixes
+   * 4. Slot VII affixes
+   * 5. Slot XI affixes
+   * 6. Tertiaries
+   * 7. Quaternaries
+   */
 
   const head: ConstructableCharacter[] = []
-  const slotVIIAffixes: ConstructableCharacter<SecondaryCharacter>[] = []
-  const slotXIAffixes: ConstructableCharacter<SecondaryCharacter>[] = []
 
   head.push({
     construct: Primary,
-
     specification: formative.specification,
 
     context: formative.context,
@@ -207,399 +225,385 @@ export function formativeToScript(
           : formative.concatenationType
         : formative.type,
 
-    ...formative.ca,
+    affiliation: formative.ca?.affiliation,
+    configuration: formative.ca?.configuration,
+    extension: formative.ca?.extension,
+    perspective: formative.ca?.perspective,
+    essence: formative.ca?.essence,
 
     function: formative.function,
     version: formative.version,
     stem: formative.stem,
 
-    handwritten: options.handwritten,
+    handwritten,
   })
 
-  if (isArray(formative.root)) {
-    head.push(
-      ...textToSecondaries(
-        referentListToPersonalReferenceRoot(formative.root as ReferentList),
-        { handwritten: options.handwritten, forcePlaceholderCharacters: true },
-      ).map((x, i) => {
-        ;(x as ConstructableCharacter<SecondaryCharacter>).construct = Secondary
-
-        // @ts-expect-error: It's okay to mutate here because we own the object.
-        x.rotated = i == 0
-
-        // @ts-expect-error: It's okay to mutate here because we own the object.
-        x.superposed = i == 0 ? "DOT" : undefined
-
-        return x as ConstructableCharacter<SecondaryCharacter>
-      }),
-    )
-  } else if (typeof formative.root == "object") {
-    head.push(
-      ...affixToScript(
-        formative.root.cs,
-        formative.root.degree,
-        1,
-        "vii",
-        options.handwritten,
-      ),
-    )
-  } else if (
-    typeof formative.root == "number" ||
-    typeof formative.root == "bigint"
-  ) {
-    const numerals = numericAdjunctToNumerals(
-      formative.root,
-      options.handwritten,
-    )
-
-    head.push(...numerals)
-  } else {
-    const secondaries = textToSecondaries(formative.root, {
-      forcePlaceholderCharacters: true,
-      handwritten: options.handwritten,
-    }).map((x) => attachConstructor(x, Secondary))
-
-    initialCrRoot = secondaries[0]
-
-    head.push(...secondaries)
-  }
-
-  const absoluteLevels: Level[] = []
-  const relativeLevels: Level[] = []
-  const valences: Valence[] = []
-  const modulars: TertiarySegmentName[] = []
-  const finalAbsoluteLevels: Level[] = []
-  const finalRelativeLevels: Level[] = []
-  const finalValences: Valence[] = []
-  const finalModulars: TertiarySegmentName[] = []
-
-  const moods: [mood: Mood, slot: "v" | "vii" | "xi"][] = []
-  const caseScopes: [caseScope: CaseScope, slot: "v" | "vii" | "xi"][] = []
-  const caseAccessors: ConstructableCharacter<CaseAccessorQuaternaryCharacter>[] =
-    []
-  const nonAccessorQuaternaries: ConstructableCharacter<StandardQuaternaryCharacter>[] =
-    []
-
-  const referents: ConstructableCharacter[] = []
-
-  for (const [slot, affixes] of [
-    ["v", formative.slotVAffixes || []],
-    ["vii", formative.slotVIIAffixes || []],
-    ["xi", formative.slotXIAffixes || []],
-  ] as const) {
-    const affixGroup =
-      slot == "v" ? head : slot == "vii" ? slotVIIAffixes : slotXIAffixes
-
-    for (const affix of affixes) {
-      if (affix.ca) {
-        affixGroup.push(
-          ...affixToScript(
-            caToIthkuil(affix.ca),
-            "ca",
-            1,
-            slot,
-            options.handwritten,
-          ),
-        )
-      } else if (affix.referents) {
-        if (affix.perspective && affix.perspective != "M") {
-          referents.push(
-            ...formativeToScript(
-              {
-                type: "UNF/C",
-                root: affix.referents,
-                ca: { perspective: affix.perspective },
-                case: affix.case,
-              },
-              { handwritten: options.handwritten },
-            ),
-          )
-        } else {
-          referents.push({
-            construct: Quaternary,
-            value: affix.case,
-            handwritten: options.handwritten,
-          })
-
-          referents.push(
-            ...textToSecondaries(
-              affix.referents
-                .map((referent) => referentToIthkuil(referent, false))
-                .join(""),
-              {
-                handwritten: options.handwritten,
-                forcePlaceholderCharacters: true,
-              },
-            )
-              .map((x) => attachConstructor(x, Secondary))
-              .map((x, i) => {
-                if (i == 0) {
-                  ;(x as any).superposed = "HORIZ_BAR" satisfies DiacriticName
-                }
-
-                return x
-              }),
-          )
-        }
-      } else if (affix.case) {
-        if (affix.type) {
-          caseAccessors.push({
-            construct: Quaternary,
-            handwritten: options.handwritten,
-            value: affix.case,
-            type: affix.type,
-            isInverse: affix.isInverse,
-            isSlotVIIAffix: slot == "vii",
-          })
-        } else {
-          nonAccessorQuaternaries.push({
-            construct: Quaternary,
-            handwritten: options.handwritten,
-            value: affix.case,
-          })
-        }
-      } else {
-        if (affix.cs == VAL && affix.type == 1 && affix.degree != 0) {
-          ;(slot == "xi" ? finalValences : valences).push(
-            ALL_VALENCES[affix.degree - 1] || "MNO",
-          )
-        } else if (affix.cs == PHS && affix.type == 1 && affix.degree != 0) {
-          ;(slot == "xi" ? finalModulars : modulars).push(
-            ALL_PHASES[affix.degree - 1] || "PUN",
-          )
-        } else if (affix.cs == EFE && affix.type == 1 && affix.degree != 0) {
-          ;(slot == "xi" ? finalModulars : modulars).push(
-            ALL_EFFECTS[affix.degree - 1] || "UNK",
-          )
-        } else if (affix.cs == LVL && affix.type != 3 && affix.degree != 0) {
-          const levelGroup =
-            affix.type == 1
-              ? slot == "xi"
-                ? finalRelativeLevels
-                : relativeLevels
-              : slot == "xi"
-              ? finalAbsoluteLevels
-              : absoluteLevels
-
-          levelGroup.push(ALL_LEVELS[affix.degree - 1] || "EQU")
-        } else if (
-          (affix.cs == AP1 ||
-            affix.cs == AP2 ||
-            affix.cs == AP3 ||
-            affix.cs == AP4) &&
-          affix.type == 1 &&
-          affix.degree != 0
-        ) {
-          const index =
-            9 * [AP1, AP2, AP3, AP4].indexOf(affix.cs) + affix.degree - 1
-
-          ;(slot == "xi" ? finalModulars : modulars).push(
-            ALL_ASPECTS[index] || "RTR",
-          )
-        } else if (affix.cs == MCS && affix.type == 1) {
-          if (affix.degree == 0) {
-            caseScopes.push(["CCV", slot])
-          } else if (affix.degree <= 5) {
-            moods.push([
-              (["SUB", "ASM", "SPC", "COU", "HYP"] as const)[
-                (affix.degree - 1) as 0 | 1 | 2 | 3 | 4
-              ]!,
-              slot,
-            ])
-          } else {
-            caseScopes.push([
-              (["CCA", "CCS", "CCQ", "CCP"] as const)[
-                (affix.degree - 6) as 0 | 1 | 2 | 3
-              ]!,
-              slot,
-            ])
-          }
-        } else if (affix.cs == IVL && affix.type != 3 && affix.degree != 0) {
-          nonAccessorQuaternaries.push({
-            construct: Quaternary,
-            handwritten: options.handwritten,
-            value:
-              affix.type == 1
-                ? ALL_ILLOCUTIONS[affix.degree]!
-                : ALL_VALIDATIONS[affix.degree]!,
-          })
-        } else {
-          affixGroup.push(
-            ...affixToScript(
-              affix.cs,
-              affix.degree,
-              affix.type,
-              slot,
-              options.handwritten,
-            ),
-          )
-        }
-      }
-    }
-  }
-
-  if (formative.vn && formative.vn != "MNO") {
-    if (has(ALL_LEVELS, formative.vn)) {
-      relativeLevels.push(formative.vn)
-    } else if (has(ALL_VALENCES, formative.vn)) {
-      valences.push(formative.vn)
-    } else {
-      modulars.push(formative.vn)
-    }
-  }
-
-  absoluteLevels.push(...finalAbsoluteLevels)
-  relativeLevels.push(...finalRelativeLevels)
-  valences.push(...finalValences)
-  modulars.push(...finalModulars)
-
-  let extraQuaternary:
-    | ConstructableCharacter<StandardQuaternaryCharacter>
+  let initialCrRoot:
+    | Mutable<ConstructableCharacter<SecondaryCharacter>>
     | undefined
 
-  if (formative.type == "UNF/K") {
-    if (
-      formative.illocutionValidation &&
-      formative.illocutionValidation != "OBS"
-    ) {
-      nonAccessorQuaternaries.push({
-        construct: Quaternary,
-        handwritten: options.handwritten,
-        value: formative.illocutionValidation,
-      })
-    }
+  if (typeof formative.root == "number" || typeof formative.root == "bigint") {
+    head.push(...numericAdjunctToNumerals(formative.root, handwritten))
+  } else if (isArray(formative.root)) {
+    const referents = textToSecondaries(
+      referentListToPersonalReferenceRoot(formative.root),
+      { handwritten, forcePlaceholderCharacters: true },
+    ).map((secondary, index) =>
+      attachConstructor(
+        {
+          ...secondary,
+          rotated: true,
+          superposed: index == 0 ? "DOT" : undefined,
+        },
+        Secondary,
+      ),
+    )
 
-    if (formative.mood && formative.mood != "FAC") {
-      moods.push([formative.mood, "vii"])
-    } else {
-      extraQuaternary = {
-        construct: Quaternary,
-        handwritten: options.handwritten,
-      }
-    }
+    head.push(...referents)
+  } else if (typeof formative.root == "object") {
+    const { cs, degree } = formative.root
+
+    const affix = textToSecondaries(cs, {
+      handwritten,
+      forcePlaceholderCharacters: true,
+    }).map((secondary, index) =>
+      attachConstructor(
+        {
+          ...secondary,
+          rotated: true,
+          underposed: index == 0 ? AFFIX_DEGREES[degree] : undefined,
+        },
+        Secondary,
+      ),
+    )
+
+    head.push(...affix)
   } else {
-    if (formative.case && formative.case != "THM") {
-      nonAccessorQuaternaries.push({
-        construct: Quaternary,
-        handwritten: options.handwritten,
-        value: formative.case,
-      })
-    } else {
-      extraQuaternary = {
-        construct: Quaternary,
-        handwritten: options.handwritten,
-      }
+    const root = textToSecondaries(String(formative.root satisfies string), {
+      handwritten,
+      forcePlaceholderCharacters: true,
+    }).map((secondary) => attachConstructor(secondary, Secondary))
+
+    if (options.useCaseIllValDiacritics !== false) {
+      initialCrRoot = root[0]
     }
 
-    if (formative.caseScope && formative.caseScope != "CCN") {
-      caseScopes.push([formative.caseScope, "vii"])
-    }
+    head.push(...root)
   }
 
-  for (let index = 0; index < moods.length; index++) {
-    const mood = moods[index]!
+  // Enough variables? Probably not.
 
-    if (mood[0] != "FAC") {
-      if (extraQuaternary && index == nonAccessorQuaternaries.length) {
-        nonAccessorQuaternaries.push(extraQuaternary)
+  const v: (PlainAffix | CaStackingAffix)[] = []
+  const vii: (PlainAffix | CaStackingAffix)[] = []
+  const xi: (PlainAffix | CaStackingAffix)[] = []
 
-        // @ts-expect-error: We can mutate here because we own the object.
-        extraQuaternary.mood = mood[0]
-      } else if (index < nonAccessorQuaternaries.length) {
-        // @ts-expect-error: We can mutate here because we own the object.
-        nonAccessorQuaternaries[index]!.mood = mood[0]
-      } else {
-        // TODO: Place mood as affix
-      }
+  const valences: Valence[] = []
+  const segments: TertiarySegmentName[] = []
+  const relativeLevels: Level[] = []
+  const absoluteLevels: Level[] = []
+
+  const vAccessors: CaseAccessorAffix[] = []
+  const viiAccessors: CaseAccessorAffix[] = []
+
+  const moods: Exclude<Mood, "FAC">[] = []
+  const caseScopes: Exclude<CaseScope, "CCN">[] = []
+  const caseOrIvl: (Case | Illocution | Validation)[] = []
+
+  const referents: ReferentialAffix[] = []
+
+  for (const [type, value] of [
+    ["v", formative.slotVAffixes],
+    ["vii", formative.slotVIIAffixes],
+    ["vii", formative.vn ? [toAffix(formative.vn)] : []],
+    [
+      "vii",
+      [formative.type == "UNF/K" ? formative.mood : formative.caseScope]
+        .filter((x): x is Exclude<typeof x, undefined> => !!x)
+        .map(toAffix),
+    ],
+    [
+      "vii",
+      [
+        formative.type == "UNF/K"
+          ? formative.illocutionValidation
+          : formative.case,
+      ]
+        .filter((x): x is Exclude<typeof x, undefined> => !!x)
+        .map(toAffix),
+    ],
+    ["xi", formative.slotXIAffixes],
+  ] as const) {
+    if (!value) {
+      continue
     }
-  }
 
-  for (let index = 0; index < caseScopes.length; index++) {
-    const caseScope = caseScopes[index]!
+    const group = type == "v" ? v : type == "xi" ? xi : vii
+    const accessors = type == "v" ? vAccessors : viiAccessors
 
-    if (caseScope[0] != "CCN") {
-      if (extraQuaternary && index == nonAccessorQuaternaries.length) {
-        nonAccessorQuaternaries.push(extraQuaternary)
-
-        // @ts-expect-error: We can mutate here because we own the object.
-        extraQuaternary.caseScope = caseScope[0]
-      } else if (index < nonAccessorQuaternaries.length) {
-        // @ts-expect-error: We can mutate here because we own the object.
-        nonAccessorQuaternaries[index]!.caseScope = caseScope[0]
-      } else {
-        // TODO: Place case-scope as affix
+    for (const affix of value) {
+      if (!affix) {
+        continue
       }
-    }
-  }
 
-  if (options?.useCaseIllValDiacritics !== false && initialCrRoot) {
-    const finalQuaternary = nonAccessorQuaternaries.pop()
+      if (affix.ca) {
+        group.push(affix)
+        continue
+      }
 
-    if (
-      finalQuaternary &&
-      finalQuaternary.value &&
-      (!finalQuaternary.mood || finalQuaternary.mood == "FAC") &&
-      (!finalQuaternary.caseScope || finalQuaternary.caseScope == "CCN")
-    ) {
-      if (formative.type != "UNF/K" && has(ALL_CASES, finalQuaternary.value)) {
-        const index = ALL_CASES_SKIPPING_DEGREE_8.indexOf(finalQuaternary.value)
+      if (affix.referents) {
+        referents.push(affix)
+        continue
+      }
 
-        // @ts-expect-error: We can mutate here because we own `initialCrRoot`.
-        initialCrRoot.superposed =
-          QUATERNARY_DIACRITIC_MAP[Math.floor(index / 9)]
+      if (affix.case) {
+        if (affix.type) {
+          accessors.push(affix)
+        } else {
+          caseOrIvl.push(affix.case)
+        }
 
-        // @ts-expect-error: We can mutate here because we own `initialCrRoot`.
-        initialCrRoot.underposed = QUATERNARY_DIACRITIC_MAP[index % 9]
-      } else if (
-        formative.type == "UNF/K" &&
-        has(ALL_ILLOCUTIONS, finalQuaternary.value)
+        continue
+      }
+
+      if (affix.cs == VAL && affix.degree != 0 && affix.type == 1) {
+        valences.push(ALL_VALENCES[affix.degree - 1]!)
+        continue
+      }
+
+      if (
+        (affix.cs == PHS ||
+          affix.cs == EFE ||
+          affix.cs == AP1 ||
+          affix.cs == AP2 ||
+          affix.cs == AP3 ||
+          affix.cs == AP4) &&
+        affix.degree != 0 &&
+        affix.type == 1
       ) {
-        const index = ALL_ILLOCUTIONS.indexOf(finalQuaternary.value)
+        segments.push(
+          (affix.cs == PHS
+            ? ALL_PHASES
+            : affix.cs == EFE
+            ? ALL_EFFECTS
+            : affix.cs == AP1
+            ? ALL_ASPECTS
+            : affix.cs == AP2
+            ? ALL_ASPECTS.slice(9, 18)
+            : affix.cs == AP3
+            ? ALL_ASPECTS.slice(18, 27)
+            : ALL_ASPECTS.slice(27, 36))[(affix.degree - 1) % 9]!,
+        )
 
-        // @ts-expect-error: We can mutate here because we own `initialCrRoot`.
-        initialCrRoot.superposed = QUATERNARY_DIACRITIC_MAP[index]
-      } else if (
-        formative.type == "UNF/K" &&
-        has(ALL_VALIDATIONS, finalQuaternary.value)
-      ) {
-        const index = ALL_VALIDATIONS.indexOf(finalQuaternary.value)
-
-        // @ts-expect-error: We can mutate here because we own `initialCrRoot`.
-        initialCrRoot.underposed = QUATERNARY_DIACRITIC_MAP[index]
-      } else {
-        nonAccessorQuaternaries.push(finalQuaternary)
+        continue
       }
-    } else if (finalQuaternary) {
-      nonAccessorQuaternaries.push(finalQuaternary)
+
+      if (affix.cs == LVL && affix.degree != 0 && affix.type != 3) {
+        ;(affix.type == 2 ? absoluteLevels : relativeLevels).push(
+          ALL_LEVELS[affix.degree - (1 % 9)]!,
+        )
+
+        continue
+      }
+
+      if (affix.cs == MCS && affix.type == 1) {
+        if (affix.degree >= 1 && affix.degree <= 5) {
+          moods.push(ALL_MOODS[affix.degree]! as Exclude<Mood, "FAC">)
+        } else if (affix.degree == 0) {
+          caseScopes.push("CCV")
+        } else {
+          caseScopes.push(
+            ALL_CASE_SCOPES[affix.degree - 5]! as Exclude<CaseScope, "CCN">,
+          )
+        }
+
+        continue
+      }
+
+      if (affix.cs == IVL && affix.degree != 0 && affix.type != 3) {
+        if (affix.type == 1) {
+          caseOrIvl.push(ALL_ILLOCUTIONS[affix.degree - 1]!)
+        } else {
+          caseOrIvl.push(ALL_VALIDATIONS[affix.degree - 1]!)
+        }
+
+        continue
+      }
+
+      group.push(affix)
     }
   }
 
   const tertiaries: ConstructableCharacter<TertiaryCharacter>[] = []
 
   while (
-    absoluteLevels.length ||
-    relativeLevels.length ||
     valences.length ||
-    modulars.length
+    segments.length ||
+    relativeLevels.length ||
+    absoluteLevels.length
   ) {
     tertiaries.push({
       construct: Tertiary,
-      handwritten: options.handwritten,
+      handwritten,
+
       absoluteLevel: absoluteLevels.shift(),
-      top: modulars.shift(),
+      top: segments.shift(),
       valence: valences.shift(),
-      bottom: modulars.shift(),
+      bottom: segments.shift(),
       relativeLevel: relativeLevels.shift(),
     })
   }
 
+  const accessorQuaternaries: ConstructableCharacter<CaseAccessorQuaternaryCharacter>[] =
+    []
+
+  for (const { case: c, isInverse, type } of vAccessors) {
+    accessorQuaternaries.push({
+      construct: Quaternary,
+      handwritten,
+
+      type,
+      isInverse,
+      value: c,
+      isSlotVIIAffix: false,
+    })
+  }
+
+  for (const { case: c, isInverse, type } of viiAccessors) {
+    accessorQuaternaries.push({
+      construct: Quaternary,
+      handwritten,
+
+      type,
+      isInverse,
+      value: c,
+      isSlotVIIAffix: true,
+    })
+  }
+
+  const quaternaries: ConstructableCharacter<StandardQuaternaryCharacter>[] = []
+
+  while (moods.length || caseScopes.length || caseOrIvl.length) {
+    quaternaries.push({
+      construct: Quaternary,
+      handwritten,
+
+      caseScope: caseScopes.shift(),
+      mood: moods.shift(),
+      value: caseOrIvl.shift(),
+    })
+  }
+
+  const finalQuaternary = quaternaries[quaternaries.length - 1]
+
+  if (
+    initialCrRoot &&
+    finalQuaternary &&
+    !finalQuaternary.caseScope &&
+    !finalQuaternary.mood &&
+    (formative.type == "UNF/K"
+      ? (has(ALL_ILLOCUTIONS, finalQuaternary.value) &&
+          finalQuaternary.value != "ASR") ||
+        has(ALL_VALIDATIONS, finalQuaternary.value)
+      : has(ALL_CASES, finalQuaternary.value))
+  ) {
+    quaternaries.pop()
+
+    if (has(ALL_ILLOCUTIONS, finalQuaternary.value)) {
+      initialCrRoot.superposed =
+        QUATERNARY_DIACRITIC_MAP[ALL_ILLOCUTIONS.indexOf(finalQuaternary.value)]
+    } else if (has(ALL_VALIDATIONS, finalQuaternary.value)) {
+      initialCrRoot.underposed =
+        QUATERNARY_DIACRITIC_MAP[ALL_VALIDATIONS.indexOf(finalQuaternary.value)]
+    } else {
+      const index = ALL_CASES_SKIPPING_DEGREE_8.indexOf(finalQuaternary.value)
+
+      initialCrRoot.superposed = QUATERNARY_DIACRITIC_MAP[Math.floor(index / 9)]
+
+      initialCrRoot.underposed = QUATERNARY_DIACRITIC_MAP[index % 9]
+    }
+  }
+
+  const affixes = (
+    [
+      [v, false, ,],
+      [vii, true, ,],
+      [xi, false, "DOT"],
+    ] as const
+  ).flatMap(([affixes, rotated, right]) =>
+    affixes.flatMap((affix) => {
+      if (affix.ca) {
+        return textToSecondaries(caToIthkuil(affix.ca), {
+          handwritten,
+          forcePlaceholderCharacters: true,
+        }).map((secondary, index, array) =>
+          attachConstructor<SecondaryCharacter>(
+            {
+              ...secondary,
+              rotated,
+              right: index == array.length - 1 ? right : undefined,
+              underposed: "CURVE_TO_LEFT",
+            },
+            Secondary,
+          ),
+        )
+      }
+
+      return textToSecondaries(affix.cs, {
+        handwritten,
+        forcePlaceholderCharacters: true,
+      }).map((secondary, index, array) =>
+        attachConstructor<SecondaryCharacter>(
+          {
+            ...secondary,
+            rotated,
+            right: index == array.length - 1 ? right : undefined,
+            underposed: index ? undefined : AFFIX_DEGREES[affix.degree],
+          },
+          Secondary,
+        ),
+      )
+    }),
+  )
+
+  const referentCharacters: ConstructableCharacter[] = referents.flatMap(
+    ({ referents, case: case_, perspective }) => {
+      if (perspective == "G" || perspective == "N") {
+        return formativeToScript(
+          {
+            type: "UNF/C",
+            root: referents,
+            ca: { perspective },
+            case: case_,
+          },
+          options,
+        )
+      }
+
+      return [
+        {
+          construct: Quaternary,
+          value: case_,
+          handwritten,
+        } satisfies ConstructableCharacter<QuaternaryCharacter>,
+        ...textToSecondaries(referentListToPersonalReferenceRoot(referents), {
+          handwritten,
+          forcePlaceholderCharacters: true,
+        }).map((secondary, index) =>
+          attachConstructor(
+            { ...secondary, superposed: index == 0 ? "HORIZ_BAR" : undefined },
+            Secondary,
+          ),
+        ),
+      ]
+    },
+  )
+
   return head.concat(
-    slotVIIAffixes,
-    slotXIAffixes,
+    affixes,
     tertiaries,
-    caseAccessors,
-    nonAccessorQuaternaries,
-    referents,
+    accessorQuaternaries,
+    quaternaries,
+    referentCharacters,
   )
 }
 

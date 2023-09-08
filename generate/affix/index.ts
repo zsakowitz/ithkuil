@@ -99,66 +99,81 @@ const REFERENTIAL_AFFIX_CASE_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
   PAR: UA_IÄ,
 })
 
+/** A plain affix. */
+export type PlainAffix = {
+  /** The type of the affix. */
+  readonly type: AffixType
+
+  /** The degree of the affix. */
+  readonly degree: AffixDegree
+
+  /** The consonantal form of the affix. */
+  readonly cs: string
+
+  readonly ca?: undefined
+  readonly referents?: undefined
+  readonly case?: undefined
+}
+
+/** A Ca-stacking affix. */
+export type CaStackingAffix = {
+  /** The Ca complex of this affix. */
+  readonly ca: PartialCA
+
+  readonly cs?: undefined
+  readonly referents?: undefined
+  readonly case?: undefined
+}
+
+/** A referential affix. */
+export type ReferentialAffix = {
+  /** The referents of this affix. */
+  readonly referents: ReferentList
+
+  /** The perspective of the referent. */
+  readonly perspective?: "M" | "G" | "N" | undefined
+
+  /** The case of the affix. */
+  readonly case: ReferentialAffixCase
+
+  readonly cs?: undefined
+  readonly ca?: undefined
+}
+
+/** A case-accessor or inverse-accessor affix. */
+export type CaseAccessorAffix = {
+  /** The case used in this case accessor affix. */
+  readonly case: Case
+
+  /** The type of the case accessor affix. */
+  readonly type: AffixType
+
+  /** Whether this affix is an inverse case-accessor affix. */
+  readonly isInverse: boolean
+
+  readonly cs?: undefined
+  readonly ca?: undefined
+  readonly referents?: undefined
+}
+
+/** A case-stacking affix. */
+export type CaseStackingAffix = {
+  /** The case used in this case accessor affix. */
+  readonly case: Case
+
+  readonly cs?: undefined
+  readonly ca?: undefined
+  readonly referents?: undefined
+  readonly type?: undefined
+}
+
 /** An affix. */
 export type Affix =
-  | {
-      /** The type of the affix. */
-      readonly type: AffixType
-
-      /** The degree of the affix. */
-      readonly degree: AffixDegree
-
-      /** The consonantal form of the affix. */
-      readonly cs: string
-
-      readonly ca?: undefined
-      readonly referents?: undefined
-      readonly case?: undefined
-    }
-  | {
-      /** The Ca complex of this affix. */
-      readonly ca: PartialCA
-
-      readonly cs?: undefined
-      readonly referents?: undefined
-      readonly case?: undefined
-    }
-  | {
-      /** The referents of this affix. */
-      readonly referents: ReferentList
-
-      /** The perspective of the referent. */
-      readonly perspective?: "M" | "G" | "N" | undefined
-
-      /** The case of the affix. */
-      readonly case: ReferentialAffixCase
-
-      readonly cs?: undefined
-      readonly ca?: undefined
-    }
-  | {
-      /** The case used in this case accessor affix. */
-      readonly case: Case
-
-      /** The type of the case accessor affix. */
-      readonly type: AffixType
-
-      /** Whether this affix is an inverse case-accessor affix. */
-      readonly isInverse: boolean
-
-      readonly cs?: undefined
-      readonly ca?: undefined
-      readonly referents?: undefined
-    }
-  | {
-      /** The case used in this case accessor affix. */
-      readonly case: Case
-
-      readonly cs?: undefined
-      readonly ca?: undefined
-      readonly referents?: undefined
-      readonly type?: undefined
-    }
+  | PlainAffix
+  | CaStackingAffix
+  | ReferentialAffix
+  | CaseAccessorAffix
+  | CaseStackingAffix
 
 /** Metadata about the affix. */
 export type AffixMetadata = {
