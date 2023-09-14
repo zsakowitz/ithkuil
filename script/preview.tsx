@@ -1,12 +1,5 @@
-import { type RegisterAdjunct } from "../generate/index.js"
-import {
-  CharacterRow,
-  HandleResult,
-  Lines,
-  fitViewBox,
-  textToScript,
-  type RegisterMode,
-} from "./index.js"
+import type { RegisterAdjunct } from "../generate/index.js"
+import { Lines, fitViewBox, textToScript, type RegisterMode } from "./index.js"
 import { HANDWRITTEN_THOUSANDS, Numeral } from "./numerals/index.js"
 
 document.body.append(
@@ -17,9 +10,9 @@ document.body.append(
 )
 
 const lines___: any & any & any = false
-const HEIGHT__: number & number = 100
+const HEIGHT__: number & number = 150
 const mode____: any & any & any = false
-const doFitBox: any & any & any = true
+const doFitBox: any & any & any = false
 const t__________: RegisterMode = "transliterative"
 const b_______: RegisterAdjunct = "SPF"
 
@@ -56,14 +49,19 @@ const node = (
         b: "-50 -50 100 100" as const,
         c: "-50 -50 60 60" as const,
         d: "10 -45 30 30" as const,
-      }.b
+      }.a
     }
-    fill="none"
-    stroke="black"
-    stroke-width={4}
-    stroke-linecap="round"
-    stroke-linejoin="round"
+    background-color="#f7f7f7"
+    // fill="none"
+    // stroke="black"
+    // stroke-width={4}
+    // stroke-linecap="round"
+    // stroke-linejoin="round"
   >
+    {/* <Anchor at="cc">
+      <ValenceSegment valence={ALL_VALENCES[8]} />
+    </Anchor> */}
+
     {/* <Secondary
       top="y"
       core="p"
@@ -164,12 +162,12 @@ const node = (
       type={b_______}
     /> */}
 
-    <HandleResult
+    {/* <HandleResult
       ok={(x) => <CharacterRow>{x}</CharacterRow>}
       error={(x) => <text>{x}</text>}
     >
       {output}
-    </HandleResult>
+    </HandleResult> */}
 
     {/* <Secondary
       handwritten={!!mode____}

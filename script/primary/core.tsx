@@ -1,6 +1,6 @@
 import { deepFreeze, type Specification } from "../../generate/index.js"
 
-const CORES = /* @__PURE__ */ deepFreeze({
+export const PRIMARY_CORES = /* @__PURE__ */ deepFreeze({
   BSC: "M -25 -35 l -7.5 7.5 57.5 62.5 7.5 -7.5 -57.5 -62.5 z",
   BSC_ALT: "M -25 -35 l -7.5 7.5 57.5 62.5 7.5 -7.5 -57.5 -62.5 z",
   CTE: "M 8.75 5 l 7.5 -7.5 -32.5 -32.5 -7.5 7.5 32.5 32.5 m -17.5 -10 l -7.5 7.5 32.5 32.5 7.5 -7.5 -32.5 -32.5 z",
@@ -8,7 +8,7 @@ const CORES = /* @__PURE__ */ deepFreeze({
   OBJ: "M 20 35 l 7.5 -7.5 -26.9 -26.9 7.45 -7.55 -28.05 -28.05 -7.5 7.5 26.9 26.9 -7.5 7.5 28.1 28.1 z",
 })
 
-const HANDWRITTEN_CORES = /* @__PURE__ */ deepFreeze({
+export const HANDWRITTEN_PRIMARY_CORES = /* @__PURE__ */ deepFreeze({
   BSC: "M -35 -35 c 0 40 30 70 70 70",
   BSC_ALT: "M -35 -35 c 40 0 70 30 70 70",
   CTE: "M -25 -35 c 17.156325 0 30 17.1428 30 40 m 20 30 c -17.156325 0 -30 -17.1428 -30 -40",
@@ -38,7 +38,11 @@ export function PrimaryCore(props: {
 }): SVGPathElement {
   return (
     <path
-      d={(props.handwritten ? HANDWRITTEN_CORES : CORES)[props.specification]}
+      d={
+        (props.handwritten ? HANDWRITTEN_PRIMARY_CORES : PRIMARY_CORES)[
+          props.specification
+        ]
+      }
     />
   ) as SVGPathElement
 }
