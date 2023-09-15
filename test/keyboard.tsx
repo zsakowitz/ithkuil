@@ -13,6 +13,11 @@ import {
   type CoreName,
   type DiacriticName,
   type ExtensionName,
+  CORES,
+  CORE_DIACRITICS,
+  PRIMARY_CORES,
+  REGISTERS,
+  VALENCE,
 } from "../script/index.js"
 import { scale } from "../script/utilities/scale.js"
 
@@ -98,17 +103,19 @@ function Handwritten(props: {
   strokeWidth?: number
   children: JSX.Element | (JSX.Element | null | undefined)[] | null | undefined
 }) {
-  return (
-    <g
-      stroke-width={props.strokeWidth ?? 5}
-      fill="none"
-      stroke={props.stroke || "black"}
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      {props.children}
-    </g>
-  )
+  return <g>{props.children}</g>
+
+  // return (
+  //   <g
+  //     stroke-width={props.strokeWidth ?? 5}
+  //     fill="none"
+  //     stroke={props.stroke || "black"}
+  //     stroke-linecap="round"
+  //     stroke-linejoin="round"
+  //   >
+  //     {props.children}
+  //   </g>
+  // )
 }
 
 function Calligraphic(props: {
@@ -154,59 +161,59 @@ const svg = (
                   <Secondary
                     bottom={a}
                     core="STRESSED_SYLLABLE_PLACEHOLDER"
-                    handwritten
+                    // handwritten
                   />
                 ) : type == "core" ? (
                   <Anchor at="cc">
-                    <path d={HANDWRITTEN_CORES[a].shape} />
+                    <path d={CORES[a].shape} />
                   </Anchor>
                 ) : type == "diacritic" ? (
                   b ? (
                     <Anchor at="cc">
                       <g>
                         <Anchor at="bc">
-                          <path d={scale(HANDWRITTEN_DIACRITICS[b], 2)} />
+                          <path d={scale(CORE_DIACRITICS[b], 1.5)} />
                         </Anchor>
 
                         <Anchor
                           at="tc"
-                          y={a == "TWO_PART_DIAG_BAR" ? 20 : 40}
+                          y={a == "TWO_PART_DIAG_BAR" ? 10 : 20}
                         >
-                          <path d={scale(HANDWRITTEN_DIACRITICS[a], 2)} />
+                          <path d={scale(CORE_DIACRITICS[a], 1.5)} />
                         </Anchor>
                       </g>
                     </Anchor>
                   ) : (
                     <Anchor at="cc">
-                      <path d={scale(HANDWRITTEN_DIACRITICS[a], 2)} />
+                      <path d={scale(CORE_DIACRITICS[a], 2)} />
                     </Anchor>
                   )
                 ) : type == "spec" ? (
                   <Anchor at="cc">
-                    <path d={HANDWRITTEN_PRIMARY_CORES[a]} />
+                    <path d={PRIMARY_CORES[a]} />
                   </Anchor>
                 ) : a == "register" ? (
                   <Anchor at="cc">
-                    <path d={scale(HANDWRITTEN_REGISTERS.alphabetic.NRR, 2)} />
+                    <path d={scale(REGISTERS.alphabetic.NRR, 2)} />
                   </Anchor>
                 ) : a == "valence" ? (
                   <Anchor at="cc">
-                    <path d={HANDWRITTEN_VALENCE.MNO} />
+                    <path d={VALENCE.MNO} />
                   </Anchor>
                 ) : a == "phase" ? (
                   <Tertiary
                     top="PUN"
-                    handwritten
+                    // handwritten
                   />
                 ) : a == "effect" ? (
                   <Tertiary
                     top="1:BEN"
-                    handwritten
+                    // handwritten
                   />
                 ) : a == "aspect" ? (
                   <Tertiary
                     top="RTR"
-                    handwritten
+                    // handwritten
                   />
                 ) : a == "up" ? (
                   <Anchor at="cc">
