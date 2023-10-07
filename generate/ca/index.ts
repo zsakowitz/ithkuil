@@ -78,7 +78,7 @@ export function makeCAAllomorphicSubstitutions(ca: string) {
     .replace(/(.)bm/g, "$1v")
     .replace(/(.)bn/g, "$1ḑ")
     .replace(/fv/g, "vw")
-    .replace(/tḑ/g, "ḑy")
+    .replace(/ţḑ/g, "ḑy")
 }
 
 /**
