@@ -291,17 +291,14 @@ export function formativeToScript(
 
   // Enough variables? Probably not.
 
-  const v: (PlainAffix | CaStackingAffix)[] = []
-  const vii: (PlainAffix | CaStackingAffix)[] = []
+  const v: (PlainAffix | CaStackingAffix | CaseAccessorAffix)[] = []
+  const vii: (PlainAffix | CaStackingAffix | CaseAccessorAffix)[] = []
   const xi: (PlainAffix | CaStackingAffix)[] = []
 
   const valences: Valence[] = []
   const segments: TertiarySegmentName[] = []
   const relativeLevels: Level[] = []
   const absoluteLevels: Level[] = []
-
-  const vAccessors: CaseAccessorAffix[] = []
-  const viiAccessors: CaseAccessorAffix[] = []
 
   const moods: Exclude<Mood, "FAC">[] = []
   const caseScopes: Exclude<CaseScope, "CCN">[] = []
@@ -339,7 +336,6 @@ export function formativeToScript(
     }
 
     const group = type == "v" ? v : type == "xi" ? xi : vii
-    const accessors = type == "v" ? vAccessors : viiAccessors
 
     for (const affix of value) {
       if (!affix) {
@@ -358,7 +354,7 @@ export function formativeToScript(
 
       if (affix.case) {
         if (affix.type) {
-          accessors.push(affix)
+          group.push(affix)
         } else {
           caseOrIvl.push(affix.case)
         }
@@ -454,33 +450,6 @@ export function formativeToScript(
     })
   }
 
-  const accessorQuaternaries: ConstructableCharacter<CaseAccessorQuaternaryCharacter>[] =
-    []
-
-  for (const { case: c, isInverse, type } of vAccessors) {
-    accessorQuaternaries.push({
-      construct: Quaternary,
-      handwritten,
-
-      type,
-      isInverse,
-      value: c,
-      isSlotVIIAffix: false,
-    })
-  }
-
-  for (const { case: c, isInverse, type } of viiAccessors) {
-    accessorQuaternaries.push({
-      construct: Quaternary,
-      handwritten,
-
-      type,
-      isInverse,
-      value: c,
-      isSlotVIIAffix: true,
-    })
-  }
-
   const quaternaries: ConstructableCharacter<StandardQuaternaryCharacter>[] = []
 
   while (moods.length || caseScopes.length || caseOrIvl.length) {
@@ -524,7 +493,9 @@ export function formativeToScript(
     }
   }
 
-  const affixes = (
+  const affixes: ConstructableCharacter<
+    SecondaryCharacter | QuaternaryCharacter
+  >[] = (
     [
       [v, "v"],
       [vii, "vii"],
@@ -534,6 +505,17 @@ export function formativeToScript(
     affixes.flatMap((affix) => {
       if (affix.ca) {
         return affixToScript(caToIthkuil(affix.ca), "ca", 1, type, handwritten)
+      }
+
+      if (affix.case) {
+        return {
+          construct: Quaternary,
+          handwritten,
+          type: affix.type,
+          value: affix.case,
+          isInverse: affix.isInverse,
+          isSlotVIIAffix: type == "vii",
+        }
       }
 
       return affixToScript(
@@ -579,13 +561,7 @@ export function formativeToScript(
     },
   )
 
-  return head.concat(
-    affixes,
-    tertiaries,
-    accessorQuaternaries,
-    quaternaries,
-    referentCharacters,
-  )
+  return head.concat(affixes, tertiaries, quaternaries, referentCharacters)
 }
 
 /**
