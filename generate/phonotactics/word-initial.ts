@@ -4,7 +4,8 @@ import { isLegalConsonantForm } from "./general.js"
  * A regular expression matching legal single-letter word-initial consonant
  * forms.
  */
-export const LEGAL_WORD_INITIAL_1_CONSONANT_FORMS = /^[^ļ]$/
+export const LEGAL_WORD_INITIAL_1_CONSONANT_FORMS =
+  /^[bcçčdḑfghjklmnňprřsštţvwyxzžż]$/
 
 /**
  * A regular expression matching legal two-letter word-initial consonant forms.

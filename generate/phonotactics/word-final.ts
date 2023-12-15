@@ -3,13 +3,14 @@ import { isLegalConsonantForm } from "./general.js"
 /**
  * A regular expression matching legal single-letter word-final consonant forms.
  */
-export const LEGAL_WORD_FINAL_1_CONSONANT_FORMS = /^[^wy'h]$/
+export const LEGAL_WORD_FINAL_1_CONSONANT_FORMS =
+  /^[bcçčdḑfgjklļmnňprřsštţvxzžż]$/
 
 /**
  * A regular expression matching legal two-letter word-final consonant forms.
  */
 export const LEGAL_WORD_FINAL_2_CONSONANT_FORMS =
-  /^(?:[tkp][fţsšhļ]|[bdg][vḑzžx]|[kp]t|[bg]d|[sšç][ptk]|[zž][bdg]|[cč][tk]|[żj][dg]|f[tksšç]|v[dgzž]|ţ[tk]|ḑ[dg]|[ļx][ptk]|[mn][pbtdkgfvţḑszšžxļ]|ň[tdfvţḑszšž]|r[^wyh']|l[^hwyrň'])$/
+  /^(?:cc|çç|čč|ḑḑ|ff|hh|jj|ll|ļļ|mm|nn|ňň|rr|řř|ss|šš|ţţ|vv|ww|yy|xx|zz|žž|żż|[tkp][fţsšhļ]|[bdg][vḑzžx]|[kp]t|[bg]d|[sšç][ptk]|[zž][bdg]|[cč][tk]|[żj][dg]|f[tksšç]|v[dgzž]|ţ[tk]|ḑ[dg]|[ļx][ptk]|[mn][pbtdkgfvţḑszšžxļ]|ň[tdfvţḑszšž]|r[^wyh']|l[^hwyrň'])$/
 
 /**
  * A regular expression matching legal three-letter word-final consonant forms.
@@ -47,11 +48,7 @@ export function isLegalWordFinalConsonantForm(consonantForm: string) {
   }
 
   if (consonantForm.length == 2) {
-    return (
-      (consonantForm[0] == consonantForm[1] &&
-        !"ptkbdg".includes(consonantForm[0]!)) ||
-      LEGAL_WORD_FINAL_2_CONSONANT_FORMS.test(consonantForm)
-    )
+    return LEGAL_WORD_FINAL_2_CONSONANT_FORMS.test(consonantForm)
   }
 
   if (consonantForm.length == 3) {
