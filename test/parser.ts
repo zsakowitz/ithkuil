@@ -33,6 +33,7 @@ import {
   type ReferentList,
   type SlotIII,
   type Word,
+  formativeToIthkuil,
 } from "../generate/index.js"
 import { ALL_REFERENTS } from "../generate/referential/referent/referent.js"
 import { parseWord } from "../parse/index.js"

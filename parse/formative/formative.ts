@@ -10,7 +10,7 @@ import {
 } from "../lex/index.js"
 import { parseReferentList } from "../referential/referent-list.js"
 import { type Stress } from "../transform.js"
-import { VowelForm } from "../vowel-form.js"
+import { VOWEL_FORM_TO_OBJECT_MAP, VowelForm } from "../vowel-form.js"
 import { parseAffix } from "./affix.js"
 import { parseCa, parseGeminatedCa } from "./ca.js"
 import { parseCaseScope } from "./case-scope.js"
@@ -271,9 +271,10 @@ export function buildNonShortcutFormative(
     case:
       type == "UNF/K"
         ? undefined
-        : match[11]
-        ? parseCase(
-            VowelForm.parseOrThrow(match[11]),
+        : parseCase(
+            match[11]
+              ? VowelForm.parseOrThrow(match[11])
+              : VOWEL_FORM_TO_OBJECT_MAP.a,
             concatenationType
               ? stress == "ultimate"
               : match[11]?.includes("'") ||
@@ -281,9 +282,7 @@ export function buildNonShortcutFormative(
                   match[7]?.includes("'") ||
                   vn_?.includes("'") ||
                   vr.hasGlottalStop,
-          )
-        : undefined,
-
+          ),
     illocutionValidation:
       type != "UNF/K"
         ? undefined
@@ -418,17 +417,16 @@ export function buildCnShortcutFormative(
     case:
       type == "UNF/K"
         ? undefined
-        : match[7]
-        ? parseCase(
-            VowelForm.parseOrThrow(match[7]),
+        : parseCase(
+            match[7]
+              ? VowelForm.parseOrThrow(match[7])
+              : VOWEL_FORM_TO_OBJECT_MAP.a,
             concatenationType
               ? stress == "ultimate"
               : match[7]?.includes("'") ||
                   match[6]?.includes("'") ||
                   vr.hasGlottalStop,
-          )
-        : undefined,
-
+          ),
     illocutionValidation:
       type != "UNF/K"
         ? undefined
@@ -554,13 +552,12 @@ export function buildShortcutFormative(
     case:
       type == "UNF/K"
         ? undefined
-        : match[8]
-        ? parseCase(
-            VowelForm.parseOrThrow(match[8]),
-            concatenationType ? stress == "ultimate" : match[8].includes("'"),
-          )
-        : undefined,
-
+        : parseCase(
+            match[8]
+              ? VowelForm.parseOrThrow(match[8])
+              : VOWEL_FORM_TO_OBJECT_MAP.a,
+            concatenationType ? stress == "ultimate" : false,
+          ),
     illocutionValidation:
       type != "UNF/K"
         ? undefined
