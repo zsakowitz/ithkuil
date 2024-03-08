@@ -59,7 +59,7 @@ function sentenceToScript(
   opts?: FormativeToScriptOptions | boolean | undefined,
 ): Result<ConstructableCharacter[]> {
   const useCaseIllValDiacritics =
-    typeof opts == "object" ? opts.useCaseIllValDiacritics || true : true
+    typeof opts == "object" ? opts.useCaseIllValDiacritics : undefined
   const handwritten = typeof opts == "boolean" ? opts : opts?.handwritten
 
   try {
