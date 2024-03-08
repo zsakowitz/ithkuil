@@ -27,6 +27,7 @@ import {
   type PrimaryCharacter,
   type RegisterCharacter,
   type SecondaryCharacter,
+  type FormativeToScriptOptions,
 } from "./index.js"
 import { numericAdjunctToNumerals } from "./numerals/from-number.js"
 import { Break } from "./other/break.js"
@@ -55,8 +56,12 @@ function referentListToString(list: ReferentList): string {
 
 function sentenceToScript(
   text: string,
-  handwritten?: boolean | undefined,
+  opts?: FormativeToScriptOptions | boolean | undefined,
 ): Result<ConstructableCharacter[]> {
+  const useCaseIllValDiacritics =
+    typeof opts == "object" ? opts.useCaseIllValDiacritics || true : true
+  const handwritten = typeof opts == "boolean" ? opts : opts?.handwritten
+
   try {
     const words = text.match(
       /[\p{ID_Start}\d\u02BC\u0027\u2019'_][\p{ID_Start}\p{ID_Continue}\d\u02BC\u0027\u2019'_-]*/gu,
@@ -191,13 +196,14 @@ function sentenceToScript(
           output.push(
             ...formativeToScript(
               mergeAdjunctsAndFormative(concatenatedModifiers, result),
-              { handwritten },
+              { handwritten, useCaseIllValDiacritics },
             ),
           )
         } else {
           output.push(
             ...formativeToScript(mergeAdjunctsAndFormative(adjuncts, result), {
               handwritten,
+              useCaseIllValDiacritics,
             }),
           )
 
@@ -249,7 +255,7 @@ function sentenceToScript(
                     ca: { perspective: result.perspective2 },
                     case: result.case2,
                   },
-                  { handwritten },
+                  { handwritten, useCaseIllValDiacritics },
                 ),
               ],
             }
@@ -360,7 +366,7 @@ function sentenceToScript(
                 slotVAffixes: affixes,
                 case: case_,
               }),
-              { handwritten },
+              { handwritten, useCaseIllValDiacritics },
             ),
           )
 
@@ -394,7 +400,7 @@ function sentenceToScript(
                   ca: { perspective: result.perspective2 },
                   case: result.case2,
                 },
-                { handwritten },
+                { handwritten, useCaseIllValDiacritics },
               ),
             )
           } else {
@@ -470,12 +476,14 @@ const sentenceJunctureAffix =
 /**
  * Converts romanized text into Ithkuil characters.
  * @param text The text to be converted.
- * @param handwritten Whether the outputted characters should be handwritten.
+ * @param options If a boolean, marks whether the outputted characters should be
+ * handwritten. Otherwise, an object marking properties about how to transform
+ * the text.
  * @returns A `Result` containing an array of `ConstructableCharacter`s.
  */
 export function textToScript(
   text: string,
-  handwritten?: boolean | undefined,
+  options?: FormativeToScriptOptions | boolean | undefined,
 ): Result<ConstructableCharacter[]> {
   text = text
     // The ç in the regex is a "c" with an extension of "̧ ".
@@ -498,14 +506,18 @@ export function textToScript(
   let isFirst = true
 
   for (const sentence of text.split(/[.!?]/g).filter((x) => x.trim() != "")) {
-    const result = sentenceToScript(sentence, handwritten)
+    const result = sentenceToScript(sentence, options)
 
     if (!result.ok) {
       return result
     }
 
     if (!isFirst) {
-      output.push({ construct: Break, handwritten })
+      output.push({
+        construct: Break,
+        handwritten:
+          typeof options == "boolean" ? options : options?.handwritten,
+      })
     }
 
     output.push(...result.value)
