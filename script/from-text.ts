@@ -527,3 +527,84 @@ export function textToScript(
 
   return { ok: true, value: output }
 }
+
+/** New script conversion norms
+
+{!flag} means {flag: false} or {flag: []}
+{=flag} means {flag: true}
+{flag?} means {flag: flag}
+{flag¿} means {flag: !flag}
+
+q(V?)(C?)(V?)([\-~^h`'"?]?)([/|\\><]{0,2})
+Q1(formative whose primary will be shown)
+Q2?(EVE|CVV|VVC|V?CV?|VV|V̀)
+Q3(VL)?(V[PEA])?V?([PEA]V)?(LV)?
+Q4(Hcasescope)?V(Hmood)?          V's stress determines case/ill+val
+Q(AI?|I)[123]?[57]?V
+NV?\d{1,4}V?
+
+STATE: SELF (a list of self states based on current state)
+- STANDARD{carrier?, !adjuncts}
+- SUPPLETIVE{register?}
+- REGISTER
+
+STATE: GLOBAL (these are possible options in every state)
+- (word)               (output)                (next state)
+- q...                 adjuncts+alphabetic     SELF
+- Q1...                adjuncts+primary        SELF
+- Q2?...               adjuncts+secondary      SELF
+- Q3...                adjuncts+tertiary       SELF
+- Q4...                adjuncts+quaternary     SELF
+- Q(AI?|I)...          adjuncts+accessor       SELF
+- QB...                adjuncts+bias           SELF
+- (digits)             adjuncts+numeral        SELF
+- n...                 adjuncts+numeral_adv    SELF
+- hi                   adjuncts+register       REGISTER_ONEWORD
+- h[aeiou]?[0123]?     adjuncts+register       SELF
+- H[aeiou]?[0123]?     adjuncts+register       REGISTER
+- x[aeiou]?[0123]?     adjuncts+register       SUPPLETIVE{!register}
+- X[aeiou]?[0123]?     adjuncts+register       SUPPLETIVE{=register}
+- QS                   adjuncts                STANDARD{!carrier, !adjuncts}
+- QSC                  adjuncts                STANDARD{=carrier, !adjuncts}
+- QSS                  adjuncts                SUPPLETIVE{!register}
+- QSSR                 adjuncts                SUPPLETIVE{=register}
+- QSR                  adjuncts                REGISTER
+
+STATE: STANDARD{carrier, adjuncts} (this is the default state)
+- (word)               (output)                (next state)
+- global states
+- s...                 formative               HUNT_REGISTER
+- hlas...              formative               STANDARD{=carrier}
+- (child formative)    formative+adjuncts      STANDARD{carrier?, adjuncts?}
+- (parent formative)   formative+adjuncts      STANDARD{!carrier, adjuncts?}  if carrier=false
+- (parent formative)   formative               HUNT_REGISTER                  if carrier=true
+- (affix/mod adjunct)  ————————                STANDARD{!carrier, adjuncts: adjuncts.with(this)}
+- (bias adjunct)       bias                    STANDARD{!carrier, adjuncts?}
+- hla/hmn/hna/hňa      register                REGISTER
+
+STATE: SUPPLETIVE{register}
+- global states
+- s...                 formative w/o -S-       STANDARD{!carrier, !adjuncts}  if register=false
+- s...                 formative w/o -S-       REGISTER                       if register=true
+-                                              STANDARD{!carrier, !adjuncts}  if register=false
+-                                              REGISTER                       if register=false
+
+STATE: REGISTER (this state is for when writing alphabetics inside
+registers. its goal is to write alphabetic characters while allowing global
+states to be usable.)
+- @...                 secondaries             REGISTER
+- global states
+- ...                  secondaries             REGISTER
+
+STATE: REGISTER_ONEWORD (this state is immediately after a lone "hi"
+adjunct. its goal is to preserve the old just-one-word behavior.)
+- @...                 secondaries             REGISTER
+- global states
+- ...                  secondaries             REGISTER
+
+STATE: HUNT_REGISTER (this state is immediately after carrier formatives. its
+goal is to default to h1 but use other registers if provided)
+- global states
+-                      register                REGISTER
+
+*/
