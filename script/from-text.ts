@@ -520,6 +520,13 @@ function sentenceToScript(
         }
       }
 
+      // Forced numerals
+      if (word.match(/^[0-9]+$/)) {
+        output.push(...numericAdjunctToNumerals(BigInt(word), handwritten))
+
+        continue
+      }
+
       // Forced register adjuncts
       if (word.match(/^[hH][aeuoi]?[0123]$/)) {
         const [, mode, vowel, index] = word.match(/^([hH])([aeuoi]?)([0123])$/)!
