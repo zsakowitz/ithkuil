@@ -5,6 +5,8 @@ import {
   textToScript,
   type RegisterMode,
   AdvancedAlphabetic,
+  CharacterRow,
+  HandleResult,
 } from "./index.js"
 import { HANDWRITTEN_THOUSANDS, Numeral } from "./numerals/index.js"
 
@@ -30,7 +32,7 @@ function randomItem<T>(x: readonly T[]) {
   return x[Math.floor(Math.random() * x.length)]!
 }
 
-const output = textToScript("walgklpyucklpdfgüöřpšgř", true)
+const output = textToScript("qa_<_", false)
 
 function getColor(index: number) {
   const colors = ["blue", "green", "red", "purple", "orange"]
@@ -64,14 +66,14 @@ const node = (
     // stroke-linecap="round"
     // stroke-linejoin="round"
   >
-    <AdvancedAlphabetic
+    {/* <AdvancedAlphabetic
       superposed="DOT"
       underposed="DOT"
       top="x"
       bottom="r"
       right="CURVE_TO_BOTTOM"
       left="CURVE_TO_TOP"
-    />
+    /> */}
 
     {/* <Anchor at="cc">
       <ValenceSegment valence={ALL_VALENCES[8]} />
@@ -177,12 +179,12 @@ const node = (
       type={b_______}
     /> */}
 
-    {/* <HandleResult
+    <HandleResult
       ok={(x) => <CharacterRow>{x}</CharacterRow>}
       error={(x) => <text>{x}</text>}
     >
       {output}
-    </HandleResult> */}
+    </HandleResult>
 
     {/* <Secondary
       handwritten={!!mode____}

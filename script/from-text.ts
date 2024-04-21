@@ -203,6 +203,8 @@ function sentenceToScript(
             } as const
           )[toneRight],
         } satisfies ConstructableCharacter<AdvancedAlphabeticCharacter>)
+
+        continue
       }
 
       if (typeof wordType == "object") {
