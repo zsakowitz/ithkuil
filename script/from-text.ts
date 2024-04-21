@@ -7,29 +7,45 @@ import {
   referentToIthkuil,
   type Affix,
   type AffixualAdjunct,
+  type Level,
   type ModularAdjunct,
   type ReferentList,
   type RegisterAdjunct,
   type SuppletiveAdjunctType,
+  type Valence,
 } from "../generate/index.js"
-import { parseWord } from "../parse/index.js"
+import { parseMoodOrCaseScope } from "../parse/formative/mood-or-case-scope.js"
 import {
+  STRESSED_TO_UNSTRESSED_VOWEL_MAP,
+  VowelForm,
+  parseCase,
+  parseCaseScope,
+  parseFormative,
+  parseIllocutionValidation,
+  parseMood,
+  parseWord,
+  transformWord,
+  transformWordButLeaveStressMarkings,
+} from "../parse/index.js"
+import {
+  AdvancedAlphabetic,
   Bias,
   Primary,
   Quaternary,
   Register,
   Secondary,
+  Tertiary,
   attachConstructor,
   formativeToScript,
   textToSecondaries,
+  type AdvancedAlphabeticCharacter,
   type ConstructableCharacter,
   type DiacriticName,
+  type FormativeToScriptOptions,
   type PrimaryCharacter,
   type RegisterCharacter,
   type SecondaryCharacter,
-  type FormativeToScriptOptions,
-  AdvancedAlphabetic,
-  type AdvancedAlphabeticCharacter,
+  type TertiarySegmentName,
 } from "./index.js"
 import { numericAdjunctToNumerals } from "./numerals/from-number.js"
 import { Break } from "./other/break.js"
@@ -142,7 +158,7 @@ function sentenceToScript(
         if (!match) {
           return {
             ok: false,
-            reason: "Q-word has invalid syntax.",
+            reason: `Invalid advanced alphabetic word ${word}.`,
           }
         }
 
@@ -207,6 +223,304 @@ function sentenceToScript(
         } satisfies ConstructableCharacter<AdvancedAlphabeticCharacter>)
 
         continue
+      }
+
+      // Other custom characters
+      if (word.startsWith("Q")) {
+        // Q1(formative whose primary will be shown)
+        if (word[1] == "1") {
+          const formative = parseFormative(word.slice(2))
+
+          if (!formative) {
+            return {
+              ok: false,
+              reason: `Q-primary ${word} is not a valid formative.`,
+            }
+          }
+
+          output.push({
+            construct: Primary,
+            handwritten,
+            specification: formative.specification,
+            context: formative.context,
+            bottom:
+              formative.type == "UNF/C"
+                ? formative.concatenationType == "none"
+                  ? undefined
+                  : formative.concatenationType
+                : formative.type,
+            perspective: formative.ca?.perspective,
+            extension: formative.ca?.extension,
+            affiliation: formative.ca?.affiliation,
+            essence: formative.ca?.essence,
+            configuration: formative.ca?.configuration,
+            function: formative.function,
+            version: formative.version,
+            stem: formative.stem,
+          })
+
+          continue
+        }
+
+        // Q2(EVE|CVV|VVC|V?CV?|VV|V̀)
+        if (word[1] == "2") {
+          output.push(
+            ...textToSecondaries(word.slice(2), {
+              handwritten,
+              placeholder: "ALPHABETIC_PLACEHOLDER",
+            }).map((secondary) => attachConstructor(secondary, Secondary)),
+          )
+
+          continue
+        }
+
+        // Q3(VL)?(V[PEA])?V?([PEA]V)?(LV)?
+        if (word[1] == "3") {
+          const match = word.match(
+            /^Q3(?:(ao|aö|eo|eö|oë|öe|oe|öa|oa)L)?([aäeëioöuü]{1,2}[PEA])?([aäeioöuü]|ëi)?([PEA][aäeëioöuü]{1,2})?(?:L(ao|aö|eo|eö|oë|öe|oe|öa|oa))?$/,
+          )
+
+          if (!match) {
+            return {
+              ok: false,
+              reason: `Q-tertiary ${word} is not a valid Q3 word.`,
+            }
+          }
+
+          const superposed = match[1] || ""
+          const top = match[2] || ""
+          const mid = match[3] || ""
+          const bottom = match[4] || ""
+          const underposed = match[5] || ""
+
+          // I wrote this section much later than the original project, so I'm
+          // hard-coding a table instead of using the appropriate parsing
+          // functions. It's easy, and it works.
+
+          const valenceTable: Record<string, Valence> = {
+            a: "MNO",
+            ä: "PRL",
+            e: "CRO",
+            i: "RCP",
+            ëi: "CPL",
+            ö: "DUP",
+            o: "DEM",
+            ü: "CNG",
+            u: "PTI",
+          }
+
+          const levelTable: Record<string, Level> = {
+            ao: "MIN",
+            aö: "SBE",
+            eo: "IFR",
+            eö: "DFC",
+            oë: "EQU",
+            öe: "SUR",
+            oe: "SPL",
+            öa: "SPQ",
+            oa: "MAX",
+          }
+
+          const phaseEffectTable: Record<string, TertiarySegmentName> = {
+            ai: "PUN",
+            au: "ITR",
+            ei: "REP",
+            eu: "ITM",
+            ëu: "RCT",
+            ou: "FRE",
+            oi: "FRG",
+            iu: "VAC",
+            ui: "FLC",
+
+            ia: "1:BEN",
+            uä: "1:BEN",
+            ie: "2:BEN",
+            uë: "2:BEN",
+            io: "3:BEN",
+            üä: "3:BEN",
+            iö: "SLF:BEN",
+            üë: "SLF:BEN",
+            eë: "UNK",
+            uö: "SLF:DET",
+            öë: "SLF:DET",
+            uo: "3:DET",
+            öä: "3:DET",
+            ue: "2:DET",
+            ië: "2:DET",
+            ua: "1:DET",
+            iä: "1:DET",
+          }
+
+          const aspectTable: Record<string, TertiarySegmentName> = {
+            a: "RTR",
+            ä: "PRS",
+            e: "HAB",
+            i: "PRG",
+            ëi: "IMM",
+            ö: "PCS",
+            o: "REG",
+            ü: "SMM",
+            u: "ATP",
+
+            ai: "RSM",
+            au: "CSS",
+            ei: "PAU",
+            eu: "RGR",
+            ëu: "PCL",
+            ou: "CNT",
+            oi: "ICS",
+            iu: "EXP",
+            ui: "IRP",
+
+            ia: "PMP",
+            uä: "PMP",
+            ie: "CLM",
+            uë: "CLM",
+            io: "DLT",
+            üä: "DLT",
+            iö: "TMP",
+            üë: "TMP",
+            eë: "XPD",
+            uö: "LIM",
+            öë: "LIM",
+            uo: "EPD",
+            öä: "EPD",
+            ue: "PTC",
+            ië: "PTC",
+            ua: "PPR",
+            iä: "PPR",
+
+            ao: "DCL",
+            aö: "CCL",
+            eo: "CUL",
+            eö: "IMD",
+            oë: "TRD",
+            öe: "TNS",
+            oe: "ITC",
+            öa: "MTV",
+            oa: "SQN",
+          }
+
+          const _throw = (x: string) => {
+            throw new Error(x)
+          }
+
+          const valence = mid
+            ? valenceTable[mid] || _throw(`Invalid Q3 valence ${mid}.`)
+            : undefined
+
+          const lowerEPA = bottom
+            ? bottom.startsWith("A")
+              ? aspectTable[bottom.slice(1)] ||
+                _throw(`Invalid Q3 aspect ${bottom}.`)
+              : phaseEffectTable[bottom.slice(1)] ||
+                _throw(`Invalid Q3 phase/effect ${bottom}.`)
+            : undefined
+
+          const upperEPA = top
+            ? top.endsWith("A")
+              ? aspectTable[top.slice(0, -1)] ||
+                _throw(`Invalid Q3 aspect ${top}.`)
+              : phaseEffectTable[top.slice(0, -1)] ||
+                _throw(`Invalid Q3 phase/effect ${top}.`)
+            : undefined
+
+          const lowerLevel = underposed
+            ? levelTable[mid.slice(1)] ||
+              _throw(`Invalid Q3 level ${underposed}.`)
+            : undefined
+
+          const upperLevel = superposed
+            ? levelTable[mid.slice(0, -1)] ||
+              _throw(`Invalid Q3 level ${superposed}.`)
+            : undefined
+
+          output.push({
+            construct: Tertiary,
+            handwritten,
+            absoluteLevel: upperLevel,
+            top: upperEPA,
+            valence,
+            bottom: lowerEPA,
+            relativeLevel: lowerLevel,
+          })
+
+          continue
+        }
+
+        // Q4(Hcasescope)?V(Hmood)?          V's stress determines case/ill+val
+        if (word[1] == "4") {
+          const match = word.match(
+            /^Q4(h|hl|hr|hm|hn|hň)?([aáäâeéëêiíoóöôuúüû']{1,3})(h|hl|hr|hm|hn|hň)?$/,
+          )
+
+          if (!match) {
+            return {
+              ok: false,
+              reason: `Q-quaternary ${word} is not a valid Q4 word.`,
+            }
+          }
+
+          let isIllVal = false
+
+          const vc = VowelForm.of(
+            match[2]!.replace(/[áéíóúâêôû]/g, (x) => {
+              isIllVal = true
+              return (STRESSED_TO_UNSTRESSED_VOWEL_MAP as any)[x]
+            }),
+          )
+
+          if (!vc) {
+            return {
+              ok: false,
+              reason: `Q-quaternary ${word} doesn't have a valid Vc or Vk form.`,
+            }
+          }
+
+          output.push({
+            construct: Quaternary,
+            handwritten,
+            mood: match[3] ? parseMood(match[3])[0] : undefined,
+            caseScope: match[1] ? parseCaseScope(match[1])[0] : undefined,
+            value: isIllVal
+              ? parseIllocutionValidation(vc)
+              : parseCase(vc, vc.hasGlottalStop),
+          })
+
+          continue
+        }
+
+        // Q(A|IA?)[123]?[57]?V
+        if (word[1] == "A" || word[1] == "I") {
+          const match = word.match(
+            /^Q(A|IA?)([123]?)([57]?)([aäeëioöuü']{1,3})$/,
+          )
+
+          if (!match) {
+            return {
+              ok: false,
+              reason: `Q-accessor ${match} is not a valid QA-word.`,
+            }
+          }
+
+          const vc = parseCase(VowelForm.parseOrThrow(match[4]!))
+
+          output.push({
+            construct: Quaternary,
+            handwritten,
+            type: match[2] == "2" ? 2 : match[2] == "3" ? 3 : 1,
+            value: vc,
+            isInverse: match[1] == "I" || match[1] == "IA",
+            isSlotVIIAffix: match[3] == "7",
+          })
+
+          continue
+        }
+
+        return {
+          ok: false,
+          reason: `${word} starts with Q but isn't a valid Q-word.`,
+        }
       }
 
       // Forced register adjuncts
@@ -717,7 +1031,7 @@ Q1(formative whose primary will be shown)
 Q2?(EVE|CVV|VVC|V?CV?|VV|V̀)
 Q3(VL)?(V[PEA])?V?([PEA]V)?(LV)?
 Q4(Hcasescope)?V(Hmood)?          V's stress determines case/ill+val
-Q(AI?|I)[123]?[57]?V
+Q(A|IA?)[123]?[57]?V
 NV?\d{1,4}V?
 
 STATE: SELF (a list of self states based on current state)
@@ -732,7 +1046,7 @@ STATE: GLOBAL (these are possible options in every state)
 - Q2?...               adjuncts+secondary      SELF
 - Q3...                adjuncts+tertiary       SELF
 - Q4...                adjuncts+quaternary     SELF
-- Q(AI?|I)...          adjuncts+accessor       SELF
+- Q(A|IA?)...          adjuncts+accessor       SELF
 - QB...                adjuncts+bias           SELF
 - (digits)             adjuncts+numeral        SELF
 - n...                 adjuncts+numeral_adv    SELF
