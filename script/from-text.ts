@@ -83,11 +83,13 @@ function sentenceToScript(
           readonly open?: ConstructableCharacter[] | undefined
           readonly close?: ConstructableCharacter[] | undefined
         }
+      | "forcedRegister"
       | undefined
 
     for (let index = 0; index < words.length; index++) {
       let word = words[index]!
 
+      // Advanced alphabetic characters
       if (word.startsWith("q")) {
         type Vowel = "a" | "ä" | "e" | "ë" | "i" | "o" | "ö" | "u" | "ü" | ""
         type Consonant =
@@ -207,6 +209,60 @@ function sentenceToScript(
         continue
       }
 
+      // Forced register adjuncts
+      if (word.match(/^[hH][aeuoi]?[0123]$/)) {
+        const [, mode, vowel, index] = word.match(/^([hH])([aeuoi]?)([0123])$/)!
+
+        if (index == "0" && (vowel == "a" || vowel == "")) {
+          return {
+            ok: false,
+            reason: "The registers h0 and ha0 don't exist.",
+          }
+        }
+
+        output.push(
+          attachConstructor<RegisterCharacter>(
+            {
+              handwritten,
+              type: {
+                a: "DSV" as const,
+                e: "PNT" as const,
+                i: "SPF" as const,
+                o: "EXM" as const,
+                u: "CGT" as const,
+                "": "NRR" as const,
+              }[vowel as "a" | "e" | "i" | "o" | "u" | ""],
+              mode: (
+                [
+                  "standard",
+                  "alphabetic",
+                  "transcriptive",
+                  "transliterative",
+                ] as const
+              )[index as "0" | "1" | "2" | "3"],
+            },
+            Register,
+          ),
+        )
+
+        wordType = mode == "H" ? undefined : "forcedRegister"
+
+        continue
+      }
+
+      // Forced register mode
+      if (wordType == "forcedRegister") {
+        output.push(
+          ...textToSecondaries(word, {
+            handwritten,
+            placeholder: "ALPHABETIC_PLACEHOLDER",
+          }).map((secondary) => attachConstructor(secondary, Secondary)),
+        )
+
+        continue
+      }
+
+      // Non-forced register mode
       if (typeof wordType == "object") {
         if (wordType.open) {
           output.push(...wordType.open)

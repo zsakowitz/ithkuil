@@ -20,7 +20,7 @@ document.body.append(
 const lines___: any & any & any = false
 const HEIGHT__: number & number = 150
 const mode____: any & any & any = false
-const doFitBox: any & any & any = false
+const doFitBox: any & any & any = true
 const t__________: RegisterMode = "transliterative"
 const b_______: RegisterAdjunct = "SPF"
 
@@ -32,7 +32,7 @@ function randomItem<T>(x: readonly T[]) {
   return x[Math.floor(Math.random() * x.length)]!
 }
 
-const output = textToScript("qa_<_", false)
+const output = textToScript("he0 zakeri He0 qa_<_", false)
 
 function getColor(index: number) {
   const colors = ["blue", "green", "red", "purple", "orange"]
