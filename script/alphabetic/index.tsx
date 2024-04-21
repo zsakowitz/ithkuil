@@ -175,13 +175,11 @@ export function AdvancedAlphabetic(
   ) as SVGGElement
 
   if (alphabetic.superposed) {
-    const box = getBBox(main)
-
     const diacritic = (
       <Anchor
         at="bc"
-        x={box.x + box.width / 2}
-        y={box.y - 10}
+        x={alphabetic.handwritten ? 7.5 : 10}
+        y={-45}
       >
         <Diacritic
           handwritten={handwritten}
@@ -194,13 +192,11 @@ export function AdvancedAlphabetic(
   }
 
   if (alphabetic.underposed) {
-    const box = getBBox(main)
-
     const diacritic = (
       <Anchor
         at="tc"
-        x={box.x + box.width / 2}
-        y={box.y + box.height + 10}
+        x={alphabetic.handwritten ? -7.5 : -10}
+        y={45}
       >
         <Diacritic
           handwritten={handwritten}
@@ -223,6 +219,24 @@ export function AdvancedAlphabetic(
           <Diacritic
             handwritten={handwritten}
             name={alphabetic.right}
+          />
+        </Anchor>
+      </Row>
+    ) as SVGGElement
+  }
+
+  if (alphabetic.left) {
+    main = (
+      <Row
+        compact={true}
+        space={handwritten ? 15 : 10}
+        reverse
+        intro={[...main.querySelectorAll("path")]}
+      >
+        <Anchor at="cr">
+          <Diacritic
+            handwritten={handwritten}
+            name={alphabetic.left}
           />
         </Anchor>
       </Row>

@@ -1,5 +1,11 @@
 import type { RegisterAdjunct } from "../generate/index.js"
-import { Lines, fitViewBox, textToScript, type RegisterMode } from "./index.js"
+import {
+  Lines,
+  fitViewBox,
+  textToScript,
+  type RegisterMode,
+  AdvancedAlphabetic,
+} from "./index.js"
 import { HANDWRITTEN_THOUSANDS, Numeral } from "./numerals/index.js"
 
 document.body.append(
@@ -58,6 +64,15 @@ const node = (
     // stroke-linecap="round"
     // stroke-linejoin="round"
   >
+    <AdvancedAlphabetic
+      superposed="DOT"
+      underposed="DOT"
+      top="x"
+      bottom="r"
+      right="CURVE_TO_BOTTOM"
+      left="CURVE_TO_TOP"
+    />
+
     {/* <Anchor at="cc">
       <ValenceSegment valence={ALL_VALENCES[8]} />
     </Anchor> */}

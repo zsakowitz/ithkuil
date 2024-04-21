@@ -28,6 +28,8 @@ import {
   type RegisterCharacter,
   type SecondaryCharacter,
   type FormativeToScriptOptions,
+  AdvancedAlphabetic,
+  type AdvancedAlphabeticCharacter,
 } from "./index.js"
 import { numericAdjunctToNumerals } from "./numerals/from-number.js"
 import { Break } from "./other/break.js"
@@ -87,9 +89,46 @@ function sentenceToScript(
       let word = words[index]!
 
       if (word.startsWith("q")) {
+        type Vowel = "a" | "ä" | "e" | "ë" | "i" | "o" | "ö" | "u" | "ü" | ""
+        type Consonant =
+          | "b"
+          | "c"
+          | "ç"
+          | "č"
+          | "d"
+          | "ḑ"
+          | "f"
+          | "g"
+          | "h"
+          | "j"
+          | "k"
+          | "l"
+          | "ļ"
+          | "m"
+          | "n"
+          | "ň"
+          | "p"
+          | "r"
+          | "ř"
+          | "s"
+          | "š"
+          | "t"
+          | "ţ"
+          | "v"
+          | "w"
+          | "x"
+          | "y"
+          | "z"
+          | "ž"
+          | "ż"
+          | "_"
+          | ""
+        type Articulation = "-" | "~" | "^" | ":" | "`" | "'" | '"' | "?" | ""
+        type Tone1 = "\\" | "|" | "/" | ">" | "<" | ""
+        type Tone2 = "\\" | "|" | "/" | ">" | "<" | "_" | ""
         // special alphabetic character parsing
         const match = word.match(
-          /^q([aäeëioöuü]?)([bcçčdḑfghjklļmnňprřsštţvwxyzžẓ_]?)([aäeëioöuü]?)([-~^:`'"?]?)([\\|/><]?)([\\|/><_]?)$/,
+          /^q([aäeëioöuü]?)([bcçčdḑfghjklļmnňprřsštţvwxyzžż_]?)([aäeëioöuü]?)([-~^:`'"?]?)([\\|/><]?)([\\|/><_]?)$/,
         )
 
         // rules:
@@ -105,32 +144,65 @@ function sentenceToScript(
           }
         }
 
-        const consonant = match[2]!
-        let topVowel = match[1]!
-        let bottomVowel = match[3]!
+        const consonant = match[2]! as Consonant
+        let topVowel = match[1]! as Vowel
+        let bottomVowel = match[3]! as Vowel
 
         if (!consonant && topVowel && !bottomVowel) {
           bottomVowel = topVowel
           topVowel = ""
         }
 
-        const articulation = match[4]!
-        let toneLeft = match[5]!
-        let toneRight = match[6]!
+        const articulation = match[4]! as Articulation
+        let toneLeft = match[5]! as Tone1
+        let toneRight = match[6]! as Tone2
 
         if (toneLeft && !toneRight) {
           toneRight = toneLeft
           toneLeft = ""
         }
 
-        const qWord = {
-          consonant,
-          topVowel,
-          bottomVowel,
-          articulation,
-          toneLeft,
-          toneRight,
-        }
+        output.push({
+          construct: AdvancedAlphabetic,
+          handwritten,
+          top: consonant == "" || consonant == "_" ? undefined : consonant,
+          bottom: (
+            {
+              "-": "k",
+              "~": "š",
+              "^": "p",
+              ":": "g",
+              "`": "EXTENSION_GEMINATE",
+              "'": "'",
+              '"': "EJECTIVE",
+              "?": "VELARIZED",
+              "": undefined,
+            } as const
+          )[articulation],
+          superposed: topVowel == "" ? undefined : topVowel,
+          underposed: bottomVowel == "" ? undefined : bottomVowel,
+          left: (
+            {
+              "\\": "HORIZ_BAR",
+              "|": "DOT",
+              "/": "HORIZ_WITH_TOP_LINE",
+              ">": "CURVE_TO_LEFT",
+              "<": "CURVE_TO_RIGHT",
+              "": undefined,
+            } as const
+          )[toneLeft],
+          right: (
+            {
+              "\\": "HORIZ_BAR",
+              "|": "DOT",
+              "/": "HORIZ_WITH_TOP_LINE",
+              ">": "CURVE_TO_LEFT",
+              "<": "CURVE_TO_RIGHT",
+              _: undefined,
+              "": undefined,
+            } as const
+          )[toneRight],
+        } satisfies ConstructableCharacter<AdvancedAlphabeticCharacter>)
       }
 
       if (typeof wordType == "object") {

@@ -48,6 +48,7 @@ import {
   Secondary,
   Tertiary,
   textToSecondaries,
+  type AdvancedAlphabeticCharacter,
   type BiasCharacter,
   type Mutable,
   type PrimaryCharacter,
@@ -63,7 +64,6 @@ import type { BreakCharacter } from "../other/break.js"
 import {
   QUATERNARY_DIACRITIC_MAP,
   Quaternary,
-  type CaseAccessorQuaternaryCharacter,
   type QuaternaryCharacter,
   type StandardQuaternaryCharacter,
 } from "../quaternary/index.js"
@@ -81,6 +81,7 @@ export type Character =
   | RegisterCharacter
   | NumeralCharacter
   | BreakCharacter
+  | AdvancedAlphabeticCharacter
 
 /** A script character paired with its constructor. */
 export type ConstructableCharacter<T extends Character = Character> = T & {
