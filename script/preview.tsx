@@ -31,7 +31,7 @@ function randomItem<T>(x: readonly T[]) {
   return x[Math.floor(Math.random() * x.length)]!
 }
 
-const output = textToScript("Q1welo Q2á Q3aoLe Q4hmei QIAei", false)
+const output = textToScript("Q1welo Q2á Q3aoLe Q4hmei QIAei hi2 zac '", false)
 
 function getColor(index: number) {
   const colors = ["blue", "green", "red", "purple", "orange"]

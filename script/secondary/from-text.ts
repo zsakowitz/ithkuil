@@ -37,7 +37,7 @@ const anyVowel = /* @__PURE__ */ charIn(ANY_VOWEL)
 const CORE = "_pbtdkgfvţḑszšžçxhļcżčjmnňrlř"
 const core = /* @__PURE__ */ charIn(CORE)
 
-const EXT = "_pbtdkgfvţḑszšžçxhļcżčjmnňrlwyř'"
+const EXT = "_pbtdkgfvţḑszšžçxhļcżčjmnňrlwyř'\"¿"
 const ext = /* @__PURE__ */ charIn(EXT)
 
 const extensionOnlyCore = /* @__PURE__ */ seq(
@@ -183,10 +183,16 @@ export function textToSecondaries(
   text: string,
   options: SecondaryTranslationOptions,
 ) {
+  const hadInitialGlottalStop = /^'(?![aeiouäëöüáéíóúâêôû])/.test(text)
+
   ;({ word: text } = transformWordButLeaveStressMarkings(text))
 
+  if (hadInitialGlottalStop) {
+    text = "'" + text
+  }
+
   text = text
-    .replace(/[^aeiouäëöüáéíóúâêôûpbtdkgfvţḑszšžçxhļcżčjmnňrlwyř'_]+/g, " ")
+    .replace(/[^aeiouäëöüáéíóúâêôûpbtdkgfvţḑszšžçxhļcżčjmnňrlwyř'"¿_]+/g, " ")
     .trim()
 
   const output: SecondaryCharacter[] = []

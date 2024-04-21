@@ -14,7 +14,6 @@ import {
   type SuppletiveAdjunctType,
   type Valence,
 } from "../generate/index.js"
-import { parseMoodOrCaseScope } from "../parse/formative/mood-or-case-scope.js"
 import {
   STRESSED_TO_UNSTRESSED_VOWEL_MAP,
   VowelForm,
@@ -24,8 +23,6 @@ import {
   parseIllocutionValidation,
   parseMood,
   parseWord,
-  transformWord,
-  transformWordButLeaveStressMarkings,
 } from "../parse/index.js"
 import {
   AdvancedAlphabetic,
@@ -82,7 +79,7 @@ function sentenceToScript(
 
   try {
     const words = text.match(
-      /[\p{ID_Start}\d\u02BC\u0027\u2019'_][\p{ID_Start}\p{ID_Continue}\d\u02BC\u0027\u2019'_\-~^:`'"?\\|/><]*/gu,
+      /[\p{ID_Start}\d\u02BC\u0027\u2019'_][\p{ID_Start}\p{ID_Continue}\d\u02BC\u0027\u2019_\-~^:`'"¿\\|/><]*/gu,
     )
 
     if (!words) {
@@ -141,12 +138,12 @@ function sentenceToScript(
           | "ż"
           | "_"
           | ""
-        type Articulation = "-" | "~" | "^" | ":" | "`" | "'" | '"' | "?" | ""
+        type Articulation = "-" | "~" | "^" | ":" | "`" | "'" | '"' | "¿" | ""
         type Tone1 = "\\" | "|" | "/" | ">" | "<" | ""
         type Tone2 = "\\" | "|" | "/" | ">" | "<" | "_" | ""
         // special alphabetic character parsing
         const match = word.match(
-          /^q([aäeëioöuü]?)([bcçčdḑfghjklļmnňprřsštţvwxyzžż_]?)([aäeëioöuü]?)([-~^:`'"?]?)([\\|/><]?)([\\|/><_]?)$/,
+          /^q([aäeëioöuü]?)([bcçčdḑfghjklļmnňprřsštţvwxyzžż_]?)([aäeëioöuü]?)([-~^:`'"¿]?)([\\|/><]?)([\\|/><_]?)$/,
         )
 
         // rules:
@@ -193,7 +190,7 @@ function sentenceToScript(
               "`": "EXTENSION_GEMINATE",
               "'": "'",
               '"': "EJECTIVE",
-              "?": "VELARIZED",
+              "¿": "VELARIZED",
               "": undefined,
             } as const
           )[articulation],
@@ -1026,7 +1023,7 @@ export function textToScript(
 {flag?} means {flag: flag}
 {flag¿} means {flag: !flag}
 
-q(V?)(C?)(V?)([\-~^:`'"?]?)([/|\\><]{0,2})
+q(V?)(C?)(V?)([\-~^:`'"¿]?)([/|\\><]{0,2})
 Q1(formative whose primary will be shown)
 Q2?(EVE|CVV|VVC|V?CV?|VV|V̀)
 Q3(VL)?(V[PEA])?V?([PEA]V)?(LV)?
