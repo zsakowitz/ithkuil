@@ -1,3 +1,4 @@
+export * from "./alphabetic/index.js"
 export * from "./bias/index.js"
 export * from "./construct/formative.js"
 export * from "./from-text.js"

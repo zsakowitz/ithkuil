@@ -64,7 +64,7 @@ function sentenceToScript(
 
   try {
     const words = text.match(
-      /[\p{ID_Start}\d\u02BC\u0027\u2019'_][\p{ID_Start}\p{ID_Continue}\d\u02BC\u0027\u2019'_-]*/gu,
+      /[\p{ID_Start}\d\u02BC\u0027\u2019'_][\p{ID_Start}\p{ID_Continue}\d\u02BC\u0027\u2019'_\-~^:`'"?\\|/><]*/gu,
     )
 
     if (!words) {
@@ -85,6 +85,53 @@ function sentenceToScript(
 
     for (let index = 0; index < words.length; index++) {
       let word = words[index]!
+
+      if (word.startsWith("q")) {
+        // special alphabetic character parsing
+        const match = word.match(
+          /^q([aäeëioöuü]?)([bcçčdḑfghjklļmnňprřsštţvwxyzžẓ_]?)([aäeëioöuü]?)([-~^:`'"?]?)([\\|/><]?)([\\|/><_]?)$/,
+        )
+
+        // rules:
+        // a single vowel is bottom by default
+        // a single tone is right by default
+        // an underscore consonant can shift the vowel
+        // an underscore right tone can shift the main tone
+
+        if (!match) {
+          return {
+            ok: false,
+            reason: "Q-word has invalid syntax.",
+          }
+        }
+
+        const consonant = match[2]!
+        let topVowel = match[1]!
+        let bottomVowel = match[3]!
+
+        if (!consonant && topVowel && !bottomVowel) {
+          bottomVowel = topVowel
+          topVowel = ""
+        }
+
+        const articulation = match[4]!
+        let toneLeft = match[5]!
+        let toneRight = match[6]!
+
+        if (toneLeft && !toneRight) {
+          toneRight = toneLeft
+          toneLeft = ""
+        }
+
+        const qWord = {
+          consonant,
+          topVowel,
+          bottomVowel,
+          articulation,
+          toneLeft,
+          toneRight,
+        }
+      }
 
       if (typeof wordType == "object") {
         if (wordType.open) {
@@ -535,7 +582,7 @@ export function textToScript(
 {flag?} means {flag: flag}
 {flag¿} means {flag: !flag}
 
-q(V?)(C?)(V?)([\-~^h`'"?]?)([/|\\><]{0,2})
+q(V?)(C?)(V?)([\-~^:`'"?]?)([/|\\><]{0,2})
 Q1(formative whose primary will be shown)
 Q2?(EVE|CVV|VVC|V?CV?|VV|V̀)
 Q3(VL)?(V[PEA])?V?([PEA]V)?(LV)?
