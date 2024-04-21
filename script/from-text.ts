@@ -426,12 +426,12 @@ function sentenceToScript(
             : undefined
 
           const lowerLevel = underposed
-            ? levelTable[mid.slice(1)] ||
+            ? levelTable[underposed] ||
               _throw(`Invalid Q3 level ${underposed}.`)
             : undefined
 
           const upperLevel = superposed
-            ? levelTable[mid.slice(0, -1)] ||
+            ? levelTable[superposed] ||
               _throw(`Invalid Q3 level ${superposed}.`)
             : undefined
 
@@ -448,7 +448,7 @@ function sentenceToScript(
           continue
         }
 
-        // Q4(Hcasescope)?V(Hmood)?          V's stress determines case/ill+val
+        // Q4(Hmood)?V(Hcasescope)?          V's stress determines case/ill+val
         if (word[1] == "4") {
           const match = word.match(
             /^Q4(h|hl|hr|hm|hn|hň)?([aáäâeéëêiíoóöôuúüû']{1,3})(h|hl|hr|hm|hn|hň)?$/,
@@ -480,8 +480,8 @@ function sentenceToScript(
           output.push({
             construct: Quaternary,
             handwritten,
-            mood: match[3] ? parseMood(match[3])[0] : undefined,
-            caseScope: match[1] ? parseCaseScope(match[1])[0] : undefined,
+            mood: match[1] ? parseMood(match[1])[0] : undefined,
+            caseScope: match[3] ? parseCaseScope(match[3])[0] : undefined,
             value: isIllVal
               ? parseIllocutionValidation(vc)
               : parseCase(vc, vc.hasGlottalStop),
@@ -1030,7 +1030,7 @@ q(V?)(C?)(V?)([\-~^:`'"?]?)([/|\\><]{0,2})
 Q1(formative whose primary will be shown)
 Q2?(EVE|CVV|VVC|V?CV?|VV|V̀)
 Q3(VL)?(V[PEA])?V?([PEA]V)?(LV)?
-Q4(Hcasescope)?V(Hmood)?          V's stress determines case/ill+val
+Q4(Hmood)?V(Hcasescope)?          V's stress determines case/ill+val
 Q(A|IA?)[123]?[57]?V
 NV?\d{1,4}V?
 

@@ -1,12 +1,11 @@
 import type { RegisterAdjunct } from "../generate/index.js"
 import {
+  CharacterRow,
+  HandleResult,
   Lines,
   fitViewBox,
   textToScript,
   type RegisterMode,
-  AdvancedAlphabetic,
-  CharacterRow,
-  HandleResult,
 } from "./index.js"
 import { HANDWRITTEN_THOUSANDS, Numeral } from "./numerals/index.js"
 
@@ -32,7 +31,7 @@ function randomItem<T>(x: readonly T[]) {
   return x[Math.floor(Math.random() * x.length)]!
 }
 
-const output = textToScript("he0 zakeri He0 qa_<_", false)
+const output = textToScript("Q1welo Q2á Q3aoLe Q4hmei QIAei", false)
 
 function getColor(index: number) {
   const colors = ["blue", "green", "red", "purple", "orange"]
