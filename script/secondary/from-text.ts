@@ -1,6 +1,7 @@
 import { deepFreezeAndNullPrototype } from "../../generate/index.js"
 import {
   AtomicRegexPart,
+  RegexPart,
   any,
   charIn,
   seq,

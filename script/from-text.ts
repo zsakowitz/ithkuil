@@ -514,17 +514,25 @@ function sentenceToScript(
           continue
         }
 
+        if (word[1] == "N") {
+          if (word.match(/^QN[0-9]+$/)) {
+            output.push(
+              ...numericAdjunctToNumerals(BigInt(word.slice(2)), handwritten),
+            )
+
+            continue
+          } else {
+            return {
+              ok: false,
+              reason: `Q-numeral ${word} is invalid.`,
+            }
+          }
+        }
+
         return {
           ok: false,
           reason: `${word} starts with Q but isn't a valid Q-word.`,
         }
-      }
-
-      // Forced numerals
-      if (word.match(/^[0-9]+$/)) {
-        output.push(...numericAdjunctToNumerals(BigInt(word), handwritten))
-
-        continue
       }
 
       // Forced register adjuncts
