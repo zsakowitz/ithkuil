@@ -279,7 +279,7 @@ export function buildNonShortcutFormative(
               ? stress == "ultimate"
               : match[11]?.includes("'") ||
                   match[5]?.includes("'") ||
-                  match[7]?.includes("'") ||
+                  match[8]?.includes("'") ||
                   vn_?.includes("'") ||
                   vr.hasGlottalStop,
           ),
