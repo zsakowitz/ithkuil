@@ -556,7 +556,7 @@ export function buildShortcutFormative(
             match[8]
               ? VowelForm.parseOrThrow(match[8])
               : VOWEL_FORM_TO_OBJECT_MAP.a,
-            concatenationType ? stress == "ultimate" : false,
+            concatenationType ? stress == "ultimate" : match[8]?.includes("'"),
           ),
     illocutionValidation:
       type != "UNF/K"
