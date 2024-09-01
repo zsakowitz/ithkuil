@@ -4409,7 +4409,7 @@ export const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>([
     wikidata: [],
   },
   {
-    cr: "ʈcw",
+    cr: "ţcw",
     stems: [
       "calculator †",
       "calculator",
