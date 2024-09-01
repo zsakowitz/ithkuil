@@ -73,6 +73,8 @@ import {
   text,
 } from "../parse/index.js"
 
+export * from "./recognize.js"
+
 // Taken from https://github.com/ngoriyasjil/IthkuilGloss/blob/181241b89c962d83b999a669c298366b07df53b9/src/ithkuil/iv/gloss/Constants.kt#L27C4-L27C4
 
 const LETTER_SUBSTITUTIONS = /* @__PURE__ */ deepFreezeAndNullPrototype({

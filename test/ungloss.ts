@@ -10,6 +10,11 @@ import {
   unglossReferential,
   unglossSimpleAdjunct,
 } from "../ungloss/index.js"
+import { createRecognizer } from "../ungloss/recognize.js"
+import { affixes } from "../data/affixes-latest.js"
+import { roots } from "../data/roots-latest.js"
+
+const recognize = createRecognizer(affixes, roots)
 
 const colors = {
   black: "\u001b[30m",
@@ -78,6 +83,8 @@ while (true) {
       colors.reset,
   )
 
+  const recognized = recognize(inputGloss)
+
   console.clear()
   console.log(
     colors.blue +
@@ -85,10 +92,49 @@ while (true) {
       colors.reset +
       inputGloss,
   )
+  if (recognized.gloss != inputGloss) {
+    console.log(
+      colors.green +
+        "Recognized: ".padStart(MAX_LABEL_LENGTH) +
+        colors.reset +
+        recognized.gloss,
+    )
+    for (const r of recognized.replacements) {
+      function write(form: string, alts: string) {
+        console.log(
+          colors.green +
+            `${form} alts: `.padStart(MAX_LABEL_LENGTH) +
+            colors.reset +
+            (alts.length > 60 ? alts.slice(0, 57) + "..." : alts || "<none>"),
+        )
+      }
 
-  show(inputGloss, "Formative: ", unglossFormative)
-  show(inputGloss, "Referential: ", unglossReferential)
-  show(inputGloss, "Adjunct: ", unglossSimpleAdjunct)
-  show(inputGloss, "Affixual: ", unglossAffixualAdjunct)
-  show(inputGloss, "Modular: ", unglossModularAdjunct)
+      if (r.kind == "root") {
+        write(r.actual.cr, r.alts.map((x) => x.label.slice(0, 20)).join(", "))
+      } else if (r.kind == "affix by degree") {
+        write(
+          r.actual.cs + "/" + r.actual.degree,
+          r.alts.map((x) => x.value.slice(0, 20)).join(", "),
+        )
+      } else {
+        write(
+          r.actual.cs + "/" + r.degree,
+          r.alts
+            .map((x) =>
+              (x.degrees[r.degree] || x.description || x.abbreviation).slice(
+                0,
+                20,
+              ),
+            )
+            .join(", "),
+        )
+      }
+    }
+  }
+
+  show(recognized.gloss, "Formative: ", unglossFormative)
+  show(recognized.gloss, "Referential: ", unglossReferential)
+  show(recognized.gloss, "Adjunct: ", unglossSimpleAdjunct)
+  show(recognized.gloss, "Affixual: ", unglossAffixualAdjunct)
+  show(recognized.gloss, "Modular: ", unglossModularAdjunct)
 }
