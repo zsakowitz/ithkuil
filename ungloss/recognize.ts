@@ -38,6 +38,7 @@ export type Replacement =
     })
 
 export interface RecognizerOutput {
+  source: string
   gloss: string
   replacements: Replacement[]
   issues: RecognizerIssue[]
@@ -233,6 +234,6 @@ export function createRecognizer(
       })
       .join("-")
 
-    return { gloss, issues, replacements }
+    return { source, gloss, issues, replacements }
   }
 }
