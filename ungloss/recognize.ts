@@ -1,6 +1,6 @@
 import { Searcher } from "fast-fuzzy"
 import { type AffixEntry, type RootEntry } from "../data/index.js"
-import type { AffixDegree } from "../generate/index.js"
+import type { AffixDegree, Stem } from "../generate/index.js"
 
 export interface DataRoot {
   readonly stem: number
@@ -111,7 +111,7 @@ export function createRecognizer(
 
     const gloss = source
       .split(/-/g)
-      .map((segment): string => {
+      .map((segment, index, array): string => {
         if (
           segment.length >= 3 &&
           (segment.startsWith('"') ||
@@ -121,7 +121,13 @@ export function createRecognizer(
             segment.endsWith("“") ||
             segment.endsWith("”"))
         ) {
-          const items = searcherRoots.search(segment.slice(1, -1))
+          const prev = array[index - 1]?.match(/^S([0-3])$/)?.[1]
+          const forcedStem = prev ? (+prev as Stem) : undefined
+          let items = searcherRoots.search(segment.slice(1, -1))
+
+          if (forcedStem != null) {
+            items = items.filter((x) => x.stem == forcedStem)
+          }
 
           if (items[0]) {
             replacements.push({
@@ -131,7 +137,9 @@ export function createRecognizer(
               alts: items.slice(1),
             })
 
-            return `S${items[0].stem}-${items[0].cr}`
+            return forcedStem == null
+              ? `S${items[0].stem}-${items[0].cr}`
+              : items[0].cr
           } else {
             issues.push({
               kind: "root",
