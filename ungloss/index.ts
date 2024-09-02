@@ -9,6 +9,7 @@ import {
   ALL_EFFECTS,
   ALL_ESSENCES,
   ALL_EXTENSIONS,
+  ALL_FUNCTIONS,
   ALL_ILLOCUTION_OR_VALIDATIONS,
   ALL_LEVELS,
   ALL_MOODS,
@@ -18,7 +19,9 @@ import {
   ALL_REFERENT_TARGETS,
   ALL_REGISTER_ADJUNCTS,
   ALL_SPECIFICATIONS,
+  ALL_STEMS,
   ALL_VALENCES,
+  ALL_VERSIONS,
   deepFreeze,
   deepFreezeAndNullPrototype,
   has,
@@ -150,6 +153,47 @@ const LETTER_SUBSTITUTIONS = /* @__PURE__ */ deepFreezeAndNullPrototype({
 const LETTER_SUBSTITUTION_REGEX =
   // The first element of this character class is the Unicode Byte Order Mark
   /[​’ʼ‘ṭŧțḍđłḷẓṇṛŗṬŦȚḌĐŁḶẒṆṚŖ]|č|ç|ţ|ṭ|ḍ|ḑ|ḷ|ļ|š|ž|ż|ẓ|ň|ņ|ṇ|ř|ŗ|r͕|ṛ|Č|Ç|Ţ|Ṭ|Ḍ|Ḑ|Ḷ|Ļ|Š|Ž|Ż|Ẓ|Ň|Ņ|Ṇ|Ř|Ŗ|R͕|Ṛ/gu
+
+const SLOT_IV_DATA = /* @__PURE__ */ any(
+  /* @__PURE__ */ anyTextArray(ALL_FUNCTIONS),
+  /* @__PURE__ */ anyTextArray(ALL_SPECIFICATIONS),
+  /* @__PURE__ */ anyTextArray(ALL_CONTEXTS),
+)
+
+const SAME_SLOT_REGEX = /* @__PURE__ */ any(
+  // II: Stem.Version
+  /* @__PURE__ */ seq(
+    /* @__PURE__ */ anyText("S0", "S1", "S2", "S3"),
+    /* @__PURE__ */ text("."),
+    /* @__PURE__ */ anyTextArray(ALL_VERSIONS),
+  ),
+
+  // IV: Function.Specification.Context
+  /* @__PURE__ */ seq(
+    SLOT_IV_DATA,
+    /* @__PURE__ */ text("."),
+    SLOT_IV_DATA,
+    /* @__PURE__ */ seq(/* @__PURE__ */ text("."), SLOT_IV_DATA).optional(),
+  ),
+
+  // VIII: Vn.Cn
+  /* @__PURE__ */ seq(
+    /* @__PURE__ */ any(
+      /* @__PURE__ */ anyTextArray(ALL_VALENCES),
+      /* @__PURE__ */ anyTextArray(ALL_PHASES),
+      /* @__PURE__ */ anyTextArray(ALL_EFFECTS),
+      /* @__PURE__ */ anyTextArray(ALL_LEVELS),
+      /* @__PURE__ */ anyTextArray(ALL_ASPECTS),
+    ),
+    /* @__PURE__ */ text("."),
+    /* @__PURE__ */ any(
+      /* @__PURE__ */ anyTextArray(ALL_MOODS),
+      /* @__PURE__ */ anyTextArray(ALL_CASE_SCOPES),
+    ),
+  ),
+)
+  .matchEntireText()
+  .compile()
 
 function substituteLetters(word: string) {
   return word.replace(
@@ -932,7 +976,9 @@ export function unglossFormative(gloss: string): PartialFormative | undefined {
     gloss = gloss.slice(0, -4) + "-FRM"
   }
 
-  const segments = gloss.split(segmentSplitterRegex)
+  const segments = gloss
+    .split(segmentSplitterRegex)
+    .flatMap((x) => (SAME_SLOT_REGEX.test(x) ? x.split(".") : x))
 
   let concatenationType: 1 | 2 | undefined
   let version: Version | undefined
