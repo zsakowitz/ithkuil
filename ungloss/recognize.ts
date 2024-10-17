@@ -112,18 +112,13 @@ export function createRecognizer(
     const gloss = source
       .split(/-/g)
       .map((segment, index, array): string => {
-        if (
-          segment.length >= 3 &&
-          (segment.startsWith('"') ||
-            segment.startsWith("“") ||
-            segment.startsWith("”")) &&
-          (segment.endsWith('"') ||
-            segment.endsWith("“") ||
-            segment.endsWith("”"))
-        ) {
+        let match: RegExpMatchArray | null | undefined
+
+        // #region roots
+        if ((match = segment.match(/^["“”](.+)["“”]$/))) {
           const prev = array[index - 1]?.match(/^S([0-3])$/)?.[1]
           const forcedStem = prev ? (+prev as Stem) : undefined
-          let items = searcherRoots.search(segment.slice(1, -1))
+          let items = searcherRoots.search(match[1]!)
 
           if (forcedStem != null) {
             items = items.filter((x) => x.stem == forcedStem)
@@ -132,7 +127,7 @@ export function createRecognizer(
           if (items[0]) {
             replacements.push({
               kind: "root",
-              source: segment.slice(1, -1),
+              source: match[1]!,
               actual: items[0],
               alts: items.slice(1),
             })
@@ -143,53 +138,38 @@ export function createRecognizer(
           } else {
             issues.push({
               kind: "root",
-              source: segment.slice(1, -1),
+              source: match[1]!,
             })
             return segment
           }
         }
+        // #endregion
 
-        if (
-          segment.length >= 3 &&
-          (segment.startsWith("'") ||
-            segment.startsWith("‘") ||
-            segment.startsWith("’")) &&
-          (segment.endsWith("'") ||
-            segment.endsWith("‘") ||
-            segment.endsWith("’"))
-        ) {
-          const items = searcherAffixByDegree.search(segment.slice(1, -1))
+        // #region affix by degree
+        if ((match = segment.match(/^['‘’](.+)['‘’]([123₁₂₃]?)$/))) {
+          const items = searcherAffixByDegree.search(match[1]!)
 
           if (items[0]) {
             replacements.push({
               kind: "affix by degree",
-              source: segment.slice(1, -1),
+              source: match[1]!,
               actual: items[0],
               alts: items.slice(1),
             })
-            return items[0].cs + "/" + items[0].degree
+            return items[0].cs + "/" + items[0].degree + match[2]
           } else {
             issues.push({
               kind: "affix by degree",
-              source: segment.slice(1, -1),
+              source: match[1]!,
             })
             return segment
           }
         }
+        // #endregion
 
-        if (
-          segment.length >= 5 &&
-          (segment.startsWith("'") ||
-            segment.startsWith("‘") ||
-            segment.startsWith("’")) &&
-          (segment.at(-3) == "'" ||
-            segment.at(-3) == "‘" ||
-            segment.at(-3) == "’") &&
-          segment.at(-2) == "/" &&
-          "0" <= segment.at(-1)! &&
-          segment.at(-1)! <= "9"
-        ) {
-          const items = searcherAffixByLabel.search(segment.slice(1, -3))
+        // #region affix by label/degree
+        if ((match = segment.match(/^['‘’](.+)['‘’]\/([0-9])([123₁₂₃]?)$/))) {
+          const items = searcherAffixByLabel.search(match[1]!)
 
           if (items[0]) {
             replacements.push({
@@ -197,9 +177,9 @@ export function createRecognizer(
               source: segment,
               actual: items[0],
               alts: items.slice(1),
-              degree: +segment.at(-1)! as AffixDegree,
+              degree: +match[2]! as AffixDegree,
             })
-            return items[0].cs + "/" + segment.at(-1)
+            return items[0].cs + "/" + match[2] + match[3]
           } else {
             issues.push({
               kind: "affix by degree",
@@ -208,35 +188,32 @@ export function createRecognizer(
             return segment
           }
         }
+        // #endregion
 
-        if (
-          segment.length == 5 &&
-          /^[A-Z0-9]{3}$/.test(segment.slice(0, 3)) &&
-          segment[3] == "/" &&
-          "0" <= segment[4]! &&
-          segment[4]! <= "9"
-        ) {
-          const abbr = segment.slice(0, 3)
-          const degree = +segment[4]! as AffixDegree
+        // #region affix by abbreviation
+        if ((match = segment.match(/^([A-Z0-9]{3})\/([0-9])([123₁₂₃]?)$/))) {
+          const abbr = match[1]!
+          const degree = +match[2]! as AffixDegree
           const items = searcherAffixByAbbr.search(abbr)
 
           if (items[0]) {
             replacements.push({
               kind: "affix by abbreviation",
-              source: segment.slice(1, -1),
+              source: segment,
               actual: items[0],
               alts: items.slice(1),
               degree,
             })
-            return items[0].cs + "/" + degree
+            return items[0].cs + "/" + degree + match[3]
           } else {
             issues.push({
               kind: "affix by abbreviation",
-              source: segment.slice(1, -1),
+              source: segment,
             })
             return segment
           }
         }
+        // #endregion
 
         return segment
       })
