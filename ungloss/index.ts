@@ -19,7 +19,6 @@ import {
   ALL_REFERENT_TARGETS,
   ALL_REGISTER_ADJUNCTS,
   ALL_SPECIFICATIONS,
-  ALL_STEMS,
   ALL_VALENCES,
   ALL_VERSIONS,
   deepFreeze,
@@ -635,7 +634,13 @@ function parseTailSegments(segments: readonly string[]) {
     }
 
     if (segment.startsWith("(")) {
-      segment = segment.slice(1, -1)
+      let end = ""
+      if (/[123₁₂₃]$/.test(segment)) {
+        end = segment.slice(-1)
+        segment = segment.slice(1, -2)
+      } else {
+        segment = segment.slice(1, -1)
+      }
 
       if (caRegex.test(segment)) {
         return {
@@ -679,11 +684,11 @@ function parseTailSegments(segments: readonly string[]) {
       if (affixRegex.test(segment)) {
         return {
           type: "affix" as const,
-          affix: parseAffixGloss(segment) as Affix,
+          affix: parseAffixGloss(segment + end) as Affix,
         }
       }
 
-      segment = "(" + segment + ")"
+      segment = "(" + segment + ")" + end
 
       if (caseRelatedRegex.test(segment)) {
         return {
@@ -1710,6 +1715,8 @@ export function unglossAffixualAdjunct(
 
     return true
   })
+
+  console.log(segments)
 
   let scope: AffixualAdjunctScope | undefined
 
