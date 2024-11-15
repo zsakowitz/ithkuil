@@ -123,7 +123,7 @@ export function glossFormative(formative: PartialFormative) {
   ) {
     slot3 = GlossString.of(String(formative.root))
   } else {
-    const associatedRoot = rootsMap.get(formative.root)
+    const associatedRoot = rootsMap.get(formative.root.replace(/_/g, ""))
 
     if (associatedRoot) {
       const root =

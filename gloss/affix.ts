@@ -202,7 +202,7 @@ export function glossAffix(affix: Affix, isTypeless: boolean) {
 
   const type = isTypeless ? "" : getAffixType(affix.type)
 
-  const associatedAffix = affixesMap.get(affix.cs)
+  const associatedAffix = affixesMap.get(affix.cs.replace(/_/g, ""))
 
   if (!associatedAffix) {
     return GlossString.of(affix.cs + "/" + affix.degree + type)

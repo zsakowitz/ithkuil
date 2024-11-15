@@ -2,8 +2,8 @@ import { anyText, charIn, seq, text } from "./builder.js"
 
 const vowel = /* @__PURE__ */ charIn("aeiouäëöü'")
 const nonGlottalStopVowel = /* @__PURE__ */ charIn("aeiouäëöü")
-const consonant = /* @__PURE__ */ charIn("pbtdkgfvţḑszšžçxhļcżčjmnňrlwyř")
-const standardConsonant = /* @__PURE__ */ charIn("pbtdkgfvţḑszšžçxļcżčjmnňrlř")
+const consonant = /* @__PURE__ */ charIn("pbtdkgfvţḑszšžçxhļcżčjmnňrlwyř_")
+const standardConsonant = /* @__PURE__ */ charIn("pbtdkgfvţḑszšžçxļcżčjmnňrlř_")
 const specialConsonant = /* @__PURE__ */ charIn("hwy")
 
 const geminate = /* @__PURE__ */ anyText(
