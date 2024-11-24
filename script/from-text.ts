@@ -1,7 +1,9 @@
 import { mergeAdjunctsAndFormative } from "../generate/helpers/consolidate.js"
 import {
   ALL_BIAS_ADJUNCTS,
+  ALL_PARSING_ADJUNCTS,
   ALL_SINGLE_REGISTER_ADJUNCTS,
+  applyStress,
   deepFreeze,
   has,
   referentToIthkuil,
@@ -9,6 +11,7 @@ import {
   type AffixualAdjunct,
   type Level,
   type ModularAdjunct,
+  type ParsingAdjunct,
   type ReferentList,
   type RegisterAdjunct,
   type SuppletiveAdjunctType,
@@ -23,6 +26,7 @@ import {
   parseIllocutionValidation,
   parseMood,
   parseWord,
+  transformWord,
 } from "../parse/index.js"
 import {
   AdvancedAlphabetic,
@@ -98,6 +102,9 @@ function sentenceToScript(
         }
       | "forcedRegister"
       | undefined
+
+    let parsingAdjunctStress: ParsingAdjunct | undefined
+    let parsingAdjunctIndex: number | undefined
 
     for (let index = 0; index < words.length; index++) {
       let word = words[index]!
@@ -616,6 +623,24 @@ function sentenceToScript(
         words.splice(index + 1, 0, rest.join("-"))
       }
 
+      if (
+        parsingAdjunctIndex == index - 1 &&
+        (parsingAdjunctStress == "ultimate" ||
+          parsingAdjunctStress == "antepenultimate" ||
+          parsingAdjunctStress == "penultimate")
+      ) {
+        try {
+          if (parsingAdjunctStress == "penultimate") {
+            word = transformWord(word).word
+          } else {
+            word = applyStress(
+              transformWord(word).word,
+              parsingAdjunctStress == "ultimate" ? -1 : -3,
+            )
+          }
+        } catch {}
+      }
+
       const result = parseWord(word) as OmitUndefinedValues<
         ReturnType<typeof parseWord>
       >
@@ -669,6 +694,9 @@ function sentenceToScript(
               }
             }
           }
+        } else if (has(ALL_PARSING_ADJUNCTS, result)) {
+          parsingAdjunctStress = result
+          parsingAdjunctIndex = index
         }
 
         continue
