@@ -1716,8 +1716,6 @@ export function unglossAffixualAdjunct(
     return true
   })
 
-  console.log(segments)
-
   let scope: AffixualAdjunctScope | undefined
 
   if (segments[1]) {
