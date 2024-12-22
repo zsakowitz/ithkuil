@@ -3,7 +3,6 @@ import {
   SUPPLETIVE_ADJUNCT_TYPE_TO_NAME_MAP,
   type PartialReferential,
 } from "../generate/index.js"
-import { end } from "../parse/index.js"
 import { glossAffix } from "./affix.js"
 import { glossCase } from "./case.js"
 import { GlossString } from "./glossable.js"
@@ -55,6 +54,10 @@ export function glossReferential(referential: PartialReferential) {
       ending = ending
         .plusString("-")
         .plusGloss(glossCase(referential.case2 || "THM"))
+    } else if (ending.isEmpty()) {
+      ending = GlossString.of("-").plusGloss(
+        glossCase(referential.case2 || "THM"),
+      )
     } else {
       ending = GlossString.of("-")
         .plusGloss(glossCase(referential.case2 || "THM"))
