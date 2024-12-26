@@ -88,7 +88,7 @@ export function getIntegerRootEntry(root: bigint): RootEntry {
       14: "fourteen",
       15: "fifteen",
       100: "hundred",
-      10000: "ten thousand",
+      10000: "myriad",
       100000000: "hundred million",
       "10000000000000000": "ten quadrillion",
     }["" + root] ?? "" + root
@@ -114,9 +114,9 @@ export function getIntegerRootEntry(root: bigint): RootEntry {
       14: "fourteenth",
       15: "fifteenth",
       100: "hundredth",
-      10000: "ten thousandth",
-      100000000: "hundred millionth",
-      "10000000000000000": "ten quadrillionth",
+      10000: "ten-thousandth",
+      100000000: "100⁴-",
+      "10000000000000000": "100⁸-",
     }["" + root] ??
     root +
       (lastDigit == 1n
