@@ -1,4 +1,4 @@
-import type { JSX } from "@zsnout/ithkuil/script/jsx-runtime"
+import type { JSX } from "@zsnout/ithkuil-jsx/jsx-runtime"
 import { deepFreeze, type Specification } from "../generate/index.js"
 import {
   Anchor,
@@ -157,18 +157,18 @@ const svg = (
                 x={KEY_WIDTH / 2}
                 y={KEY_HEIGHT / 2}
               >
-                {type == "ext" ? (
+                {type == "ext" ?
                   <Secondary
                     bottom={a}
                     core="STRESSED_SYLLABLE_PLACEHOLDER"
                     // handwritten
                   />
-                ) : type == "core" ? (
+                : type == "core" ?
                   <Anchor at="cc">
                     <path d={CORES[a].shape} />
                   </Anchor>
-                ) : type == "diacritic" ? (
-                  b ? (
+                : type == "diacritic" ?
+                  b ?
                     <Anchor at="cc">
                       <g>
                         <Anchor at="bc">
@@ -183,53 +183,50 @@ const svg = (
                         </Anchor>
                       </g>
                     </Anchor>
-                  ) : (
-                    <Anchor at="cc">
+                  : <Anchor at="cc">
                       <path d={scale(CORE_DIACRITICS[a], 2)} />
                     </Anchor>
-                  )
-                ) : type == "spec" ? (
+
+                : type == "spec" ?
                   <Anchor at="cc">
                     <path d={PRIMARY_CORES[a]} />
                   </Anchor>
-                ) : a == "register" ? (
+                : a == "register" ?
                   <Anchor at="cc">
                     <path d={scale(REGISTERS.alphabetic.NRR, 2)} />
                   </Anchor>
-                ) : a == "valence" ? (
+                : a == "valence" ?
                   <Anchor at="cc">
                     <path d={VALENCE.MNO} />
                   </Anchor>
-                ) : a == "phase" ? (
+                : a == "phase" ?
                   <Tertiary
                     top="PUN"
                     // handwritten
                   />
-                ) : a == "effect" ? (
+                : a == "effect" ?
                   <Tertiary
                     top="1:BEN"
                     // handwritten
                   />
-                ) : a == "aspect" ? (
+                : a == "aspect" ?
                   <Tertiary
                     top="RTR"
                     // handwritten
                   />
-                ) : a == "up" ? (
+                : a == "up" ?
                   <Anchor at="cc">
                     <path d="M 0 0 l 20 -20 l 20 20" />
                   </Anchor>
-                ) : a == "down" ? (
+                : a == "down" ?
                   <Anchor at="cc">
                     <path d="M 0 0 l 20 20 l 20 -20" />
                   </Anchor>
-                ) : a == "rotate" ? (
+                : a == "rotate" ?
                   <Anchor at="cc">
                     <path d="M 0 0 a 30 30 0 1 0 -30 -30 l -10 -20 m 10 20 l 20 -10" />
                   </Anchor>
-                ) : (
-                  <g />
-                )}
+                : <g />}
               </Translate>
             </Handwritten>
           </g>

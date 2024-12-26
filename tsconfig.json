@@ -4,7 +4,7 @@
     "allowUnusedLabels": false,
     "exactOptionalPropertyTypes": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "@zsnout/ithkuil/script",
+    "jsxImportSource": "@zsnout/ithkuil-jsx",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "moduleResolution": "nodenext",
     "module": "NodeNext",
