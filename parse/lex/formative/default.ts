@@ -1,5 +1,5 @@
-import { RegexPart, any, anyText, seq } from "../builder.js"
-import { C, CG, CNG, H, V } from "../forms.js"
+import { any, anyText, seq } from "../builder.js"
+import { CG, CNG, H, R, RNG, V } from "../forms.js"
 
 const ccNoShortcut = /* @__PURE__ */ anyText("hw", "h")
 
@@ -37,7 +37,7 @@ export const nonShortcutFormative = /* @__PURE__ */ seq(
   ).optional(),
 
   // Slot III: Cr
-  any(C, new RegexPart("\\d+")).asGroup(),
+  R.asGroup(),
 
   // Slot IV: Vr
   V.asGroup(),
@@ -45,7 +45,7 @@ export const nonShortcutFormative = /* @__PURE__ */ seq(
   any(
     seq(
       // Slot V: (CsVx...)
-      seq(CNG, V).oneOrMore().asGroup(),
+      seq(RNG, V).oneOrMore().asGroup(),
 
       // Prevent combination referentials from matching
       combinationReferentialSpecification.not(),
@@ -62,7 +62,7 @@ export const nonShortcutFormative = /* @__PURE__ */ seq(
   ),
 
   // Slot VII: (VxCs...)
-  seq(V, CNG).zeroOrMore().asGroup(),
+  seq(V, RNG).zeroOrMore().asGroup(),
 
   // Slot VIII: (VnCn)
   seq(V.asGroup(), H.asGroup()).optional(),

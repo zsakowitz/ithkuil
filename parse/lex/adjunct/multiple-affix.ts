@@ -1,5 +1,5 @@
 import { any, anyText, seq, text } from "../builder.js"
-import { C, V, VG, VNG } from "../forms.js"
+import { C, R, V, VG, VNG } from "../forms.js"
 
 /**
  * A regular expression matching multiple-affix affixual adjuncts. A group
@@ -17,7 +17,7 @@ import { C, V, VG, VNG } from "../forms.js"
 export const multipleAffixAffixualAdjunct = /* @__PURE__ */ seq(
   /* @__PURE__ */ text("ë").optional(),
 
-  /* @__PURE__ */ C.asGroup(),
+  /* @__PURE__ */ R.asGroup(),
 
   /* @__PURE__ */ any(
     /* @__PURE__ */ seq(
@@ -33,7 +33,7 @@ export const multipleAffixAffixualAdjunct = /* @__PURE__ */ seq(
     ),
   ),
 
-  /* @__PURE__ */ seq(V, C).oneOrMore().asGroup(),
+  /* @__PURE__ */ seq(V, R).oneOrMore().asGroup(),
 
   /* @__PURE__ */ anyText("a", "u", "e", "i", "o", "ö", "ai")
     .asGroup()

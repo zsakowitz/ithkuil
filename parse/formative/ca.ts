@@ -51,6 +51,7 @@ export function parseCa(ca: string): PartialCA {
     return form
   }
 
+  console.error(new Error().stack)
   throw new Error("Invalid Ca form: " + form + ".")
 }
 

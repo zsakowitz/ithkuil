@@ -1,5 +1,5 @@
-import { type NumericAdjunct } from "../../generate/adjunct/numeric.js"
-import { numericAdjunct } from "../lex/adjunct/numeric.js"
+import type { NumericAdjunct } from "../../generate/adjunct/numeric.js"
+import { n } from "../lex/forms.js"
 
 /**
  * Builds a numeric adjunct.
@@ -9,7 +9,7 @@ import { numericAdjunct } from "../lex/adjunct/numeric.js"
  * successfully tokenized but had another error in it (e.g. invalid number).
  */
 export function buildNumericAdjunct(word: string): NumericAdjunct | undefined {
-  const match = numericAdjunct.exec(word)
+  const match = n.exec(word)
 
   if (!match) {
     return

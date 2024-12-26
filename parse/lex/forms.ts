@@ -1,4 +1,4 @@
-import { anyText, charIn, seq, text } from "./builder.js"
+import { any, anyText, charIn, RegexPart, seq, text } from "./builder.js"
 
 const vowel = /* @__PURE__ */ charIn("aeiouäëöü'")
 const nonGlottalStopVowel = /* @__PURE__ */ charIn("aeiouäëöü")
@@ -62,6 +62,18 @@ export const C = /* @__PURE__ */ seq(
 )
 
 /**
+ * A `RegexPart` matching a numeric form (set of underscores and decimal digits
+ * with at least one decimal digit).
+ */
+export const N = /* @__PURE__ */ new RegexPart("[\\d_]*\\d[\\d_]*")
+
+/** A regex matching a complete numeric form. */
+export const n = /* @__PURE__ */ N.matchEntireText().compile()
+
+/** A `RegexPart` matching a root (either C or N). */
+export const R = /* @__PURE__ */ any(C, N)
+
+/**
  * A `RegexPart` matching a special consonant form (one beginning with w-, y-,
  * or h-).
  */
@@ -89,3 +101,6 @@ export const CNG = /* @__PURE__ */ seq(
   standardConsonant,
   /* @__PURE__ */ consonant.zeroOrMore(),
 )
+
+/** Either `CNG` or `N`. */
+export const RNG = /* @__PURE__ */ any(CNG, N)

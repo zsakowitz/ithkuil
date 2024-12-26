@@ -1,4 +1,4 @@
-import { rootsMap } from "../data/roots-map.js"
+import { getIntegerRootEntry, rootsMap } from "../data/roots-map.js"
 import {
   ALL_ILLOCUTIONS,
   CASE_TO_NAME_MAP,
@@ -117,13 +117,11 @@ export function glossFormative(formative: PartialFormative) {
       },
       true,
     )
-  } else if (
-    typeof formative.root == "number" ||
-    typeof formative.root == "bigint"
-  ) {
-    slot3 = GlossString.of(String(formative.root))
   } else {
-    const associatedRoot = rootsMap.get(formative.root.replace(/_/g, ""))
+    const associatedRoot =
+      typeof formative.root == "number" || typeof formative.root == "bigint"
+        ? getIntegerRootEntry(BigInt(formative.root))
+        : rootsMap.get(formative.root.replace(/_/g, ""))
 
     if (associatedRoot) {
       const root =
@@ -131,7 +129,7 @@ export function glossFormative(formative: PartialFormative) {
 
       slot3 = GlossString.of("“" + root + "”")
     } else {
-      slot3 = GlossString.of(formative.root)
+      slot3 = GlossString.of("" + formative.root)
     }
   }
 

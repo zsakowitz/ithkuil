@@ -1,4 +1,4 @@
-import { affixesMap } from "../data/affixes-map.js"
+import { affixesMap, getIntegerAffixEntry } from "../data/affixes-map.js"
 import {
   ALL_ASPECTS,
   ALL_CASE_SCOPES,
@@ -202,7 +202,10 @@ export function glossAffix(affix: Affix, isTypeless: boolean) {
 
   const type = isTypeless ? "" : getAffixType(affix.type)
 
-  const associatedAffix = affixesMap.get(affix.cs.replace(/_/g, ""))
+  const associatedAffix =
+    typeof affix.cs == "number" || typeof affix.cs == "bigint"
+      ? getIntegerAffixEntry(BigInt(affix.cs))
+      : affixesMap.get(affix.cs.replace(/_/g, ""))
 
   if (!associatedAffix) {
     return GlossString.of(affix.cs + "/" + affix.degree + type)

@@ -12,6 +12,7 @@ import {
   has,
   type Affix,
   type AffixDegree,
+  type AffixShortcut,
   type Case,
   type CaseScope,
   type Illocution,
@@ -119,7 +120,15 @@ export function vnToAffix(vn: VN): Affix {
  * case-scope, which are not specifiable via affixes.
  */
 export function toAffix(
-  item: PartialCA | VN | Mood | CaseScope | Case | Illocution | Validation,
+  item:
+    | PartialCA
+    | VN
+    | Mood
+    | CaseScope
+    | Case
+    | Illocution
+    | Validation
+    | AffixShortcut,
 ): Affix | undefined {
   if (typeof item == "object") {
     return { ca: item }
@@ -169,6 +178,18 @@ export function toAffix(
       degree: (ALL_CASE_SCOPES.indexOf(item) + (5 % 10)) as AffixDegree,
       type: 1,
     }
+  }
+
+  if (item == "NEG/4") {
+    return { cs: "r", type: 1, degree: 4 }
+  }
+
+  if (item == "DCD/4") {
+    return { cs: "t", type: 1, degree: 4 }
+  }
+
+  if (item == "DCD/5") {
+    return { cs: "t", type: 1, degree: 5 }
   }
 
   return vnToAffix(item)

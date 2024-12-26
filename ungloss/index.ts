@@ -48,6 +48,7 @@ import {
   type ModularAdjunctType,
   type Mood,
   type NonAspectualVN,
+  type NumericAdjunct,
   type ParsingAdjunct,
   type PartialCA,
   type PartialFormative,
@@ -71,6 +72,8 @@ import {
   anyText,
   anyTextArray,
   charIn,
+  N,
+  n,
   seq,
   text,
 } from "../parse/index.js"
@@ -259,7 +262,7 @@ const referentRegex = /* @__PURE__ */ seq(
 // Affixes
 
 const TypelessAffix = /* @__PURE__ */ seq(
-  /* @__PURE__ */ Consonant.oneOrMore(),
+  /* @__PURE__ */ any(/* @__PURE__ */ Consonant.oneOrMore(), /* @__PURE__ */ N),
   /* @__PURE__ */ text("/"),
   /* @__PURE__ */ charIn("0123456789"),
 )
@@ -268,9 +271,7 @@ const typelessAffixRegex =
   /* @__PURE__ */ TypelessAffix.matchEntireText().compile()
 
 const Affix = /* @__PURE__ */ seq(
-  /* @__PURE__ */ Consonant.oneOrMore(),
-  /* @__PURE__ */ text("/"),
-  /* @__PURE__ */ charIn("0123456789"),
+  /* @__PURE__ */ TypelessAffix,
   /* @__PURE__ */ charIn("123₁₂₃").optional(),
 )
 
@@ -467,14 +468,14 @@ function parseReferentListGloss(list: string) {
 }
 
 function parseAffixGloss(affix: string) {
-  const [, cs, degreeString, typeString] =
-    affix.match(/^([^/]+)\/(\d)([123₁₂₃]?)$/) || []
-
-  if (!cs || !degreeString) {
-    throw new Error("Invalid affix: '" + affix + "'.")
+  const match = affix.match(/^([^/]+)\/(\d)([123₁₂₃]?)$/)
+  if (!match) {
+    throw new Error(`Invalid affix: '${affix}'.`)
   }
 
-  const degree = +degreeString as 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+  const [, cs, degreeString, typeString] = match
+
+  const degree = +degreeString! as 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 
   const type =
     typeString == "2" || typeString == "₂"
@@ -483,7 +484,11 @@ function parseAffixGloss(affix: string) {
       ? 3
       : 1
 
-  return { cs, degree, type }
+  return {
+    cs: n.test(cs!) ? BigInt(cs!.replace(/_/g, "")) : cs!,
+    degree,
+    type,
+  }
 }
 
 function parseReferentialAffixGloss(affix: string): Affix {
@@ -1149,6 +1154,12 @@ export function unglossFormative(gloss: string): PartialFormative | undefined {
         }
 
         root = segment
+      } else if (n.test(segment)) {
+        if (root) {
+          throw new Error("Root was specified twice.")
+        }
+
+        root = BigInt(segment.replace(/_/g, ""))
       } else {
         segments.unshift(segment)
         break
@@ -1322,6 +1333,10 @@ export function unglossFormative(gloss: string): PartialFormative | undefined {
         )?.case +
         " case with other affixes in slot V.",
     )
+  }
+
+  if (affixShortcut) {
+    ;(slotVIIAffixes ||= []).push(toAffix(affixShortcut)!)
   }
 
   if (
@@ -1601,8 +1616,13 @@ export function unglossSimpleAdjunct(
   | ParsingAdjunct
   | SingleRegisterAdjunct
   | SuppletiveAdjunct
+  | NumericAdjunct
   | undefined {
   gloss = substituteLetters(gloss)
+
+  if (n.test(gloss)) {
+    return BigInt(gloss.replace(/_/g, ""))
+  }
 
   if (has(ALL_BIAS_ADJUNCTS, gloss)) {
     return gloss
@@ -1994,7 +2014,11 @@ export function unglossWord(
   UnglossResult<"referential", PartialReferential>,
   UnglossResult<
     "adjunct",
-    BiasAdjunct | ParsingAdjunct | SingleRegisterAdjunct | SuppletiveAdjunct
+    | BiasAdjunct
+    | ParsingAdjunct
+    | SingleRegisterAdjunct
+    | SuppletiveAdjunct
+    | NumericAdjunct
   >,
   UnglossResult<"affixual", AffixualAdjunct>,
   UnglossResult<"modular", ModularAdjunct>,

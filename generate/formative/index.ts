@@ -1,3 +1,5 @@
+import { getIntegerCs } from "../../data/affixes-map.js"
+import { getIntegerCr } from "../../data/roots-map.js"
 import type { Affix } from "../affix/index.js"
 import { type CA, type PartialCA } from "../ca/index.js"
 import { deepFreeze } from "../helpers/deep-freeze.js"
@@ -275,10 +277,13 @@ function completeFormativeToIthkuil(formative: Formative) {
     typeof formative.root == "string"
       ? formative.root
       : typeof formative.root == "number" || typeof formative.root == "bigint"
-      ? String(formative.root)
+      ? getIntegerCr(formative.root) ?? String(formative.root)
       : isArray(formative.root)
       ? referentListToPersonalReferenceRoot(formative.root)
-      : formative.root.cs
+      : ((typeof formative.root.cs == "number" ||
+          typeof formative.root.cs == "bigint") &&
+          getIntegerCs(formative.root.cs)) ||
+        "" + formative.root.cs
 
   let slot4 = slotIVToIthkuil(formative, {
     slotIII: slot3,

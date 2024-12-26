@@ -12,5 +12,5 @@ export type SlotIII =
       readonly degree: AffixDegree
 
       /** The consonantal form of the affix. */
-      readonly cs: string
+      readonly cs: string | number | bigint
     }

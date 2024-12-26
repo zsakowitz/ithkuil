@@ -5,6 +5,7 @@ import type {
 } from "../../generate/formative/index.js"
 import {
   cnShortcutFormative,
+  n,
   nonShortcutFormative,
   shortcutFormative,
 } from "../lex/index.js"
@@ -169,15 +170,15 @@ export function buildNonShortcutFormative(
 
   if (vv?.degree == 5) {
     root = {
-      cs: match[3]!,
+      cs: n.test(match[3]!) ? BigInt(match[3]!.replace(/_/g, "")) : match[3]!,
       degree: vr.degree,
     }
   } else if (vv?.degree == 0 && (vv.sequence == 1 || vv.sequence == 2)) {
     root = parseReferentList(match[3]!)
   } else if (vv?.degree == 0) {
     throw new Error("Invalid Vv slot: " + vv + ".")
-  } else if (!Number.isNaN(parseInt(match[3]!, 10))) {
-    root = BigInt(match[3]!)
+  } else if (n.test(match[3]!)) {
+    root = BigInt(match[3]!.replace(/_/g, ""))
   } else {
     root = match[3]!
 
@@ -346,8 +347,8 @@ export function buildCnShortcutFormative(
     root = parseReferentList(match[3]!)
   } else if (vv?.degree == 0) {
     throw new Error("Invalid Vv slot: " + vv + ".")
-  } else if (!Number.isNaN(parseInt(match[3]!, 10))) {
-    root = BigInt(match[3]!)
+  } else if (!n.test(match[3]!)) {
+    root = BigInt(match[3]!.replace(/_/g, ""))
   } else {
     root = match[3]!
 
@@ -487,7 +488,7 @@ export function buildShortcutFormative(
 
   if (vv.degree == 0) {
     root = parseReferentList(match[3]!)
-  } else if (!Number.isNaN(parseInt(match[3]!, 10))) {
+  } else if (n.test(match[3]!)) {
     root = BigInt(match[3]!)
   } else {
     root = match[3]!

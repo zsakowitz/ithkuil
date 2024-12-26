@@ -123,16 +123,21 @@ export const AFFIX_DEGREES = /* @__PURE__ */ deepFreeze(
  * @returns An array of `ConstructableCharacter`s.
  */
 export function affixToScript(
-  cs: string,
+  cs: string | number | bigint,
   degree: AffixDegree | "ca",
   type: AffixType,
   slot: "v" | "vii" | "xi",
   handwritten?: boolean | undefined,
 ): ConstructableCharacter<SecondaryCharacter>[] {
-  return textToSecondaries(cs, {
-    forcePlaceholderCharacters: true,
-    handwritten,
-  })
+  const raw =
+    typeof cs == "number" || typeof cs == "bigint"
+      ? numericAdjunctToNumerals(cs, handwritten)
+      : textToSecondaries(cs, {
+          forcePlaceholderCharacters: true,
+          handwritten,
+        })
+
+  return raw
     .map((secondary) => attachConstructor(secondary, Secondary))
     .map((secondary, index) =>
       index == 0
@@ -262,10 +267,15 @@ export function formativeToScript(
   } else if (typeof formative.root == "object") {
     const { cs, degree } = formative.root
 
-    const affix = textToSecondaries(cs, {
-      handwritten,
-      forcePlaceholderCharacters: true,
-    }).map((secondary, index) =>
+    const raw =
+      typeof cs == "number" || typeof cs == "bigint"
+        ? numericAdjunctToNumerals(cs, handwritten)
+        : textToSecondaries(cs, {
+            handwritten,
+            forcePlaceholderCharacters: true,
+          })
+
+    const affix = raw.map((secondary, index) =>
       attachConstructor(
         {
           ...secondary,

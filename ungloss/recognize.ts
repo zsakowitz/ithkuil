@@ -191,7 +191,9 @@ export function createRecognizer(
         // #endregion
 
         // #region affix by abbreviation
-        if ((match = segment.match(/^([A-Z0-9]{3})\/([0-9])([123₁₂₃]?)$/))) {
+        if (
+          (match = segment.match(/^([A-Z][A-Z0-9]{2})\/([0-9])([123₁₂₃]?)$/))
+        ) {
           const abbr = match[1]!
           const degree = +match[2]! as AffixDegree
           const items = searcherAffixByAbbr.search(abbr)

@@ -4,7 +4,7 @@ import {
 } from "../../generate/affix/index.js"
 import { ALL_CASES } from "../../generate/formative/slot-9/case.js"
 import { deepFreeze } from "../../generate/helpers/deep-freeze.js"
-import { parseReferentListAndPerspective } from "../index.js"
+import { n, parseReferentListAndPerspective } from "../index.js"
 import type { VowelForm } from "../vowel-form.js"
 import { parseCa } from "./ca.js"
 import { parseCase } from "./case.js"
@@ -76,7 +76,7 @@ export function parseAffix(vx: VowelForm, cs: string, isAlone: boolean): Affix {
       return {
         type: 3,
         degree: vx.degree,
-        cs: cs,
+        cs: n.test(cs) ? BigInt(cs.replaceAll(/_/g, "")) : cs,
       }
     }
   } else {
@@ -87,7 +87,7 @@ export function parseAffix(vx: VowelForm, cs: string, isAlone: boolean): Affix {
     return {
       type: vx.sequence,
       degree: vx.degree,
-      cs: cs,
+      cs: n.test(cs) ? BigInt(cs.replaceAll(/_/g, "")) : cs,
     }
   }
 }

@@ -1,3 +1,4 @@
+import { getIntegerCs } from "../../data/affixes-map.js"
 import { caToIthkuil, type PartialCA } from "../ca/index.js"
 import {
   ALL_CASES,
@@ -107,8 +108,8 @@ export type PlainAffix = {
   /** The degree of the affix. */
   readonly degree: AffixDegree
 
-  /** The consonantal form of the affix. */
-  readonly cs: string
+  /** The consonantal form of the affix, or a number for numeric affixes. */
+  readonly cs: string | number | bigint
 
   readonly ca?: undefined
   readonly referents?: undefined
@@ -220,7 +221,9 @@ export function affixToIthkuil(
       ? ("type" in affix && affix.type
           ? CASE_AFFIX_TO_CS_MAP[`${affix.isInverse}`][affix.type]
           : "l") + (ALL_CASES.indexOf(affix.case) >= 36 ? "y" : "w")
-      : affix.cs
+      : ((typeof affix.cs == "number" || typeof affix.cs == "bigint") &&
+          getIntegerCs(affix.cs)) ||
+        "" + affix.cs
 
   if (metadata.reversed) {
     return WithWYAlternative.of(consonant + vowel.withPreviousText(consonant))

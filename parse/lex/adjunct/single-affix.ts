@@ -1,5 +1,5 @@
 import { anyText, seq } from "../builder.js"
-import { C, V } from "../forms.js"
+import { R, V } from "../forms.js"
 
 /**
  * A regular expression matching single-affix affixual adjuncts. A group marked
@@ -13,7 +13,7 @@ import { C, V } from "../forms.js"
 export const singleAffixAffixualAdjunct = /* @__PURE__ */ seq(
   /* @__PURE__ */ V.asGroup(),
 
-  /* @__PURE__ */ C.asGroup(),
+  /* @__PURE__ */ R.asGroup(),
 
   /* @__PURE__ */ anyText("a", "u", "e", "i", "o", "ö").asGroup().optional(),
 )
