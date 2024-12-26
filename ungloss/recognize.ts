@@ -132,8 +132,8 @@ export function createRecognizer(
               alts: items.slice(1),
             })
 
-            return forcedStem == null
-              ? `S${items[0].stem}-${items[0].cr}`
+            return forcedStem == null ?
+                `S${items[0].stem}-${items[0].cr}`
               : items[0].cr
           } else {
             issues.push({

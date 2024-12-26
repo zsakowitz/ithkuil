@@ -56,15 +56,13 @@ export type SlotVIIIMetadata = {
  * @returns Romanized Ithkuilic text representing the Vn form.
  */
 export function vnToIthkuil(vn: VN, omitDefaultValence: boolean) {
-  return has(ALL_VALENCES, vn)
-    ? valenceToIthkuil(vn, omitDefaultValence)
-    : has(ALL_PHASES, vn)
-    ? phaseToIthkuil(vn)
-    : has(ALL_EFFECTS, vn)
-    ? effectToIthkuil(vn)
-    : has(ALL_LEVELS, vn)
-    ? levelToIthkuil(vn)
+  return (
+    has(ALL_VALENCES, vn) ? valenceToIthkuil(vn, omitDefaultValence)
+    : has(ALL_PHASES, vn) ? phaseToIthkuil(vn)
+    : has(ALL_EFFECTS, vn) ? effectToIthkuil(vn)
+    : has(ALL_LEVELS, vn) ? levelToIthkuil(vn)
     : aspectToIthkuil(vn)
+  )
 }
 
 /**
@@ -76,15 +74,14 @@ export function vnToIthkuil(vn: VN, omitDefaultValence: boolean) {
  * @returns Romanized Ithkuilic text representing the Cn form.
  */
 export function cnToIthkuil(cn: CN, vnType: VNType) {
-  return cn instanceof MoodOrCaseScope
-    ? vnType == "empty" && cn == FAC_CCN
-      ? ""
-      : vnType == "aspect"
-      ? cn.aspectualValue
+  return (
+    cn instanceof MoodOrCaseScope ?
+      vnType == "empty" && cn == FAC_CCN ? ""
+      : vnType == "aspect" ? cn.aspectualValue
       : cn.nonAspectualValue
-    : has(ALL_MOODS, cn)
-    ? moodToIthkuil(cn, vnType)
+    : has(ALL_MOODS, cn) ? moodToIthkuil(cn, vnType)
     : caseScopeToIthkuil(cn, vnType)
+  )
 }
 
 /**

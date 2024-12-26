@@ -68,33 +68,23 @@ export function getIntegerCs(affix: number | bigint): string | undefined {
 
 export function getIntegerAffixEntry(affix: bigint): AffixEntry {
   const abbreviation =
-    affix == 100000000n
-      ? "XTM"
-      : affix == 10000000000000000n
-      ? "XTQ"
-      : affix == 10000n
-      ? "XTT"
-      : affix == 100n
-      ? "XOH"
-      : 0n <= affix && affix <= 9n
-      ? "XX" + affix
-      : 10n <= affix && affix <= 99n
-      ? "X" + affix
-      : "X" + affix
+    affix == 100000000n ? "XTM"
+    : affix == 10000000000000000n ? "XTQ"
+    : affix == 10000n ? "XTT"
+    : affix == 100n ? "XOH"
+    : 0n <= affix && affix <= 9n ? "XX" + affix
+    : 10n <= affix && affix <= 99n ? "X" + affix
+    : "X" + affix
 
   const abs = affix < 0n ? -affix : affix
   const lastDigit = abs % 10n
 
   const ending =
-    10n <= abs && abs <= 19n
-      ? "th"
-      : lastDigit == 1n
-      ? "st"
-      : lastDigit == 2n
-      ? "nd"
-      : lastDigit == 3n
-      ? "rd"
-      : "th"
+    10n <= abs && abs <= 19n ? "th"
+    : lastDigit == 1n ? "st"
+    : lastDigit == 2n ? "nd"
+    : lastDigit == 3n ? "rd"
+    : "th"
 
   return {
     cs: "" + affix,

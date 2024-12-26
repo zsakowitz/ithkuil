@@ -438,4 +438,7 @@ export const HANDWRITTEN_CORES = /* @__PURE__ */ deepFreeze({
     top: ["horiz", 22.5],
     bottom: ["horiz", 27.5],
   } satisfies HandwrittenCore as HandwrittenCore,
-} satisfies Record<CoreName, HandwrittenCore> as Record<CoreName, HandwrittenCore>)
+} satisfies Record<CoreName, HandwrittenCore> as Record<
+  CoreName,
+  HandwrittenCore
+>)

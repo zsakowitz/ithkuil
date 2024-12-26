@@ -201,18 +201,18 @@ export function textToSecondaries(
   let match
 
   let regex =
-    options?.useRightDiacritics === false
-      ? secondaryWithoutRightDiacritics
-      : secondary
+    options?.useRightDiacritics === false ?
+      secondaryWithoutRightDiacritics
+    : secondary
 
   let index = 0
 
   while ((match = regex.exec(text))) {
     if (options?.forcePlaceholderCharacters) {
       regex =
-        options?.useRightDiacritics === false
-          ? extensionOnlySecondaryWithoutRightDiacritics
-          : extensionOnlySecondary
+        options?.useRightDiacritics === false ?
+          extensionOnlySecondaryWithoutRightDiacritics
+        : extensionOnlySecondary
     }
 
     let source = match[0]

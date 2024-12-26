@@ -130,25 +130,28 @@ export function affixToScript(
   handwritten?: boolean | undefined,
 ): ConstructableCharacter<SecondaryCharacter>[] {
   const raw =
-    typeof cs == "number" || typeof cs == "bigint"
-      ? numericAdjunctToNumerals(cs, handwritten)
-      : textToSecondaries(cs, {
-          forcePlaceholderCharacters: true,
-          handwritten,
-        })
+    typeof cs == "number" || typeof cs == "bigint" ?
+      numericAdjunctToNumerals(cs, handwritten)
+    : textToSecondaries(cs, {
+        forcePlaceholderCharacters: true,
+        handwritten,
+      })
 
   return raw
     .map((secondary) => attachConstructor(secondary, Secondary))
     .map((secondary, index) =>
-      index == 0
-        ? {
-            ...secondary,
-            rotated: slot == "vii",
-            superposed: type == 2 ? "DOT" : type == 3 ? "HORIZ_BAR" : undefined,
-            right: slot == "xi" ? "DOT" : undefined,
-            underposed: AFFIX_DEGREES[degree],
-          }
-        : secondary,
+      index == 0 ?
+        {
+          ...secondary,
+          rotated: slot == "vii",
+          superposed:
+            type == 2 ? "DOT"
+            : type == 3 ? "HORIZ_BAR"
+            : undefined,
+          right: slot == "xi" ? "DOT" : undefined,
+          underposed: AFFIX_DEGREES[degree],
+        }
+      : secondary,
     )
 }
 
@@ -223,11 +226,11 @@ export function formativeToScript(
     context: formative.context,
 
     bottom:
-      formative.type == "UNF/C"
-        ? formative.concatenationType == "none"
-          ? undefined
-          : formative.concatenationType
-        : formative.type,
+      formative.type == "UNF/C" ?
+        formative.concatenationType == "none" ?
+          undefined
+        : formative.concatenationType
+      : formative.type,
 
     affiliation: formative.ca?.affiliation,
     configuration: formative.ca?.configuration,
@@ -268,12 +271,12 @@ export function formativeToScript(
     const { cs, degree } = formative.root
 
     const raw =
-      typeof cs == "number" || typeof cs == "bigint"
-        ? numericAdjunctToNumerals(cs, handwritten)
-        : textToSecondaries(cs, {
-            handwritten,
-            forcePlaceholderCharacters: true,
-          })
+      typeof cs == "number" || typeof cs == "bigint" ?
+        numericAdjunctToNumerals(cs, handwritten)
+      : textToSecondaries(cs, {
+          handwritten,
+          forcePlaceholderCharacters: true,
+        })
 
     const affix = raw.map((secondary, index) =>
       attachConstructor(
@@ -333,9 +336,9 @@ export function formativeToScript(
     [
       "vii",
       [
-        formative.type == "UNF/K"
-          ? formative.illocutionValidation
-          : formative.case,
+        formative.type == "UNF/K" ?
+          formative.illocutionValidation
+        : formative.case,
       ]
         .filter((x): x is Exclude<typeof x, undefined> => !!x)
         .map(toAffix),
@@ -346,7 +349,10 @@ export function formativeToScript(
       continue
     }
 
-    const group = type == "v" ? v : type == "xi" ? xi : vii
+    const group =
+      type == "v" ? v
+      : type == "xi" ? xi
+      : vii
 
     for (const affix of value) {
       if (!affix) {
@@ -389,17 +395,12 @@ export function formativeToScript(
         affix.type == 1
       ) {
         segments.push(
-          (affix.cs == PHS
-            ? ALL_PHASES
-            : affix.cs == EFE
-            ? ALL_EFFECTS
-            : affix.cs == AP1
-            ? ALL_ASPECTS
-            : affix.cs == AP2
-            ? ALL_ASPECTS.slice(9, 18)
-            : affix.cs == AP3
-            ? ALL_ASPECTS.slice(18, 27)
-            : ALL_ASPECTS.slice(27, 36))[(affix.degree - 1) % 9]!,
+          (affix.cs == PHS ? ALL_PHASES
+          : affix.cs == EFE ? ALL_EFFECTS
+          : affix.cs == AP1 ? ALL_ASPECTS
+          : affix.cs == AP2 ? ALL_ASPECTS.slice(9, 18)
+          : affix.cs == AP3 ? ALL_ASPECTS.slice(18, 27)
+          : ALL_ASPECTS.slice(27, 36))[(affix.degree - 1) % 9]!,
         )
 
         continue
@@ -481,11 +482,11 @@ export function formativeToScript(
     finalQuaternary &&
     !finalQuaternary.caseScope &&
     !finalQuaternary.mood &&
-    (formative.type == "UNF/K"
-      ? (has(ALL_ILLOCUTIONS, finalQuaternary.value) &&
-          finalQuaternary.value != "ASR") ||
-        has(ALL_VALIDATIONS, finalQuaternary.value)
-      : has(ALL_CASES, finalQuaternary.value))
+    (formative.type == "UNF/K" ?
+      (has(ALL_ILLOCUTIONS, finalQuaternary.value) &&
+        finalQuaternary.value != "ASR") ||
+      has(ALL_VALIDATIONS, finalQuaternary.value)
+    : has(ALL_CASES, finalQuaternary.value))
   ) {
     quaternaries.pop()
 

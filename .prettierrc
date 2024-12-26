@@ -2,5 +2,6 @@
   "proseWrap": "always",
   "semi": false,
   "singleAttributePerLine": true,
-  "trailingComma": "all"
+  "trailingComma": "all",
+  "experimentalTernaries": true
 }

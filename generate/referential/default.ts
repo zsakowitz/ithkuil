@@ -43,8 +43,8 @@ export function fillInDefaultReferentialSlots(
       )
     }
 
-    return referential.type
-      ? fillDefaults<Referential>(
+    return referential.type ?
+        fillDefaults<Referential>(
           {
             ...DEFAULT_SUPPLETIVE_REFERENTIAL,
             perspective2: "M",
@@ -75,8 +75,8 @@ export function fillInDefaultReferentialSlots(
       )
     }
 
-    return referential.type
-      ? fillDefaults<Referential>(
+    return referential.type ?
+        fillDefaults<Referential>(
           {
             ...DEFAULT_SUPPLETIVE_REFERENTIAL,
             specification: "BSC",
@@ -94,7 +94,7 @@ export function fillInDefaultReferentialSlots(
         )
   }
 
-  return referential.type
-    ? fillDefaults(DEFAULT_SUPPLETIVE_REFERENTIAL, referential)
+  return referential.type ?
+      fillDefaults(DEFAULT_SUPPLETIVE_REFERENTIAL, referential)
     : fillDefaults(DEFAULT_REFERENTIAL, referential)
 }

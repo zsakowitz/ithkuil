@@ -61,10 +61,10 @@ export function mergeAdjunctsAndFormative(
       }
 
       if (adjunct.cn) {
-        const index = has(ALL_MOODS, adjunct.cn)
-          ? ALL_MOODS.indexOf(adjunct.cn)
-          : has(ALL_CASE_SCOPES, adjunct.cn)
-          ? ALL_CASE_SCOPES.indexOf(adjunct.cn)
+        const index =
+          has(ALL_MOODS, adjunct.cn) ? ALL_MOODS.indexOf(adjunct.cn)
+          : has(ALL_CASE_SCOPES, adjunct.cn) ?
+            ALL_CASE_SCOPES.indexOf(adjunct.cn)
           : ALL_MOOD_OR_CASE_SCOPES.indexOf(adjunct.cn)
 
         if (index != 0) {

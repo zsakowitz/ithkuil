@@ -93,10 +93,8 @@ export function affixualAdjunctToIthkuil(adjunct: AffixualAdjunct) {
     reversed: true,
   }).defaultValue
 
-  const affix1 = isLegalWordInitialConsonantForm(
-    extractAllConsonants(rawAffix1),
-  )
-    ? rawAffix1
+  const affix1 =
+    isLegalWordInitialConsonantForm(extractAllConsonants(rawAffix1)) ? rawAffix1
     : "ë" + rawAffix1
 
   const cz = affixualAdjunctScopeToIthkuil(
@@ -110,8 +108,9 @@ export function affixualAdjunctToIthkuil(adjunct: AffixualAdjunct) {
     .map((affix) => affixToIthkuil(affix, { reversed: false }))
     .reduce((a, b) => a + b.withPreviousText(a), affix1 + cz)
 
-  const scope = adjunct.scope2
-    ? affixualAdjunctScopeToIthkuil(adjunct.scope2, "vz", false)
+  const scope =
+    adjunct.scope2 ?
+      affixualAdjunctScopeToIthkuil(adjunct.scope2, "vz", false)
     : "ai"
 
   const output = main + scope

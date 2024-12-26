@@ -34,7 +34,9 @@ export function buildModularAdjunct(
   }
 
   const type =
-    match[1] == "w" ? "PARENT" : match[1] == "y" ? "CONCAT" : undefined
+    match[1] == "w" ? "PARENT"
+    : match[1] == "y" ? "CONCAT"
+    : undefined
 
   if (!(match[2] || match[4])) {
     return {
@@ -45,17 +47,18 @@ export function buildModularAdjunct(
 
   const [cn, isVnAspectual] = parseMoodOrCaseScope(match[3]!)
 
-  const vn1 = isVnAspectual
-    ? parseAspect(VowelForm.parseOrThrow(match[2]!))
+  const vn1 =
+    isVnAspectual ?
+      parseAspect(VowelForm.parseOrThrow(match[2]!))
     : parseNonAspectualVn(VowelForm.parseOrThrow(match[2]!))
 
   let vn2
 
   if (match[4]) {
     vn2 =
-      match[5] == "n"
-        ? parseAspect(VowelForm.parseOrThrow(match[4]!))
-        : parseNonAspectualVn(VowelForm.parseOrThrow(match[4]!))
+      match[5] == "n" ?
+        parseAspect(VowelForm.parseOrThrow(match[4]!))
+      : parseNonAspectualVn(VowelForm.parseOrThrow(match[4]!))
   }
 
   let scope: ModularAdjunctScope | undefined

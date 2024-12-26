@@ -123,8 +123,9 @@ export type PartialReferential =
  * @returns Romanized Ithkuilic text representing the referential.
  */
 function completeReferentialToIthkuil(referential: Referential) {
-  const slot1 = referential.referents
-    ? referentListToIthkuil(
+  const slot1 =
+    referential.referents ?
+      referentListToIthkuil(
         referential.referents,
         referential.perspective,
         false,
@@ -139,22 +140,26 @@ function completeReferentialToIthkuil(referential: Referential) {
   if (referential.specification && referential.affixes) {
     const slot3 = referentialSpecificationToIthkuil(referential.specification)
 
-    const slot4 = referential.affixes.length
-      ? referential.affixes
+    const slot4 =
+      referential.affixes.length ?
+        referential.affixes
           .map((affix) => affixToIthkuil(affix, { reversed: false }))
           .reduce((a, b) => a.add(b))
           .withPreviousText(slot1 + slot2 + slot3)
       : ""
 
-    const slot5 = referential.case2
-      ? referential.case2 == "THM"
-        ? "üa"
+    const slot5 =
+      referential.case2 ?
+        referential.case2 == "THM" ?
+          "üa"
         : WithWYAlternative.of(
             caseToIthkuil(referential.case2, false, false),
           ).withPreviousText(slot1 + slot2 + slot3 + slot4)
-      : referential.essence == "NRM" ||
+      : (
+        referential.essence == "NRM" ||
         countVowelForms(slot1 + slot2 + slot3 + slot4) >= 2
-      ? ""
+      ) ?
+        ""
       : "a"
 
     const word = slot1 + slot2 + slot3 + slot4 + slot5
@@ -178,9 +183,10 @@ function completeReferentialToIthkuil(referential: Referential) {
         true,
       )
 
-      slot4 = isLegalWordFinalConsonantForm(referentList)
-        ? referentList
-        : referentList + "ë"
+      slot4 =
+        isLegalWordFinalConsonantForm(referentList) ? referentList : (
+          referentList + "ë"
+        )
     }
 
     return applyReferentialEssence(

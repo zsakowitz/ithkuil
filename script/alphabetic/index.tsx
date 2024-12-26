@@ -84,17 +84,27 @@ function TopExtension({
   return (
     <g>
       <Translate
-        x={core.top[1] + (handwritten ? 0 : core.top[2] ? -10 : 0)}
-        y={getBBox(coreShape).y + (handwritten ? 0 : core.top[2] ? 10 : 0)}
+        x={
+          core.top[1] +
+          (handwritten ? 0
+          : core.top[2] ? -10
+          : 0)
+        }
+        y={
+          getBBox(coreShape).y +
+          (handwritten ? 0
+          : core.top[2] ? 10
+          : 0)
+        }
       >
         <Extension
           name={name}
           handwritten={handwritten}
           direction={core.top[0]}
           reversed={
-            handwritten
-              ? (core.top[0] == "horiz") == !core.top[2]
-              : !!core.top[2]
+            handwritten ?
+              (core.top[0] == "horiz") == !core.top[2]
+            : !!core.top[2]
           }
         />
       </Translate>
@@ -118,11 +128,18 @@ function BottomExtension({
   return (
     <g>
       <Translate
-        x={core.bottom[1] + (handwritten ? 0 : reversed ? 0 : 10)}
+        x={
+          core.bottom[1] +
+          (handwritten ? 0
+          : reversed ? 0
+          : 10)
+        }
         y={
           getBBox(coreShape).y +
           getBBox(coreShape).height +
-          (handwritten ? 0 : reversed ? 0 : -10)
+          (handwritten ? 0
+          : reversed ? 0
+          : -10)
         }
       >
         <Extension
@@ -154,23 +171,23 @@ export function AdvancedAlphabetic(
     <g>
       {coreShape}
 
-      {alphabetic.top ? (
+      {alphabetic.top ?
         <TopExtension
           core={core}
           coreShape={coreShape}
           handwritten={handwritten}
           name={alphabetic.top}
         />
-      ) : undefined}
+      : undefined}
 
-      {alphabetic.bottom ? (
+      {alphabetic.bottom ?
         <BottomExtension
           core={core}
           coreShape={coreShape}
           handwritten={handwritten}
           name={alphabetic.bottom}
         />
-      ) : undefined}
+      : undefined}
     </g>
   ) as SVGGElement
 

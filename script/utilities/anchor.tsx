@@ -50,9 +50,9 @@ export type AnchorOptions<T extends string> = {
  */
 export function Anchor(props: AnchorOptions<AnchorLocation>): SVGElement {
   const children =
-    props.children instanceof SVGGraphicsElement
-      ? props.children
-      : ((<g>{props.children}</g>) as SVGGElement)
+    props.children instanceof SVGGraphicsElement ?
+      props.children
+    : ((<g>{props.children}</g>) as SVGGElement)
 
   const box = getBBox(children)
 
@@ -60,18 +60,14 @@ export function Anchor(props: AnchorOptions<AnchorLocation>): SVGElement {
   const x = props.at[1] as "l" | "c" | "r"
 
   const finalX =
-    (x == "l"
-      ? -box.x
-      : x == "r"
-      ? -box.x - box.width
-      : -box.x - box.width / 2) + (props.x ?? 0)
+    (x == "l" ? -box.x
+    : x == "r" ? -box.x - box.width
+    : -box.x - box.width / 2) + (props.x ?? 0)
 
   const finalY =
-    (y == "t"
-      ? -box.y
-      : y == "b"
-      ? -box.y - box.height
-      : -box.y - box.height / 2) + (props.y ?? 0)
+    (y == "t" ? -box.y
+    : y == "b" ? -box.y - box.height
+    : -box.y - box.height / 2) + (props.y ?? 0)
 
   return (
     <Translate
@@ -97,9 +93,9 @@ export type AnchorXLocation = "l" | "c" | "r"
  */
 export function AnchorX(props: AnchorOptions<AnchorXLocation>): SVGElement {
   const children =
-    props.children instanceof SVGGraphicsElement
-      ? props.children
-      : ((<g>{props.children}</g>) as SVGGElement)
+    props.children instanceof SVGGraphicsElement ?
+      props.children
+    : ((<g>{props.children}</g>) as SVGGElement)
 
   const box = getBBox(children)
 
@@ -108,11 +104,9 @@ export function AnchorX(props: AnchorOptions<AnchorXLocation>): SVGElement {
   return (
     <Translate
       x={
-        (x == "l"
-          ? -box.x
-          : x == "r"
-          ? -box.x - box.width
-          : -box.x - box.width / 2) + (props.x ?? 0)
+        (x == "l" ? -box.x
+        : x == "r" ? -box.x - box.width
+        : -box.x - box.width / 2) + (props.x ?? 0)
       }
       y={props.y ?? 0}
     >
@@ -135,9 +129,9 @@ export type AnchorYLocation = "t" | "c" | "b"
  */
 export function AnchorY(props: AnchorOptions<AnchorYLocation>): SVGElement {
   const children =
-    props.children instanceof SVGGraphicsElement
-      ? props.children
-      : ((<g>{props.children}</g>) as SVGGElement)
+    props.children instanceof SVGGraphicsElement ?
+      props.children
+    : ((<g>{props.children}</g>) as SVGGElement)
 
   const box = getBBox(children)
 
@@ -147,11 +141,9 @@ export function AnchorY(props: AnchorOptions<AnchorYLocation>): SVGElement {
     <Translate
       x={props.x ?? 0}
       y={
-        (y == "t"
-          ? -box.y
-          : y == "b"
-          ? -box.y - box.height
-          : -box.y - box.height / 2) + (props.y ?? 0)
+        (y == "t" ? -box.y
+        : y == "b" ? -box.y - box.height
+        : -box.y - box.height / 2) + (props.y ?? 0)
       }
     >
       {children}

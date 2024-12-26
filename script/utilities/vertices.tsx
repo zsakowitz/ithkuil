@@ -40,11 +40,11 @@ export function getVerticesOf(path: string) {
 
 export function DebugVertices(props: { children: SVGElement }): SVGGElement {
   const vertices =
-    props.children instanceof SVGPathElement
-      ? getVerticesOf(props.children.getAttribute("d") || "")
-      : [...props.children.getElementsByTagName("path")].flatMap((x) =>
-          getVerticesOf(x.getAttribute("d") || ""),
-        )
+    props.children instanceof SVGPathElement ?
+      getVerticesOf(props.children.getAttribute("d") || "")
+    : [...props.children.getElementsByTagName("path")].flatMap((x) =>
+        getVerticesOf(x.getAttribute("d") || ""),
+      )
 
   const g = (<g>{props.children}</g>) as SVGGElement
 

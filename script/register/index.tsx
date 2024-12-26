@@ -41,7 +41,10 @@ export const REGISTERS = /* @__PURE__ */ deepFreeze({
     EXM: "M -6.3 15.6 l -7.5 -7.5 l 7.5 -7.5 l 7.5 7.5 l -7.5 7.5 m 20.1 -31.2 l 1.2 1.2 l -15 15 l -6.3 -6.3 l -7.5 7.5 l -1.2 -1.2 l 15 -15 l 6.3 6.3 l 7.5 -7.5 z",
     SPF: "M 13.8 -7.775 l -6.9 -6.9 l -7.55 7.45 l -6.85 -6.85 l -15 15 l 1.2 1.2 l 7.5 -7.5 l 6.9 6.85 l 7.45 -7.5 l 6.95 6.95 l 15 -15 l -1.2 -1.2 l -7.5 7.5 m -5.75 15.55 l -7.5 -7.5 l -7.5 7.5 l 7.5 7.5 l 7.5 -7.5 z",
   },
-} satisfies Record<RegisterMode, Record<Exclude<RegisterAdjunct, "END">, string>>)
+} satisfies Record<
+  RegisterMode,
+  Record<Exclude<RegisterAdjunct, "END">, string>
+>)
 
 /** SVG paths for all handwritten register characters. */
 export const HANDWRITTEN_REGISTERS = /* @__PURE__ */ deepFreeze({

@@ -45,7 +45,9 @@ export function parseAffix(vx: VowelForm, cs: string, isAlone: boolean): Affix {
       case: parseCase(vx, cs[1] == "y"),
       isInverse: "šžj".includes(cs[0]!),
       type:
-        cs[0] == "s" || cs[0] == "š" ? 1 : cs[0] == "z" || cs[0] == "ž" ? 2 : 3,
+        cs[0] == "s" || cs[0] == "š" ? 1
+        : cs[0] == "z" || cs[0] == "ž" ? 2
+        : 3,
     }
   }
 

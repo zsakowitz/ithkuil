@@ -102,31 +102,32 @@ export function slotIIToIthkuil(
   metadata: SlotIIMetadata,
 ): string {
   if (Array.isArray(metadata.slotIII)) {
-    return metadata.doesSlotVHaveAtLeastTwoAffixes
-      ? slot.version == "CPT"
-        ? "e'a"
+    return (
+      metadata.doesSlotVHaveAtLeastTwoAffixes ?
+        slot.version == "CPT" ?
+          "e'a"
         : "a'e"
-      : slot.version == "CPT"
-      ? "ea"
+      : slot.version == "CPT" ? "ea"
       : "ae"
+    )
   }
 
   if (typeof metadata.slotIII == "object") {
-    return metadata.doesSlotVHaveAtLeastTwoAffixes
-      ? slot.version == "CPT"
-        ? metadata.function == "DYN"
-          ? "o'ë"
+    return (
+      metadata.doesSlotVHaveAtLeastTwoAffixes ?
+        slot.version == "CPT" ?
+          metadata.function == "DYN" ?
+            "o'ë"
           : "ëu'"
-        : metadata.function == "DYN"
-        ? "e'ë"
+        : metadata.function == "DYN" ? "e'ë"
         : "ëi'"
-      : slot.version == "CPT"
-      ? metadata.function == "DYN"
-        ? "oë"
+      : slot.version == "CPT" ?
+        metadata.function == "DYN" ?
+          "oë"
         : "ëu"
-      : metadata.function == "DYN"
-      ? "eë"
+      : metadata.function == "DYN" ? "eë"
       : "ëi"
+    )
   }
 
   let value: string | WithWYAlternative =

@@ -199,13 +199,11 @@ export function affixToIthkuil(
   metadata: AffixMetadata,
 ): WithWYAlternative {
   let vowel = WithWYAlternative.of(
-    "ca" in affix && affix.ca
-      ? "üö"
-      : "referents" in affix && affix.referents
-      ? REFERENTIAL_AFFIX_CASE_TO_ITHKUIL_MAP[affix.case ?? "THM"]
-      : "case" in affix && affix.case
-      ? caseToIthkuil(affix.case, false, true)
-      : STANDARD_VOWEL_TABLE[affix.type][affix.degree],
+    "ca" in affix && affix.ca ? "üö"
+    : "referents" in affix && affix.referents ?
+      REFERENTIAL_AFFIX_CASE_TO_ITHKUIL_MAP[affix.case ?? "THM"]
+    : "case" in affix && affix.case ? caseToIthkuil(affix.case, false, true)
+    : STANDARD_VOWEL_TABLE[affix.type][affix.degree],
   )
 
   if (metadata.insertGlottalStop) {
@@ -213,17 +211,16 @@ export function affixToIthkuil(
   }
 
   const consonant =
-    "ca" in affix && affix.ca
-      ? caToIthkuil(affix.ca)
-      : "referents" in affix && affix.referents
-      ? referentialAffixToIthkuil(affix.referents, affix.perspective ?? "M")
-      : "case" in affix && affix.case
-      ? ("type" in affix && affix.type
-          ? CASE_AFFIX_TO_CS_MAP[`${affix.isInverse}`][affix.type]
-          : "l") + (ALL_CASES.indexOf(affix.case) >= 36 ? "y" : "w")
-      : ((typeof affix.cs == "number" || typeof affix.cs == "bigint") &&
-          getIntegerCs(affix.cs)) ||
-        "" + affix.cs
+    "ca" in affix && affix.ca ? caToIthkuil(affix.ca)
+    : "referents" in affix && affix.referents ?
+      referentialAffixToIthkuil(affix.referents, affix.perspective ?? "M")
+    : "case" in affix && affix.case ?
+      ("type" in affix && affix.type ?
+        CASE_AFFIX_TO_CS_MAP[`${affix.isInverse}`][affix.type]
+      : "l") + (ALL_CASES.indexOf(affix.case) >= 36 ? "y" : "w")
+    : ((typeof affix.cs == "number" || typeof affix.cs == "bigint") &&
+        getIntegerCs(affix.cs)) ||
+      "" + affix.cs
 
   if (metadata.reversed) {
     return WithWYAlternative.of(consonant + vowel.withPreviousText(consonant))

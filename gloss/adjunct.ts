@@ -36,30 +36,27 @@ export function glossAdjunct(adjunct: Adjunct): GlossString {
 
     if (has(ALL_PARSING_ADJUNCTS, adjunct)) {
       return new GlossString(
-        adjunct == "monosyllabic"
-          ? "mono:"
-          : adjunct == "ultimate"
-          ? "ulti:"
-          : adjunct == "antepenultimate"
-          ? "ante:"
-          : "penu:",
+        adjunct == "monosyllabic" ? "mono:"
+        : adjunct == "ultimate" ? "ulti:"
+        : adjunct == "antepenultimate" ? "ante:"
+        : "penu:",
         adjunct,
       )
     }
 
     if (has(ALL_SINGLE_REGISTER_ADJUNCTS, adjunct)) {
       return new GlossString(
-        adjunct.endsWith(":START")
-          ? adjunct.slice(0, 3)
-          : adjunct.slice(0, 3) + "_END",
+        adjunct.endsWith(":START") ?
+          adjunct.slice(0, 3)
+        : adjunct.slice(0, 3) + "_END",
 
-        adjunct.endsWith(":START")
-          ? REGISTER_ADJUNCT_TO_NAME_MAP[
-              adjunct.slice(0, 3) as RegisterAdjunct
-            ].toLowerCase()
-          : REGISTER_ADJUNCT_TO_NAME_MAP[
-              adjunct.slice(0, 3) as RegisterAdjunct
-            ].toLowerCase() + "_end",
+        adjunct.endsWith(":START") ?
+          REGISTER_ADJUNCT_TO_NAME_MAP[
+            adjunct.slice(0, 3) as RegisterAdjunct
+          ].toLowerCase()
+        : REGISTER_ADJUNCT_TO_NAME_MAP[
+            adjunct.slice(0, 3) as RegisterAdjunct
+          ].toLowerCase() + "_end",
       )
     }
 
@@ -74,39 +71,36 @@ export function glossAdjunct(adjunct: Adjunct): GlossString {
     const firstAffix = glossAffix(adjunct.affixes[0], false)
 
     const scope = GlossString.of(
-      adjunct.scope == "V:DOM" || !adjunct.scope
-        ? ""
-        : "{" +
-            (adjunct.scope == "FORMATIVE"
-              ? "formative"
-              : adjunct.scope == "ADJACENT"
-              ? "adjacent"
-              : adjunct.scope) +
-            "}",
+      adjunct.scope == "V:DOM" || !adjunct.scope ?
+        ""
+      : "{" +
+          (adjunct.scope == "FORMATIVE" ? "formative"
+          : adjunct.scope == "ADJACENT" ? "adjacent"
+          : adjunct.scope) +
+          "}",
     )
 
     const otherAffixes =
-      adjunct.affixes.length > 1
-        ? adjunct.affixes
-            .slice(1)
-            .map((x) => glossAffix(x, false))
-            .reduce((a, b) => a.plusString("-").plusGloss(b))
-        : GlossString.of("")
+      adjunct.affixes.length > 1 ?
+        adjunct.affixes
+          .slice(1)
+          .map((x) => glossAffix(x, false))
+          .reduce((a, b) => a.plusString("-").plusGloss(b))
+      : GlossString.of("")
 
     const scope2 = GlossString.of(
-      adjunct.scope2 == "V:DOM" || !adjunct.scope2
-        ? ""
-        : "{" +
-            (adjunct.scope2 == "FORMATIVE"
-              ? "formative"
-              : adjunct.scope2 == "ADJACENT"
-              ? "adjacent"
-              : adjunct.scope2) +
-            "}",
+      adjunct.scope2 == "V:DOM" || !adjunct.scope2 ?
+        ""
+      : "{" +
+          (adjunct.scope2 == "FORMATIVE" ? "formative"
+          : adjunct.scope2 == "ADJACENT" ? "adjacent"
+          : adjunct.scope2) +
+          "}",
     )
 
-    const concatOnly = adjunct.appliesToConcatenatedStemOnly
-      ? new GlossString("{concat.}", "{concatenated formative only}")
+    const concatOnly =
+      adjunct.appliesToConcatenatedStemOnly ?
+        new GlossString("{concat.}", "{concatenated formative only}")
       : GlossString.of("")
 
     return [firstAffix, scope, otherAffixes, scope2, concatOnly].reduce(
@@ -163,8 +157,8 @@ export function glossAdjunct(adjunct: Adjunct): GlossString {
 
     const nextSegments = segments.filter((x) => !x.isEmpty())
 
-    return nextSegments.length == 0
-      ? new GlossString("{blank}", "{empty modular adjunct}")
+    return nextSegments.length == 0 ?
+        new GlossString("{blank}", "{empty modular adjunct}")
       : nextSegments.reduce((a, b) => a.plusString("-").plusGloss(b))
   }
 
@@ -176,9 +170,9 @@ export function glossAdjunct(adjunct: Adjunct): GlossString {
         (adjunct.case == "THM" || !adjunct.case ? "" : "-" + adjunct.case),
 
       SUPPLETIVE_ADJUNCT_TYPE_TO_NAME_MAP[adjunct.type].toLowerCase() +
-        (adjunct.case == "THM" || !adjunct.case
-          ? ""
-          : "-" + CASE_TO_NAME_MAP[adjunct.case].toLowerCase()),
+        (adjunct.case == "THM" || !adjunct.case ?
+          ""
+        : "-" + CASE_TO_NAME_MAP[adjunct.case].toLowerCase()),
     )
   }
 

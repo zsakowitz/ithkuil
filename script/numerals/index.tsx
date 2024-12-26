@@ -351,14 +351,16 @@ export function Numeral(numeral: NumeralCharacter): SVGGElement {
     g.appendChild(
       <path
         d={
-          (ones == 1 ||
-          ones == 2 ||
-          ones == 3 ||
-          ones == 5 ||
-          ones == 6 ||
-          ones == 9
-            ? HANDWRITTEN_TENS_WITH_COLLISIONS
-            : HANDWRITTEN_TENS)[tens]
+          ((
+            ones == 1 ||
+            ones == 2 ||
+            ones == 3 ||
+            ones == 5 ||
+            ones == 6 ||
+            ones == 9
+          ) ?
+            HANDWRITTEN_TENS_WITH_COLLISIONS
+          : HANDWRITTEN_TENS)[tens]
         }
       />,
     )

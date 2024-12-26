@@ -64,15 +64,11 @@ export function applyStress(word: string, position: -4 | -3 | -2 | -1): string {
     .filter(([value]) => /[aeiouäëöü]/.test(value))
 
   const stressType =
-    position == -1
-      ? "ultimate"
-      : position == -2
-      ? "penultimate"
-      : position == -3
-      ? "antepenultimate"
-      : position == -4
-      ? "preantepenultimate"
-      : "(unknown stress)"
+    position == -1 ? "ultimate"
+    : position == -2 ? "penultimate"
+    : position == -3 ? "antepenultimate"
+    : position == -4 ? "preantepenultimate"
+    : "(unknown stress)"
 
   const item = vowelFormIndices.at(position)
 

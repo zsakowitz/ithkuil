@@ -87,11 +87,11 @@ export function slotIVToIthkuil(
   metadata: SlotIVMetadata,
 ): string {
   const value =
-    metadata.affixualFormativeDegree != null
-      ? ONE_INDEXED_STANDARD_VOWEL_TABLE[CONTEXT_TO_INDEX_MAP[slot.context]][
-          metadata.affixualFormativeDegree
-        ]
-      : SLOT_IV_MAP[slot.context][slot.function][slot.specification]
+    metadata.affixualFormativeDegree != null ?
+      ONE_INDEXED_STANDARD_VOWEL_TABLE[CONTEXT_TO_INDEX_MAP[slot.context]][
+        metadata.affixualFormativeDegree
+      ]
+    : SLOT_IV_MAP[slot.context][slot.function][slot.specification]
 
   if (typeof value == "string") {
     return value

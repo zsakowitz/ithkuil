@@ -15,37 +15,37 @@ import { GlossString, asGloss } from "./glossable.js"
  */
 export function glossCa(ca: PartialCA, isAffix: boolean) {
   const segments = [
-    ca.affiliation == "CSL" || !ca.affiliation
-      ? GlossString.of("")
-      : new GlossString(
-          ca.affiliation,
-          asGloss(AFFILIATION_TO_NAME_MAP[ca.affiliation]),
-        ),
+    ca.affiliation == "CSL" || !ca.affiliation ?
+      GlossString.of("")
+    : new GlossString(
+        ca.affiliation,
+        asGloss(AFFILIATION_TO_NAME_MAP[ca.affiliation]),
+      ),
 
-    ca.configuration == "UPX" || !ca.configuration
-      ? GlossString.of("")
-      : new GlossString(
-          ca.configuration,
-          asGloss(CONFIGURATION_TO_NAME_MAP[ca.configuration]),
-        ),
+    ca.configuration == "UPX" || !ca.configuration ?
+      GlossString.of("")
+    : new GlossString(
+        ca.configuration,
+        asGloss(CONFIGURATION_TO_NAME_MAP[ca.configuration]),
+      ),
 
-    ca.extension == "DEL" || !ca.extension
-      ? GlossString.of("")
-      : new GlossString(
-          ca.extension,
-          asGloss(EXTENSION_TO_NAME_MAP[ca.extension]),
-        ),
+    ca.extension == "DEL" || !ca.extension ?
+      GlossString.of("")
+    : new GlossString(
+        ca.extension,
+        asGloss(EXTENSION_TO_NAME_MAP[ca.extension]),
+      ),
 
-    ca.perspective == "M" || !ca.perspective
-      ? GlossString.of("")
-      : new GlossString(
-          ca.perspective,
-          asGloss(PERSPECTIVE_TO_NAME_MAP[ca.perspective]),
-        ),
+    ca.perspective == "M" || !ca.perspective ?
+      GlossString.of("")
+    : new GlossString(
+        ca.perspective,
+        asGloss(PERSPECTIVE_TO_NAME_MAP[ca.perspective]),
+      ),
 
-    ca.essence == "RPV"
-      ? new GlossString("RPV", "representative")
-      : GlossString.of(""),
+    ca.essence == "RPV" ?
+      new GlossString("RPV", "representative")
+    : GlossString.of(""),
   ].filter((x) => !x.isEmpty())
 
   if (segments.length == 0) {

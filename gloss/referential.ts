@@ -23,25 +23,25 @@ export function glossReferential(referential: PartialReferential) {
     )
   } else {
     const specification =
-      referential.specification && referential.specification != "BSC"
-        ? new GlossString(
-            referential.specification,
-            SPECIFICATION_TO_NAME_MAP[referential.specification].toLowerCase(),
-          )
-        : undefined
+      referential.specification && referential.specification != "BSC" ?
+        new GlossString(
+          referential.specification,
+          SPECIFICATION_TO_NAME_MAP[referential.specification].toLowerCase(),
+        )
+      : undefined
 
     const affixes =
-      referential.affixes && referential.affixes.length >= 1
-        ? referential.affixes
-            .map((x) => glossAffix(x, false))
-            .reduce((a, b) => a.plusString("-").plusGloss(b))
-        : undefined
+      referential.affixes && referential.affixes.length >= 1 ?
+        referential.affixes
+          .map((x) => glossAffix(x, false))
+          .reduce((a, b) => a.plusString("-").plusGloss(b))
+      : undefined
 
     if (specification || affixes) {
       ending = GlossString.of("-").plusGloss(
-        specification && affixes
-          ? specification.plusString("-").plusGloss(affixes)
-          : (specification || affixes)!,
+        specification && affixes ?
+          specification.plusString("-").plusGloss(affixes)
+        : (specification || affixes)!,
       )
     }
   }
@@ -75,8 +75,9 @@ export function glossReferential(referential: PartialReferential) {
     )
   }
 
-  let head = referential.type
-    ? new GlossString(
+  let head =
+    referential.type ?
+      new GlossString(
         "[" + referential.type + "]",
         SUPPLETIVE_ADJUNCT_TYPE_TO_NAME_MAP[referential.type].toLowerCase(),
       )

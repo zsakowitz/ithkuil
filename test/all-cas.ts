@@ -53,9 +53,9 @@ for (const affiliation of ALL_AFFILIATIONS) {
 
             result.padEnd(8, " "),
 
-            (attemptGemination(result) == result
-              ? geminate + "*"
-              : geminate
+            (attemptGemination(result) == result ?
+              geminate + "*"
+            : geminate
             ).padEnd(12, " "),
 
             [affiliation, configuration, extension, perspective, essence].join(

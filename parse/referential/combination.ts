@@ -52,33 +52,25 @@ export function buildCombinationReferential(
   const case1 = parseCase(VowelForm.parseOrThrow(match[3]!))
 
   const specification: Specification =
-    match[4] == "xx"
-      ? "OBJ"
-      : match[4] == "xt"
-      ? "CTE"
-      : match[4] == "xp"
-      ? "CSV"
-      : "BSC"
+    match[4] == "xx" ? "OBJ"
+    : match[4] == "xt" ? "CTE"
+    : match[4] == "xp" ? "CSV"
+    : "BSC"
 
   const affixes = match[5] ? parseAffixes(match[5]) : undefined
 
   const case2 =
-    !match[6] || match[6] == "a"
-      ? undefined
-      : match[6] == "üa"
-      ? "THM"
-      : parseCase(VowelForm.parseOrThrow(match[6]))
+    !match[6] || match[6] == "a" ? undefined
+    : match[6] == "üa" ? "THM"
+    : parseCase(VowelForm.parseOrThrow(match[6]))
 
   if (match[1]) {
     return {
       type:
-        match[1] == "hm"
-          ? "QUO"
-          : match[1] == "hn"
-          ? "NAM"
-          : match[1] == "hň"
-          ? "PHR"
-          : "CAR",
+        match[1] == "hm" ? "QUO"
+        : match[1] == "hn" ? "NAM"
+        : match[1] == "hň" ? "PHR"
+        : "CAR",
       case: case1,
       case2,
       specification,

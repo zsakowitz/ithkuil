@@ -147,9 +147,8 @@ export function fillInDefaultFormativeSlots(
   ) as Formative
 
   // Safety: We own `output`, so mutation is okay.
-  ;(output as any).ca = formative.ca
-    ? fillDefaults(defaultValue.ca, formative.ca)
-    : defaultValue.ca
+  ;(output as any).ca =
+    formative.ca ? fillDefaults(defaultValue.ca, formative.ca) : defaultValue.ca
 
   return output
 }

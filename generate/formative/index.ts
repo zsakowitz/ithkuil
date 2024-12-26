@@ -274,23 +274,22 @@ const isArray = /* @__PURE__ */ (() => Array.isArray)() as (
  */
 function completeFormativeToIthkuil(formative: Formative) {
   const slot3: string =
-    typeof formative.root == "string"
-      ? formative.root
-      : typeof formative.root == "number" || typeof formative.root == "bigint"
-      ? getIntegerCr(formative.root) ?? String(formative.root)
-      : isArray(formative.root)
-      ? referentListToPersonalReferenceRoot(formative.root)
-      : ((typeof formative.root.cs == "number" ||
-          typeof formative.root.cs == "bigint") &&
-          getIntegerCs(formative.root.cs)) ||
-        "" + formative.root.cs
+    typeof formative.root == "string" ? formative.root
+    : typeof formative.root == "number" || typeof formative.root == "bigint" ?
+      (getIntegerCr(formative.root) ?? String(formative.root))
+    : isArray(formative.root) ?
+      referentListToPersonalReferenceRoot(formative.root)
+    : ((typeof formative.root.cs == "number" ||
+        typeof formative.root.cs == "bigint") &&
+        getIntegerCs(formative.root.cs)) ||
+      "" + formative.root.cs
 
   let slot4 = slotIVToIthkuil(formative, {
     slotIII: slot3,
     affixualFormativeDegree:
-      typeof formative.root == "object" && !isArray(formative.root)
-        ? formative.root.degree
-        : undefined,
+      typeof formative.root == "object" && !isArray(formative.root) ?
+        formative.root.degree
+      : undefined,
   })
 
   let slot6 = slotVIToIthkuil(formative.ca, {
@@ -324,20 +323,19 @@ function completeFormativeToIthkuil(formative: Formative) {
     const finalSlotVIIAffix = slotVIIAffixes.pop()
 
     const shortcut =
-      finalSlotVIIAffix &&
-      "cs" in finalSlotVIIAffix &&
-      finalSlotVIIAffix.cs &&
-      finalSlotVIIAffix.type == 1
-        ? finalSlotVIIAffix.cs == "r" && finalSlotVIIAffix.degree == 4
-          ? "NEG/4"
-          : finalSlotVIIAffix.cs == "t"
-          ? finalSlotVIIAffix.degree == 4
-            ? "DCD/4"
-            : finalSlotVIIAffix.degree == 5
-            ? "DCD/5"
-            : null
+      (
+        finalSlotVIIAffix &&
+        "cs" in finalSlotVIIAffix &&
+        finalSlotVIIAffix.cs &&
+        finalSlotVIIAffix.type == 1
+      ) ?
+        finalSlotVIIAffix.cs == "r" && finalSlotVIIAffix.degree == 4 ? "NEG/4"
+        : finalSlotVIIAffix.cs == "t" ?
+          finalSlotVIIAffix.degree == 4 ? "DCD/4"
+          : finalSlotVIIAffix.degree == 5 ? "DCD/5"
           : null
         : null
+      : null
 
     if (shortcut) {
       const slotII =
@@ -361,9 +359,9 @@ function completeFormativeToIthkuil(formative: Formative) {
       formative.shortcut === "VIII" ||
       formative.shortcut === "VII+VIII") &&
     formative.vn == "MNO" &&
-    (formative.type == "UNF/K"
-      ? formative.mood != "FAC"
-      : formative.caseScope != "CCN") &&
+    (formative.type == "UNF/K" ?
+      formative.mood != "FAC"
+    : formative.caseScope != "CCN") &&
     formative.ca.affiliation == "CSL" &&
     formative.ca.configuration == "UPX" &&
     formative.ca.extension == "DEL" &&
@@ -373,9 +371,9 @@ function completeFormativeToIthkuil(formative: Formative) {
     didVIIIShortcut = true
 
     slot6 =
-      formative.type == "UNF/K"
-        ? moodToIthkuil(formative.mood, "non-aspect")
-        : caseScopeToIthkuil(formative.caseScope, "non-aspect")
+      formative.type == "UNF/K" ?
+        moodToIthkuil(formative.mood, "non-aspect")
+      : caseScopeToIthkuil(formative.caseScope, "non-aspect")
   }
 
   if (
@@ -409,46 +407,46 @@ function completeFormativeToIthkuil(formative: Formative) {
       const { extension, perspective, essence } = formative.ca
 
       const shortcut =
-        essence == "RPV"
-          ? perspective == "M" && extension == "DEL"
-            ? 1 // RPV
-            : perspective == "G" && extension == "DEL"
-            ? 3 // G / RPV
-            : perspective == "M" && extension == "PRX"
-            ? 3 // PRX / RPV
-            : null
-          : perspective == "M" && extension == "PRX"
-          ? 0 // PRX
-          : extension == "DEL"
-          ? (
-              {
-                M: 0,
-                G: 1,
-                N: 2,
-                A: 2,
-              } as const
-            )[perspective]
+        essence == "RPV" ?
+          perspective == "M" && extension == "DEL" ?
+            1 // RPV
+          : perspective == "G" && extension == "DEL" ?
+            3 // G / RPV
+          : perspective == "M" && extension == "PRX" ?
+            3 // PRX / RPV
           : null
+        : perspective == "M" && extension == "PRX" ?
+          0 // PRX
+        : extension == "DEL" ?
+          (
+            {
+              M: 0,
+              G: 1,
+              N: 2,
+              A: 2,
+            } as const
+          )[perspective]
+        : null
 
       const shortcutType =
-        essence == "RPV"
-          ? perspective == "M" && extension == "DEL"
-            ? "y" // RPV
-            : perspective == "G" && extension == "DEL"
-            ? "y" // G / RPV
-            : perspective == "M" && extension == "PRX"
-            ? "y" // PRX / RPV
-            : null
-          : perspective == "M" && extension == "PRX"
-          ? "y" // PRX
-          : extension == "DEL"
-          ? {
-              M: "w" as const,
-              G: "w" as const,
-              N: "w" as const,
-              A: "y" as const,
-            }[perspective]
+        essence == "RPV" ?
+          perspective == "M" && extension == "DEL" ?
+            "y" // RPV
+          : perspective == "G" && extension == "DEL" ?
+            "y" // G / RPV
+          : perspective == "M" && extension == "PRX" ?
+            "y" // PRX / RPV
           : null
+        : perspective == "M" && extension == "PRX" ?
+          "y" // PRX
+        : extension == "DEL" ?
+          {
+            M: "w" as const,
+            G: "w" as const,
+            N: "w" as const,
+            A: "y" as const,
+          }[perspective]
+        : null
 
       if (shortcut != null) {
         slot1 = slotIToIthkuil({
@@ -491,9 +489,9 @@ function completeFormativeToIthkuil(formative: Formative) {
 
   // Nominal formatives
   if (formative.type == "UNF/C") {
-    const slot8 = didVIIIShortcut
-      ? ""
-      : slotVIIIToIthkuil(
+    const slot8 =
+      didVIIIShortcut ? "" : (
+        slotVIIIToIthkuil(
           {
             vn: formative.vn,
             cn: formative.caseScope,
@@ -502,6 +500,7 @@ function completeFormativeToIthkuil(formative: Formative) {
             omitDefault: true,
           },
         ).withPreviousText(slot3 + slot4 + slot5 + slot6 + slot7)
+      )
 
     const slot9 = WithWYAlternative.of(
       slotIXToIthkuil(formative.case, {
@@ -526,9 +525,9 @@ function completeFormativeToIthkuil(formative: Formative) {
 
   // Unframed verbal formatives
   if (formative.type == "UNF/K") {
-    const slot8 = didVIIIShortcut
-      ? ""
-      : slotVIIIToIthkuil(
+    const slot8 =
+      didVIIIShortcut ? "" : (
+        slotVIIIToIthkuil(
           {
             vn: formative.vn,
             cn: formative.mood,
@@ -537,6 +536,7 @@ function completeFormativeToIthkuil(formative: Formative) {
             omitDefault: true,
           },
         ).withPreviousText(slot3 + slot4 + slot5 + slot6 + slot7)
+      )
 
     const slot9 = WithWYAlternative.of(
       slotIXToIthkuil(formative.illocutionValidation, {
@@ -563,9 +563,9 @@ function completeFormativeToIthkuil(formative: Formative) {
       slot2 = "a"
     }
 
-    const slot8 = didVIIIShortcut
-      ? ""
-      : slotVIIIToIthkuil(
+    const slot8 =
+      didVIIIShortcut ? "" : (
+        slotVIIIToIthkuil(
           {
             vn: formative.vn,
             cn: formative.caseScope,
@@ -577,6 +577,7 @@ function completeFormativeToIthkuil(formative: Formative) {
               ) >= 2,
           },
         ).withPreviousText(slot3 + slot4 + slot5 + slot6 + slot7)
+      )
 
     const slot9 = WithWYAlternative.of(
       slotIXToIthkuil(formative.case, {

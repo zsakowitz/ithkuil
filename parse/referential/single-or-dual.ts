@@ -24,12 +24,12 @@ export function buildSingleOrDualReferential(
 
   const case1 = parseCase(VowelForm.parseOrThrow(match[3]!))
 
-  const case2 = match[4]
-    ? parseCase(VowelForm.parseOrThrow(match[4]))
-    : undefined
+  const case2 =
+    match[4] ? parseCase(VowelForm.parseOrThrow(match[4])) : undefined
 
-  const [referents2, perspective2] = match[5]
-    ? parseReferentListAndPerspective(match[5], false)
+  const [referents2, perspective2] =
+    match[5] ?
+      parseReferentListAndPerspective(match[5], false)
     : [undefined, undefined]
 
   const essence = stress == "ultimate" ? "RPV" : undefined
@@ -37,13 +37,10 @@ export function buildSingleOrDualReferential(
   if (match[1]) {
     return {
       type:
-        match[1] == "hm"
-          ? "QUO"
-          : match[1] == "hn"
-          ? "NAM"
-          : match[1] == "hň"
-          ? "PHR"
-          : "CAR",
+        match[1] == "hm" ? "QUO"
+        : match[1] == "hn" ? "NAM"
+        : match[1] == "hň" ? "PHR"
+        : "CAR",
       case: case1,
       case2,
       ...(referents2 && { referents2, perspective2 }),

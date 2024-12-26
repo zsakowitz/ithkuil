@@ -116,8 +116,9 @@ export function modularAdjunctToIthkuil(adjunct: ModularAdjunct): string {
     { omitDefault: false },
   ).withPreviousText(type)
 
-  const vn2 = adjunct.vn2
-    ? WithWYAlternative.of(vnToIthkuil(adjunct.vn2, false)).withPreviousText(
+  const vn2 =
+    adjunct.vn2 ?
+      WithWYAlternative.of(vnToIthkuil(adjunct.vn2, false)).withPreviousText(
         type + vn1,
       ) + (has(ALL_ASPECTS, adjunct.vn2) ? "n" : "ň")
     : ""

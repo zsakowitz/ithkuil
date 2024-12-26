@@ -143,17 +143,18 @@ export function Row(props: RowProps): SVGGElement {
         el == rest![0] ? row : row.children[row.children.length - 1] || row
 
       const compared =
-        comparedBase instanceof SVGGraphicsElement
-          ? comparedBase
-          : ((<g>{comparedBase as any}</g>) as SVGGElement)
+        comparedBase instanceof SVGGraphicsElement ? comparedBase : (
+          ((<g>{comparedBase as any}</g>) as SVGGElement)
+        )
 
       const comparedBox = getBBox(compared)
 
       let CHECKING_INTERVAL = INITIAL_CHECKING_INTERVAL
 
-      const makeShape = props.vertical
-        ? props.reverse
-          ? (y: number) => (
+      const makeShape =
+        props.vertical ?
+          props.reverse ?
+            (y: number) => (
               <Translate y={comparedBox.y - y}>
                 <Clone>{el}</Clone>
               </Translate>
@@ -163,8 +164,8 @@ export function Row(props: RowProps): SVGGElement {
                 <Clone>{el}</Clone>
               </Translate>
             )
-        : props.reverse
-        ? (x: number) => (
+        : props.reverse ?
+          (x: number) => (
             <Translate x={comparedBox.x - x}>
               <Clone>{el}</Clone>
             </Translate>

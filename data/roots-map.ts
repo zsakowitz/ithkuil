@@ -119,27 +119,22 @@ export function getIntegerRootEntry(root: bigint): RootEntry {
       "10000000000000000": "100⁸-",
     }["" + root] ??
     root +
-      (lastDigit == 1n
-        ? "st"
-        : lastDigit == 2n
-        ? "nd"
-        : lastDigit == 3n
-        ? "rd"
-        : "th")
+      (lastDigit == 1n ? "st"
+      : lastDigit == 2n ? "nd"
+      : lastDigit == 3n ? "rd"
+      : "th")
 
   return {
     cr,
     stems: [
       cardinal,
       root == 0n ? "empty set/group" : `set/group of ${cardinal} entities`,
-      root == 0n
-        ? "zero-dimension"
-        : root == 1n
-        ? "indivisible/unified"
-        : `something with ${cardinal} aspects/facets`,
-      root == 0n
-        ? "baseline state in a sequence"
-        : `${ordinal} entity in a sequence`,
+      root == 0n ? "zero-dimension"
+      : root == 1n ? "indivisible/unified"
+      : `something with ${cardinal} aspects/facets`,
+      root == 0n ?
+        "baseline state in a sequence"
+      : `${ordinal} entity in a sequence`,
     ],
     CPT: [],
     OBJ: [],

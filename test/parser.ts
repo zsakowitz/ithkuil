@@ -161,14 +161,13 @@ function runTests(numberOfTestCases: number, mode: "short" | "full") {
 
   function randomFormative(): PartialFormative {
     const root: SlotIII =
-      Math.random() < 0.1
-        ? [randomItem(ALL_REFERENTS)]
-        : Math.random() < 0.1
-        ? {
-            cs: randomLetterSeries(5),
-            degree: randomItem([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
-          }
-        : randomLetterSeries(5)
+      Math.random() < 0.1 ? [randomItem(ALL_REFERENTS)]
+      : Math.random() < 0.1 ?
+        {
+          cs: randomLetterSeries(5),
+          degree: randomItem([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
+        }
+      : randomLetterSeries(5)
 
     if (Math.random() < 30 / numberOfTestCases) {
       return {
@@ -191,11 +190,11 @@ function runTests(numberOfTestCases: number, mode: "short" | "full") {
       root,
 
       get rootType() {
-        return Array.isArray(this.root)
-          ? "referential"
-          : typeof this.root == "object"
-          ? "affix"
+        return (
+          Array.isArray(this.root) ? "referential"
+          : typeof this.root == "object" ? "affix"
           : "standard"
+        )
       },
 
       function: biasedRandomItem("STA", ALL_FUNCTIONS),
@@ -211,26 +210,26 @@ function runTests(numberOfTestCases: number, mode: "short" | "full") {
       slotVIIAffixes: mode == "short" ? undefined : randomAffixList(),
 
       vn:
-        mode == "short"
-          ? biasedRandomItem(
-              "MNO",
-              randomItem([
-                ALL_VALENCES,
-                ALL_PHASES,
-                ALL_EFFECTS,
-                ALL_LEVELS,
-                ALL_ASPECTS,
-              ]),
-            )
-          : randomItem(
-              randomItem([
-                ALL_VALENCES,
-                ALL_PHASES,
-                ALL_EFFECTS,
-                ALL_LEVELS,
-                ALL_ASPECTS,
-              ]),
-            ),
+        mode == "short" ?
+          biasedRandomItem(
+            "MNO",
+            randomItem([
+              ALL_VALENCES,
+              ALL_PHASES,
+              ALL_EFFECTS,
+              ALL_LEVELS,
+              ALL_ASPECTS,
+            ]),
+          )
+        : randomItem(
+            randomItem([
+              ALL_VALENCES,
+              ALL_PHASES,
+              ALL_EFFECTS,
+              ALL_LEVELS,
+              ALL_ASPECTS,
+            ]),
+          ),
 
       caseScope: biasedRandomItem("CCN", ALL_CASE_SCOPES),
       mood: biasedRandomItem("FAC", ALL_MOODS),
@@ -249,12 +248,12 @@ function runTests(numberOfTestCases: number, mode: "short" | "full") {
 
   function randomReferential(): PartialReferential {
     const core =
-      Math.random() < 0.2
-        ? { type: randomItem(["CAR", "QUO", "NAM", "PHR"]) }
-        : {
-            referents: randomReferentList(),
-            perspective: biasedRandomItem("M", ["G", "N", "A"]),
-          }
+      Math.random() < 0.2 ?
+        { type: randomItem(["CAR", "QUO", "NAM", "PHR"]) }
+      : {
+          referents: randomReferentList(),
+          perspective: biasedRandomItem("M", ["G", "N", "A"]),
+        }
 
     if (Math.random() < 0.33) {
       return {
@@ -269,12 +268,12 @@ function runTests(numberOfTestCases: number, mode: "short" | "full") {
 
     if (Math.random() < 0.5) {
       const second =
-        Math.random() < 0.5
-          ? undefined
-          : {
-              referents2: randomReferentList(),
-              perspective2: biasedRandomItem("M", ["G", "N", "A"]),
-            }
+        Math.random() < 0.5 ?
+          undefined
+        : {
+            referents2: randomReferentList(),
+            perspective2: biasedRandomItem("M", ["G", "N", "A"]),
+          }
 
       return {
         ...core,
@@ -352,20 +351,18 @@ function runTests(numberOfTestCases: number, mode: "short" | "full") {
     { length: numberOfTestCases },
     (): [Word, string] => {
       const word =
-        Math.random() < 0.3333
-          ? randomAdjunct()
-          : Math.random() < 0.5
-          ? randomReferential()
-          : randomFormative()
+        Math.random() < 0.3333 ? randomAdjunct()
+        : Math.random() < 0.5 ? randomReferential()
+        : randomFormative()
 
       if (typeof word != "string")
         Object.defineProperty(word, "wordType", {
           get() {
-            return "root" in this
-              ? "formative"
-              : "referents" in this
-              ? "referential"
+            return (
+              "root" in this ? "formative"
+              : "referents" in this ? "referential"
               : "adjunct"
+            )
           },
         })
 
@@ -485,7 +482,11 @@ function runTests(numberOfTestCases: number, mode: "short" | "full") {
 
         return [value, percentageThatHadThisKey, key] as const
       })
-      .sort((a, b) => (a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : 0))
+      .sort((a, b) =>
+        a[1] < b[1] ? -1
+        : a[1] > b[1] ? 1
+        : 0,
+      )
       .map(([value, percentageThatHadThisKey, key]) => {
         console.log(
           (Math.round(percentageThatHadThisKey * 1000) / 10 + "%").padEnd(5) +
@@ -551,7 +552,11 @@ function runTests(numberOfTestCases: number, mode: "short" | "full") {
 
         return [value, percentageThatHadThisKey, key] as const
       })
-      .sort((a, b) => (a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : 0))
+      .sort((a, b) =>
+        a[1] < b[1] ? -1
+        : a[1] > b[1] ? 1
+        : 0,
+      )
       .map(([value, percentageThatHadThisKey, key]) => {
         console.log(
           (Math.round(percentageThatHadThisKey * 1000) / 10 + "%").padEnd(5) +

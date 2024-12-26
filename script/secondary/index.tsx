@@ -86,17 +86,27 @@ function TopExtension({
   return (
     <g>
       <Translate
-        x={core.top[1] + (handwritten ? 0 : core.top[2] ? -10 : 0)}
-        y={getBBox(coreShape).y + (handwritten ? 0 : core.top[2] ? 10 : 0)}
+        x={
+          core.top[1] +
+          (handwritten ? 0
+          : core.top[2] ? -10
+          : 0)
+        }
+        y={
+          getBBox(coreShape).y +
+          (handwritten ? 0
+          : core.top[2] ? 10
+          : 0)
+        }
       >
         <Extension
           name={name}
           handwritten={handwritten}
           direction={core.top[0]}
           reversed={
-            handwritten
-              ? (core.top[0] == "horiz") == !core.top[2]
-              : !!core.top[2]
+            handwritten ?
+              (core.top[0] == "horiz") == !core.top[2]
+            : !!core.top[2]
           }
         />
       </Translate>
@@ -120,11 +130,18 @@ function BottomExtension({
   return (
     <g>
       <Translate
-        x={core.bottom[1] + (handwritten ? 0 : reversed ? 0 : 10)}
+        x={
+          core.bottom[1] +
+          (handwritten ? 0
+          : reversed ? 0
+          : 10)
+        }
         y={
           getBBox(coreShape).y +
           getBBox(coreShape).height +
-          (handwritten ? 0 : reversed ? 0 : -10)
+          (handwritten ? 0
+          : reversed ? 0
+          : -10)
         }
       >
         <Extension
@@ -143,20 +160,20 @@ function rotate(core: Core, handwritten?: boolean | undefined): Core {
     top: [
       core.bottom[0],
       -core.bottom[1],
-      handwritten
-        ? core.bottom[0] == "horiz"
-          ? !core.bottom[2]
-          : !!core.bottom[2]
-        : core.bottom[0] == "horiz",
+      handwritten ?
+        core.bottom[0] == "horiz" ?
+          !core.bottom[2]
+        : !!core.bottom[2]
+      : core.bottom[0] == "horiz",
     ],
     bottom: [
       core.top[0],
       -core.top[1],
-      handwritten
-        ? core.top[0] == "horiz"
-          ? !core.top[2]
-          : !!core.top[2]
-        : false,
+      handwritten ?
+        core.top[0] == "horiz" ?
+          !core.top[2]
+        : !!core.top[2]
+      : false,
     ],
     shape: rotate180AndRotateStartingPoint(core.shape),
   }
@@ -170,8 +187,9 @@ function rotate(core: Core, handwritten?: boolean | undefined): Core {
 export function Secondary(secondary: SecondaryCharacter): SVGGElement {
   const handwritten = !!secondary.handwritten
 
-  const core = secondary.rotated
-    ? rotate(
+  const core =
+    secondary.rotated ?
+      rotate(
         (handwritten ? HANDWRITTEN_CORES : CORES)[
           secondary.core || "STANDARD_PLACEHOLDER"
         ],
@@ -187,23 +205,23 @@ export function Secondary(secondary: SecondaryCharacter): SVGGElement {
     <g>
       {coreShape}
 
-      {secondary.top ? (
+      {secondary.top ?
         <TopExtension
           core={core}
           coreShape={coreShape}
           handwritten={handwritten}
           name={secondary.top}
         />
-      ) : undefined}
+      : undefined}
 
-      {secondary.bottom ? (
+      {secondary.bottom ?
         <BottomExtension
           core={core}
           coreShape={coreShape}
           handwritten={handwritten}
           name={secondary.bottom}
         />
-      ) : undefined}
+      : undefined}
     </g>
   ) as SVGGElement
 

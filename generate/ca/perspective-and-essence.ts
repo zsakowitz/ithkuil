@@ -21,30 +21,30 @@ export function perspectiveAndEssenceToIthkuil(
   }
 
   if (perspective == "M") {
-    return essence == "RPV"
-      ? isStandalone
-        ? "tļ"
+    return (
+      essence == "RPV" ?
+        isStandalone ? "tļ"
         : "l"
-      : isStandalone
-      ? "l"
+      : isStandalone ? "l"
       : ""
+    )
   }
 
   if (essence == "NRM") {
-    return perspective == "N"
-      ? isStandalone
-        ? "v"
+    return (
+      perspective == "N" ?
+        isStandalone ? "v"
         : "w"
-      : isStandalone
-      ? "j"
+      : isStandalone ? "j"
       : "y"
+    )
   }
 
-  return perspective == "N"
-    ? isPrecededByKPT
-      ? "h"
+  return (
+    perspective == "N" ?
+      isPrecededByKPT ? "h"
       : "m"
-    : isPrecededByKPT
-    ? "ç"
+    : isPrecededByKPT ? "ç"
     : "n"
+  )
 }

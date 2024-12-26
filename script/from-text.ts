@@ -56,8 +56,9 @@ import type { Result } from "./utilities/result.js"
  * A helper type which removes properties that may only be undefined from an
  * object type `T`.
  */
-export type OmitUndefinedValues<T> = T extends infer U
-  ? {
+export type OmitUndefinedValues<T> =
+  T extends infer U ?
+    {
       [K in keyof U as [U[K]] extends [undefined] ? never : K]: U[K]
     }
   : never
@@ -67,7 +68,10 @@ const SUPPLETIVE_ADJUNCT_TO_REGISTER_CHARACTER = /* @__PURE__ */ deepFreeze({
   QUO: { construct: Register, mode: "transcriptive", type: "DSV" },
   NAM: { construct: Register, mode: "transliterative", type: "SPF" },
   PHR: { construct: Register, mode: "transcriptive", type: "PNT" },
-} satisfies Record<SuppletiveAdjunctType, Omit<ConstructableCharacter<RegisterCharacter>, "handwritten">>)
+} satisfies Record<
+  SuppletiveAdjunctType,
+  Omit<ConstructableCharacter<RegisterCharacter>, "handwritten">
+>)
 
 function referentListToString(list: ReferentList): string {
   return list.map((referent) => referentToIthkuil(referent, false)).join("")
@@ -248,11 +252,11 @@ function sentenceToScript(
             specification: formative.specification,
             context: formative.context,
             bottom:
-              formative.type == "UNF/C"
-                ? formative.concatenationType == "none"
-                  ? undefined
-                  : formative.concatenationType
-                : formative.type,
+              formative.type == "UNF/C" ?
+                formative.concatenationType == "none" ?
+                  undefined
+                : formative.concatenationType
+              : formative.type,
             perspective: formative.ca?.perspective,
             extension: formative.ca?.extension,
             affiliation: formative.ca?.affiliation,
@@ -409,33 +413,38 @@ function sentenceToScript(
             throw new Error(x)
           }
 
-          const valence = mid
-            ? valenceTable[mid] || _throw(`Invalid Q3 valence ${mid}.`)
+          const valence =
+            mid ?
+              valenceTable[mid] || _throw(`Invalid Q3 valence ${mid}.`)
             : undefined
 
-          const lowerEPA = bottom
-            ? bottom.startsWith("A")
-              ? aspectTable[bottom.slice(1)] ||
+          const lowerEPA =
+            bottom ?
+              bottom.startsWith("A") ?
+                aspectTable[bottom.slice(1)] ||
                 _throw(`Invalid Q3 aspect ${bottom}.`)
               : phaseEffectTable[bottom.slice(1)] ||
                 _throw(`Invalid Q3 phase/effect ${bottom}.`)
             : undefined
 
-          const upperEPA = top
-            ? top.endsWith("A")
-              ? aspectTable[top.slice(0, -1)] ||
+          const upperEPA =
+            top ?
+              top.endsWith("A") ?
+                aspectTable[top.slice(0, -1)] ||
                 _throw(`Invalid Q3 aspect ${top}.`)
               : phaseEffectTable[top.slice(0, -1)] ||
                 _throw(`Invalid Q3 phase/effect ${top}.`)
             : undefined
 
-          const lowerLevel = underposed
-            ? levelTable[underposed] ||
+          const lowerLevel =
+            underposed ?
+              levelTable[underposed] ||
               _throw(`Invalid Q3 level ${underposed}.`)
             : undefined
 
-          const upperLevel = superposed
-            ? levelTable[superposed] ||
+          const upperLevel =
+            superposed ?
+              levelTable[superposed] ||
               _throw(`Invalid Q3 level ${superposed}.`)
             : undefined
 
@@ -486,8 +495,9 @@ function sentenceToScript(
             handwritten,
             mood: match[1] ? parseMood(match[1])[0] : undefined,
             caseScope: match[3] ? parseCaseScope(match[3])[0] : undefined,
-            value: isIllVal
-              ? parseIllocutionValidation(vc)
+            value:
+              isIllVal ?
+                parseIllocutionValidation(vc)
               : parseCase(vc, vc.hasGlottalStop),
           })
 
@@ -512,7 +522,10 @@ function sentenceToScript(
           output.push({
             construct: Quaternary,
             handwritten,
-            type: match[2] == "2" ? 2 : match[2] == "3" ? 3 : 1,
+            type:
+              match[2] == "2" ? 2
+              : match[2] == "3" ? 3
+              : 1,
             value: vc,
             isInverse: match[1] == "I" || match[1] == "IA",
             isSlotVIIAffix: match[3] == "7",
@@ -714,9 +727,9 @@ function sentenceToScript(
             const modifier = adjuncts[index]!
 
             if (
-              "vn1" in modifier
-                ? modifier.type == "CONCAT"
-                : modifier.appliesToConcatenatedStemOnly
+              "vn1" in modifier ?
+                modifier.type == "CONCAT"
+              : modifier.appliesToConcatenatedStemOnly
             ) {
               concatenatedModifiers.push(modifier)
               adjuncts.splice(index, 1)
@@ -1026,9 +1039,9 @@ export function textToScript(
         return (
           previousChar +
           ". " +
-          (junctureAffix == "çç"
-            ? "y"
-            : junctureAffix.slice(junctureAffix.startsWith("çë") ? 2 : 1))
+          (junctureAffix == "çç" ? "y" : (
+            junctureAffix.slice(junctureAffix.startsWith("çë") ? 2 : 1)
+          ))
         )
       },
     )

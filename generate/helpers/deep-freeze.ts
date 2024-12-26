@@ -21,10 +21,9 @@ export type PreservedWhenDeeplyFrozen =
  * Deeply freezes an object.
  * @template T The object to be deeply frozen.
  */
-export type DeepFreeze<T> = T extends PreservedWhenDeeplyFrozen
-  ? T
-  : T extends object
-  ? { readonly [K in keyof T]: DeepFreeze<T[K]> }
+export type DeepFreeze<T> =
+  T extends PreservedWhenDeeplyFrozen ? T
+  : T extends object ? { readonly [K in keyof T]: DeepFreeze<T[K]> }
   : T
 
 /**
@@ -56,31 +55,32 @@ export type PreservedWhenDeeplyFrozenAndNullPrototyped = Core | Extension
  * Deeply freezes and null-prototypes an object.
  * @template T The object to be deeply frozen.
  */
-export type DeepFreezeAndNullPrototype<T> = T extends WithWYAlternative
-  ? {
+export type DeepFreezeAndNullPrototype<T> =
+  T extends WithWYAlternative ?
+    {
       readonly defaultValue: string
       readonly valueAfterW: string
       readonly valueAfterY: string
     }
-  : T extends VowelForm<infer U>
-  ? {
+  : T extends VowelForm<infer U> ?
+    {
       readonly sequence: U
       readonly degree: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
       readonly hasGlottalStop: boolean
     }
-  : T extends MoodOrCaseScope<infer M, infer C, infer N, infer A>
-  ? {
+  : T extends MoodOrCaseScope<infer M, infer C, infer N, infer A> ?
+    {
       readonly mood: M
       readonly caseScope: C
       readonly nonAspectualValue: N
       readonly aspectualValue: A
     }
-  : T extends PreservedWhenDeeplyFrozenAndNullPrototyped
-  ? T
-  : T extends ReadonlyArray<any>
-  ? { readonly [K in keyof T as K extends number | "length" ? K : never]: T[K] }
-  : T extends object
-  ? { readonly [K in keyof T]: DeepFreeze<T[K]> }
+  : T extends PreservedWhenDeeplyFrozenAndNullPrototyped ? T
+  : T extends ReadonlyArray<any> ?
+    {
+      readonly [K in keyof T as K extends number | "length" ? K : never]: T[K]
+    }
+  : T extends object ? { readonly [K in keyof T]: DeepFreeze<T[K]> }
   : T
 
 /**

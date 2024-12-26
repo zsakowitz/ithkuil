@@ -73,8 +73,9 @@ export function assembleReferentList(
     return output + persp
   }
 
-  const isLegal = isSecondReferent
-    ? isLegalWordFinalConsonantForm
+  const isLegal =
+    isSecondReferent ?
+      isLegalWordFinalConsonantForm
     : isLegalWordInitialConsonantForm
 
   if (isLegal(output + persp)) {
@@ -130,7 +131,11 @@ export function referentListToIthkuil(
         isSecondReferent,
       ),
     )
-    .sort((a, b) => (a.length < b.length ? -1 : a.length > b.length ? 1 : 0))
+    .sort((a, b) =>
+      a.length < b.length ? -1
+      : a.length > b.length ? 1
+      : 0,
+    )
 
   if (isSecondReferent) {
     const valid = all.find((text) => isLegalWordFinalConsonantForm(text))

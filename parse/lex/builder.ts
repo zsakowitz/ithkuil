@@ -221,9 +221,9 @@ export function seq(...parts: RegexPart[]) {
   return new RegexPart(
     parts
       .map((x) =>
-        x instanceof RegexPartWithAlternates
-          ? "(?:" + x.source + ")"
-          : x.source,
+        x instanceof RegexPartWithAlternates ?
+          "(?:" + x.source + ")"
+        : x.source,
       )
       .join(""),
   )

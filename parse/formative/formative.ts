@@ -143,14 +143,14 @@ export function buildNonShortcutFormative(
   }
 
   const concatenationType =
-    match[1] == "h" ? 1 : match[1] == "hw" ? 2 : undefined
+    match[1] == "h" ? 1
+    : match[1] == "hw" ? 2
+    : undefined
 
-  const type = concatenationType
-    ? "UNF/C"
-    : stress == "ultimate" || stress == "monosyllabic"
-    ? "UNF/K"
-    : stress == "antepenultimate"
-    ? "FRM"
+  const type =
+    concatenationType ? "UNF/C"
+    : stress == "ultimate" || stress == "monosyllabic" ? "UNF/K"
+    : stress == "antepenultimate" ? "FRM"
     : "UNF/C"
 
   const vv = match[2] ? VowelForm.of(match[2]) : undefined
@@ -230,15 +230,19 @@ export function buildNonShortcutFormative(
     concatenationType,
 
     shortcut: affixShortcut ? "VII" : false,
-    stem: typeof root == "object" ? undefined : vv ? VV_TO_STEM[vv.degree] : 1,
-    version: vv
-      ? Array.isArray(root)
-        ? vv.sequence == 1
-          ? "PRC"
+    stem:
+      typeof root == "object" ? undefined
+      : vv ? VV_TO_STEM[vv.degree]
+      : 1,
+    version:
+      vv ?
+        Array.isArray(root) ?
+          vv.sequence == 1 ?
+            "PRC"
           : "CPT"
-        : typeof root == "object"
-        ? vv.sequence == 1 || vv.sequence == 3
-          ? "PRC"
+        : typeof root == "object" ?
+          vv.sequence == 1 || vv.sequence == 3 ?
+            "PRC"
           : "CPT"
         : VV_TO_VERSION[vv.degree]
       : undefined,
@@ -246,17 +250,16 @@ export function buildNonShortcutFormative(
     root,
 
     context: VR_SEQUENCE_TO_CONTEXT[vr.sequence],
-    specification: (root as any).cs
-      ? undefined
-      : VR_TO_SPECIFICATION[vr.degree],
-    function: (root as any).cs
-      ? vv
-        ? vv.sequence <= 2
-          ? "STA"
+    specification:
+      (root as any).cs ? undefined : VR_TO_SPECIFICATION[vr.degree],
+    function:
+      (root as any).cs ?
+        vv ?
+          vv.sequence <= 2 ?
+            "STA"
           : "DYN"
         : undefined
-      : vr.degree < 5
-      ? "STA"
+      : vr.degree < 5 ? "STA"
       : "DYN",
 
     slotVAffixes: match[5] ? parseReversedAffixes(match[5]) : [],
@@ -270,26 +273,24 @@ export function buildNonShortcutFormative(
     vn,
 
     case:
-      type == "UNF/K"
-        ? undefined
-        : parseCase(
-            match[11]
-              ? VowelForm.parseOrThrow(match[11])
-              : VOWEL_FORM_TO_OBJECT_MAP.a,
-            concatenationType
-              ? stress == "ultimate"
-              : match[11]?.includes("'") ||
-                  match[5]?.includes("'") ||
-                  match[8]?.includes("'") ||
-                  vn_?.includes("'") ||
-                  vr.hasGlottalStop,
-          ),
+      type == "UNF/K" ? undefined : (
+        parseCase(
+          match[11] ?
+            VowelForm.parseOrThrow(match[11])
+          : VOWEL_FORM_TO_OBJECT_MAP.a,
+          concatenationType ?
+            stress == "ultimate"
+          : match[11]?.includes("'") ||
+              match[5]?.includes("'") ||
+              match[8]?.includes("'") ||
+              vn_?.includes("'") ||
+              vr.hasGlottalStop,
+        )
+      ),
     illocutionValidation:
-      type != "UNF/K"
-        ? undefined
-        : match[11]
-        ? parseIllocutionValidation(VowelForm.parseOrThrow(match[11]))
-        : undefined,
+      type != "UNF/K" ? undefined
+      : match[11] ? parseIllocutionValidation(VowelForm.parseOrThrow(match[11]))
+      : undefined,
   }
 }
 
@@ -313,14 +314,14 @@ export function buildCnShortcutFormative(
   }
 
   const concatenationType =
-    match[1] == "h" ? 1 : match[1] == "hw" ? 2 : undefined
+    match[1] == "h" ? 1
+    : match[1] == "hw" ? 2
+    : undefined
 
-  const type = concatenationType
-    ? "UNF/C"
-    : stress == "ultimate" || stress == "monosyllabic"
-    ? "UNF/K"
-    : stress == "antepenultimate"
-    ? "FRM"
+  const type =
+    concatenationType ? "UNF/C"
+    : stress == "ultimate" || stress == "monosyllabic" ? "UNF/K"
+    : stress == "antepenultimate" ? "FRM"
     : "UNF/C"
 
   const vv = match[2] ? VowelForm.of(match[2]) : undefined
@@ -379,19 +380,18 @@ export function buildCnShortcutFormative(
 
     shortcut: affixShortcut ? "VII+VIII" : "VIII",
     stem:
-      typeof root == "object"
-        ? undefined
-        : vv
-        ? VV_TO_STEM[vv.degree]
-        : undefined,
-    version: vv
-      ? Array.isArray(root)
-        ? vv.sequence == 1
-          ? "PRC"
+      typeof root == "object" ? undefined
+      : vv ? VV_TO_STEM[vv.degree]
+      : undefined,
+    version:
+      vv ?
+        Array.isArray(root) ?
+          vv.sequence == 1 ?
+            "PRC"
           : "CPT"
-        : typeof root == "object"
-        ? vv.sequence == 1 || vv.sequence == 3
-          ? "PRC"
+        : typeof root == "object" ?
+          vv.sequence == 1 || vv.sequence == 3 ?
+            "PRC"
           : "CPT"
         : VV_TO_VERSION[vv.degree]
       : undefined,
@@ -399,15 +399,14 @@ export function buildCnShortcutFormative(
     root,
 
     context: VR_SEQUENCE_TO_CONTEXT[vr.sequence],
-    specification: (root as any).cs
-      ? undefined
-      : VR_TO_SPECIFICATION[vr.degree],
-    function: (root as any).cs
-      ? vv!.sequence <= 2
-        ? "STA"
+    specification:
+      (root as any).cs ? undefined : VR_TO_SPECIFICATION[vr.degree],
+    function:
+      (root as any).cs ?
+        vv!.sequence <= 2 ?
+          "STA"
         : "DYN"
-      : vr.degree < 5
-      ? "STA"
+      : vr.degree < 5 ? "STA"
       : "DYN",
 
     slotVIIAffixes,
@@ -416,24 +415,22 @@ export function buildCnShortcutFormative(
     caseScope,
 
     case:
-      type == "UNF/K"
-        ? undefined
-        : parseCase(
-            match[7]
-              ? VowelForm.parseOrThrow(match[7])
-              : VOWEL_FORM_TO_OBJECT_MAP.a,
-            concatenationType
-              ? stress == "ultimate"
-              : match[7]?.includes("'") ||
-                  match[6]?.includes("'") ||
-                  vr.hasGlottalStop,
-          ),
+      type == "UNF/K" ? undefined : (
+        parseCase(
+          match[7] ?
+            VowelForm.parseOrThrow(match[7])
+          : VOWEL_FORM_TO_OBJECT_MAP.a,
+          concatenationType ?
+            stress == "ultimate"
+          : match[7]?.includes("'") ||
+              match[6]?.includes("'") ||
+              vr.hasGlottalStop,
+        )
+      ),
     illocutionValidation:
-      type != "UNF/K"
-        ? undefined
-        : match[7]
-        ? parseIllocutionValidation(VowelForm.parseOrThrow(match[7]))
-        : undefined,
+      type != "UNF/K" ? undefined
+      : match[7] ? parseIllocutionValidation(VowelForm.parseOrThrow(match[7]))
+      : undefined,
   }
 }
 
@@ -457,21 +454,17 @@ export function buildShortcutFormative(
   }
 
   const concatenationType =
-    match[1] == "hl" || match[1] == "hm"
-      ? 1
-      : match[1] == "hr" || match[1] == "hn"
-      ? 2
-      : undefined
+    match[1] == "hl" || match[1] == "hm" ? 1
+    : match[1] == "hr" || match[1] == "hn" ? 2
+    : undefined
 
   const shortcutType =
     match[1] == "w" || match[1] == "hl" || match[1] == "hr" ? "w" : "y"
 
-  const type = concatenationType
-    ? "UNF/C"
-    : stress == "ultimate" || stress == "monosyllabic"
-    ? "UNF/K"
-    : stress == "antepenultimate"
-    ? "FRM"
+  const type =
+    concatenationType ? "UNF/C"
+    : stress == "ultimate" || stress == "monosyllabic" ? "UNF/K"
+    : stress == "antepenultimate" ? "FRM"
     : "UNF/C"
 
   const vv = VowelForm.of(match[2]!)
@@ -530,9 +523,10 @@ export function buildShortcutFormative(
 
     shortcut: "IV/VI",
     stem: Array.isArray(root) ? undefined : VV_TO_STEM[vv.degree],
-    version: Array.isArray(root)
-      ? vv.sequence == 1
-        ? "PRC"
+    version:
+      Array.isArray(root) ?
+        vv.sequence == 1 ?
+          "PRC"
         : "CPT"
       : VV_TO_VERSION[vv.degree],
 
@@ -551,19 +545,17 @@ export function buildShortcutFormative(
     vn,
 
     case:
-      type == "UNF/K"
-        ? undefined
-        : parseCase(
-            match[8]
-              ? VowelForm.parseOrThrow(match[8])
-              : VOWEL_FORM_TO_OBJECT_MAP.a,
-            concatenationType ? stress == "ultimate" : match[8]?.includes("'"),
-          ),
+      type == "UNF/K" ? undefined : (
+        parseCase(
+          match[8] ?
+            VowelForm.parseOrThrow(match[8])
+          : VOWEL_FORM_TO_OBJECT_MAP.a,
+          concatenationType ? stress == "ultimate" : match[8]?.includes("'"),
+        )
+      ),
     illocutionValidation:
-      type != "UNF/K"
-        ? undefined
-        : match[8]
-        ? parseIllocutionValidation(VowelForm.parseOrThrow(match[8]))
-        : undefined,
+      type != "UNF/K" ? undefined
+      : match[8] ? parseIllocutionValidation(VowelForm.parseOrThrow(match[8]))
+      : undefined,
   }
 }

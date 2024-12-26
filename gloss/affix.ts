@@ -77,8 +77,9 @@ export function glossAffix(affix: Affix, isTypeless: boolean) {
 
   if (affix.case) {
     if (affix.type) {
-      const label = affix.isInverse
-        ? new GlossString("ia:", "inverse_accessor:")
+      const label =
+        affix.isInverse ?
+          new GlossString("ia:", "inverse_accessor:")
         : new GlossString("acc:", "case_accessor:")
 
       const type = getAffixType(affix.type)
@@ -203,9 +204,9 @@ export function glossAffix(affix: Affix, isTypeless: boolean) {
   const type = isTypeless ? "" : getAffixType(affix.type)
 
   const associatedAffix =
-    typeof affix.cs == "number" || typeof affix.cs == "bigint"
-      ? getIntegerAffixEntry(BigInt(affix.cs))
-      : affixesMap.get(affix.cs.replace(/_/g, ""))
+    typeof affix.cs == "number" || typeof affix.cs == "bigint" ?
+      getIntegerAffixEntry(BigInt(affix.cs))
+    : affixesMap.get(affix.cs.replace(/_/g, ""))
 
   if (!associatedAffix) {
     return GlossString.of(affix.cs + "/" + affix.degree + type)

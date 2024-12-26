@@ -26,8 +26,8 @@ const SHORTCUT_REGEX = /^(?:w|y|hl|hr|hm|hn)/
 export function parseFormative(text: string) {
   const { word, stress } = transformWord(text)
 
-  return SHORTCUT_REGEX.test(word)
-    ? buildShortcutFormative(word, stress)
+  return SHORTCUT_REGEX.test(word) ?
+      buildShortcutFormative(word, stress)
     : buildCnShortcutFormative(word, stress) ||
         buildNonShortcutFormative(word, stress)
 }

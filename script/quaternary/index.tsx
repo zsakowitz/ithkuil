@@ -160,33 +160,31 @@ export function Quaternary(quaternary: QuaternaryCharacter): SVGGElement {
     return Secondary({
       handwritten: quaternary.handwritten,
       superposed:
-        quaternary.type == 2
-          ? "DOT"
-          : quaternary.type == 3
-          ? "HORIZ_BAR"
-          : undefined,
+        quaternary.type == 2 ? "DOT"
+        : quaternary.type == 3 ? "HORIZ_BAR"
+        : undefined,
       top,
       core: "STRESSED_SYLLABLE_PLACEHOLDER",
       bottom,
-      underposed: quaternary.isInverse
-        ? quaternary.isSlotVIIAffix
-          ? "CURVE_TO_RIGHT_WITH_DOT"
+      underposed:
+        quaternary.isInverse ?
+          quaternary.isSlotVIIAffix ?
+            "CURVE_TO_RIGHT_WITH_DOT"
           : "CURVE_TO_RIGHT"
-        : quaternary.isSlotVIIAffix
-        ? "CURVE_TO_LEFT_WITH_DOT"
+        : quaternary.isSlotVIIAffix ? "CURVE_TO_LEFT_WITH_DOT"
         : "CURVE_TO_LEFT",
     })
   } else {
     return Secondary({
       handwritten: quaternary.handwritten,
-      superposed: quaternary.mood
-        ? MOOD_TO_DIACRITIC_MAP[quaternary.mood]
-        : undefined,
+      superposed:
+        quaternary.mood ? MOOD_TO_DIACRITIC_MAP[quaternary.mood] : undefined,
       top,
       core: "STRESSED_SYLLABLE_PLACEHOLDER",
       bottom,
-      underposed: quaternary.caseScope
-        ? CASE_SCOPE_TO_DIACRITIC_MAP[quaternary.caseScope]
+      underposed:
+        quaternary.caseScope ?
+          CASE_SCOPE_TO_DIACRITIC_MAP[quaternary.caseScope]
         : undefined,
     })
   }

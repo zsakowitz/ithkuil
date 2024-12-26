@@ -146,7 +146,16 @@ export const PRIMARY_BOTTOM_RIGHT = /* @__PURE__ */ deepFreeze({
       D: ["ḑ", "r", "ř", "v"],
     },
   },
-} satisfies Record<Function, Record<Version, Record<"M" | "D", [ExtensionName, ExtensionName | undefined, ExtensionName, ExtensionName]>>>)
+} satisfies Record<
+  Function,
+  Record<
+    Version,
+    Record<
+      "M" | "D",
+      [ExtensionName, ExtensionName | undefined, ExtensionName, ExtensionName]
+    >
+  >
+>)
 
 /**
  * Assembles a primary character as an group of SVG paths.
@@ -169,13 +178,11 @@ export function Primary(primary: PrimaryCharacter): SVGGElement {
       primary.configuration?.startsWith("D") ? "D" : "M"
     ][primary.stem ?? 1]
 
-  const topLeftDirection = handwritten
-    ? HANDWRITTEN_CORE_EXTENSIONS[specification][0]
-    : "diag"
+  const topLeftDirection =
+    handwritten ? HANDWRITTEN_CORE_EXTENSIONS[specification][0] : "diag"
 
-  const bottomRightDirection = handwritten
-    ? HANDWRITTEN_CORE_EXTENSIONS[specification][1]
-    : "diag"
+  const bottomRightDirection =
+    handwritten ? HANDWRITTEN_CORE_EXTENSIONS[specification][1] : "diag"
 
   return (
     <g>

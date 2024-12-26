@@ -80,9 +80,9 @@ export function Tertiary(tertiary: TertiaryCharacter): SVGGElement {
       >
         <path
           d={
-            (tertiary.handwritten
-              ? HANDWRITTEN_TERTIARY_SEGMENTS
-              : TERTIARY_SEGMENTS)[tertiary.top]
+            (tertiary.handwritten ?
+              HANDWRITTEN_TERTIARY_SEGMENTS
+            : TERTIARY_SEGMENTS)[tertiary.top]
           }
         />
       </AnchorX>,
@@ -107,9 +107,9 @@ export function Tertiary(tertiary: TertiaryCharacter): SVGGElement {
       >
         <path
           d={
-            (tertiary.handwritten
-              ? HANDWRITTEN_TERTIARY_SEGMENTS
-              : TERTIARY_SEGMENTS)[tertiary.bottom]
+            (tertiary.handwritten ?
+              HANDWRITTEN_TERTIARY_SEGMENTS
+            : TERTIARY_SEGMENTS)[tertiary.bottom]
           }
         />
       </Anchor>,

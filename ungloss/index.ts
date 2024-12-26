@@ -478,11 +478,9 @@ function parseAffixGloss(affix: string) {
   const degree = +degreeString! as 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 
   const type =
-    typeString == "2" || typeString == "₂"
-      ? 2
-      : typeString == "3" || typeString == "₃"
-      ? 3
-      : 1
+    typeString == "2" || typeString == "₂" ? 2
+    : typeString == "3" || typeString == "₃" ? 3
+    : 1
 
   return {
     cs: n.test(cs!) ? BigInt(cs!.replace(/_/g, "")) : cs!,
@@ -1049,11 +1047,9 @@ export function unglossFormative(gloss: string): PartialFormative | undefined {
       }
 
       affixShortcut =
-        segment == "(DCD/4)"
-          ? "DCD/4"
-          : segment == "(DCD/5)"
-          ? "DCD/5"
-          : "NEG/4"
+        segment == "(DCD/4)" ? "DCD/4"
+        : segment == "(DCD/5)" ? "DCD/5"
+        : "NEG/4"
     } else if (has(ALL_SPECIFICATIONS, segment)) {
       if (specification) {
         throw new Error("Specification is specified twice.")
@@ -1104,31 +1100,31 @@ export function unglossFormative(gloss: string): PartialFormative | undefined {
         const ca = parseCaGloss(segment)
 
         if (
-          Array.isArray(root)
-            ? // Specialized personal-reference formatives can only take [default] and PRX shortcuts.
-              (ca.affiliation || "CSL") == "CSL" &&
+          Array.isArray(root) ?
+            // Specialized personal-reference formatives can only take [default] and PRX shortcuts.
+            (ca.affiliation || "CSL") == "CSL" &&
+            (ca.configuration || "UPX") == "UPX" &&
+            (ca.perspective || "M") == "M" &&
+            ca.essence != "RPV" &&
+            (ca.extension == null ||
+              ca.extension == "DEL" ||
+              ca.extension == "PRX")
+          : typeof root == "object" ?
+            // Specialized Cs-root formatives cannot take Ca shortcuts.
+            false
+          : ((ca.affiliation || "CSL") == "CSL" &&
               (ca.configuration || "UPX") == "UPX" &&
-              (ca.perspective || "M") == "M" &&
-              ca.essence != "RPV" &&
-              (ca.extension == null ||
-                ca.extension == "DEL" ||
-                ca.extension == "PRX")
-            : typeof root == "object"
-            ? // Specialized Cs-root formatives cannot take Ca shortcuts.
-              false
-            : ((ca.affiliation || "CSL") == "CSL" &&
-                (ca.configuration || "UPX") == "UPX" &&
-                ((ca.extension || "DEL") == "DEL" || ca.extension == "PRX") &&
-                (ca.perspective || "M") == "M") ||
-              ((ca.affiliation || "CSL") == "CSL" &&
-                (ca.configuration || "UPX") == "UPX" &&
-                (ca.extension || "DEL") == "DEL" &&
-                (ca.essence || "NRM") == "NRM") ||
-              ((ca.affiliation || "CSL") == "CSL" &&
-                (ca.configuration || "UPX") == "UPX" &&
-                (ca.extension || "DEL") == "DEL" &&
-                ca.perspective == "G" &&
-                ca.essence == "RPV")
+              ((ca.extension || "DEL") == "DEL" || ca.extension == "PRX") &&
+              (ca.perspective || "M") == "M") ||
+            ((ca.affiliation || "CSL") == "CSL" &&
+              (ca.configuration || "UPX") == "UPX" &&
+              (ca.extension || "DEL") == "DEL" &&
+              (ca.essence || "NRM") == "NRM") ||
+            ((ca.affiliation || "CSL") == "CSL" &&
+              (ca.configuration || "UPX") == "UPX" &&
+              (ca.extension || "DEL") == "DEL" &&
+              ca.perspective == "G" &&
+              ca.essence == "RPV")
         ) {
           caShortcut = ca
         } else {
@@ -1359,14 +1355,11 @@ export function unglossFormative(gloss: string): PartialFormative | undefined {
 
   return {
     type,
-    shortcut: caShortcut
-      ? "IV/VI"
-      : affixShortcut && isUsingSlotVIIIShortcut
-      ? "VII+VIII"
-      : affixShortcut
-      ? "VII"
-      : isUsingSlotVIIIShortcut
-      ? "VIII"
+    shortcut:
+      caShortcut ? "IV/VI"
+      : affixShortcut && isUsingSlotVIIIShortcut ? "VII+VIII"
+      : affixShortcut ? "VII"
+      : isUsingSlotVIIIShortcut ? "VIII"
       : false,
     concatenationType,
     version,

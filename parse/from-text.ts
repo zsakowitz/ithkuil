@@ -16,8 +16,9 @@ export type Result<T> =
  * A helper type which removes properties that may only be undefined from an
  * object type `T`.
  */
-export type OmitUndefinedValues<T> = T extends infer U
-  ? {
+export type OmitUndefinedValues<T> =
+  T extends infer U ?
+    {
       [K in keyof U as [U[K]] extends [undefined] ? never : K]: U[K]
     }
   : never
@@ -207,9 +208,9 @@ export function parseSentences(text: string): Result<ParsedItem[]> {
         return (
           previousChar +
           ". " +
-          (junctureAffix == "çç"
-            ? "y"
-            : junctureAffix.slice(junctureAffix.startsWith("çë") ? 2 : 1))
+          (junctureAffix == "çç" ? "y" : (
+            junctureAffix.slice(junctureAffix.startsWith("çë") ? 2 : 1)
+          ))
         )
       },
     )

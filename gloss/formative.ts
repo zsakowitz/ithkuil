@@ -29,13 +29,11 @@ export function glossFormative(formative: PartialFormative) {
   // Slot I
 
   const slot1 =
-    formative.type == "UNF/C"
-      ? formative.concatenationType == 1
-        ? new GlossString("T1", "type_one")
-        : formative.concatenationType == 2
-        ? new GlossString("T2", "type_two")
-        : GlossString.of("")
+    formative.type == "UNF/C" ?
+      formative.concatenationType == 1 ? new GlossString("T1", "type_one")
+      : formative.concatenationType == 2 ? new GlossString("T2", "type_two")
       : GlossString.of("")
+    : GlossString.of("")
 
   // Slot II
 
@@ -85,9 +83,9 @@ export function glossFormative(formative: PartialFormative) {
   }
 
   const version =
-    formative.version == "CPT"
-      ? new GlossString(".CPT", ".completive")
-      : GlossString.of("")
+    formative.version == "CPT" ?
+      new GlossString(".CPT", ".completive")
+    : GlossString.of("")
 
   const stem = new GlossString(
     "S" + (formative.stem ?? 1),
@@ -119,9 +117,9 @@ export function glossFormative(formative: PartialFormative) {
     )
   } else {
     const associatedRoot =
-      typeof formative.root == "number" || typeof formative.root == "bigint"
-        ? getIntegerRootEntry(BigInt(formative.root))
-        : rootsMap.get(formative.root.replace(/_/g, ""))
+      typeof formative.root == "number" || typeof formative.root == "bigint" ?
+        getIntegerRootEntry(BigInt(formative.root))
+      : rootsMap.get(formative.root.replace(/_/g, ""))
 
     if (associatedRoot) {
       const root =
@@ -136,29 +134,27 @@ export function glossFormative(formative: PartialFormative) {
   // Slot IV
 
   const slot4 = [
-    formative.function == "DYN"
-      ? new GlossString("DYN", "dynamic")
-      : GlossString.of(""),
+    formative.function == "DYN" ?
+      new GlossString("DYN", "dynamic")
+    : GlossString.of(""),
 
-    formative.specification && formative.specification != "BSC"
-      ? new GlossString(
-          formative.specification,
-          SPECIFICATION_TO_NAME_MAP[formative.specification].toLowerCase(),
-        )
-      : GlossString.of(""),
+    formative.specification && formative.specification != "BSC" ?
+      new GlossString(
+        formative.specification,
+        SPECIFICATION_TO_NAME_MAP[formative.specification].toLowerCase(),
+      )
+    : GlossString.of(""),
 
-    formative.context && formative.context != "EXS"
-      ? new GlossString(
-          formative.context,
-          CONTEXT_TO_NAME_MAP[formative.context].toLowerCase(),
-        )
-      : GlossString.of(""),
+    formative.context && formative.context != "EXS" ?
+      new GlossString(
+        formative.context,
+        CONTEXT_TO_NAME_MAP[formative.context].toLowerCase(),
+      )
+    : GlossString.of(""),
   ].reduce((a, b) =>
-    !a.isEmpty() && !b.isEmpty()
-      ? a.plusString(".").plusGloss(b)
-      : a.isEmpty()
-      ? b
-      : a,
+    !a.isEmpty() && !b.isEmpty() ? a.plusString(".").plusGloss(b)
+    : a.isEmpty() ? b
+    : a,
   )
 
   // Slot V
@@ -231,9 +227,9 @@ export function glossFormative(formative: PartialFormative) {
       formative.type == "UNF/K" ? formative.mood : formative.caseScope
 
     const cn =
-      cnForm && cnForm != "FAC" && cnForm != "CCN"
-        ? glossCn(cnForm, false)
-        : undefined
+      cnForm && cnForm != "FAC" && cnForm != "CCN" ?
+        glossCn(cnForm, false)
+      : undefined
 
     if (vn && cn) {
       slot8 = vn.plusString(".").plusGloss(cn)
@@ -249,11 +245,11 @@ export function glossFormative(formative: PartialFormative) {
   if (formative.type == "UNF/K") {
     slot9 = new GlossString(
       formative.illocutionValidation || "OBS",
-      has(ALL_ILLOCUTIONS, formative.illocutionValidation)
-        ? asGloss(ILLOCUTION_TO_NAME_MAP[formative.illocutionValidation])
-        : asGloss(
-            VALIDATION_TO_NAME_MAP[formative.illocutionValidation || "OBS"],
-          ),
+      has(ALL_ILLOCUTIONS, formative.illocutionValidation) ?
+        asGloss(ILLOCUTION_TO_NAME_MAP[formative.illocutionValidation])
+      : asGloss(
+          VALIDATION_TO_NAME_MAP[formative.illocutionValidation || "OBS"],
+        ),
     )
   } else {
     if (formative.case && formative.case != "THM") {
@@ -277,13 +273,12 @@ export function glossFormative(formative: PartialFormative) {
     slot8,
     slot9,
   ].reduce((a, b) =>
-    a.isEmpty()
-      ? b.isEmpty()
-        ? GlossString.of("")
-        : b
-      : b.isEmpty()
-      ? a
-      : a.plusString("-").plusGloss(b),
+    a.isEmpty() ?
+      b.isEmpty() ?
+        GlossString.of("")
+      : b
+    : b.isEmpty() ? a
+    : a.plusString("-").plusGloss(b),
   )
 
   if (formative.type == "FRM") {
