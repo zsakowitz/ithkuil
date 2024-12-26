@@ -7,3 +7,4 @@ node_modules
 **/*.js
 playground.ts
 playground.js
+tsconfig.tsbuildinfo
