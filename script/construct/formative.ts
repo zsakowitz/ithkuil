@@ -1,3 +1,5 @@
+import { getIntegerCs } from "../../data/affixes-map.js"
+import { getIntegerCr } from "../../data/roots-map.js"
 import {
   ALL_ASPECTS,
   ALL_CASES,
@@ -58,7 +60,10 @@ import {
   type TertiaryCharacter,
   type TertiarySegmentName,
 } from "../index.js"
-import { numericAdjunctToNumerals } from "../numerals/from-number.js"
+import {
+  numericAdjunctToNumerals,
+  numericCxToSecondaries,
+} from "../numerals/from-number.js"
 import type { NumeralCharacter } from "../numerals/index.js"
 import type { BreakCharacter } from "../other/break.js"
 import {
@@ -128,18 +133,15 @@ export function affixToScript(
   type: AffixType,
   slot: "v" | "vii" | "xi",
   handwritten?: boolean | undefined,
-): ConstructableCharacter<SecondaryCharacter>[] {
-  const raw =
-    typeof cs == "number" || typeof cs == "bigint" ?
-      numericAdjunctToNumerals(cs, handwritten)
+): ConstructableCharacter<SecondaryCharacter | NumeralCharacter>[] {
+  return (
+    (typeof cs == "number" || typeof cs == "bigint" ?
+      numericCxToSecondaries(BigInt(cs), getIntegerCs, handwritten)
     : textToSecondaries(cs, {
         forcePlaceholderCharacters: true,
         handwritten,
-      })
-
-  return raw
-    .map((secondary) => attachConstructor(secondary, Secondary))
-    .map((secondary, index) =>
+      }).map((secondary) => attachConstructor(secondary, Secondary))
+    )?.map((secondary, index) =>
       index == 0 ?
         {
           ...secondary,
@@ -152,7 +154,23 @@ export function affixToScript(
           underposed: AFFIX_DEGREES[degree],
         }
       : secondary,
+    ) ||
+    numericAdjunctToNumerals(cs as number | bigint, handwritten).map(
+      (x, index) =>
+        index == 0 ?
+          {
+            ...x,
+            // rotated: slot == "vii",
+            superposed:
+              type == 2 ? "DOT"
+              : type == 3 ? "HORIZ_BAR"
+              : undefined,
+            right: slot == "xi" ? "DOT" : undefined,
+            underposed: AFFIX_DEGREES[degree],
+          }
+        : x,
     )
+  )
 }
 
 /**
@@ -270,24 +288,29 @@ export function formativeToScript(
   } else if (typeof formative.root == "object") {
     const { cs, degree } = formative.root
 
-    const raw =
-      typeof cs == "number" || typeof cs == "bigint" ?
-        numericAdjunctToNumerals(cs, handwritten)
+    const affix =
+      (typeof cs == "number" || typeof cs == "bigint" ?
+        numericCxToSecondaries(BigInt(cs), getIntegerCr, handwritten)
       : textToSecondaries(cs, {
           handwritten,
           forcePlaceholderCharacters: true,
-        })
-
-    const affix = raw.map((secondary, index) =>
-      attachConstructor(
-        {
-          ...secondary,
-          rotated: true,
+        }).map((x) => attachConstructor(x, Secondary))
+      )?.map((secondary, index) =>
+        attachConstructor(
+          {
+            ...secondary,
+            rotated: true,
+            underposed: index == 0 ? AFFIX_DEGREES[degree] : undefined,
+          },
+          Secondary,
+        ),
+      ) ||
+      numericAdjunctToNumerals(BigInt(cs), handwritten).map(
+        (numeral, index) => ({
+          ...numeral,
           underposed: index == 0 ? AFFIX_DEGREES[degree] : undefined,
-        },
-        Secondary,
-      ),
-    )
+        }),
+      )
 
     head.push(...affix)
   } else {

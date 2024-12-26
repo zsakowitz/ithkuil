@@ -1,5 +1,11 @@
 import type { NumericAdjunct } from "../../generate/adjunct/numeric.js"
-import type { ConstructableCharacter } from "../index.js"
+import {
+  attachConstructor,
+  Secondary,
+  textToSecondaries,
+  type ConstructableCharacter,
+  type SecondaryCharacter,
+} from "../index.js"
 import { Numeral, type NumeralCharacter } from "./index.js"
 
 /**
@@ -48,4 +54,28 @@ export function numericAdjunctToNumerals(
   }
 
   return output
+}
+
+/**
+ * Converts a numeric Cs or Cr form into secondary characters.
+ * @param value The numeric value to write.
+ * @param getCx Gets the Cs or Cr form corresponding to a given numeric value.
+ * @param handwritten Whether or not to use the handwritten script.
+ * @returns An array of secondary characters, or undefined if impossible.
+ */
+export function numericCxToSecondaries(
+  value: bigint,
+  getCx: (x: bigint) => string | undefined,
+  handwritten: boolean | undefined,
+): ConstructableCharacter<SecondaryCharacter>[] | undefined {
+  const cx = getCx(value)
+
+  if (cx == null) {
+    return
+  }
+
+  return textToSecondaries(cx, {
+    forcePlaceholderCharacters: true,
+    handwritten,
+  }).map((x) => attachConstructor(x, Secondary))
 }

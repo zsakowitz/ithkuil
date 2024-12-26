@@ -12,7 +12,14 @@
 // ].map(center)
 
 import { deepFreeze } from "../../generate/index.js"
-import { Translate } from "../index.js"
+import {
+  Anchor,
+  Diacritic,
+  getBBox,
+  Row,
+  Translate,
+  type DiacriticName,
+} from "../index.js"
 
 // export const TENS = [
 //   "",
@@ -317,6 +324,15 @@ export interface NumeralCharacter {
 
   /** The value of this character. */
   readonly value: number | bigint
+
+  /** The diacritic superposed above the character. */
+  readonly superposed?: DiacriticName | undefined
+
+  /** The diacritic posed to the right of the character. */
+  readonly right?: DiacriticName | undefined
+
+  /** The diacritic underposed below the character. */
+  readonly underposed?: DiacriticName | undefined
 }
 
 /** A digit from zero to nine. */
@@ -337,8 +353,8 @@ export function Numeral(numeral: NumeralCharacter): SVGGElement {
   const g = (<g />) as SVGGElement
 
   const ones = value % 10
-  const tens = Math.floor(value / 10) % 10
-  const hundreds = Math.floor(value / 100) % 10
+  let tens = Math.floor(value / 10) % 10
+  let hundreds = Math.floor(value / 100) % 10
   const thousands = Math.floor(value / 1000) % 10
 
   g.appendChild(<path d={HANDWRITTEN_ONES[ones]} />)
@@ -387,6 +403,61 @@ export function Numeral(numeral: NumeralCharacter): SVGGElement {
         {children}
       </Translate>,
     )
+  }
+
+  if (numeral.superposed) {
+    const box = getBBox(g)
+
+    const diacritic = (
+      <Anchor
+        at="bc"
+        x={box.x + box.width / 2}
+        y={box.y - 10}
+      >
+        <Diacritic
+          handwritten={numeral.handwritten}
+          name={numeral.superposed}
+        />
+      </Anchor>
+    )
+
+    g.appendChild(diacritic)
+  }
+
+  if (numeral.underposed) {
+    const box = getBBox(g)
+
+    const diacritic = (
+      <Anchor
+        at="tc"
+        x={box.x + box.width / 2}
+        y={box.y + box.height + 10}
+      >
+        <Diacritic
+          handwritten={numeral.handwritten}
+          name={numeral.underposed}
+        />
+      </Anchor>
+    )
+
+    g.appendChild(diacritic)
+  }
+
+  if (numeral.right) {
+    return (
+      <Row
+        compact={true}
+        space={numeral.handwritten ? 15 : 10}
+        intro={[...g.querySelectorAll("path")]}
+      >
+        <Anchor at="cl">
+          <Diacritic
+            handwritten={numeral.handwritten}
+            name={numeral.right}
+          />
+        </Anchor>
+      </Row>
+    ) as SVGGElement
   }
 
   return g
