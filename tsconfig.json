@@ -37,8 +37,7 @@
     "test/**/*.ts",
     "test/**/*.tsx",
     "ungloss/**/*.ts",
-    "ungloss/**/*.tsx",
-    "script/jsx-runtime.ts"
+    "ungloss/**/*.tsx"
   ],
   "exclude": ["node_modules", "**/*.js"]
 }
