@@ -1,6 +1,7 @@
 {
   "name": "@zsnout/ithkuil-jsx",
   "version": "0.1.1",
+  "type": "module",
   "exports": {
     "./jsx-runtime": "./jsx-runtime.mjs"
   }
