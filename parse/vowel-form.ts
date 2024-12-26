@@ -36,16 +36,12 @@ export class VowelForm<S extends 1 | 2 | 3 | 4 = 1 | 2 | 3 | 4> {
     if (text[0] == text[1]) {
       return VOWEL_FORM_TO_OBJECT_MAP[
         text[0] as keyof typeof VOWEL_FORM_TO_OBJECT_MAP
-      ].withGlottalStop(hasGlottalStop)
+      ]?.withGlottalStop(hasGlottalStop)
     }
 
-    if (text in VOWEL_FORM_TO_OBJECT_MAP) {
-      return VOWEL_FORM_TO_OBJECT_MAP[
-        text as keyof typeof VOWEL_FORM_TO_OBJECT_MAP
-      ].withGlottalStop(hasGlottalStop)
-    }
-
-    return
+    return VOWEL_FORM_TO_OBJECT_MAP[
+      text as keyof typeof VOWEL_FORM_TO_OBJECT_MAP
+    ]?.withGlottalStop(hasGlottalStop)
   }
 
   /**

@@ -46,10 +46,7 @@ export function buildSingleOrDualReferential(
           : "CAR",
       case: case1,
       case2,
-      // @ts-ignore We're not passing `specification` or `affixes`.
-      referents2,
-      // @ts-ignore We're not passing `specification` or `affixes`.
-      perspective2,
+      ...(referents2 && { referents2, perspective2 }),
       essence,
     }
   } else {
@@ -63,11 +60,7 @@ export function buildSingleOrDualReferential(
       perspective,
       case: case1,
       case2,
-      referents2,
-      // Wrong type cast here, but TS gets angry otherwise and this is perfectly
-      // fine. *says as a great blue square knocks on the door with a red
-      // underline in hand.*
-      perspective2: perspective2 as undefined,
+      ...(referents2 && { referents2, perspective2 }),
       essence,
     }
   }
