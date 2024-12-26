@@ -1,5 +1,5 @@
 import { any, anyText, seq, text } from "../builder.js"
-import { C, R, V, VG, VNG } from "../forms.js"
+import { R, V, VG, VNG } from "../forms.js"
 
 /**
  * A regular expression matching multiple-affix affixual adjuncts. A group

@@ -1,5 +1,5 @@
-import { RegexPart, any, anyText, seq } from "../builder.js"
-import { C, R, V } from "../forms.js"
+import { anyText, seq } from "../builder.js"
+import { R, V } from "../forms.js"
 
 const ccNoShortcut = /* @__PURE__ */ anyText("hw", "h")
 
@@ -36,7 +36,7 @@ export const cnShortcutFormative = /* @__PURE__ */ seq(
   /* @__PURE__ */ anyText("hl", "hr", "hm", "hn", "hň").asGroup(),
 
   // Slot VII: (VxCs...)
-  /* @__PURE__ */ seq(V, C).zeroOrMore().asGroup(),
+  /* @__PURE__ */ seq(V, R).zeroOrMore().asGroup(),
 
   // Slot IX: (Vc/Vf/Vk)
   /* @__PURE__ */ V.asGroup().optional(),
