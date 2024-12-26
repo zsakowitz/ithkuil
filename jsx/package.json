@@ -1,34 +1,7 @@
 {
   "name": "@zsnout/ithkuil-jsx",
   "version": "0.1.1",
-  "description": "The JSX library used in @zsnout/ithkuil.",
-  "author": "sakawi",
-  "license": "MIT",
-  "type": "module",
-  "scripts": {
-    "build": "tsc -b",
-    "cleanup": "rm -f data/**/*.js; rm -f generate/**/*.js; rm -f gloss/**/*.js; rm -f parse/**/*.js; rm -f script/**/*.js; rm -f test/**/*.js; rm -f ungloss/**/*.js; rm -f *.js"
-  },
   "exports": {
-    "./jsx-runtime": "./jsx-runtime.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zsakowitz/ithkuil.git"
-  },
-  "keywords": [
-    "conlang",
-    "generator",
-    "ithkuil",
-    "ithkuil-iv",
-    "new-ithkuil",
-    "parser",
-    "text",
-    "text-generator",
-    "tnil"
-  ],
-  "bugs": {
-    "url": "https://github.com/zsakowitz/ithkuil/issues"
-  },
-  "homepage": "https://github.com/zsakowitz/ithkuil#readme"
+    "./jsx-runtime": "./jsx-runtime.mjs"
+  }
 }
