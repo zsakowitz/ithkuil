@@ -1,6 +1,6 @@
 import type { ModularAdjunct } from "../../generate/adjunct/modular/index.js"
 import type { ModularAdjunctScope } from "../../generate/adjunct/modular/scope.js"
-import { DCList, Decomposed } from "../decompose.js"
+import { DCLeaf, DCStress, DCWord } from "../decompose.js"
 import {
   dcMoodOrCaseScope,
   parseMoodOrCaseScope,
@@ -129,7 +129,7 @@ export function buildModularAdjunct(
 export function dcModularAdjunct(
   word: string,
   stress: Stress,
-): DCList | undefined {
+): DCWord<"adjModular"> | undefined {
   const match = modularAdjunct.exec(word)
 
   if (!match) {
@@ -137,14 +137,16 @@ export function dcModularAdjunct(
   }
 
   const type =
-    match[1] == "w" ? [new Decomposed("w", "C*", "modularType", "PARENT")]
-    : match[1] == "y" ? [new Decomposed("y", "C*", "modularType", "CONCAT")]
+    match[1] == "w" ? [new DCLeaf("w", "C*", "modularType", "PARENT")]
+    : match[1] == "y" ? [new DCLeaf("y", "C*", "modularType", "CONCAT")]
     : []
 
   if (!(match[2] || match[4])) {
-    return new DCList(
+    return new DCWord(
+      "adjModular",
+      new DCStress("monosyllabic", "VN"),
       ...type,
-      new Decomposed(
+      new DCLeaf(
         match[6]!,
         "Vn",
         "aspect",
@@ -159,11 +161,11 @@ export function dcModularAdjunct(
 
   const vn2 =
     match[5] == "n" ?
-      [dcAspect(match[4]!), new Decomposed("n", "Cm", "modularCm", "ASPECT")]
+      [dcAspect(match[4]!), new DCLeaf("n", "Cm", "modularCm", "ASPECT")]
     : match[5] == "ň" ?
       [
         dcNonAspectualVn(match[4]!),
-        new Decomposed("ň", "Cm", "modularCm", "NON-ASPECT"),
+        new DCLeaf("ň", "Cm", "modularCm", "NON-ASPECT"),
       ]
     : []
 
@@ -174,14 +176,24 @@ export function dcModularAdjunct(
       throw new Error("Invalid Vh slot: " + match[6] + ".")
     }
 
-    return new DCList(
+    return new DCWord(
+      "adjModular",
+      new DCStress(stress, "VH"),
       ...type,
       vn1,
       cn,
       ...vn2,
-      new Decomposed(match[6]!, "Vh", "modularScope", scope),
+      new DCLeaf(match[6]!, "Vh", "modularScope", scope),
     )
   }
 
-  return new DCList(...type, vn1, cn, ...vn2, dcNonAspectualVn(match[6]!))
+  return new DCWord(
+    "adjModular",
+    new DCStress(stress, "VN"),
+    ...type,
+    vn1,
+    cn,
+    ...vn2,
+    dcNonAspectualVn(match[6]!),
+  )
 }

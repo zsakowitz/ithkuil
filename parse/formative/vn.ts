@@ -11,7 +11,7 @@ import {
   type Phase,
   type Valence,
 } from "../../generate/formative/slot-8/index.js"
-import { Decomposed } from "../decompose.js"
+import { DCLeaf } from "../decompose.js"
 import { VowelForm } from "../vowel-form.js"
 
 const NON_ASPECTUAL_VNS = [
@@ -57,7 +57,7 @@ export function parseAspect(vn: VowelForm): Aspect {
  * @returns The decomposed Vn form.
  */
 export function dcAspect(source: string) {
-  return new Decomposed(
+  return new DCLeaf(
     source,
     "Vn",
     "aspect",
@@ -78,14 +78,14 @@ export function dcNonAspectualVn(source: string) {
     throw new Error("Invalid Vn form: '" + vn + "'.")
   }
 
-  return new Decomposed(
+  return new DCLeaf(
     source,
     "Vn",
     ["", "valence", "phase", "effect", "level"][vn.sequence]!,
     NON_ASPECTUAL_VNS[vn.sequence][vn.degree - 1]!,
   ) as
-    | Decomposed<"Vn", "valence", Valence>
-    | Decomposed<"Vn", "phase", Phase>
-    | Decomposed<"Vn", "effect", Effect>
-    | Decomposed<"Vn", "level", Level>
+    | DCLeaf<"Vn", "valence", Valence>
+    | DCLeaf<"Vn", "phase", Phase>
+    | DCLeaf<"Vn", "effect", Effect>
+    | DCLeaf<"Vn", "level", Level>
 }

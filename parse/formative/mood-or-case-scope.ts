@@ -8,7 +8,7 @@ import {
   SUB_CCA,
 } from "../../generate/formative/slot-8/mood-or-case-scope.js"
 import { deepFreeze } from "../../generate/helpers/deep-freeze.js"
-import { Decomposed } from "../decompose.js"
+import { DCLeaf } from "../decompose.js"
 
 // We can't use `deepFreezeAndNullPrototype` here.
 const CN_TO_MOOD_OR_CASE_SCOPE = /* @__PURE__ */ deepFreeze({
@@ -72,12 +72,12 @@ export function parseMoodOrCaseScope(
 export function dcMoodOrCaseScope(
   cn: string,
 ): [
-  moodOrCaseScope: Decomposed<"Cn", "mcs", MoodOrCaseScope>,
+  moodOrCaseScope: DCLeaf<"Cn", "mcs", MoodOrCaseScope>,
   isAspectual: boolean,
 ] {
   if (cn in CN_TO_MOOD_OR_CASE_SCOPE) {
     return [
-      new Decomposed(
+      new DCLeaf(
         cn,
         "Cn",
         "mcs",
@@ -89,7 +89,7 @@ export function dcMoodOrCaseScope(
 
   if (cn in CN_TO_ASPECTUAL_MOOD_OR_CASE_SCOPE) {
     return [
-      new Decomposed(
+      new DCLeaf(
         cn,
         "Cn",
         "mcs",

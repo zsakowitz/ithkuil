@@ -2,7 +2,7 @@ import {
   BIAS_ITHKUIL_TO_ADJUNCT_MAP,
   type BiasAdjunct,
 } from "../../generate/adjunct/bias.js"
-import { DCList, Decomposed } from "../decompose.js"
+import { DCLeaf, DCStress, DCWord } from "../decompose.js"
 import { biasAdjunct } from "../lex/adjunct/bias.js"
 
 /**
@@ -37,7 +37,7 @@ export function buildBiasAdjunct(word: string): BiasAdjunct | undefined {
  *   `undefined` indicating a tokenization failure. Throws if the adjunct was
  *   successfully tokenized but had another error in it (e.g. invalid bias).
  */
-export function dcBiasAdjunct(word: string): DCList | undefined {
+export function dcBiasAdjunct(word: string): DCWord<"adjBias"> | undefined {
   const match = biasAdjunct.exec(word)
 
   if (!match) {
@@ -45,8 +45,10 @@ export function dcBiasAdjunct(word: string): DCList | undefined {
   }
 
   if (Object.hasOwn(BIAS_ITHKUIL_TO_ADJUNCT_MAP, match[0])) {
-    return new DCList(
-      new Decomposed(
+    return new DCWord(
+      "adjBias",
+      new DCStress("zerosyllabic", null),
+      new DCLeaf(
         match[0],
         "Cb",
         "bias",
