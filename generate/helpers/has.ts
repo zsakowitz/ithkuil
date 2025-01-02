@@ -22,6 +22,6 @@
  * @param item The item to check for.
  * @returns A boolean indicating whether the item is present in the array.
  */
-export function has<T>(array: readonly T[], item: unknown): item is T {
+export function has<const T>(array: readonly T[], item: unknown): item is T {
   return array.includes(item as any)
 }
