@@ -1,5 +1,5 @@
-import { has } from "../../generate/index.js"
-import { anyText, seq, start } from "../lex/builder.js"
+import { has, join } from "../../generate/index.js"
+import { anyText, seq } from "../lex/builder.js"
 import { geminate, H, R, V } from "../lex/forms.js"
 
 /**
@@ -42,7 +42,7 @@ const cnShortcut = /* @__PURE__ */ anyText("hl", "hr", "hm", "hn", "hň")
   .matchEntireText()
   .compile()
 
-const vc = seq(start, V.asGroup(), R.asGroup()).compile()
+const vc = seq(V.asGroup(), R.asGroup()).compile("g")
 
 type Form = [vxcs: string, vx: string, cs: string]
 
@@ -104,8 +104,8 @@ function tokenizeStandardInner(
   }
 }
 
-function tokenize(word: string) {
-  const match = main.exec(word)
+export function tokenize(word: string) {
+  const match = word.match(main)
   if (!match) return
 
   const [, cc, vv, cr, vx1, vn, cn, vx2, vc] = match as any as [
@@ -135,15 +135,16 @@ function tokenize(word: string) {
     const v7 = vxs.slice(glottalStopIndex + 1)
     const vx = { 5: mapForms(v5), 7: mapForms(v7) }
 
-    return { shortcut: "iv/vi" as const, cc, vv, cr, vx, vn, cn, vc }
+    return { shortcut: "iv/vi" as const, cc, vv: vv!, cr, vx, vn, cn, vc }
   }
 
   if (!(cc == null || cc == "h" || cc == "hw")) return
+  const cc2 = cc
 
   if (!vx1 && cn) {
     const vx = { 5: [], 7: extractForms(vx2) } as AffixesRaw
 
-    return { shortcut: "mcs" as const, cc, vv, cr, vr: vn!, vx, cn, vc }
+    return { shortcut: "mcs" as const, cc: cc2, vv, cr, vr: vn!, vx, cn, vc }
   }
 
   if (vx2) return
@@ -151,5 +152,54 @@ function tokenize(word: string) {
   const inner = tokenizeStandardInner(vx1)
   if (!inner) return
 
-  return { shortcut: null, cc, vv, cr, ...inner, vn, cn, vc }
+  return { shortcut: null, cc: cc2, vv, cr, ...inner, vn, cn, vc }
+}
+
+export function testNeo(word: string) {
+  const tokens = tokenize(word)
+  if (!tokens) return
+
+  if (tokens.shortcut == "iv/vi") {
+    const { cc, vv, cr, vx, vn, cn, vc } = tokens
+
+    return join(
+      cc,
+      vv,
+      cr,
+      vx[5].flatMap(({ vx, cs }) => [vx, cs]),
+      vx[7].flatMap(({ vx, cs }) => [vx, cs]),
+      vn ?? "",
+      cn ?? "",
+      vc,
+    )
+  }
+
+  if (tokens.shortcut == "mcs") {
+    const { cc, vv, cr, vr, cn, vx, vc } = tokens
+
+    return join(
+      cc,
+      vv,
+      cr,
+      vr,
+      cn,
+      vx[7].flatMap(({ vx, cs }) => [vx, cs]),
+      vc,
+    )
+  }
+
+  const { cc, vv, cr, vr, vx, ca, vn, cn, vc } = tokens
+
+  return join(
+    cc,
+    vv,
+    cr,
+    vr,
+    vx[5].flatMap(({ vx, cs }) => [cs, vx]),
+    ca,
+    vx[7].flatMap(({ vx, cs }) => [vx, cs]),
+    vn,
+    cn,
+    vc,
+  )
 }

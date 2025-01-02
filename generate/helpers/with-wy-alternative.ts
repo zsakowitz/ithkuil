@@ -1,4 +1,8 @@
+import type { VowelForm } from "../../parse/vowel-form.js"
 import { insertGlottalStop } from "./insert-glottal-stop.js"
+
+export type Text = string | WithWYAlternative
+export type Joinable = Text | VowelForm | null | undefined
 
 /**
  * Represents strings that have alternatives when preceded by W or Y, such as
@@ -12,7 +16,7 @@ export class WithWYAlternative {
    * @param second The right side of the output.
    * @returns A string containing the output.
    */
-  static add(first: string, second: string | WithWYAlternative): string
+  static add(first: string, second: Text): string
 
   /**
    * Adds two strings or `WithWYAlternative`s.
@@ -21,10 +25,7 @@ export class WithWYAlternative {
    * @param second The right side of the output.
    * @returns A `WithWYAlternative` containing the output.
    */
-  static add(
-    first: WithWYAlternative,
-    second: string | WithWYAlternative,
-  ): WithWYAlternative
+  static add(first: WithWYAlternative, second: Text): WithWYAlternative
 
   /**
    * Adds two strings or `WithWYAlternative`s.
@@ -33,15 +34,9 @@ export class WithWYAlternative {
    * @param second The right side of the output.
    * @returns A string or `WithWYAlternative` representing the output.
    */
-  static add(
-    first: string | WithWYAlternative,
-    second: string | WithWYAlternative,
-  ): string | WithWYAlternative
+  static add(first: Text, second: Text): Text
 
-  static add(
-    first: string | WithWYAlternative,
-    second: string | WithWYAlternative,
-  ): string | WithWYAlternative {
+  static add(first: Text, second: Text): Text {
     if (typeof first == "string") {
       if (typeof second == "string") {
         return first + second
@@ -59,7 +54,7 @@ export class WithWYAlternative {
    * @param text The string or `WithWYAlternative` to create an object from.
    * @returns A `WithWYAlternative` containing the input data.
    */
-  static of(text: string | WithWYAlternative) {
+  static of(text: Text) {
     if (text instanceof WithWYAlternative) {
       return text
     }
@@ -108,7 +103,7 @@ export class WithWYAlternative {
    * @param other A string or `WithWYAlternative` to add this to.
    * @returns A `WithWYAlternative` containing the appropriate outputs.
    */
-  add(other: string | WithWYAlternative) {
+  add(other: Text) {
     other = WithWYAlternative.of(other)
 
     return new WithWYAlternative(
@@ -185,3 +180,33 @@ export const UE_IË = /* @__PURE__ */ new WithWYAlternative("ue", "ië", "ue")
 
 /** A `WithWyAlternative` instance containing `ua/iä`. */
 export const UA_IÄ = /* @__PURE__ */ new WithWYAlternative("ua", "iä", "ua")
+
+/**
+ * Joins several strings and vowel forms into a `WithWYAlternative`. Passing the
+ * proper `isAtEndOfWord` value to `VowelForm`s is taken care of automatically.
+ *
+ * This is intended to be used to create a full word, as it will not preserve
+ * forms which can alternate if they are at the beginning of the word.
+ *
+ * @param texts The strings and `WithWYAlternative`s to create an object from.
+ * @returns A `WithWYAlternative` containing all input data, joined properly.
+ */
+export function join(...texts: (Joinable | Joinable[])[]) {
+  return texts
+    .flat()
+    .filter((x) => x != null)
+    .filter((x) => x != "")
+    .reduce<string>((a, b, i, list) => {
+      if (b instanceof WithWYAlternative || typeof b == "string") {
+        return WithWYAlternative.add(a, b)
+      }
+
+      const isEnd = list.slice(i + 1).every(
+        // Only need to check `defaultValue` since we're after a
+        // `VowelForm`, which will never end in -w or -y
+        (x) => x instanceof WithWYAlternative && x.defaultValue == "",
+      )
+
+      return a + b.toString(isEnd)
+    }, "")
+}
