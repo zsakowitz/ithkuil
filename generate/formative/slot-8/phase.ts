@@ -53,6 +53,7 @@ export const PHASE_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Converts a phase into Ithkuil.
+ *
  * @param phase The phase to be converted.
  * @returns Romanized Ithkuilic text representing the phase.
  */

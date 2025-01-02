@@ -849,133 +849,137 @@ function unglossTailSegments(
  * Parses a formative gloss string. Note that the syntax supported here is
  * different from that outputted by `glossWord`, as it is difficult to parse
  * something with that much complexity.
+ *
  * @param gloss The gloss to be parsed.
  * @returns The parsed formative, or `undefined` if no root is present.
  *
- * ## Supported Syntax
+ *   ## Supported Syntax
  *
- * The gloss should be several "segments" separated by hyphens, like so:
- * `DYN-l-CSV-c/3-ACT`.
+ *   The gloss should be several "segments" separated by hyphens, like so:
+ *   `DYN-l-CSV-c/3-ACT`.
  *
- * The segments should be separated into two parts: the head and the tail.
+ *   The segments should be separated into two parts: the head and the tail.
  *
- * ### The Head
+ *   ### The Head
  *
- * The head contains all slot I, II, III, and IV information. That is, it can
- * contain the following items (which may be written before or after the root).
+ *   The head contains all slot I, II, III, and IV information. That is, it can
+ *   contain the following items (which may be written before or after the
+ *   root).
  *
- * - Concatenation type, marked with `T1` or `T2`
- * - Version, marked with `PRC` or `CPT`
- * - Stem, marked with `S1`, `S2`, `S3`, or `S0`
- * - Function, marked with `STA` or `DYN`
- * - Specification, marked with `BSC`, `CTE`, `CSV`, or `OBJ`
- * - Context, marked with `EXS`, `RPS`, `FNC`, or `AMG`
+ *   - Concatenation type, marked with `T1` or `T2`
+ *   - Version, marked with `PRC` or `CPT`
+ *   - Stem, marked with `S1`, `S2`, `S3`, or `S0`
+ *   - Function, marked with `STA` or `DYN`
+ *   - Specification, marked with `BSC`, `CTE`, `CSV`, or `OBJ`
+ *   - Context, marked with `EXS`, `RPS`, `FNC`, or `AMG`
  *
- * It must also contain a root for the formative, which can look like:
+ *   It must also contain a root for the formative, which can look like:
  *
- * - A plain root, such as `l` or `rr`
- * - An affixual root, such as `żč/3` or `çk/1`
- * - A single-referent root, such as `1m` or `Mx`
- * - A multi-referent root, such as `[1m+2m]` or `[Mx+Obv]`
+ *   - A plain root, such as `l` or `rr`
+ *   - An affixual root, such as `żč/3` or `çk/1`
+ *   - A single-referent root, such as `1m` or `Mx`
+ *   - A multi-referent root, such as `[1m+2m]` or `[Mx+Obv]`
  *
- * It may also have these items, but only before the root:
+ *   It may also have these items, but only before the root:
  *
- * - Affix shortcuts, marked with `(NEG/4)`, `(DCD/4)`, or `(DCD/5)`
- * - Ca shortcuts, marked with `Ca` (for a default Ca), `PRX`, `G`, `RPV`, `N`,
- * `A`, `PRX.RPV`, or `G.RPV`.
+ *   - Affix shortcuts, marked with `(NEG/4)`, `(DCD/4)`, or `(DCD/5)`
+ *   - Ca shortcuts, marked with `Ca` (for a default Ca), `PRX`, `G`, `RPV`, `N`,
+ *       `A`, `PRX.RPV`, or `G.RPV`.
  *
- * The standard morphological restrictions apply, meaning that...
+ *   The standard morphological restrictions apply, meaning that...
  *
- * - you may not specify a Ca shortcut with non-BSC specification, non-STA
- *   function, or non-EXS context.
- * - you may not specify an affixual-root formative with a Ca shortcut, non-BSC
- *   specification, or non-Stem 1.
- * - you may not specify a personal-reference root formative with a Ca shortcut
- *   other than [default] or PRX, non-STA function, or non-Stem 1.
- * - you may not specify a Ca shortcut and an affix shortcut.
+ *   - You may not specify a Ca shortcut with non-BSC specification, non-STA
+ *       function, or non-EXS context.
+ *   - You may not specify an affixual-root formative with a Ca shortcut, non-BSC
+ *       specification, or non-Stem 1.
+ *   - You may not specify a personal-reference root formative with a Ca shortcut
+ *       other than [default] or PRX, non-STA function, or non-Stem 1.
+ *   - You may not specify a Ca shortcut and an affix shortcut.
  *
- * ### The Tail
+ *   ### The Tail
  *
- * The tail contains all slot V, VI, VII, VIII, and IX information. That is, it
- * can contain the following items, which may be written _in any order_.
+ *   The tail contains all slot V, VI, VII, VIII, and IX information. That is, it
+ *   can contain the following items, which may be written _in any order_.
  *
- * - Affixes, such as `r/2`, `çk/1`, or `xč/7`. To specify affix type, add a
- *   second number, as in `r/23`, `çk/12`, or `xč/71`. Affix type defaults to 1.
- * - Ca information, such as `MSF`, `DFC.G.RPV`, or `COA.PRX`. To specify where
- *   the split between slot V and VII affixes should be when no Ca is present,
- *   or when it is specified as a Ca shortcut, write `Ca`, as in
- *   `G-l-r/2-Ca-cč/1`.
- * - Vn information, such as `2:BEN`, `RTR`, or `FLC`.
- * - Cn information, such as `CCA` or `HYP`.
- * - Case information, such as `ACT`, `ERG`, or `LOC`.
- * - Illocution information, such as `DIR` or `CNJ`.
- * - Validation information, such as `OBS` or `ITU`.
- * - Case-accessors, such as `(acc:ACT)`, `(acc:ERG)`, or `(acc:LOC)`.
- * - Inverse-accessors, such as `(ia:ACT)`, `(ia:ERG)`, or `(ia:LOC)`.
- * - Referential shortcuts, such as `(1m-THM)`, `(1m+2p-ERG)`, or
- *   `(ma.BEN+G-IND)`.
+ *   - Affixes, such as `r/2`, `çk/1`, or `xč/7`. To specify affix type, add a
+ *       second number, as in `r/23`, `çk/12`, or `xč/71`. Affix type defaults
+ *       to 1.
+ *   - Ca information, such as `MSF`, `DFC.G.RPV`, or `COA.PRX`. To specify where
+ *       the split between slot V and VII affixes should be when no Ca is
+ *       present, or when it is specified as a Ca shortcut, write `Ca`, as in
+ *       `G-l-r/2-Ca-cč/1`.
+ *   - Vn information, such as `2:BEN`, `RTR`, or `FLC`.
+ *   - Cn information, such as `CCA` or `HYP`.
+ *   - Case information, such as `ACT`, `ERG`, or `LOC`.
+ *   - Illocution information, such as `DIR` or `CNJ`.
+ *   - Validation information, such as `OBS` or `ITU`.
+ *   - Case-accessors, such as `(acc:ACT)`, `(acc:ERG)`, or `(acc:LOC)`.
+ *   - Inverse-accessors, such as `(ia:ACT)`, `(ia:ERG)`, or `(ia:LOC)`.
+ *   - Referential shortcuts, such as `(1m-THM)`, `(1m+2p-ERG)`, or
+ *       `(ma.BEN+G-IND)`.
  *
- * To specify case-stacking affixes, just write multiple cases in the gloss.
+ *   To specify case-stacking affixes, just write multiple cases in the gloss.
  *
- * To force Ca, Vn, Cn, case, illocution, or validation information to be
- * represented as affixes, wrap them in parentheses. Case-accessors,
- * inverse-accessors, and referential shortcuts must always be wrapped in
- * parentheses.
+ *   To force Ca, Vn, Cn, case, illocution, or validation information to be
+ *   represented as affixes, wrap them in parentheses. Case-accessors,
+ *   inverse-accessors, and referential shortcuts must always be wrapped in
+ *   parentheses.
  *
- * Scoping information will be inferred from the order of tail segments. That
- * is, writing `r/2-MSF` will first specify the `r/2` affix in slot V, followed
- * by MSF in slot VI. However, affixes will _not_ be reordered according to the
- * morphological restrictions on formatives. Instead, if segments are in an
- * order that cannot be accomodated using slot VIII and IX, they will instead be
- * rewritten to be affixes. For example, the gloss `l-OBS-c/1-ERG` will be
- * rewritten as `l-nļ/1-c/1-ERG`.
+ *   Scoping information will be inferred from the order of tail segments. That
+ *   is, writing `r/2-MSF` will first specify the `r/2` affix in slot V,
+ *   followed by MSF in slot VI. However, affixes will _not_ be reordered
+ *   according to the morphological restrictions on formatives. Instead, if
+ *   segments are in an order that cannot be accomodated using slot VIII and IX,
+ *   they will instead be rewritten to be affixes. For example, the gloss
+ *   `l-OBS-c/1-ERG` will be rewritten as `l-nļ/1-c/1-ERG`.
  *
- * If a Ca shortcut is present, the split between slots V and VII is determined
- * by the first "{Ca}" segment (that is, an empty Ca slot). If none is present,
- * all affixes are assumed to be in Slot VII.
+ *   If a Ca shortcut is present, the split between slots V and VII is determined
+ *   by the first "{Ca}" segment (that is, an empty Ca slot). If none is
+ *   present, all affixes are assumed to be in Slot VII.
  *
- * If no Ca shortcut is present, the split between slots V and VII is determined
- * by the following, in order of precedence:
+ *   If no Ca shortcut is present, the split between slots V and VII is determined
+ *   by the following, in order of precedence:
  *
- * 1. The first curly-bracketed mood/case-scope (if no Vn is present).
- * 1. The first segment labeled "Ca" (that is, an empty Ca slot).
- * 2. The first unparenthesized non-empty Ca segment.
+ *   1. The first curly-bracketed mood/case-scope (if no Vn is present).
+ *   2. The first segment labeled "Ca" (that is, an empty Ca slot).
+ *   3. The first unparenthesized non-empty Ca segment.
  *
- * If none of the above apply, all affixes are assumed to be in Slot VII.
+ *   If none of the above apply, all affixes are assumed to be in Slot VII.
  *
- * ## Shortcuts
+ *   ## Shortcuts
  *
- * To specify a Ca shortcut, write the Ca before the main root. To specify an
- * affix shortcut, write (NEG/4), (DCD/4), or (DCD/5) before the main root. To
- * specify a mood/case-scope shortcut, surround the mood or case-scope with
- * curly brackets, as in `{HYP}` or `{CCV}`.
+ *   To specify a Ca shortcut, write the Ca before the main root. To specify an
+ *   affix shortcut, write (NEG/4), (DCD/4), or (DCD/5) before the main root. To
+ *   specify a mood/case-scope shortcut, surround the mood or case-scope with
+ *   curly brackets, as in `{HYP}` or `{CCV}`.
  *
- * ## Additional Notes
+ *   ## Additional Notes
  *
- * We will assume that formative glosses are split into two main chunks: the
- * head and the tail. The head of a formative includes its concatenation type,
- * version, stem, root, specification, function, and context. The tail of a
- * formative includes affixes, Ca information, valence, phase, effect, level,
- * aspect, mood, case-scope, case, illocution, and validation.
+ *   We will assume that formative glosses are split into two main chunks: the
+ *   head and the tail. The head of a formative includes its concatenation type,
+ *   version, stem, root, specification, function, and context. The tail of a
+ *   formative includes affixes, Ca information, valence, phase, effect, level,
+ *   aspect, mood, case-scope, case, illocution, and validation.
  *
- * Why do we require this? All the information categorized as the head of a
- * formative is required to be there, and cannot be shifted in the word in an
- * way, whereas all the information categorized as the tail of a formative can
- * be rearranged using affixes. For ease of use, we allow all the information in
- * the head to be presented in any order, and they will be sorted properly, but
- * the information in the tail will attempt to keep the scoping order as close
- * to the input text as possible. That is, inputting a gloss of "ACT-G" will NOT
- * result in a formative with a Ca of G and a case of ACT, but a case-stacking
- * affix of ACT followed by a Ca of G.
+ *   Why do we require this? All the information categorized as the head of a
+ *   formative is required to be there, and cannot be shifted in the word in an
+ *   way, whereas all the information categorized as the tail of a formative can
+ *   be rearranged using affixes. For ease of use, we allow all the information
+ *   in the head to be presented in any order, and they will be sorted properly,
+ *   but the information in the tail will attempt to keep the scoping order as
+ *   close to the input text as possible. That is, inputting a gloss of "ACT-G"
+ *   will NOT result in a formative with a Ca of G and a case of ACT, but a
+ *   case-stacking affix of ACT followed by a Ca of G.
  *
- * In addition, the algorithm for determining the placement of slot V vs. VII
- * affixes depends on having a main Ca slot. The main Ca slot is marked by a
- * standard Ca that is NOT surrounded by parentheses. The first such Ca is
- * treated as the main Ca. If a slot that says "{Ca}" is present, it is treated
- * as the main Ca. Ca forms can be marked as Ca-stacking through the use of
- * parentheses. If no main Ca form or "{Ca}" marking is present and a
- * non-default case-scope or mood is present which has not been placed into the
- * Cn slot, it will be treated as the main Ca slot, replacing the unmarked Ca.
+ *   In addition, the algorithm for determining the placement of slot V vs. VII
+ *   affixes depends on having a main Ca slot. The main Ca slot is marked by a
+ *   standard Ca that is NOT surrounded by parentheses. The first such Ca is
+ *   treated as the main Ca. If a slot that says "{Ca}" is present, it is
+ *   treated as the main Ca. Ca forms can be marked as Ca-stacking through the
+ *   use of parentheses. If no main Ca form or "{Ca}" marking is present and a
+ *   non-default case-scope or mood is present which has not been placed into
+ *   the Cn slot, it will be treated as the main Ca slot, replacing the unmarked
+ *   Ca.
  */
 export function unglossFormative(gloss: string): PartialFormative | undefined {
   gloss = substituteLetters(gloss)
@@ -1438,40 +1442,41 @@ function parseReferentialReferentGloss(gloss: string) {
  * Parses a referential gloss string. Note that the syntax supported here is
  * different from that outputted by `glossWord`, as it is difficult to parse
  * something with that much complexity.
+ *
  * @param gloss The gloss to be parsed.
  * @returns The parsed referential, or `undefined` if no referent is detected.
  *
- * ## Syntax
+ *   ## Syntax
  *
- * The referential should be a list of segments separated by hyphens. The first
- * segment must either be a referent, `[CAR]`, `[QUO]`, `[NAM]`, or `[PHR]`. The
- * exact details of referent syntax are below.
+ *   The referential should be a list of segments separated by hyphens. The first
+ *   segment must either be a referent, `[CAR]`, `[QUO]`, `[NAM]`, or `[PHR]`.
+ *   The exact details of referent syntax are below.
  *
- * Because there are three different kinds of referentials, there is a different
- * "layout" for each.
+ *   Because there are three different kinds of referentials, there is a different
+ *   "layout" for each.
  *
- * To create a single referential, specify an initial segment and two optional
- * cases. Examples include `1m`, `[2m+ma]+A-ERG`, and `Rdp-ERG-EFF`.
+ *   To create a single referential, specify an initial segment and two optional
+ *   cases. Examples include `1m`, `[2m+ma]+A-ERG`, and `Rdp-ERG-EFF`.
  *
- * To create a dual referential, specify an initial segment, two cases, and
- * another referent. Examples include `1m-ERG-AFF-2m` and `ma+N-LOC-IND-1m`.
+ *   To create a dual referential, specify an initial segment, two cases, and
+ *   another referent. Examples include `1m-ERG-AFF-2m` and `ma+N-LOC-IND-1m`.
  *
- * To create a combination referential, specify an initial segment, an optional
- * case, an optional specification, and then any tail segments, such as affixes
- * or Ca, Vn, Cn, Vc, or Vk information.
+ *   To create a combination referential, specify an initial segment, an optional
+ *   case, an optional specification, and then any tail segments, such as
+ *   affixes or Ca, Vn, Cn, Vc, or Vk information.
  *
- * ## Referent Syntax
+ *   ## Referent Syntax
  *
- * A single referent is a target, such as `1m`, `2m`, `2p`, `ma`, `mi`, `pa`,
- * `pi`, `Mx`, `Rdp`, `Obv`, or `PVS`, optionally followed by `.BEN` or `.DET`.
- * Examples include `1m`, `2m.DET`, and `Obv.BEN`.
+ *   A single referent is a target, such as `1m`, `2m`, `2p`, `ma`, `mi`, `pa`,
+ *   `pi`, `Mx`, `Rdp`, `Obv`, or `PVS`, optionally followed by `.BEN` or
+ *   `.DET`. Examples include `1m`, `2m.DET`, and `Obv.BEN`.
  *
- * A referent list is multiple referents enclosed in square brackets separated
- * by plus signs, as in `[1m+2m]` and `[Mx.BEN+Obv.DET+ma]`.
+ *   A referent list is multiple referents enclosed in square brackets separated
+ *   by plus signs, as in `[1m+2m]` and `[Mx.BEN+Obv.DET+ma]`.
  *
- * A full referent may either be a referent list or a referent list with an
- * optional perspective inside square brackets, such as `1m`, `[1m+2m]`,
- * `[ma.BEN+G]`, or `[2m+pi.DET+N]`.
+ *   A full referent may either be a referent list or a referent list with an
+ *   optional perspective inside square brackets, such as `1m`, `[1m+2m]`,
+ *   `[ma.BEN+G]`, or `[2m+pi.DET+N]`.
  */
 export function unglossReferential(
   gloss: string,
@@ -1584,23 +1589,24 @@ export function unglossReferential(
  * Parses a simple adjunct gloss string. Note that the syntax supported here is
  * different from that outputted by `glossWord`, as it is difficult to parse
  * something with that much complexity.
+ *
  * @param gloss The gloss to be parsed.
  * @returns The parsed adjunct, or `undefined` if the gloss doesn't represent an
- * adjunct.
+ *   adjunct.
  *
- * ## Syntax
+ *   ## Syntax
  *
- * Bias adjuncts are represented by their abbreviations, such as `SOL` for
- * solicitative, `COI` for coincidental, and `DOL` for dolorous.
+ *   Bias adjuncts are represented by their abbreviations, such as `SOL` for
+ *   solicitative, `COI` for coincidental, and `DOL` for dolorous.
  *
- * Parsing adjuncts are represented with `mono:`, `ulti:`, `ante:`, and `penu:`.
+ *   Parsing adjuncts are represented with `mono:`, `ulti:`, `ante:`, and `penu:`.
  *
- * Register adjuncts are represented with `DSV`, `PNT`, `SPF`, `EXM`, `CGT`,
- * `DSV_END`, `PNT_END`, `SPF_END`, `EXM_END`, `CGT_END`, and `END`.
+ *   Register adjuncts are represented with `DSV`, `PNT`, `SPF`, `EXM`, `CGT`,
+ *   `DSV_END`, `PNT_END`, `SPF_END`, `EXM_END`, `CGT_END`, and `END`.
  *
- * Suppletive adjuncts are represented by the type (`[CAR]`, `[QUO]`, `[NAM]`,
- * or `[PHR]`) followed by a case (such as `ERG`, `ALL`, or `POS`), separated
- * with hyphens, as in `[CAR]-ABL`.
+ *   Suppletive adjuncts are represented by the type (`[CAR]`, `[QUO]`, `[NAM]`,
+ *   or `[PHR]`) followed by a case (such as `ERG`, `ALL`, or `POS`), separated
+ *   with hyphens, as in `[CAR]-ABL`.
  */
 export function unglossSimpleAdjunct(
   gloss: string,
@@ -1683,31 +1689,32 @@ export function unglossSimpleAdjunct(
  * Parses an affixual adjunct gloss string. Note that the syntax supported here
  * is different from that outputted by `glossWord`, as it is difficult to parse
  * something with that much complexity.
+ *
  * @param gloss The gloss to be parsed.
  * @returns The parsed adjunct, or `undefined` if the gloss doesn't represent an
- * affixual adjunct.
+ *   affixual adjunct.
  *
- * ## Syntax
+ *   ## Syntax
  *
- * An affixual adjunct gloss should just be a string of tail segments, such as
- * affixes or Ca, Vn, Cn, Vc, or Vk information.
+ *   An affixual adjunct gloss should just be a string of tail segments, such as
+ *   affixes or Ca, Vn, Cn, Vc, or Vk information.
  *
- * To indicate that this adjunct should be represented on the concatenated
- * formative only, include "concat" as a segment.
+ *   To indicate that this adjunct should be represented on the concatenated
+ *   formative only, include "concat" as a segment.
  *
- * To indicate the scope of the first affix in this adjunct, write `form`,
- * `adj`, `vii.dom`, `vii.sub`, `v.dom`, or `v.sub` as a segment directly after
- * the first affix.
+ *   To indicate the scope of the first affix in this adjunct, write `form`,
+ *   `adj`, `vii.dom`, `vii.sub`, `v.dom`, or `v.sub` as a segment directly
+ *   after the first affix.
  *
- * To indicate the scope of other affixes in this adjunct, write `FORM`, `ADJ`,
- * `VII:DOM`, `VII:SUB`, `V:DOM`, or `V:SUB` as the final segment of the
- * adjunct.
+ *   To indicate the scope of other affixes in this adjunct, write `FORM`, `ADJ`,
+ *   `VII:DOM`, `VII:SUB`, `V:DOM`, or `V:SUB` as the final segment of the
+ *   adjunct.
  *
- * These are all valid affixual adjuncts:
+ *   These are all valid affixual adjuncts:
  *
- * - `r/1`
- * - `(mi-ERG)-V:SUB-EFF`
- * - `r/1-r/3-VII:DOM`
+ *   - `r/1`
+ *   - `(mi-ERG)-V:SUB-EFF`
+ *   - `r/1-r/3-VII:DOM`
  */
 export function unglossAffixualAdjunct(
   gloss: string,
@@ -1801,9 +1808,10 @@ export function unglossAffixualAdjunct(
  * Parses a modular adjunct gloss string. Note that the syntax supported here is
  * different from that outputted by `glossWord`, as it is difficult to parse
  * something with that much complexity.
+ *
  * @param gloss The gloss to be parsed.
  * @returns The parsed adjunct, or `undefined` if the gloss doesn't represent a
- * modular adjunct.
+ *   modular adjunct.
  */
 export function unglossModularAdjunct(
   gloss: string,
@@ -1985,6 +1993,7 @@ export function unglossModularAdjunct(
 
 /**
  * The result of an ungloss operation.
+ *
  * @template L The label of the ungloss.
  * @template T The word type this ungloss contains.
  */
@@ -1997,6 +2006,7 @@ export type UnglossResult<L extends string, T> =
  * Parses a gloss string into several different formats. Note that the syntax
  * supported here is different from that outputted by `glossWord`, as it is
  * difficult to parse something with that much complexity.
+ *
  * @param gloss The gloss to be parsed.
  * @returns An object containing information about the parsed word.
  */

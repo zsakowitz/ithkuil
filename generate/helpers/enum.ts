@@ -4,6 +4,7 @@ import { ZodType, type ParseInput, type ParseReturnType } from "zod"
 export class Enum<const T> extends ZodType<T> {
   /**
    * Constructs an `Enum`.
+   *
    * @param items The items to match against.
    * @returns The constructed `Enum`.
    */

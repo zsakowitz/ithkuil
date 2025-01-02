@@ -17,11 +17,12 @@ export * from "./vowel-form.js"
 
 /**
  * Parses an Ithkuilic word into a JavaScript object.
+ *
  * @param word The word to be parsed.
  * @returns Either a `PartialFormative`, `PartialReferential`, or `PlainAdjunct`
- * representing a success or `undefined` representing a failed tokenization.
- * Throws an error if the word was parsed successfully but had another error
- * (e.g. invalid Vk slot, invalid Cn slot, etc.).
+ *   representing a success or `undefined` representing a failed tokenization.
+ *   Throws an error if the word was parsed successfully but had another error
+ *   (e.g. invalid Vk slot, invalid Cn slot, etc.).
  */
 export function parseWord(
   word: string,

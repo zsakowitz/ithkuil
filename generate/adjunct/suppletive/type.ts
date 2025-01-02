@@ -29,6 +29,7 @@ export const SUPPLETIVE_ADJUNCT_TYPE_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Converts a suppletive adjunct type into Ithkuil.
+ *
  * @param type The suppletive adjunct type to be converted.
  * @returns Romanized Ithkuilic text representing the adjunct type.
  */

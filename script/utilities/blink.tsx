@@ -1,8 +1,9 @@
 /**
  * Creates an SVG element that blinks.
+ *
  * @param props Properties modifying the animation.
  * @returns An `SVGGElement` which starts hidden, then blinks in or out every
- * `props.interval` milliseconds.
+ *   `props.interval` milliseconds.
  */
 export function Blink(props: {
   /** The elements to be blinked. */

@@ -181,9 +181,10 @@ export const ASPECT_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Converts an aspect into Ithkuil.
+ *
  * @param aspect The aspect to be converted.
  * @returns A string or `WithWYAlternative` containing romanized Ithkuilic text
- * representing the aspect.
+ *   representing the aspect.
  */
 export function aspectToIthkuil(aspect: Aspect): string | WithWYAlternative {
   return ASPECT_TO_ITHKUIL_MAP[aspect]

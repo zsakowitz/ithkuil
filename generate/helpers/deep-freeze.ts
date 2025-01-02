@@ -19,6 +19,7 @@ export type PreservedWhenDeeplyFrozen =
 
 /**
  * Deeply freezes an object.
+ *
  * @template T The object to be deeply frozen.
  */
 export type DeepFreeze<T> =
@@ -46,13 +47,12 @@ export function deepFreeze<const T>(value: T): DeepFreeze<T> {
   return value as DeepFreeze<T>
 }
 
-/**
- * Types which remain the same after being deeply frozen and null-prototyped.
- */
+/** Types which remain the same after being deeply frozen and null-prototyped. */
 export type PreservedWhenDeeplyFrozenAndNullPrototyped = Core | Extension
 
 /**
  * Deeply freezes and null-prototypes an object.
+ *
  * @template T The object to be deeply frozen.
  */
 export type DeepFreezeAndNullPrototype<T> =

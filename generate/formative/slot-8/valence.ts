@@ -53,6 +53,7 @@ export const VALENCE_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Converts a valence into Ithkuil.
+ *
  * @param valence The valence to be converted.
  * @param omitDefaultValence Whether MNO valence should be omitted.
  * @returns Romanized Ithkuilic text representing the valence.

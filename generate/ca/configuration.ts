@@ -110,6 +110,7 @@ export const CONFIGURATION_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Converts a configuration into Ithkuil.
+ *
  * @param configuration The configuration to be converted.
  * @returns Romanized Ithkuilic text representing the configuration.
  */

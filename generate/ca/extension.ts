@@ -35,6 +35,7 @@ export const EXTENSION_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Converts an extension into Ithkuil.
+ *
  * @param extension The extension to be converted.
  * @param isCAUniplex Whether the Ca affix complex is marked Uniplex.
  * @returns Romanized Ithkuilic text representing the extension.

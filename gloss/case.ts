@@ -3,6 +3,7 @@ import { GlossString, asGloss } from "./glossable.js"
 
 /**
  * Glosses a case.
+ *
  * @param case_ The case to be glossed.
  * @returns A `GlossString` representing the case.
  */

@@ -20,6 +20,7 @@ const INVALID_AFFIX_CS_FORMS = /* @__PURE__ */ deepFreeze([
 
 /**
  * Parses an affix.
+ *
  * @param vx The Vx form of the affix to be parsed.
  * @param cs The Cs form of the affix to be parsed.
  * @param isAlone Whether this affix is standalone.

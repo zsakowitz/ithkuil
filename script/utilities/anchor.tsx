@@ -44,9 +44,10 @@ export type AnchorOptions<T extends string> = {
  * Anchors an element to any coordinates based on one of its corners or edges or
  * its center. For example, `<Anchor at="tl">...</Anchor>` anchors the top-left
  * corner of its content to (0, 0).
+ *
  * @param props Properties modifying the anchor's placement.
  * @returns A translated element anchored to (x, y) at one of its corners or
- * edges or its center.
+ *   edges or its center.
  */
 export function Anchor(props: AnchorOptions<AnchorLocation>): SVGElement {
   const children =
@@ -87,9 +88,10 @@ export type AnchorXLocation = "l" | "c" | "r"
  * corners or edges or its center while leaving its vertical position unchanged.
  * For example, `<AnchorX at="l">...</AnchorX>` anchors the left edge of its
  * content to x=0.
+ *
  * @param props Properties modifying the anchor's placement.
  * @returns A translated element anchored to (x, y) at one of its corners or
- * edges or its center.
+ *   edges or its center.
  */
 export function AnchorX(props: AnchorOptions<AnchorXLocation>): SVGElement {
   const children =
@@ -123,9 +125,10 @@ export type AnchorYLocation = "t" | "c" | "b"
  * corners or edges or its center while leaving its horizontal position
  * unchanged. For example, `<AnchorY at="t">...</AnchorY>` anchors the top edge
  * of its content to y=0.
+ *
  * @param props Properties modifying the anchor's placement.
  * @returns A translated element anchored to (x, y) at one of its corners or
- * edges or its center.
+ *   edges or its center.
  */
 export function AnchorY(props: AnchorOptions<AnchorYLocation>): SVGElement {
   const children =

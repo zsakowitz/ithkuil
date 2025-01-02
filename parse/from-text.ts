@@ -194,6 +194,7 @@ const sentenceJunctureAffix =
 
 /**
  * Parses romanized Ithkuilic text into a series of items.
+ *
  * @param text The text to be parsed.
  * @returns A `Result` containing an array of `ParsedItem`s.
  */

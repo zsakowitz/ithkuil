@@ -26,6 +26,7 @@ export const PARSING_ADJUNCT_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Converts a parsing adjunct into Ithkuil.
+ *
  * @param adjunct The adjunct to be converted.
  * @returns Romanized Ithkuilic text representing the adjunct.
  */

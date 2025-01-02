@@ -29,9 +29,7 @@ export const MOOD_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
     HYP: "hň",
   },
 
-  /**
-   * The `true` branch is used when the mood occurs after aspectual Vn forms.
-   */
+  /** The `true` branch is used when the mood occurs after aspectual Vn forms. */
   true: {
     FAC: "w",
     SUB: "hw",
@@ -54,10 +52,11 @@ export const MOOD_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Converts a mood into Ithkuil.
+ *
  * @param mood The mood to be converted.
  * @param vnType The type of Vn form associated with this mood. Use "aspect"
- * when Vn contains an aspect, "non-aspect" when it contains a non-aspect, and
- * "empty" when it has been elided due to the use of MNO valence.
+ *   when Vn contains an aspect, "non-aspect" when it contains a non-aspect, and
+ *   "empty" when it has been elided due to the use of MNO valence.
  * @returns Romanized Ithkuilic text representing the mood.
  */
 export function moodToIthkuil(mood: Mood, vnType: VNType) {

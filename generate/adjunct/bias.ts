@@ -396,6 +396,7 @@ export const BIAS_ADJUNCT_TO_DESCRIPTION_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Converts a bias adjunct to Ithkuil.
+ *
  * @param bias The adjunct to be converted.
  * @returns Romanized Ithkuilic text representing the adjunct.
  */

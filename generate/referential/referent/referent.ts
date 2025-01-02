@@ -77,9 +77,7 @@ export const ALL_REFERENTS: readonly Referent[] = /* @__PURE__ */ deepFreeze([
 
 /** An object mapping referents into their Ithkuilic counterparts. */
 export const REFERENT_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
-  /**
-   * The `false` branch is used in referentials and personal-reference roots.
-   */
+  /** The `false` branch is used in referentials and personal-reference roots. */
   false: {
     "1m:NEU": "l",
     "1m:BEN": "r",
@@ -156,9 +154,10 @@ export const REFERENT_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Converts a referent into Ithkuil.
+ *
  * @param referent The referent to be converted.
  * @param isReferentialAffix Whether this referent is used in a referential
- * affix.
+ *   affix.
  * @returns Romanized Ithkuilic text representing the referent.
  */
 export function referentToIthkuil(
@@ -231,9 +230,9 @@ export const REFERENT_TARGET_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Deconstructs an referent into its separate components.
+ *
  * @param referent The referent to be deconstructed.
- * @returns An object containing the effect and target of the original
- * referent.
+ * @returns An object containing the effect and target of the original referent.
  */
 export function referentToReferentObject(referent: Referent): ReferentObject {
   return REFERENT_TO_REFERENT_OBJECT_MAP[referent]
@@ -241,6 +240,7 @@ export function referentToReferentObject(referent: Referent): ReferentObject {
 
 /**
  * Reconstructs a referent object into a single referent.
+ *
  * @param referentObject The referent to be reconstructed.
  * @returns A string representing the effect and target of the object.
  */

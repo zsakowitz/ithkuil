@@ -3,5 +3,6 @@
   "semi": false,
   "singleAttributePerLine": true,
   "trailingComma": "all",
-  "experimentalTernaries": true
+  "experimentalTernaries": true,
+  "plugins": ["prettier-plugin-jsdoc"]
 }

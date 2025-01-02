@@ -1,5 +1,6 @@
 /**
  * Instantiates a set of lines that most letters rest on.
+ *
  * @param props Properties that modify the output of these `Lines`.
  * @returns An `SVGPathElement` containing the lines.
  */

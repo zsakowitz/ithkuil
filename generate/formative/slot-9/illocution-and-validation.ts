@@ -55,12 +55,13 @@ export const ILLOCUTION_AND_VALIDATION_TO_ITHKUIL_MAP =
 
 /**
  * Converts an illocution+validation pair into Ithkuil.
+ *
  * @param illocutionOrValidation The illocution or validation to be converted.
- * Passing a validation implies ASR illocution. Consequently, ASR illocution
- * cannot be passed.
+ *   Passing a validation implies ASR illocution. Consequently, ASR illocution
+ *   cannot be passed.
  * @param elideIfPossible Whether ASR+OBS illocution+validation can be elided.
  * @returns Romanized Ithkuilic text representing the illocution+validation
- * pair.
+ *   pair.
  */
 export function illocutionAndValidationToIthkuil(
   illocutionOrValidation: IllocutionOrValidation,

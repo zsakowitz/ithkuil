@@ -1,5 +1,6 @@
 /**
  * Scales an SVG path.
+ *
  * @param path The path to be modified.
  * @param scale The number to scale by.
  * @returns The resulting path.

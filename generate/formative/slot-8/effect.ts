@@ -67,9 +67,10 @@ export const EFFECT_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Converts an effect into Ithkuil.
+ *
  * @param effect The effect to be converted.
  * @returns A `WithWYAlternative` containing romanized Ithkuilic text
- * representing the effect.
+ *   representing the effect.
  */
 export function effectToIthkuil(effect: Effect) {
   return EFFECT_TO_ITHKUIL_MAP[effect]
@@ -106,6 +107,7 @@ export const EFFECT_TO_EFFECT_OBJECT_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Deconstructs an effect into its separate components.
+ *
  * @param effect The effect to be deconstructed.
  * @returns An object containing the effect and target of the original effect.
  */
@@ -115,6 +117,7 @@ export function effectToEffectObject(effect: Effect): EffectObject {
 
 /**
  * Reconstructs an effect object into a single effect.
+ *
  * @param effectObject The effect to be reconstructed.
  * @returns A string representing the effect and target of the object.
  */

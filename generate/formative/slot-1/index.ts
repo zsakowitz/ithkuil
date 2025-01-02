@@ -38,6 +38,7 @@ export const SLOT_I_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Converts Slot I of a formative into Ithkuil.
+ *
  * @param slot The concatenation type and Ca shortcut type of the formative.
  * @returns Romanized Ithkuilic text representing Slot I of the formative.
  */

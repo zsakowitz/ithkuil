@@ -94,6 +94,7 @@ const isArray = /* @__PURE__ */ (() => Array.isArray)() as (
 
 /**
  * Combines several shapes into a single row.
+ *
  * @param props Properties that modify the output of this `Row`.
  * @returns An `SVGGElement` containing the elements.
  */

@@ -2,6 +2,7 @@ import { Point } from "./point.js"
 
 /**
  * Gets a point on an SVG path.
+ *
  * @param path The path to get the origin of.
  * @param offset The distance along the path to get the point on.
  * @returns The point on `path` at the specified offset.
@@ -13,6 +14,7 @@ export function getOrigin(path: string, offset = 0) {
 
 /**
  * Shows the origin of an SVG path.
+ *
  * @param props Properties modifying the display.
  * @returns A point showing the origin of the specified path.
  */

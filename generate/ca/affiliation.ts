@@ -25,9 +25,10 @@ export const AFFILIATION_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Converts an affiliation into Ithkuil.
+ *
  * @param affiliation The affiliation to be converted.
  * @param isStandalone Whether the affiliation is the only affix present in the
- * Ca affix complex.
+ *   Ca affix complex.
  * @returns Romanized Ithkuilic text representing the affiliation.
  */
 export function affiliationToIthkuil(

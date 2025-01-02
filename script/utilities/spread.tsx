@@ -2,6 +2,7 @@ import { Translate } from "./translate.js"
 
 /**
  * Shows a spread of several items.
+ *
  * @param props Properties modifying the spread.
  * @returns An `SVGGElement` containing all the items.
  */

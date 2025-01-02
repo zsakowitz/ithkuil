@@ -26,6 +26,7 @@ export const DEFAULT_SUPPLETIVE_REFERENTIAL: SuppletiveReferentialCore =
 
 /**
  * Fills default values into empty slots of a referential/
+ *
  * @param referential The referential to be filled.
  * @returns A complete referential, with all default slots filled.
  */

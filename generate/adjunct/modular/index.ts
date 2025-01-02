@@ -97,6 +97,7 @@ export type ModularAdjunct =
 
 /**
  * Converts a modular adjunct into Ithkuil.
+ *
  * @param adjunct The adjunct to be converted.
  * @returns Romanized Ithkuilic text representing the adjunct.
  */

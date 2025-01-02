@@ -53,6 +53,7 @@ export const LEVEL_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Converts a level into Ithkuil.
+ *
  * @param level The level to be converted.
  * @returns Romanized Ithkuilic text representing the level.
  */

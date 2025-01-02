@@ -51,6 +51,7 @@ export type SlotVIIIMetadata = {
 
 /**
  * Converts a Vn form into Ithkuil.
+ *
  * @param vn The Vn form to be converted.
  * @param omitDefaultValence Whether default MNO valence should be omitted.
  * @returns Romanized Ithkuilic text representing the Vn form.
@@ -67,10 +68,11 @@ export function vnToIthkuil(vn: VN, omitDefaultValence: boolean) {
 
 /**
  * Converts a Cn form into Ithkuil.
+ *
  * @param cn The Cn form to be converted.
- * @param vnType The contents of Slot 8. Use "aspect" when Slot 8
- * contains an aspect, "non-aspect" when it contains a non-aspect, and "empty"
- * when Slot 8 has been elided due to the use of MNO valence.
+ * @param vnType The contents of Slot 8. Use "aspect" when Slot 8 contains an
+ *   aspect, "non-aspect" when it contains a non-aspect, and "empty" when Slot 8
+ *   has been elided due to the use of MNO valence.
  * @returns Romanized Ithkuilic text representing the Cn form.
  */
 export function cnToIthkuil(cn: CN, vnType: VNType) {
@@ -86,10 +88,11 @@ export function cnToIthkuil(cn: CN, vnType: VNType) {
 
 /**
  * Converts Slot VIII into Ithkuil
+ *
  * @param slot The Vn and Cn forms of the formative.
  * @param metadata Additional information relevant to Slot VIII.
  * @returns A `WithWYAlternative` containing romanized Ithkuilic text
- * representing Slot VIII.
+ *   representing Slot VIII.
  */
 export function slotVIIIToIthkuil(slot: SlotVIII, metadata: SlotVIIIMetadata) {
   if (

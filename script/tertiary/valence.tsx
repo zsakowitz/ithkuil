@@ -28,6 +28,7 @@ export const HANDWRITTEN_VALENCE = /* @__PURE__ */ deepFreeze({
 
 /**
  * Constructs a Valence segment.
+ *
  * @param props Properties modifying this Valence segment.
  * @returns The constructed `SVGPathElement`.
  */

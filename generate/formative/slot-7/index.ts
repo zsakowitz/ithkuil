@@ -6,9 +6,10 @@ export type SlotVII = readonly Affix[]
 
 /**
  * Converts Slot VII into Ithkuil.
+ *
  * @param slot The Slot VII affixes of the formative.
  * @returns A `WithWYAlternative` containing romanized Ithkuilic text
- * representing Slot VII.
+ *   representing Slot VII.
  */
 export function slotVIIToIthkuil(slot: SlotVII): WithWYAlternative {
   if (slot.length == 0) {

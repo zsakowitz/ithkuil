@@ -102,6 +102,7 @@ const LETTER_SUBSTITUTION_REGEX =
 /**
  * Transforms a word by normalizing spelling and parsing and removing stress
  * markings.
+ *
  * @param word The word to be transformed.
  * @returns An object containing information about the transformed word.
  */
@@ -165,6 +166,7 @@ export function transformWord(word: string): TransformedWord {
 
 /**
  * Transforms a word by normalizing spelling. Does not remove stress markings.
+ *
  * @param word The word to be transformed.
  * @returns An object containing information about the transformed word.
  */

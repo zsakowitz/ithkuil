@@ -34,10 +34,11 @@ function parseAffixes(text: string) {
 
 /**
  * Builds a combination referential.
+ *
  * @param word The word to be built.
  * @returns Either a parsed `PartialReferential` indicating a success, or
- * `undefined` indicating a tokenization failure. Throws if the adjunct was
- * successfully tokenized but had another error in it (e.g. invalid Vc).
+ *   `undefined` indicating a tokenization failure. Throws if the adjunct was
+ *   successfully tokenized but had another error in it (e.g. invalid Vc).
  */
 export function buildCombinationReferential(
   word: string,

@@ -26,6 +26,7 @@ const SCOPE_TO_PRECEDENCE = /* @__PURE__ */ deepFreeze({
 
 /**
  * Merges affixual and modular adjuncts into a formative.
+ *
  * @param adjuncts The adjunct to be merged into the formative.
  * @param formative The original formative.
  * @returns The newly merged formative.

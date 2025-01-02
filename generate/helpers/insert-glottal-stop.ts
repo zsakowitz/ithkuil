@@ -4,9 +4,10 @@ import { WithWYAlternative } from "./with-wy-alternative.js"
 
 /**
  * Inserts a glottal stop into a vowel form.
+ *
  * @param vowelForm The vowel form to insert a glottal stop into.
  * @param isAtEndOfWord Whether the finished vowel form will be at the end of a
- * word.
+ *   word.
  * @returns The vowel form with a glottal stop inserted.
  */
 export function insertGlottalStop(vowelForm: string, isAtEndOfWord: boolean) {
@@ -33,9 +34,10 @@ export function insertGlottalStop(vowelForm: string, isAtEndOfWord: boolean) {
 
 /**
  * Inserts a glottal stop into a vowel form (which may be a WithWYAlternative).
+ *
  * @param vowelForm The vowel form to insert a glottal stop into.
  * @param isAtEndOfWord Whether the finished vowel form will be at the end of a
- * word.
+ *   word.
  * @returns The vowel form with a glottal stop inserted.
  */
 export function insertGlottalStopIntoPossiblyWithWYAlternative(
@@ -45,9 +47,10 @@ export function insertGlottalStopIntoPossiblyWithWYAlternative(
 
 /**
  * Inserts a glottal stop into a vowel form (which may be a WithWYAlternative).
+ *
  * @param vowelForm The vowel form to insert a glottal stop into.
  * @param isAtEndOfWord Whether the finished vowel form will be at the end of a
- * word.
+ *   word.
  * @returns The vowel form with a glottal stop inserted.
  */
 export function insertGlottalStopIntoPossiblyWithWYAlternative(
@@ -57,9 +60,10 @@ export function insertGlottalStopIntoPossiblyWithWYAlternative(
 
 /**
  * Inserts a glottal stop into a vowel form (which may be a WithWYAlternative).
+ *
  * @param vowelForm The vowel form to insert a glottal stop into.
  * @param isAtEndOfWord Whether the finished vowel form will be at the end of a
- * word.
+ *   word.
  * @returns The vowel form with a glottal stop inserted.
  */
 export function insertGlottalStopIntoPossiblyWithWYAlternative(

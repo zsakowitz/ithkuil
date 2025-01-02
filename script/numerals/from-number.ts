@@ -10,6 +10,7 @@ import { Numeral, type NumeralCharacter } from "./index.js"
 
 /**
  * Converts a numeric adjunct into numeral characters.
+ *
  * @param number The number to be converted.
  * @param handwritten Whether the outputted characters should be handwritten.
  * @returns A series of constructable characters.
@@ -58,6 +59,7 @@ export function numericAdjunctToNumerals(
 
 /**
  * Converts a numeric Cs or Cr form into secondary characters.
+ *
  * @param value The numeric value to write.
  * @param getCx Gets the Cs or Cr form corresponding to a given numeric value.
  * @param handwritten Whether or not to use the handwritten script.

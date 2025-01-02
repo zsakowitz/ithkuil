@@ -4,6 +4,7 @@ export const ILLEGAL_CONSONANT_FORMS =
 
 /**
  * Checks whether a consonant form is phonotactically legal.
+ *
  * @param consonantForm The consonant form to check.
  * @returns A boolean indicating whether the consonant form is legal.
  */

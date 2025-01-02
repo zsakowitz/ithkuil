@@ -12,9 +12,10 @@ export const REFERENTIAL_SPECIFICATION_TO_ITHKUIL_MAP =
 
 /**
  * Converts a specification (in a referential) into Ithkuil.
+ *
  * @param specification The specification to be converted.
  * @returns Romanized Ithkuilic text representing the specification (in a
- * referential).
+ *   referential).
  */
 export function referentialSpecificationToIthkuil(
   specification: Specification,

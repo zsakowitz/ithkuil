@@ -62,12 +62,13 @@ export type PlainAdjunct =
 
 /**
  * Converts an adjunct into Ithkuil.
+ *
  * @param adjunct The adjunct to be converted.
  * @returns Romanized Ithkuilic text representing the adjunct.
  *
- * Note that for non-single register adjuncts, this returns a string of the form
- * "X ... Y", "... X", or "...", depending on the adjunct type. For all other
- * adjuncts, this function returns exactly what you would expect.
+ *   Note that for non-single register adjuncts, this returns a string of the form
+ *   "X ... Y", "... X", or "...", depending on the adjunct type. For all other
+ *   adjuncts, this function returns exactly what you would expect.
  */
 export function adjunctToIthkuil(adjunct: Adjunct): string {
   if (typeof adjunct == "number" || typeof adjunct == "bigint") {

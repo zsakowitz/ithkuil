@@ -10,6 +10,7 @@ import { glossReferentListAndPerspective } from "./referent-list-and-perspective
 
 /**
  * Glosses a referential.
+ *
  * @param referential The referential to be glossed.
  * @returns A `GlossString` representing the referential.
  */

@@ -2,6 +2,7 @@ const el = /* @__PURE__ */ document.createElement("pre")
 
 /**
  * Shows text in a small window at the top-left of the screen.
+ *
  * @param data The text to be shown.
  */
 export function debug(...data: unknown[]) {

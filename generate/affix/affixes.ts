@@ -32,8 +32,8 @@ export const PHS = "bž"
 export const EFE = "m"
 
 /**
- * The Cs form for the Level affix.
- * Type-1 denotes relative levels, type-2 denotes absolute levels.
+ * The Cs form for the Level affix. Type-1 denotes relative levels, type-2
+ * denotes absolute levels.
  */
 export const LVL = "řž"
 
@@ -50,19 +50,20 @@ export const AP3 = "mż"
 export const AP4 = "mj"
 
 /**
- * The Cs form for the Mood/Case-Scope affix.
- * 1-5 are moods, 6-9 are case-scopes, and 0 is CCV.
+ * The Cs form for the Mood/Case-Scope affix. 1-5 are moods, 6-9 are
+ * case-scopes, and 0 is CCV.
  */
 export const MCS = "bż"
 
 /**
- * The Cs form for the Illocution/Validation affix.
- * Type-1 = illocution, type-2 = validation.
+ * The Cs form for the Illocution/Validation affix. Type-1 = illocution, type-2
+ * = validation.
  */
 export const IVL = "nļ"
 
 /**
  * Converts a Vn form into an affix.
+ *
  * @param vn The Vn form to be converted.
  * @returns The Vn form as an affix.
  */
@@ -114,10 +115,11 @@ export function vnToAffix(vn: VN): Affix {
 
 /**
  * Converts a Ca, Vn, Cn, Vc, Vk, or Vf form into an affix.
+ *
  * @param item The Ca, Vn, Cn, Vc, Vk, or Vf form to be converted.
  * @returns The Ca, Vn, Cn, Vc, Vk, or Vf form as an affix, or undefined if no
- * affix is needed. `undefined` is only returned for FAC mood and CCN
- * case-scope, which are not specifiable via affixes.
+ *   affix is needed. `undefined` is only returned for FAC mood and CCN
+ *   case-scope, which are not specifiable via affixes.
  */
 export function toAffix(
   item:

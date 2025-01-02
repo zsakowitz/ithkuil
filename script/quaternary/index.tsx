@@ -43,9 +43,7 @@ export type StandardQuaternaryCharacter = {
   /** The mood shown on this quaternary character. */
   readonly mood?: Mood | undefined
 
-  /**
-   * The case or illocution/validation shown on this quaternary character.
-   */
+  /** The case or illocution/validation shown on this quaternary character. */
   readonly value?: Case | Illocution | Validation | undefined
 
   /** The case-scope shown on this quaternary character. */
@@ -137,6 +135,7 @@ export const QUATERNARY_DIACRITIC_MAP = /* @__PURE__ */ deepFreeze([
 
 /**
  * Renders a quaternary character as a group of SVG paths.
+ *
  * @param quaternary Information about the quaternary character.
  * @returns The rendered quaternary character.
  */

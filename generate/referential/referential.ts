@@ -47,8 +47,8 @@ export type ReferentialCore =
 
 /**
  * The structure shared between all single-, dual-, and combination
- * referentials, with all optional slots properly marked optional.
- * Note that the `referents` slot is still required.
+ * referentials, with all optional slots properly marked optional. Note that the
+ * `referents` slot is still required.
  */
 export type PartialReferentialReferentialCore = {
   readonly referents: ReferentList
@@ -119,6 +119,7 @@ export type PartialReferential =
 
 /**
  * Converts a referential into Ithkuil.
+ *
  * @param referential The referential to convert.
  * @returns Romanized Ithkuilic text representing the referential.
  */
@@ -200,6 +201,7 @@ function completeReferentialToIthkuil(referential: Referential) {
 
 /**
  * Converts a referential into Ithkuil.
+ *
  * @param referential The referential to convert.
  * @returns Romanized Ithkuilic text representing the referential.
  */

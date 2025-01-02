@@ -58,9 +58,10 @@ const HANDWRITTEN_OFFSETS = /* @__PURE__ */ deepFreezeAndNullPrototype({
 
 /**
  * Creates the top-right diacritic of a primary character as an SVG path.
+ *
  * @param props Properties that modify the diacritic.
  * @returns An `SVGPathElement` containing the diacritic, or `undefined` if no
- * diacritic is needed.
+ *   diacritic is needed.
  */
 export function PrimaryTopRight({
   handwritten,

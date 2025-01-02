@@ -121,6 +121,7 @@ export const DEFAULT_FORMATIVES_BY_TYPE = /* @__PURE__ */ deepFreeze({
 
 /**
  * Completes a formative, filling in slots that are not passed in.
+ *
  * @param formative The partial formative to be completed.
  * @returns A complete formative.
  */

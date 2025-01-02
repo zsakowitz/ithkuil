@@ -41,6 +41,7 @@ const CA_FORMS = /* @__PURE__ */ makeCaForms()
 
 /**
  * Parses a non-geminated Ca form into an object.
+ *
  * @param ca The Ca form to be parsed.
  * @returns A `PartialCA` object containing the details of the Ca form.
  */
@@ -57,6 +58,7 @@ export function parseCa(ca: string): PartialCA {
 
 /**
  * Parses a geminated Ca form into an object.
+ *
  * @param ca The Ca form to be parsed.
  * @returns A `PartialCA` object containing the details of the Ca form.
  */

@@ -11,6 +11,7 @@ export type SlotVIMetadata = {
 
 /**
  * Converts Slot VI into Ithkuil.
+ *
  * @param slot The Ca of the formative.
  * @param metadata Additional information relevant to Slot VI.
  * @returns Romanized Ithkuilic text representing Slot VI.

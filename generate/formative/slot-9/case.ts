@@ -499,12 +499,13 @@ export const CASE_AFFIX_TO_CS_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Converts a case into Ithkuil.
+ *
  * @param case_ The case to be converted.
  * @param elideIfPossible Whether the THM case can be eliminated.
  * @param hideGlottalStop Whether to hide the glottal stop. This is typically
- * used in concatenated formatives and in case-related affixes.
+ *   used in concatenated formatives and in case-related affixes.
  * @returns A string or `WithWYAlternative` containing romanized Ithkuilic text
- * representing the case.
+ *   representing the case.
  */
 export function caseToIthkuil(
   case_: Case,

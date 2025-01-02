@@ -3,6 +3,7 @@ import { Point } from "./point.js"
 
 /**
  * Gets all vertices on an SVG path.
+ *
  * @param path The path to get the vertices of.
  * @returns The vertices of the path, in absolute coordinates.
  */

@@ -10,9 +10,7 @@ export const REFERENTIAL_PERSPECTIVE_TO_ITHKUIL_MAP =
     A: "w",
   })
 
-/**
- * An object mapping from perspectives to alternate letters used in referents.
- */
+/** An object mapping from perspectives to alternate letters used in referents. */
 export const REFERENTIAL_PERSPECTIVE_TO_ITHKUIL_MAP_ALT =
   /* @__PURE__ */ deepFreeze({
     M: "",
@@ -24,6 +22,7 @@ export const REFERENTIAL_PERSPECTIVE_TO_ITHKUIL_MAP_ALT =
 /**
  * Converts a perspective into a letter affixed onto a referential. This returns
  * the first perspective code (ļ, ç, or w).
+ *
  * @param perspective The perspective to be converted.
  * @returns Romanized Ithkuilic text representing the perspective.
  */
@@ -36,6 +35,7 @@ export function referentialPerspectiveToIthkuil(
 /**
  * Converts a perspective into a letter affixed onto a referential. This returns
  * the second perspective code (tļ, x, or y).
+ *
  * @param perspective The perspective to be converted.
  * @returns Romanized Ithkuilic text representing the perspective.
  */

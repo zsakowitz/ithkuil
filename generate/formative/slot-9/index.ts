@@ -26,10 +26,11 @@ export interface SlotIXMetadata {
 
 /**
  * Converts Slot IX to Ithkuil.
+ *
  * @param slot The case or illocution+validation of this slot.
  * @param metadata Additional information relevant to Slot IX.
  * @returns A string or `WithWYAlternative` containing romanized Ithkuilic text
- * representing Slot IX.
+ *   representing Slot IX.
  */
 export function slotIXToIthkuil(slot: SlotIX, metadata: SlotIXMetadata) {
   if (has(ALL_ILLOCUTIONS, slot) || has(ALL_VALIDATIONS, slot)) {

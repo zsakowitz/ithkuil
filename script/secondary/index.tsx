@@ -181,6 +181,7 @@ function rotate(core: Core, handwritten?: boolean | undefined): Core {
 
 /**
  * Assembles a secondary character as an group of SVG paths.
+ *
  * @param secondary Properties that modify the character.
  * @returns An `SVGGElement` containing the character.
  */

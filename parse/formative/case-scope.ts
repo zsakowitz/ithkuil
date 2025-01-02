@@ -22,10 +22,11 @@ const CN_TO_ASPECTUAL_CASE_SCOPE = /* @__PURE__ */ deepFreezeAndNullPrototype({
 
 /**
  * Parsed a Cn form as a case scope.
+ *
  * @param cn The Cn form to be parsed.
  * @returns An array containing the parsed case scope and a boolean value
- * indicating whether the case scope indicates the corresponding Vn form is an
- * aspect.
+ *   indicating whether the case scope indicates the corresponding Vn form is an
+ *   aspect.
  */
 export function parseCaseScope(
   cn: string,

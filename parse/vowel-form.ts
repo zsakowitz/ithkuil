@@ -7,25 +7,27 @@ import { WithWYAlternative } from "../generate/helpers/with-wy-alternative.js"
 export class VowelForm<S extends 1 | 2 | 3 | 4 = 1 | 2 | 3 | 4> {
   /**
    * Parses a textual vowel form into a `VowelForm` object.
+   *
    * @param text The vowel form as text.
    * @returns The vowel form as a `VowelForm` object, or `undefined` if `text`
-   * was not a valid vowel form.
+   *   was not a valid vowel form.
    *
-   * Note that for sequence 3 vowel forms, either of their alternate forms will
-   * be accepted. `VowelForm.of("ia")` and `VowelForm.of("uä")` are functionally
-   * identical.
+   *   Note that for sequence 3 vowel forms, either of their alternate forms will
+   *   be accepted. `VowelForm.of("ia")` and `VowelForm.of("uä")` are
+   *   functionally identical.
    */
   static of(text: keyof typeof VOWEL_FORM_TO_OBJECT_MAP): VowelForm
 
   /**
    * Parses a textual vowel form into a `VowelForm` object.
+   *
    * @param text The vowel form as text.
    * @returns The vowel form as a `VowelForm` object, or `undefined` if `text`
-   * was not a valid vowel form.
+   *   was not a valid vowel form.
    *
-   * Note that for sequence 3 vowel forms, either of their alternate forms will
-   * be accepted. `VowelForm.of("ia")` and `VowelForm.of("uä")` are functionally
-   * identical.
+   *   Note that for sequence 3 vowel forms, either of their alternate forms will
+   *   be accepted. `VowelForm.of("ia")` and `VowelForm.of("uä")` are
+   *   functionally identical.
    */
   static of(text: string): VowelForm | undefined
 
@@ -46,27 +48,29 @@ export class VowelForm<S extends 1 | 2 | 3 | 4 = 1 | 2 | 3 | 4> {
 
   /**
    * Parses a textual vowel form into a `VowelForm` object.
+   *
    * @param text The vowel form as text.
    * @returns The vowel form as a `VowelForm` object.
    *
-   * Throws if the vowel form is invalid.
+   *   Throws if the vowel form is invalid.
    *
-   * Note that for sequence 3 vowel forms, either of their alternate forms will
-   * be accepted. `VowelForm.parseOrThrow("ia")` and
-   * `VowelForm.parseOrThrow("uä")` are functionally identical.
+   *   Note that for sequence 3 vowel forms, either of their alternate forms will
+   *   be accepted. `VowelForm.parseOrThrow("ia")` and
+   *   `VowelForm.parseOrThrow("uä")` are functionally identical.
    */
   static parseOrThrow(text: keyof typeof VOWEL_FORM_TO_OBJECT_MAP): VowelForm
 
   /**
    * Parses a textual vowel form into a `VowelForm` object.
+   *
    * @param text The vowel form as text.
    * @returns The vowel form as a `VowelForm` object.
    *
-   * Throws if the vowel form is invalid.
+   *   Throws if the vowel form is invalid.
    *
-   * Note that for sequence 3 vowel forms, either of their alternate forms will
-   * be accepted. `VowelForm.parseOrThrow("ia")` and
-   * `VowelForm.parseOrThrow("uä")` are functionally identical.
+   *   Note that for sequence 3 vowel forms, either of their alternate forms will
+   *   be accepted. `VowelForm.parseOrThrow("ia")` and
+   *   `VowelForm.parseOrThrow("uä")` are functionally identical.
    */
   static parseOrThrow(text: string): VowelForm
 
@@ -104,8 +108,9 @@ export class VowelForm<S extends 1 | 2 | 3 | 4 = 1 | 2 | 3 | 4> {
 
   /**
    * Converts this vowel form into a string.
+   *
    * @param isAtEndOfWord Whether or not this vowel form will be used as the
-   * final form in a word.
+   *   final form in a word.
    * @returns A string or `WithWYAlternative` representing this vowel form.
    */
   toString(isAtEndOfWord: boolean): S extends 3 ? WithWYAlternative : string
@@ -121,8 +126,9 @@ export class VowelForm<S extends 1 | 2 | 3 | 4 = 1 | 2 | 3 | 4> {
 
   /**
    * Creates a new `VowelForm` identical to this one, but with a glottal stop.
+   *
    * @param hasGlottalStop Whether the output `VowelForm` will include a glottal
-   * stop. Defaults to `true`.
+   *   stop. Defaults to `true`.
    * @returns The new `VowelForm`.
    */
   withGlottalStop(hasGlottalStop = true) {

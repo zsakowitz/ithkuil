@@ -66,9 +66,7 @@ export const SLOT_IV_MAP = /* @__PURE__ */ deepFreeze({
   },
 })
 
-/**
- * An object mapping from contexts to their indices in the standard vowel table.
- */
+/** An object mapping from contexts to their indices in the standard vowel table. */
 export const CONTEXT_TO_INDEX_MAP = /* @__PURE__ */ deepFreeze({
   EXS: 0,
   FNC: 1,
@@ -78,6 +76,7 @@ export const CONTEXT_TO_INDEX_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Converts Slot IV into Ithkuil.
+ *
  * @param slot The function, specification, and context of the formative.
  * @param metadata Additional information relevant to Slot IV.
  * @returns Romanized Ithkuilic text representing Slot IV.

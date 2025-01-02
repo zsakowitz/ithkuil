@@ -26,6 +26,7 @@ export const HANDWRITTEN_CORE_EXTENSIONS = /* @__PURE__ */ deepFreeze({
 
 /**
  * Creates the core shape of a primary character as an SVG path.
+ *
  * @param props Properties that modify the shape.
  * @returns An `SVGPathElement` containing the shape.
  */

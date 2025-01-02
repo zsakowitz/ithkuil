@@ -20,10 +20,11 @@ export * from "./suppletive.js"
 
 /**
  * Parses an adjunct.
+ *
  * @param text The adjunct to be parsed.
  * @returns The parsed adjunct, or `undefined` if the adjunct failed to
- * tokenize. Throws an error if the adjunct successfully tokenized but had
- * another error.
+ *   tokenize. Throws an error if the adjunct successfully tokenized but had
+ *   another error.
  */
 export function parseAdjunct(text: string): PlainAdjunct | undefined {
   const { word, stress } = transformWord(text)

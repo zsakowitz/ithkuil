@@ -45,12 +45,13 @@ const VZ_TO_SCOPE_MAP = {
 
 /**
  * Builds a multiple-affix affixual adjunct.
+ *
  * @param word The word to be built.
  * @param stress The stress of the adjunct.
  * @returns Either a parsed `AffixualAdjunct` indicating a success, or
- * `undefined` indicating a tokenization failure. Throws if the adjunct was
- * successfully tokenized but had another error in it (e.g. invalid Cs slot,
- * etc.).
+ *   `undefined` indicating a tokenization failure. Throws if the adjunct was
+ *   successfully tokenized but had another error in it (e.g. invalid Cs slot,
+ *   etc.).
  */
 export function buildMultipleAffixAffixualAdjunct(
   word: string,

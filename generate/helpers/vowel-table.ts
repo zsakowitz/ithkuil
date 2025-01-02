@@ -17,9 +17,9 @@ import {
  * the types for more information.
  *
  * @example
- * STANDARD_VOWEL_TABLE[2][0] // "ea"
- * STANDARD_VOWEL_TABLE[0][1] // throws an error
- * STANDARD_VOWEL_TABLE[1][9] // "u"
+ *   STANDARD_VOWEL_TABLE[2][0] // "ea"
+ *   STANDARD_VOWEL_TABLE[0][1] // throws an error
+ *   STANDARD_VOWEL_TABLE[1][9] // "u"
  */
 export const STANDARD_VOWEL_TABLE = /* @__PURE__ */ deepFreeze([
   undefined,
@@ -35,9 +35,9 @@ export const STANDARD_VOWEL_TABLE = /* @__PURE__ */ deepFreeze([
  * the 10th row.
  *
  * @example
- * ZERO_INDEXED_STANDARD_VOWEL_TABLE[2][0] // IA_UÄ
- * ZERO_INDEXED_STANDARD_VOWEL_TABLE[0][1] // "ä"
- * ZERO_INDEXED_STANDARD_VOWEL_TABLE[1][9] // "ea"
+ *   ZERO_INDEXED_STANDARD_VOWEL_TABLE[2][0] // IA_UÄ
+ *   ZERO_INDEXED_STANDARD_VOWEL_TABLE[0][1] // "ä"
+ *   ZERO_INDEXED_STANDARD_VOWEL_TABLE[1][9] // "ea"
  */
 export const ZERO_INDEXED_STANDARD_VOWEL_TABLE = /* @__PURE__ */ deepFreeze([
   ["a", "ä", "e", "i", "ëi", "ö", "o", "ü", "u", "ae"],
@@ -52,9 +52,9 @@ export const ZERO_INDEXED_STANDARD_VOWEL_TABLE = /* @__PURE__ */ deepFreeze([
  * row.
  *
  * @example
- * ONE_INDEXED_STANDARD_VOWEL_TABLE[2][0] // "üo"
- * ONE_INDEXED_STANDARD_VOWEL_TABLE[0][1] // "a"
- * ONE_INDEXED_STANDARD_VOWEL_TABLE[1][9] // "ui"
+ *   ONE_INDEXED_STANDARD_VOWEL_TABLE[2][0] // "üo"
+ *   ONE_INDEXED_STANDARD_VOWEL_TABLE[0][1] // "a"
+ *   ONE_INDEXED_STANDARD_VOWEL_TABLE[1][9] // "ui"
  */
 export const ONE_INDEXED_STANDARD_VOWEL_TABLE = /* @__PURE__ */ deepFreeze([
   ["ae", "a", "ä", "e", "i", "ëi", "ö", "o", "ü", "u"],

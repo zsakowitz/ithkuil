@@ -15,10 +15,11 @@ export type SlotVMetadata = {
 
 /**
  * Converts Slot V into Ithkuil.
+ *
  * @param slot The Slot V affixes of the formative.
  * @param metadata Additional information relevant to Slot V.
  * @returns A `WithWYAlternative` containing romanized Ithkuilic text
- * representing Slot V.
+ *   representing Slot V.
  */
 export function slotVToIthkuil(
   slot: SlotV,

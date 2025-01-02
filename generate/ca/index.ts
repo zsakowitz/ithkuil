@@ -55,6 +55,7 @@ export type PartialCA = {
 /**
  * Makes allomorphic substitutions within Ca forms to make the pronounceble and
  * conform to Ithkuil's phonotactic rules.
+ *
  * @param ca The Ca form which will have substitutions made in it.
  * @returns Romanized Ithkuilic text representing the finalized Ca form.
  */
@@ -83,6 +84,7 @@ export function makeCAAllomorphicSubstitutions(ca: string) {
 
 /**
  * Converts a Ca form into Ithkuil.
+ *
  * @param ca The Ca form to be converted.
  * @returns Romanized Ithkuilic text representing the Ca form.
  */
@@ -119,6 +121,7 @@ export function caToIthkuil(ca: PartialCA) {
 
 /**
  * Converts a Ca form into Ithkuil, geminating the form throughout the process.
+ *
  * @param ca The Ca form to be converted.
  * @returns Romanized Ithkuilic text representing the geminated Ca form.
  */
@@ -173,6 +176,7 @@ export const DEFAULT_CA: CA = /* @__PURE__ */ deepFreeze({
 /**
  * Fills a Ca form with default values (CSL, UPX, DEL, M, and NRM) in its empty
  * slots.
+ *
  * @param ca The Ca form to be filled.
  * @returns A completed Ca form with no empty slots.
  */

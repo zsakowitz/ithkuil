@@ -83,9 +83,7 @@ const HANDWRITTEN_DIACRITIC_OFFSET = /* @__PURE__ */ deepFreezeAndNullPrototype(
   },
 )
 
-/**
- * An object mapping from perspective and extension into secondary extensions.
- */
+/** An object mapping from perspective and extension into secondary extensions. */
 export const PRIMARY_TOP_LEFT = /* @__PURE__ */ deepFreeze({
   M: {
     DEL: undefined,
@@ -159,6 +157,7 @@ export const PRIMARY_BOTTOM_RIGHT = /* @__PURE__ */ deepFreeze({
 
 /**
  * Assembles a primary character as an group of SVG paths.
+ *
  * @param props Properties that modify the character.
  * @returns An `SVGGElement` containing the character.
  */

@@ -53,6 +53,7 @@ export interface RootEntry {
 /**
  * Gets all roots described in the Collaborative Ithkuil IV Roots and Affixes
  * Spreadsheet.
+ *
  * @param apiKey The Google Sheets API key to use when fetching data.
  * @returns An array of roots.
  */

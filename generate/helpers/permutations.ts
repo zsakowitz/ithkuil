@@ -2,6 +2,7 @@
 
 /**
  * Calculates all possible permutations of an input array.
+ *
  * @param array The array to calculate permutations of.
  * @returns An array containing all possible permutations of the input array.
  */
@@ -9,6 +10,7 @@ export function allPermutationsOf<T>(array: readonly [T, ...T[]]): [T, ...T[]][]
 
 /**
  * Calculates all possible permutations of an input array.
+ *
  * @param array The array to calculate permutations of.
  * @returns An array containing all possible permutations of the input array.
  */

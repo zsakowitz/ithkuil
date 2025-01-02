@@ -27,9 +27,7 @@ export const MODULAR_ADJUNCT_SCOPE_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
   ADJACENT: "o",
 })
 
-/**
- * An object mapping from modular adjunct scopes to what they have scope over.
- */
+/** An object mapping from modular adjunct scopes to what they have scope over. */
 export const MODULAR_ADJUNCT_SCOPE_TO_DESCRIPTION_MAP =
   /* @__PURE__ */ deepFreeze({
     "CASE/MOOD+ILL/VAL": "Case/Mood and Validation + Illocution",
@@ -40,6 +38,7 @@ export const MODULAR_ADJUNCT_SCOPE_TO_DESCRIPTION_MAP =
 
 /**
  * Converts a modular adjunct scope into Ithkuil.
+ *
  * @param scope The modular adjunct scope to be converted.
  * @returns Romanized Ithkuilic text representing the adjunct.
  */

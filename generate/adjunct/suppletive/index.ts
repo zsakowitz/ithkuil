@@ -18,6 +18,7 @@ export type SuppletiveAdjunct = {
 
 /**
  * Converts a suppletive adjunct into Ithkuil.
+ *
  * @param adjunct The adjunct to be converted.
  * @returns Romanized Ithkuilic text representing the adjunct.
  */

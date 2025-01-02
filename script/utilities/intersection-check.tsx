@@ -39,6 +39,7 @@ function _doPathsIntersect(a: string, b: string, margin = 10) {
 
 /**
  * Checks if two paths intersect.
+ *
  * @param a The first path to check.
  * @param b The second path to check.
  * @param margin The margin of error allowed.
@@ -50,6 +51,7 @@ export function doPathsIntersect(a: string, b: string, margin = 10) {
 
 /**
  * Checks if two elements intersect.
+ *
  * @param a The first element to check.
  * @param b The second element to check.
  * @param margin The margin of error allowed.

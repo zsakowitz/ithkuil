@@ -25,7 +25,8 @@ export type ReferentList = readonly [Referent, ...Referent[]]
  * @param referents A list of referents.
  * @param perspective The perspective to attach to said referents.
  * @param isReferentialAffix Whether this is used in a referential affix.
- * @param isSecondReferent Whether this is the second referent in a dual referential.
+ * @param isSecondReferent Whether this is the second referent in a dual
+ *   referential.
  * @returns Romanized Ithkuilic text representing the referent list.
  */
 export function assembleReferentList(
@@ -114,7 +115,8 @@ export function assembleReferentList(
  *
  * @param referents A list of referents.
  * @param perspective The perspective to attach to said referents.
- * @param isSecondReferent Whether this is the second referent in a dual referential.
+ * @param isSecondReferent Whether this is the second referent in a dual
+ *   referential.
  * @returns Romanized Ithkuilic text representing the referent list.
  */
 export function referentListToIthkuil(
@@ -156,6 +158,7 @@ export function referentListToIthkuil(
 
 /**
  * Converts a `ReferentList` into an Ithkuilic referential affix.
+ *
  * @param referents The `ReferentList` to be converted.
  * @param perspective The perspective to be attatched to the referent.
  * @returns Romanized Ithkuilic text representing the referent.
@@ -208,6 +211,7 @@ function nonReferentialAffixReferentToIthkuil(referent: Referent) {
 
 /**
  * Converts a list of referents to an Ithkuilic personal reference root.
+ *
  * @param list The referents to be converted.
  * @returns Romanized Ithkuilic text representing the referent list.
  */

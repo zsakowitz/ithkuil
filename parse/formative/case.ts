@@ -3,6 +3,7 @@ import type { VowelForm } from "../vowel-form.js"
 
 /**
  * Parses a case from a `VowelForm`.
+ *
  * @param vc The `VowelForm` to be parsed.
  * @param isCaseOver36 Whether the case is over 36.
  * @returns The parsed case.

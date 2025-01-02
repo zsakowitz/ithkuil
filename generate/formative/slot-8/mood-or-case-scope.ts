@@ -27,9 +27,7 @@ export class MoodOrCaseScope<
    */
   readonly nonAspectualValue: N
 
-  /**
-   * The Cn value this object has when its corresponding Vn value is an Aspect.
-   */
+  /** The Cn value this object has when its corresponding Vn value is an Aspect. */
   readonly aspectualValue: A
 
   private constructor(
@@ -55,6 +53,7 @@ export class MoodOrCaseScope<
 
   /**
    * Converts this `MoodOrCaseScope` into a Cn form.
+   *
    * @param isAspectual Whether the corresponding Vn value is an Aspect.
    * @returns Romanized Ithkuilic text representing this Cn value.
    */
@@ -64,6 +63,7 @@ export class MoodOrCaseScope<
 
   /**
    * Converts this `MoodOrCaseScope` into JSON.
+   *
    * @returns A string containing slash-separated mood and case-scope.
    */
   toJSON() {

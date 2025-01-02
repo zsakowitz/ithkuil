@@ -18,6 +18,7 @@ const PERSPECTIVES = [
 
 /**
  * Parses a referent list (e.g. `"sml"`).
+ *
  * @param list The referent list to be parsed.
  * @returns The parsed `ReferentList`.
  */
@@ -47,10 +48,12 @@ export function parseReferentList(list: string): ReferentList {
 
 /**
  * Parses a referent list along with an optional perspective (e.g. `"smlx"`).
+ *
  * @param list The referent list and perspective to be parsed.
- * @param isReferentialAffix Whether the referent list is from a referential affix.
+ * @param isReferentialAffix Whether the referent list is from a referential
+ *   affix.
  * @returns An array containing two items: an array of parsed referents, and an
- * optional perspective.
+ *   optional perspective.
  */
 export function parseReferentListAndPerspective(
   list: string,
@@ -59,10 +62,12 @@ export function parseReferentListAndPerspective(
 
 /**
  * Parses a referent list along with an optional perspective (e.g. `"smlx"`).
+ *
  * @param list The referent list and perspective to be parsed.
- * @param isReferentialAffix Whether the referent list is from a referential affix.
+ * @param isReferentialAffix Whether the referent list is from a referential
+ *   affix.
  * @returns An array containing two items: an array of parsed referents, and an
- * optional perspective.
+ *   optional perspective.
  */
 export function parseReferentListAndPerspective(
   list: string,
@@ -71,10 +76,12 @@ export function parseReferentListAndPerspective(
 
 /**
  * Parses a referent list along with an optional perspective (e.g. `"smlx"`).
+ *
  * @param list The referent list and perspective to be parsed.
- * @param isReferentialAffix Whether the referent list is from a referential affix.
+ * @param isReferentialAffix Whether the referent list is from a referential
+ *   affix.
  * @returns An array containing two items: an array of parsed referents, and an
- * optional perspective.
+ *   optional perspective.
  */
 export function parseReferentListAndPerspective(
   list: string,

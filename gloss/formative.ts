@@ -22,6 +22,7 @@ const isArray = /* @__PURE__ */ (() => Array.isArray)() as (
 
 /**
  * Glosses a formative.
+ *
  * @param formative The formative to be glossed.
  * @returns A `GlossString` representing the formative.
  */

@@ -103,6 +103,7 @@ export const ALL_BIAS_ADJUNCTS_BY_SCRIPT_INDEX = /* @__PURE__ */ deepFreeze([
 
 /**
  * Creates a bias character as a group of SVG paths.
+ *
  * @param props Information about the bias character.
  * @returns The constructed bias character.
  */

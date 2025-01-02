@@ -37,34 +37,35 @@ export type Word = PartialReferential | PartialFormative | Adjunct
 
 /**
  * Converts a single word into Ithkuil.
+ *
  * @param word The word to be converted.
  * @returns Romanized Ithkuilic text representing the word.
  *
- * Note that while this function aims to always capture the caller's intent and
- * return the correct type of word, there is one edge case. Specifically, all
- * Suppletive Adjuncts can alternately be parsed as referentials with suppletive
- * referents. To resolve this ambiguity, this function always converts
- * Suppletive Adjuncts to their standard adjunct forms if possible.
+ *   Note that while this function aims to always capture the caller's intent and
+ *   return the correct type of word, there is one edge case. Specifically, all
+ *   Suppletive Adjuncts can alternately be parsed as referentials with
+ *   suppletive referents. To resolve this ambiguity, this function always
+ *   converts Suppletive Adjuncts to their standard adjunct forms if possible.
  *
- * Here is an example of such an ambiguity, and how `wordToIthkuil` resolves it.
+ *   Here is an example of such an ambiguity, and how `wordToIthkuil` resolves it.
  *
- * ```ts
- * suppletiveAdjunctToIthkuil({ type: "NAM", case: "STM" })
- * // "hnëi"
+ *   ```ts
+ *   suppletiveAdjunctToIthkuil({ type: "NAM", case: "STM" })
+ *   // "hnëi"
  *
- * referentialToIthkuil({ type: "NAM", case: "STM" })
- * // "üohnëi"
+ *   referentialToIthkuil({ type: "NAM", case: "STM" })
+ *   // "üohnëi"
  *
- * wordToIthkuil({ type: "NAM", case: "STM" })
- * // "hnëi"
- * ```
+ *   wordToIthkuil({ type: "NAM", case: "STM" })
+ *   // "hnëi"
+ *   ```
  *
- * Of course, it calls `referentialToIthkuil` when needed.
+ *   Of course, it calls `referentialToIthkuil` when needed.
  *
- * ```ts
- * wordToIthkuil({ type: "NAM", case: "STM", essence: "RPV" })
- * // "üohnêi"
- * ```
+ *   ```ts
+ *   wordToIthkuil({ type: "NAM", case: "STM", essence: "RPV" })
+ *   // "üohnêi"
+ *   ```
  */
 export function wordToIthkuil(word: Word): string {
   if (

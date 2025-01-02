@@ -11,10 +11,11 @@ export const ALL_SLOT_X_STRESSES: readonly SlotX[] = /* @__PURE__ */ deepFreeze(
 
 /**
  * Applies Slot X stress to an Ithkuilic word.
+ *
  * @param word The word to apply stress to.
  * @param stress The stress type to apply.
  * @returns Romanized Ithkuilic text representing the full formative, including
- * the stress, marked with an accent mark or circumflex.
+ *   the stress, marked with an accent mark or circumflex.
  */
 export function applySlotXStress(word: string, stress: SlotX) {
   const vowelFormCount = countVowelForms(word)

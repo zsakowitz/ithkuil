@@ -7,6 +7,7 @@ import { insertGlottalStop } from "./insert-glottal-stop.js"
 export class WithWYAlternative {
   /**
    * Adds two strings or `WithWYAlternative`s.
+   *
    * @param first The left side of the output.
    * @param second The right side of the output.
    * @returns A string containing the output.
@@ -15,6 +16,7 @@ export class WithWYAlternative {
 
   /**
    * Adds two strings or `WithWYAlternative`s.
+   *
    * @param first The left side of the output.
    * @param second The right side of the output.
    * @returns A `WithWYAlternative` containing the output.
@@ -26,6 +28,7 @@ export class WithWYAlternative {
 
   /**
    * Adds two strings or `WithWYAlternative`s.
+   *
    * @param first The left side of the output.
    * @param second The right side of the output.
    * @returns A string or `WithWYAlternative` representing the output.
@@ -52,6 +55,7 @@ export class WithWYAlternative {
 
   /**
    * Coerces a string or `WithWYAlternative` as a `WithWYAlternative`.
+   *
    * @param text The string or `WithWYAlternative` to create an object from.
    * @returns A `WithWYAlternative` containing the input data.
    */
@@ -65,6 +69,7 @@ export class WithWYAlternative {
 
   /**
    * Constructs a `WithWYAlternative`.
+   *
    * @param defaultValue The default value.
    * @param valueAfterW The value when preceded by W.
    * @param valueAfterY The value when preceded by Y.
@@ -81,6 +86,7 @@ export class WithWYAlternative {
   /**
    * Gets the appropriate field (defaultValue, precededByW, or precededByY)
    * based on the contents of text preceding this `WithWYAlternative`.
+   *
    * @param text The text preceding this `WithWYAlternative`.
    * @returns The value of the appropriate field.
    */
@@ -98,6 +104,7 @@ export class WithWYAlternative {
 
   /**
    * Adds this `WithWYAlternative` to a string or another `WithWYAlternative`.
+   *
    * @param other A string or `WithWYAlternative` to add this to.
    * @returns A `WithWYAlternative` containing the appropriate outputs.
    */
@@ -113,6 +120,7 @@ export class WithWYAlternative {
 
   /**
    * Stringifies this WithWYAlternative.
+   *
    * @returns A stringified representation of this WithWYAlternative.
    */
   toString() {
@@ -136,10 +144,11 @@ export class WithWYAlternative {
 
   /**
    * Inserts glottal stops into this `WithWYAlternative`.
+   *
    * @param isAtEndOfWord Whether this `WithWYAlternative` is at the end of a
-   * word.
+   *   word.
    * @returns A `WithWYAlternative` containing the contents of this one, but
-   * with a glottal stop in each alternative.
+   *   with a glottal stop in each alternative.
    */
   insertGlottalStop(isAtEndOfWord: boolean) {
     return new WithWYAlternative(

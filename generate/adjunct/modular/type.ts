@@ -11,9 +11,7 @@ export type ModularAdjunctType = "WHOLE" | "PARENT" | "CONCAT"
 export const ALL_MODULAR_ADJUNCT_TYPES: readonly ModularAdjunctType[] =
   /* @__PURE__ */ deepFreeze(["WHOLE", "PARENT", "CONCAT"])
 
-/**
- * An object mapping from modular adjunct types to their Ithkuilic translations.
- */
+/** An object mapping from modular adjunct types to their Ithkuilic translations. */
 export const MODULAR_ADJUNCT_TYPE_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
   WHOLE: "",
   PARENT: "w",
@@ -30,6 +28,7 @@ export const MODULAR_ADJUNCT_TYPE_TO_DESCRIPTION_MAP =
 
 /**
  * Converts a modular adjunct type into Ithkuil.
+ *
  * @param type The modular adjunct type to be converted.
  * @returns Romanized Ithkuilic text representing the type.
  */

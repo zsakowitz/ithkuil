@@ -77,6 +77,7 @@ export type DiacriticName = keyof typeof CORE_DIACRITICS
 
 /**
  * Instantiates a diacritic into an SVG path.
+ *
  * @param props Properties that modify the output of this `Diacritic`.
  * @returns An `SVGPathElement` containing the diacritic.
  */

@@ -174,10 +174,11 @@ export interface SecondaryTranslationOptions {
 
 /**
  * Converts text into secondary character templates.
+ *
  * @param text The text to be converted. Use spaces to force character breaks,
- * and use underscore to force placeholders and extension locations.
+ *   and use underscore to force placeholders and extension locations.
  * @param options Options that modify how the secondary characters are
- * translated.
+ *   translated.
  * @returns An array of secondary characters parsed from the text.
  */
 export function textToSecondaries(

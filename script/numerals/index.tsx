@@ -340,6 +340,7 @@ export type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 
 /**
  * Renders a numeral as a group of SVG paths.
+ *
  * @param numeral Information about the numeral.
  * @returns A group of SVG paths.
  */

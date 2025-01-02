@@ -8,6 +8,7 @@ import { glossReferent } from "./referent.js"
 
 /**
  * Glosses a referent list and perspective.
+ *
  * @param list The referent list to be glossed.
  * @param perspective The perspective of the referent list.
  * @returns A `GlossString` representing the referent list and perspective.

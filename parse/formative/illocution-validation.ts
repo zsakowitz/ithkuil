@@ -17,6 +17,7 @@ const ILLOCUTIONS = [
 
 /**
  * Parses a Vk form into an illocution or validation.
+ *
  * @param vk The Vk form to be parsed.
  * @returns The parsed illocution or validation.
  */

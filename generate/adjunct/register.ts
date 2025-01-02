@@ -44,9 +44,7 @@ export const ALL_SINGLE_REGISTER_ADJUNCTS: readonly SingleRegisterAdjunct[] =
     "END:END",
   ])
 
-/**
- * An object mapping from all register adjuncts to their Ithkuilic translations.
- */
+/** An object mapping from all register adjuncts to their Ithkuilic translations. */
 export const REGISTER_ADJUNCT_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
   NRR: ["", ""] as [start: "", end: ""],
   DSV: ["ha", "hai"] as [start: "ha", end: "hai"],
@@ -121,9 +119,10 @@ export const REGISTER_ADJUNCT_TO_DESCRIPTION_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Converts a register adjunct into Ithkuil.
+ *
  * @param adjunct The adjunct to be converted.
  * @returns An array with two strings of romanized Ithkuilic text. The first is
- * the beginning adjunct; the second is the final adjunct.
+ *   the beginning adjunct; the second is the final adjunct.
  */
 export function registerAdjunctToIthkuil(
   adjunct: RegisterAdjunct,
@@ -133,6 +132,7 @@ export function registerAdjunctToIthkuil(
 
 /**
  * Converts a single register adjunct into Ithkuil.
+ *
  * @param adjunct The adjunct to be converted.
  * @returns Romanized Ithkuilic text representing the adjunct.
  */

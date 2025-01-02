@@ -3,6 +3,7 @@ export const CONSONANT = /[^aeiouäëöü]/g
 
 /**
  * Extracts the vowels from a given text.
+ *
  * @param text The text to extract vowels from.
  * @returns The vowels of the given text.
  */
@@ -15,6 +16,7 @@ export const VOWEL = /[aeiouäëöü]/g
 
 /**
  * Extracts the consonants from a given text.
+ *
  * @param text The text to extract consonants from.
  * @returns The consonants of the given text.
  */
@@ -27,6 +29,7 @@ export const INITIAL_CONSONANT_CLUSTER = /^[^aeiouäëöü]+/
 
 /**
  * Extracts the initial consonant cluster of a word.
+ *
  * @param text The text to extract a cluster from.
  * @returns The matched cluster, or `undefined` is no such cluster exists.
  */
@@ -41,6 +44,7 @@ export const FINAL_CONSONANT_CLUSTER = /[^aeiouäëöü]+$/
 
 /**
  * Extracts the final consonant cluster of a word.
+ *
  * @param text The text to extract a cluster from.
  * @returns The matched cluster, or `undefined` is no such cluster exists.
  */
@@ -53,6 +57,7 @@ export const INITIAL_VOWEL_CLUSTER = /^[aeiouäëöü]+/
 
 /**
  * Extracts the initial vowel cluster of a word.
+ *
  * @param text The text to extract a cluster from.
  * @returns The matched cluster, or `undefined` is no such cluster exists.
  */
@@ -65,6 +70,7 @@ export const FINAL_VOWEL_CLUSTER = /[aeiouäëöü]+$/
 
 /**
  * Extracts the final vowel cluster of a word.
+ *
  * @param text The text to extract a cluster from.
  * @returns The matched cluster, or `undefined` is no such cluster exists.
  */

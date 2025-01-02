@@ -6,10 +6,12 @@ import { registerAdjunct } from "../lex/adjunct/register.js"
 
 /**
  * Builds a register adjunct.
+ *
  * @param word The word to be built.
  * @returns Either a parsed `SingleRegisterAdjunct` indicating a success, or
- * `undefined` indicating a tokenization failure. Throws if the adjunct was
- * successfully tokenized but had another error in it (e.g. invalid register).
+ *   `undefined` indicating a tokenization failure. Throws if the adjunct was
+ *   successfully tokenized but had another error in it (e.g. invalid
+ *   register).
  */
 export function buildRegisterAdjunct(
   word: string,

@@ -2,6 +2,7 @@ import { isLegalConsonantForm } from "../phonotactics/general.js"
 
 /**
  * Attempts to geminate a Ca form.
+ *
  * @param text The Ca form to be geminated.
  * @returns The (possibly) geminated Ca form.
  */

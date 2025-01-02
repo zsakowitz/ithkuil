@@ -1,5 +1,6 @@
 /**
  * Clones a node.
+ *
  * @param props Properties modifying the cloned element.
  * @returns The cloned node.
  */

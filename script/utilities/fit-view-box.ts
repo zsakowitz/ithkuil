@@ -1,5 +1,6 @@
 /**
  * Modifies an SVG element's view box to be equal to the size of its contents.
+ *
  * @param svg The SVG element whose view box will be adjusted.
  * @param margin The size of the margin placed around the SVG.
  * @param options Options to pass to `svg.getBBox()`.

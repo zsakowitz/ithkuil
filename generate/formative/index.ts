@@ -269,6 +269,7 @@ const isArray = /* @__PURE__ */ (() => Array.isArray)() as (
 
 /**
  * Converts a formative into Ithkuil.
+ *
  * @param formative The formative to be converted.
  * @returns Romanized Ithkuilic text representing the formative.
  */
@@ -606,6 +607,7 @@ function completeFormativeToIthkuil(formative: Formative) {
 
 /**
  * Converts a formative into Ithkuil.
+ *
  * @param formative The formative to be converted.
  * @returns Romanized Ithkuilic text representing the formative.
  */

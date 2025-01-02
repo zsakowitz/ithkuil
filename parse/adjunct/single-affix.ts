@@ -16,12 +16,13 @@ const VS_TO_SCOPE_MAP = {
 
 /**
  * Builds a single-affix affixual adjunct.
+ *
  * @param word The word to be built.
  * @param stress The stress of the adjunct.
  * @returns Either a parsed `AffixualAdjunct` indicating a success, or
- * `undefined` indicating a tokenization failure. Throws if the adjunct was
- * successfully tokenized but had another error in it (e.g. invalid Cs slot,
- * etc.).
+ *   `undefined` indicating a tokenization failure. Throws if the adjunct was
+ *   successfully tokenized but had another error in it (e.g. invalid Cs slot,
+ *   etc.).
  */
 export function buildSingleAffixAffixualAdjunct(
   word: string,

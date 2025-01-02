@@ -9,6 +9,7 @@ import { GlossString, asGloss } from "./glossable.js"
 
 /**
  * Glosses an Ca form.
+ *
  * @param ca The Ca form to be glossed.
  * @param isAffix Whether this is a Ca-stacking affix.
  * @returns A `GlossString` representing the Ca form.

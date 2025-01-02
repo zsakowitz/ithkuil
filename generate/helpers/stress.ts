@@ -16,6 +16,7 @@ export const VOWEL_TO_STRESSED_VOWEL_MAP = /* @__PURE__ */ deepFreeze({
 /**
  * Applies stress to a vowel form, marking it either with an accent (´) or a
  * circumflex (ˆ).
+ *
  * @param vowelForm The vowel form to apply stress to.
  * @returns The stressed vowel form.
  */
@@ -39,6 +40,7 @@ export function stressVowelForm(vowelForm: string): string {
 
 /**
  * Counts the number of vowels and dipthongs in a string.
+ *
  * @param text The text to count the vowels of.
  * @returns The number of vowels and dipthongs in the given string.
  */
@@ -48,6 +50,7 @@ export function countVowelForms(text: string) {
 
 /**
  * Marks a specific syllable of a word with stress.
+ *
  * @param word The word to apply stress to.
  * @param position The position to apply stress at.
  * @returns The word, with the proper syllable stressed.

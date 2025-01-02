@@ -29,6 +29,7 @@ export interface AffixEntry {
 /**
  * Gets all affixes described in the Collaborative Ithkuil IV Roots and Affixes
  * Spreadsheet.
+ *
  * @param apiKey The Google Sheets API key to use when fetching data.
  * @returns An array of affixes.
  */

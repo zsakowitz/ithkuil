@@ -27,6 +27,7 @@ function assertWordIsNotFormative<T>(
 
 /**
  * Glosses a word.
+ *
  * @param word The word to gloss.
  * @returns A `GlossString` representing the word.
  */

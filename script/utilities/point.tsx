@@ -1,5 +1,6 @@
 /**
  * Shows a point.
+ *
  * @param props Properties modifying how the point is displayed.
  * @returns An `SVGPathElement` showing the point.
  */

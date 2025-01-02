@@ -96,6 +96,7 @@ export interface RegisterCharacter {
 
 /**
  * Writes a register adjunct in Ithkuil script.
+ *
  * @param props Properties modifying this register adjunct.
  * @returns The register adjunct as an SVG path.
  */

@@ -6,7 +6,7 @@ import { H, V } from "../forms.js"
  * **required** will always be present, while those marked **optional** may not
  * be present.
  *
- * 1. w/y (optional)
+ * 1. W/y (optional)
  * 2. Vn (optional, but present if slots 3, 4, or 5 are present)
  * 3. Cn (optional, but present if slots 2, 4, or 5 are present)
  * 4. Vn (optional, but present if slot 5 is present)

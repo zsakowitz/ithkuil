@@ -14,14 +14,14 @@ export * from "./scope.js"
  * An affixual adjunct.
  *
  * @example
- * ({ affixes: [{ type: 2, degree: 7, cs: "c" }] })
+ *   ;({ affixes: [{ type: 2, degree: 7, cs: "c" }] })
  *
  * @example
- * ({
- *   affixes: [{ type: 2, degree: 7, cs: "c" }],
- *   scope: "VII:DOM",
- *   appliesToConcatenatedStemOnly: true,
- * })
+ *   ;({
+ *     affixes: [{ type: 2, degree: 7, cs: "c" }],
+ *     scope: "VII:DOM",
+ *     appliesToConcatenatedStemOnly: true,
+ *   })
  */
 export type AffixualAdjunct = {
   /** The affixes that are part of this adjunct. */
@@ -42,8 +42,8 @@ export type AffixualAdjunct = {
   readonly scope2?: AffixualAdjunctScope | undefined
 
   /**
-   * `true` if adjunct applies only to concatenated stem.
-   * `false` if adjunct applies to formative as a whole.
+   * `true` if adjunct applies only to concatenated stem. `false` if adjunct
+   * applies to formative as a whole.
    *
    * @default false
    */
@@ -52,16 +52,17 @@ export type AffixualAdjunct = {
 
 /**
  * Converts an affixual adjunct into Ithkuil.
- * @param adjunct The affixual adjunct to be converted.
- * @returns Romanized Ithkuilic text representing the affixual adjunct.
  *
  * @example
- * affixualAdjunctToIthkuil({
- *   affixes: [{ type: 2, degree: 7, cs: "c" }],
- *   scope: "VII:DOM",
- *   appliesToConcatenatedStemOnly: true,
- * })
- * // "oicé"
+ *   affixualAdjunctToIthkuil({
+ *     affixes: [{ type: 2, degree: 7, cs: "c" }],
+ *     scope: "VII:DOM",
+ *     appliesToConcatenatedStemOnly: true,
+ *   })
+ *   // "oicé"
+ *
+ * @param adjunct The affixual adjunct to be converted.
+ * @returns Romanized Ithkuilic text representing the affixual adjunct.
  */
 export function affixualAdjunctToIthkuil(adjunct: AffixualAdjunct) {
   if (adjunct.affixes.length == 1) {

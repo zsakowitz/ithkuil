@@ -190,6 +190,7 @@ export type AffixMetadata = {
 
 /**
  * Converts an affix into Ithkuil.
+ *
  * @param affix The affix to be converted.
  * @param metadata Metadata about the affix.
  * @returns Romanized Ithkuilic text representing the affix.

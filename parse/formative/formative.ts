@@ -125,12 +125,13 @@ function parseReversedAffixes(text: string) {
 
 /**
  * Builds a non-shortcut formative.
+ *
  * @param word The word to be built.
  * @param stress The stress of the formative.
  * @returns Either a parsed `PartialFormative` indicating a success, or
- * `undefined` indicating a tokenization failure. Throws if the formative was
- * successfully tokenized but had another error in it (e.g. invalid Vn slot,
- * invalid referential affix, etc.).
+ *   `undefined` indicating a tokenization failure. Throws if the formative was
+ *   successfully tokenized but had another error in it (e.g. invalid Vn slot,
+ *   invalid referential affix, etc.).
  */
 export function buildNonShortcutFormative(
   word: string,
@@ -296,12 +297,13 @@ export function buildNonShortcutFormative(
 
 /**
  * Builds a formative with a Cn shortcut (where Cn replaces Ca).
+ *
  * @param word The word to be built.
  * @param stress The stress of the formative.
  * @returns Either a parsed `PartialFormative` indicating a success, or
- * `undefined` indicating a tokenization failure. Throws if the formative was
- * successfully tokenized but had another error in it (e.g. invalid Vn slot,
- * invalid referential affix, etc.).
+ *   `undefined` indicating a tokenization failure. Throws if the formative was
+ *   successfully tokenized but had another error in it (e.g. invalid Vn slot,
+ *   invalid referential affix, etc.).
  */
 export function buildCnShortcutFormative(
   word: string,
@@ -436,12 +438,13 @@ export function buildCnShortcutFormative(
 
 /**
  * Builds a shortcut formative.
+ *
  * @param word The word to be built.
  * @param stress The stress of the formative.
  * @returns Either a parsed `PartialFormative` indicating a success, or
- * `undefined` indicating a tokenization failure. Throws if the formative was
- * successfully tokenized but had another error in it (e.g. invalid Vn slot,
- * invalid referential affix, etc.).
+ *   `undefined` indicating a tokenization failure. Throws if the formative was
+ *   successfully tokenized but had another error in it (e.g. invalid Vn slot,
+ *   invalid referential affix, etc.).
  */
 export function buildShortcutFormative(
   word: string,

@@ -7,9 +7,7 @@ import { isLegalConsonantForm } from "./general.js"
 export const LEGAL_WORD_INITIAL_1_CONSONANT_FORMS =
   /^[bcçčdḑfghjklmnňprřsštţvwyxzžż]$/
 
-/**
- * A regular expression matching legal two-letter word-initial consonant forms.
- */
+/** A regular expression matching legal two-letter word-initial consonant forms. */
 export const LEGAL_WORD_INITIAL_2_CONSONANT_FORMS =
   /^(?:[pbtdkg][rlřwy]|[pk][sšç]|[bg][zž]|[kg][mn]|[sš][ptkfţxcčř]|[zž][bdgvḑżjmnňrwyl]|[szšž][mnňlrwyřv]|[cżčj][rlmnňwv]|[cč][ptkfţh]|[żj][bdgvḑx]|x[ptcčmnlrw]|ç[ptcčkmnňlrřw]|[fvţḑ][rlmnňwyř]|[fţ][ptkcčç]|[vḑ][bdgżj]|ļ[pktcčçmnňwy]|h[lrmnw]|[mn][lrwyř]|ň[lrw]|[lr][wy]|bv|bḑ|dv|gv|gḑ|kf|kh|kç|kţ|pf|ph|px|pç|pļ|pţ|tf|th|tx|tç|tļ)$/
 
@@ -22,9 +20,10 @@ export const LEGAL_WORD_INITIAL_3_CONSONANT_FORMS =
 
 /**
  * Checks whether a consonant form is allowed in word-initial position.
+ *
  * @param consonantForm The consonant form to check.
  * @returns A boolean indicating whether the consonant form is a legal
- * word-initial consonant form.
+ *   word-initial consonant form.
  */
 export function isLegalWordInitialConsonantForm(text: string) {
   if (!isLegalConsonantForm(text)) {

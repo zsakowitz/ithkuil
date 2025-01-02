@@ -93,6 +93,7 @@ export const SLOT_II_SHORTCUT_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Converts Slot II into Ithkuil.
+ *
  * @param slot The stem and version of the formative.
  * @param metadata Additional information relevant to Slot II.
  * @returns Romanized Ithkuilic text representing Slot II.

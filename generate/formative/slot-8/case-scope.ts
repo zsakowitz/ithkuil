@@ -50,11 +50,12 @@ export const CASE_SCOPE_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Converts a case-scope into Ithkuil.
+ *
  * @param caseScope The case-scope to be converted.
  * @param vnType The type of Vn form associated with this case-scope. Use
- * "aspect" when Vn contains an aspect, "non-aspect" when it contains a
- * non-aspect, and "empty" when it has been elided due to the use of MNO
- * valence.
+ *   "aspect" when Vn contains an aspect, "non-aspect" when it contains a
+ *   non-aspect, and "empty" when it has been elided due to the use of MNO
+ *   valence.
  * @returns Romanized Ithkuilic text representing the case-scope.
  */
 export function caseScopeToIthkuil(caseScope: CaseScope, vnType: VNType) {

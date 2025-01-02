@@ -7,8 +7,8 @@ import { C, RNG, V } from "../forms.js"
  * marked **optional** may not be present.
  *
  * 1. Suppletive Adjunct type (optional, present if slot 2 is not present)
- * 2. Primary referent(s) (does not include ë, optional, present if slot 1 is
- *    not present)
+ * 2. Primary referent(s) (does not include ë, optional, present if slot 1 is not
+ *    present)
  * 3. Vc (required)
  * 4. Specification (x/xt/xp/xx, required)
  * 5. VxCs... (optional)

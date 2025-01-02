@@ -120,6 +120,7 @@ export const AFFIX_DEGREES = /* @__PURE__ */ deepFreeze(
 
 /**
  * Converts an affix into script.
+ *
  * @param cs The Cs of the affix to be converted.
  * @param degree The degree of the affix.
  * @param type The type of the affix.
@@ -175,6 +176,7 @@ export function affixToScript(
 
 /**
  * Attatches a constructor to a character.
+ *
  * @param character The character to attach a constructor to.
  * @param construct The constructor for the character.
  * @returns The original `character`, updated to have a `construct` property.
@@ -210,10 +212,11 @@ export interface FormativeToScriptOptions {
 
 /**
  * Converts a formative into script.
+ *
  * @param formative The formative to be converted.
  * @param options Options that modify how a formative is rendered.
  * @returns `ConstructableCharacter`s containing data from which the script can
- * be constructed.
+ *   be constructed.
  */
 export function formativeToScript(
   formative: PartialFormative & {
@@ -226,6 +229,7 @@ export function formativeToScript(
 
   /**
    * Formative layout:
+   *
    * 1. Primary
    * 2. Secondary root
    * 3. Slot V affixes
@@ -601,6 +605,7 @@ export function formativeToScript(
 
 /**
  * Creates a series of characters from `ConstructableCharacter`s.
+ *
  * @param props Properties defining this character row.
  * @returns A series of characters.
  */

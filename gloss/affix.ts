@@ -53,6 +53,7 @@ function getAffixType(type: 1 | 2 | 3) {
 
 /**
  * Glosses an affix.
+ *
  * @param affix The affix to be glossed.
  * @param isTypeless If true, omits a type (1/2/3) on the output.
  * @returns A `GlossString` representing the affix.

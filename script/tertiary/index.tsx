@@ -65,6 +65,7 @@ export interface TertiaryCharacter {
 
 /**
  * Renders a tertiary character as a group of SVG paths.
+ *
  * @param tertiary Information about the tertiary character.
  * @returns An `SVGGElement` containing the tertiary character's elements.
  */

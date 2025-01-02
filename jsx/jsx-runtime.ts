@@ -1,5 +1,6 @@
 /**
  * A small JSX library that constructs elements.
+ *
  * @param tag The tag of the element to be constructed.
  * @param props Properties of the element to be constructed.
  * @param children Children of the element to be constructed.

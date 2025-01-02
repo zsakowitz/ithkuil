@@ -12,12 +12,13 @@ const CP_TO_SUPPLETIVE_ADJUNCT = {
 
 /**
  * Builds a suppletive adjunct.
+ *
  * @param word The word to be built.
  * @param stress The stress of the adjunct.
  * @returns Either a parsed `SuppletiveAdjunct` indicating a success, or
- * `undefined` indicating a tokenization failure. Throws if the adjunct was
- * successfully tokenized but had another error in it (e.g. invalid Vh slot,
- * etc.).
+ *   `undefined` indicating a tokenization failure. Throws if the adjunct was
+ *   successfully tokenized but had another error in it (e.g. invalid Vh slot,
+ *   etc.).
  */
 export function buildSuppletiveAdjunct(
   word: string,

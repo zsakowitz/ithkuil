@@ -57,6 +57,7 @@ export const AFFIXUAL_ADJUNCT_SCOPE_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({
 
 /**
  * Converts an affixual adjunct scope into Ithkuil.
+ *
  * @param scope The scope to be converted.
  * @param type Whether this scope is used in a Vs, Cz, or Vz slot.
  * @param omitWhenPossible Whether the default scope may be ommitted.

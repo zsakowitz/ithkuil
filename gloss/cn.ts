@@ -14,6 +14,7 @@ import { GlossString } from "./glossable.js"
 
 /**
  * Glosses a Cn form.
+ *
  * @param cn The Cn form to be glossed.
  * @param elidable Whether FAC/CCN Cn forms can be elided.
  * @returns A `GlossString` representing the Cn form.

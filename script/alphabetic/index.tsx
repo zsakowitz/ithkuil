@@ -155,6 +155,7 @@ function BottomExtension({
 
 /**
  * Assembles an advanced alphabetic character as an group of SVG paths.
+ *
  * @param alphabetic Properties that modify the character.
  * @returns An `SVGGElement` containing the character.
  */

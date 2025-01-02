@@ -2,6 +2,7 @@ let svg: SVGSVGElement | undefined
 
 /**
  * Gets the bounding box of an SVG graphics element.
+ *
  * @param element The node to get the bounding box of.
  * @returns The bounding box (in SVG units) of the element.
  */
@@ -29,6 +30,7 @@ export function getBBox(element: SVGGraphicsElement) {
 
 /**
  * Gets the bounding box of an SVG element.
+ *
  * @param element The node to get the bounding box of.
  * @returns The bounding box (in SVG units) of the element.
  */

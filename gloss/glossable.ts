@@ -1,6 +1,7 @@
 /**
  * Converts text into something that can be used in a gloss string by making
  * everything lowercase and changing spaces to underscores.
+ *
  * @param text The text to be modified.
  * @returns The modified text.
  */
@@ -16,6 +17,7 @@ export function asGloss(text: string) {
 export class GlossString {
   /**
    * Constructs a `GlossString` where both components have the same text.
+   *
    * @param text The text of the `GlossString`.
    * @returns The constructed `GlossString`.
    */
@@ -35,6 +37,7 @@ export class GlossString {
 
   /**
    * Checks if this GlossString is empty.
+   *
    * @returns Whether this GlossString is empty or not.
    */
   isEmpty() {
@@ -43,6 +46,7 @@ export class GlossString {
 
   /**
    * Concatenates this GlossString with another.
+   *
    * @param other The other GlossString to add.
    * @returns The new GlossString.
    */
@@ -52,6 +56,7 @@ export class GlossString {
 
   /**
    * Concatenates this GlossString with plain text.
+   *
    * @param other The text to add.
    * @returns The new GlossString.
    */
@@ -61,6 +66,7 @@ export class GlossString {
 
   /**
    * Concatenates this GlossString with a short component and a full component.
+   *
    * @param short The short form to add.
    * @param full The full form to add.
    * @returns The new GlossString.

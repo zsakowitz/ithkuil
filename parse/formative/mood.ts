@@ -22,9 +22,10 @@ const CN_TO_ASPECTUAL_MOOD = /* @__PURE__ */ deepFreezeAndNullPrototype({
 
 /**
  * Parsed a Cn form as a mood.
+ *
  * @param cn The Cn form to be parsed.
  * @returns An array containing the parsed mood and a boolean value indicating
- * whether the mood indicates the corresponding Vn form is an aspect.
+ *   whether the mood indicates the corresponding Vn form is an aspect.
  */
 export function parseMood(cn: string): [mood: Mood, isAspectual: boolean] {
   if (cn in CN_TO_MOOD) {

@@ -18,6 +18,7 @@ import { glossVn } from "./vn.js"
 
 /**
  * Glosses an adjunct.
+ *
  * @param adjunct The adjunct to be glossed.
  * @returns A `GlossString` representing the adjunct.
  */

@@ -72,6 +72,7 @@ import type {
 export class Enum<const T> extends ZodType<T> {
   /**
    * Constructs an `Enum`.
+   *
    * @param items The items to match against.
    * @returns The constructed `Enum`.
    */
@@ -487,9 +488,7 @@ export const adjunct = /* @__PURE__ */ union([
   suppletiveAdjunct,
 ])
 
-/**
- * A Zod parser matching adjuncts other than non-single register adjuncts.
- */
+/** A Zod parser matching adjuncts other than non-single register adjuncts. */
 export const plainAdjunct = /* @__PURE__ */ union([
   affixualAdjunct,
   biasAdjunct,

@@ -6,6 +6,7 @@ export interface BreakCharacter {
 
 /**
  * Constructs a `BreakCharacter`.
+ *
  * @param props Properties modifying this character's behavior.
  * @returns An `SVGGElement` representing the character.
  */

@@ -7,6 +7,7 @@ import { GlossString, asGloss } from "./glossable.js"
 
 /**
  * Glosses a referent.
+ *
  * @param referent The referent to be glossed.
  * @returns A `GlossString` representing the referent.
  */

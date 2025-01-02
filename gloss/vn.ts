@@ -16,6 +16,7 @@ import { asGloss, GlossString } from "./glossable.js"
 
 /**
  * Glosses a Vn form.
+ *
  * @param vn The Vn form to be glossed.
  * @returns A `GlossString` representing the Vn form.
  */
