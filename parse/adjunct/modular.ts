@@ -16,12 +16,13 @@ const VH_TO_SCOPE: Readonly<Record<string, ModularAdjunctScope>> = {
 
 /**
  * Builds a modular adjunct.
+ *
  * @param word The word to be built.
  * @param stress The stress of the adjunct.
  * @returns Either a parsed `ModularAdjunct` indicating a success, or
- * `undefined` indicating a tokenization failure. Throws if the adjunct was
- * successfully tokenized but had another error in it (e.g. invalid Vn slot,
- * etc.).
+ *   `undefined` indicating a tokenization failure. Throws if the adjunct was
+ *   successfully tokenized but had another error in it (e.g. invalid Vn slot,
+ *   etc.).
  */
 export function buildModularAdjunct(
   word: string,

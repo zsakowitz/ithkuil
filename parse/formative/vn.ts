@@ -19,6 +19,7 @@ const NON_ASPECTUAL_VNS = [
 
 /**
  * Parses a Vn form as a non-aspect.
+ *
  * @param vn The Vn form to be parsed.
  * @returns The parsed Vn form.
  */
@@ -32,6 +33,7 @@ export function parseNonAspectualVn(vn: VowelForm): NonAspectualVN {
 
 /**
  * Parses a Vn form as an Aspect.
+ *
  * @param vn The Vn form to be parsed.
  * @returns The parsed Vn form.
  */

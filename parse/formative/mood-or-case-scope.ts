@@ -32,10 +32,11 @@ const CN_TO_ASPECTUAL_MOOD_OR_CASE_SCOPE = /* @__PURE__ */ deepFreeze({
 
 /**
  * Parsed a Cn form as a {@link MoodOrCaseScope}.
+ *
  * @param cn The Cn form to be parsed.
  * @returns An array containing the parsed {@link MoodOrCaseScope} and a boolean
- * value indicating whether the case scope indicates the corresponding Vn form
- * is an aspect.
+ *   value indicating whether the case scope indicates the corresponding Vn form
+ *   is an aspect.
  */
 export function parseMoodOrCaseScope(
   cn: string,

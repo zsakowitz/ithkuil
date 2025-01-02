@@ -6,10 +6,11 @@ import { biasAdjunct } from "../lex/adjunct/bias.js"
 
 /**
  * Builds a bias adjunct.
+ *
  * @param word The word to be built.
  * @returns Either a parsed `BiasAdjunct` indicating a success, or `undefined`
- * indicating a tokenization failure. Throws if the adjunct was successfully
- * tokenized but had another error in it (e.g. invalid bias).
+ *   indicating a tokenization failure. Throws if the adjunct was successfully
+ *   tokenized but had another error in it (e.g. invalid bias).
  */
 export function buildBiasAdjunct(word: string): BiasAdjunct | undefined {
   const match = biasAdjunct.exec(word)
