@@ -161,7 +161,11 @@ function runTests(numberOfTestCases: number, mode: "short" | "full") {
 
   function randomFormative(): PartialFormative {
     const root: SlotIII =
-      Math.random() < 0.1 ? [randomItem(ALL_REFERENTS)]
+      Math.random() < 0.1 ?
+        Math.random() < 0.5 ?
+          BigInt(Math.floor(Math.random() * Number.MAX_SAFE_INTEGER))
+        : Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
+      : Math.random() < 0.1 ? [randomItem(ALL_REFERENTS)]
       : Math.random() < 0.1 ?
         {
           cs: randomLetterSeries(5),
