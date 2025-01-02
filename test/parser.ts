@@ -168,7 +168,12 @@ function runTests(numberOfTestCases: number, mode: "short" | "full") {
       : Math.random() < 0.1 ? [randomItem(ALL_REFERENTS)]
       : Math.random() < 0.1 ?
         {
-          cs: randomLetterSeries(5),
+          cs:
+            Math.random() < 0.1 ?
+              Math.random() < 0.5 ?
+                BigInt(Math.floor(Math.random() * Number.MAX_SAFE_INTEGER))
+              : Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
+            : randomLetterSeries(5),
           degree: randomItem([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
         }
       : randomLetterSeries(5)
