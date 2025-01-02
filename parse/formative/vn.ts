@@ -5,9 +5,14 @@ import {
   ALL_PHASES,
   ALL_VALENCES,
   type Aspect,
+  type Effect,
+  type Level,
   type NonAspectualVN,
+  type Phase,
+  type Valence,
 } from "../../generate/formative/slot-8/index.js"
-import type { VowelForm } from "../vowel-form.js"
+import { Decomposed } from "../decompose.js"
+import { VowelForm } from "../vowel-form.js"
 
 const NON_ASPECTUAL_VNS = [
   undefined,
@@ -43,4 +48,44 @@ export function parseAspect(vn: VowelForm): Aspect {
   }
 
   return ALL_ASPECTS[(vn.sequence - 1) * 9 + (vn.degree - 1)]!
+}
+
+/**
+ * Decomposes a Vn form as an Aspect.
+ *
+ * @param vn The Vn form to be parsed.
+ * @returns The decomposed Vn form.
+ */
+export function dcAspect(source: string) {
+  return new Decomposed(
+    source,
+    "Vn",
+    "aspect",
+    parseAspect(VowelForm.parseOrThrow(source)),
+  )
+}
+
+/**
+ * Decomposes a Vn form as a non-aspect.
+ *
+ * @param vn The Vn form to be parsed.
+ * @returns The decomposed Vn form.
+ */
+export function dcNonAspectualVn(source: string) {
+  const vn = VowelForm.parseOrThrow(source)
+
+  if (vn.degree == 0) {
+    throw new Error("Invalid Vn form: '" + vn + "'.")
+  }
+
+  return new Decomposed(
+    source,
+    "Vn",
+    ["", "valence", "phase", "effect", "level"][vn.sequence]!,
+    NON_ASPECTUAL_VNS[vn.sequence][vn.degree - 1]!,
+  ) as
+    | Decomposed<"Vn", "valence", Valence>
+    | Decomposed<"Vn", "phase", Phase>
+    | Decomposed<"Vn", "effect", Effect>
+    | Decomposed<"Vn", "level", Level>
 }
