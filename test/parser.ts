@@ -484,7 +484,7 @@ function runTests(numberOfTestCases: number, mode: "short" | "full") {
   }
 
   function checkValidity() {
-    return test("checking validity", (source) => {
+    return test("checking validity", (source, parsed) => {
       const result = parseWord(source)
 
       if (result == null) {
@@ -503,7 +503,7 @@ function runTests(numberOfTestCases: number, mode: "short" | "full") {
         const { word } = transformWord(source)
 
         const neo = testNeo(word)
-        if (neo != null) {
+        if (typeof parsed == "object" && "root" in parsed) {
           if (neo != word) {
             throw new Error(
               `Neo output '${neo}' is different from input '${word}'.`,
