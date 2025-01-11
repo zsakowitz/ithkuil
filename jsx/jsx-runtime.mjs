@@ -1,3 +1,4 @@
+/// <reference types="./env.d.ts" />
 function d(t, e, ...n) {
   if (typeof t == "function")
     return (
