@@ -1,6 +1,6 @@
 {
   "name": "@zsnout/ithkuil",
-  "version": "0.1.115",
+  "version": "0.1.117",
   "description": "A set of tools which can generate and parse romanized Ithkuil text and which can generate Ithkuil script from text and JSON data.",
   "author": "sakawi",
   "license": "MIT",
@@ -47,5 +47,11 @@
     "@zsnout/ithkuil-jsx": "^0.1.1",
     "fast-fuzzy": "^1.12.0",
     "zod": "^3.21.4"
-  }
+  },
+  "files": [
+    "**/*.d.ts",
+    "**/*.js",
+    "**/*.mjs",
+    "**/*.json"
+  ]
 }
