@@ -4,6 +4,14 @@
 Ithkuil text. It can generate romanized text from JSON objects, parse text into
 JSON objects, and write in Ithkuil's writing system using SVG paths.
 
+## Custom Character Syntax
+
+In addition to standard romanized Ithkuil, this package adds many new word kinds
+for writing script characters. See [this Google Slide](https://docs.google.com/presentation/d/1Mw3mNznsiX0PTC9bA1vYvxOyCHliN6t2Veo7eL9cJas/edit#slide=id.g26f27f18900_0_0)
+explaining the syntax for more information. Examples include `ho1` for forcing a
+particlar kind of register, `Q2world` for forcing the transcription of "world" to
+be included, and `QA27o'u` to force a particular quaternary character.
+
 ## Stability
 
 This package is in active development, so expect change. That said, this package
