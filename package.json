@@ -1,6 +1,6 @@
 {
   "name": "@zsnout/ithkuil",
-  "version": "0.1.117",
+  "version": "0.1.118",
   "description": "A set of tools which can generate and parse romanized Ithkuil text and which can generate Ithkuil script from text and JSON data.",
   "author": "sakawi",
   "license": "MIT",
@@ -8,6 +8,7 @@
   "scripts": {
     "build": "tsc -b",
     "cleanup": "rm -f data/**/*.js; rm -f generate/**/*.js; rm -f gloss/**/*.js; rm -f parse/**/*.js; rm -f script/**/*.js; rm -f test/**/*.js; rm -f ungloss/**/*.js; rm -f *.js",
+    "cleanup2": "rm -f data/**/*.d.ts; rm -f generate/**/*.d.ts; rm -f gloss/**/*.d.ts; rm -f parse/**/*.d.ts; rm -f script/**/*.d.ts; rm -f test/**/*.d.ts; rm -f ungloss/**/*.d.ts; rm -f *.d.ts",
     "fetch:affixes": "tsc -b && rm -f ./data/affixes-latest.ts && node -e \"import('./data/affixes.js').then(x => x.getAffixes(process.env.ITHKUIL_DATA_API_KEY)).then(x => fs.writeFileSync('./data/affixes-latest.ts', 'import type { AffixEntry } from \\'./affixes.js\\'\\nimport { deepFreeze } from \\'../generate/helpers/deep-freeze.js\\'\\n\\nexport const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>(' + JSON.stringify(x).replaceAll('null','') + ')'))\"",
     "fetch:roots": "tsc -b && rm -f ./data/roots-latest.ts && node -e \"import('./data/roots.js').then(x => x.getRoots(process.env.ITHKUIL_DATA_API_KEY)).then(x => fs.writeFileSync('./data/roots-latest.ts', 'import type { RootEntry } from \\'./roots.js\\'\\nimport { deepFreeze } from \\'../generate/helpers/deep-freeze.js\\'\\n\\nexport const roots = /* @__PURE__ */ deepFreeze<RootEntry[]>(' + JSON.stringify(x).replaceAll('null','') + ')'))\"",
     "fetch-data": "npm run fetch:affixes; npm run fetch:roots; npx prettier --write data/*-latest.ts",
