@@ -282,6 +282,20 @@ function sentenceToScript(
           continue
         }
 
+        // Q5(EVE|CVV|VVC|V?CV?|VV|V̀)
+        if (word[1] == "5") {
+          output.push(
+            ...textToSecondaries(word.slice(2), {
+              handwritten,
+              placeholder: "ALPHABETIC_PLACEHOLDER",
+            }).map((secondary) =>
+              attachConstructor({ ...secondary, rotated: true }, Secondary),
+            ),
+          )
+
+          continue
+        }
+
         // Q3(VL)?(V[PEA])?V?([PEA]V)?(LV)?
         if (word[1] == "3") {
           const match = word.match(
@@ -1079,7 +1093,7 @@ export function textToScript(
  * {!flag} means {flag: false} or {flag: []} {=flag} means {flag: true} {flag?}
  * means {flag: flag} {flag¿} means {flag: !flag}
  *
- * Q(V?)(C?)(V?)([-~^:`'"¿]?)([/|\><]{0,2}) Q1(formative whose primary will be
+ * Q(V?)(C?)(V?)([-~^:`'"¿]?)([/|><]{0,2}) Q1(formative whose primary will be
  * shown) Q2?(EVE|CVV|VVC|V?CV?|VV|V̀) Q3(VL)?(V[PEA])?V?([PEA]V)?(LV)?
  * Q4(Hmood)?V(Hcasescope)? V's stress determines case/ill+val
  * Q(A|IA?)[123]?[57]?V NV?\d{1,4}V?
@@ -1133,8 +1147,8 @@ export function textToScript(
  * - Global states
  * - S... formative w/o -S- STANDARD{!carrier, !adjuncts} if register=false
  * - S... formative w/o -S- REGISTER if register=true
- * - STANDARD{!carrier, !adjuncts}  if register=false
- * - REGISTER                       if register=false
+ * - STANDARD{!carrier, !adjuncts} if register=false
+ * - REGISTER if register=false
  *
  * STATE: REGISTER (this state is for when writing alphabetics inside registers.
  * its goal is to write alphabetic characters while allowing global states to be
@@ -1155,5 +1169,5 @@ export function textToScript(
  * goal is to default to h1 but use other registers if provided)
  *
  * - Global states
- * - register                REGISTER
+ * - Register REGISTER
  */

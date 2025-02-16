@@ -1,4 +1,4 @@
-const el = /* @__PURE__ */ document.createElement("pre")
+let el: HTMLPreElement | undefined
 
 /**
  * Shows text in a small window at the top-left of the screen.
@@ -6,6 +6,8 @@ const el = /* @__PURE__ */ document.createElement("pre")
  * @param data The text to be shown.
  */
 export function debug(...data: unknown[]) {
+  el ??= document.createElement("pre")
+
   el.textContent +=
     data
       .map((x) => {
