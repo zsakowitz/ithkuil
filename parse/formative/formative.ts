@@ -350,7 +350,7 @@ export function buildCnShortcutFormative(
     root = parseReferentList(match[3]!)
   } else if (vv?.degree == 0) {
     throw new Error("Invalid Vv slot: " + vv + ".")
-  } else if (!n.test(match[3]!)) {
+  } else if (n.test(match[3]!)) {
     root = BigInt(match[3]!.replace(/_/g, ""))
   } else {
     root = match[3]!

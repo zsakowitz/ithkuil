@@ -1,5 +1,3 @@
-/// <reference types="./env.d.ts" />
-
 /**
  * A small JSX library that constructs elements.
  *
@@ -12,37 +10,7 @@ export function jsx(
   tag: string | ((...args: any) => SVGElement | HTMLElement),
   props?: Record<string, any> | null | undefined,
   ...children: any[]
-) {
-  if (typeof tag == "function") {
-    if (props && !("children" in props)) {
-      if (children.length == 1) {
-        props.children = children[0]
-      } else if (children.length > 1) {
-        props.children = children
-      }
-    }
-
-    const el = tag(props)
-
-    return el
-  }
-
-  const el = document.createElementNS("http://www.w3.org/2000/svg", tag)
-
-  if (props && "children" in props) {
-    children = Array.isArray(props.children) ? props.children : [props.children]
-  }
-
-  for (const key in props) {
-    if (key != "children") {
-      el.setAttribute(key, props[key])
-    }
-  }
-
-  el.append(...children.filter((x) => x != null))
-
-  return el
-}
+): SVGElement | HTMLElement
 
 export { jsx as jsxs }
 

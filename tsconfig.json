@@ -19,7 +19,8 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2022",
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    "declaration": true
   },
   "include": [
     "*.ts",

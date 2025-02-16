@@ -33,12 +33,12 @@ import {
   type ReferentList,
   type SlotIII,
   type Word,
-  formativeToIthkuil,
 } from "../generate/index.js"
 import { ALL_REFERENTS } from "../generate/referential/referent/referent.js"
-import { parseWord } from "../parse/index.js"
+import { testNeo } from "../parse/formative/indexneo.js"
+import { parseWord, transformWord } from "../parse/index.js"
 
-function runTests(numberOfTestCases: number, mode: "short" | "full") {
+function genTests(numberOfTestCases: number, mode: "short" | "full") {
   function randomItem<const T>(object: {
     readonly [x: number]: T
     readonly length: number
@@ -161,10 +161,19 @@ function runTests(numberOfTestCases: number, mode: "short" | "full") {
 
   function randomFormative(): PartialFormative {
     const root: SlotIII =
-      Math.random() < 0.1 ? [randomItem(ALL_REFERENTS)]
+      Math.random() < 0.1 ?
+        Math.random() < 0.5 ?
+          BigInt(Math.floor(Math.random() * Number.MAX_SAFE_INTEGER))
+        : Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
+      : Math.random() < 0.1 ? [randomItem(ALL_REFERENTS)]
       : Math.random() < 0.1 ?
         {
-          cs: randomLetterSeries(5),
+          cs:
+            Math.random() < 0.1 ?
+              Math.random() < 0.5 ?
+                BigInt(Math.floor(Math.random() * Number.MAX_SAFE_INTEGER))
+              : Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
+            : randomLetterSeries(5),
           degree: randomItem([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
         }
       : randomLetterSeries(5)
@@ -374,20 +383,22 @@ function runTests(numberOfTestCases: number, mode: "short" | "full") {
 
   console.timeEnd("creating words")
 
-  function benchmark() {
+  return testCases
+}
+
+function runTests(numberOfTestCases: number, mode: "short" | "full") {
+  const testCases = genTests(numberOfTestCases, mode)
+
+  function test(mark: string, f: (source: string, word: Word) => void) {
     let index = 0
 
-    console.time("performing benchmark")
+    console.time(mark)
 
     for (const [word, source] of testCases) {
       index++
 
       try {
-        const result = parseWord(source)
-
-        if (result == null) {
-          throw new Error("Failed to tokenize.")
-        }
+        f(source, word)
       } catch (error) {
         console.error(`Failed on input #${index} '${source}':`)
 
@@ -403,67 +414,19 @@ function runTests(numberOfTestCases: number, mode: "short" | "full") {
       }
     }
 
-    console.timeEnd("performing benchmark")
+    console.timeEnd(mark)
 
     return true
   }
 
-  function checkValidity() {
-    let index = 0
-
-    console.time("checking validity")
-
-    for (const [word, source] of testCases) {
-      index++
-
+  function findFailures(f: (source: string, word: Word) => boolean) {
+    const failures = testCases.filter(([word, source]) => {
       try {
-        const result = parseWord(source)
-
-        if (result == null) {
-          throw new Error("Failed to tokenize.")
-        }
-
-        const output = wordToIthkuil(result)
-
-        if (source != output) {
-          throw new Error(
-            `Output '${output}' is different from input '${source}'.`,
-          )
-        }
-      } catch (error) {
-        console.error(`Failed on input #${index} '${source}':`)
-
-        if (error instanceof Error) {
-          console.error(error)
-        } else {
-          console.error("Error: " + String(error))
-        }
-
-        console.error(word)
-
-        return false
-      }
-    }
-
-    console.timeEnd("checking validity")
-
-    return true
-  }
-
-  function findAllBenchmarkFailures() {
-    const failures = testCases.filter(([, source]) => {
-      try {
-        const result = parseWord(source)
-
-        if (result == null) {
-          return true
-        }
+        return f(source, word)
       } catch (err) {
         console.log(err instanceof Error ? err.message : err)
         return true
       }
-
-      return false
     })
 
     if (failures.length == 0) {
@@ -506,12 +469,57 @@ function runTests(numberOfTestCases: number, mode: "short" | "full") {
     )
 
     console.log(
-      "Total benchmark failures: " +
-        failures.length +
-        " of " +
-        testCases.length +
-        ".",
+      "Total failures: " + failures.length + " of " + testCases.length + ".",
     )
+  }
+
+  function benchmark() {
+    return test("benchmarking", (source) => {
+      const result = parseWord(source)
+
+      if (result == null) {
+        throw new Error("Failed to tokenize.")
+      }
+    })
+  }
+
+  function checkValidity() {
+    return test("checking validity", (source, parsed) => {
+      const result = parseWord(source)
+
+      if (result == null) {
+        throw new Error("Failed to tokenize.")
+      }
+
+      const output = wordToIthkuil(result)
+
+      if (source != output) {
+        throw new Error(
+          `Output '${output}' is different from input '${source}'.`,
+        )
+      }
+
+      {
+        const { word } = transformWord(source)
+
+        const neo = testNeo(word)
+        if (typeof parsed == "object" && "root" in parsed) {
+          if (neo != word) {
+            throw new Error(
+              `Neo output '${neo}' is different from input '${word}'.`,
+            )
+          }
+        }
+      }
+    })
+  }
+
+  function findAllBenchmarkFailures() {
+    return findFailures((source) => {
+      const result = parseWord(source)
+
+      return result == null
+    })
   }
 
   function findAllValidityFailures() {

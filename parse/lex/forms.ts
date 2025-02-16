@@ -6,7 +6,7 @@ const consonant = /* @__PURE__ */ charIn("pbtdkgfvţḑszšžçxhļcżčjmnňrlw
 const standardConsonant = /* @__PURE__ */ charIn("pbtdkgfvţḑszšžçxļcżčjmnňrlř_")
 const specialConsonant = /* @__PURE__ */ charIn("hwy")
 
-const geminate = /* @__PURE__ */ anyText(
+const GEMINATE = /* @__PURE__ */ anyText(
   "pp",
   "bb",
   "tt",
@@ -35,6 +35,9 @@ const geminate = /* @__PURE__ */ anyText(
   "ll",
   "řř",
 )
+
+/** A `RegExp` matching a geminate. DOES NOT MATCH THE ENTIRE TEXT. */
+export const geminate = GEMINATE.compile()
 
 /** A `RegexPart` matching a vowel form. */
 export const V = /* @__PURE__ */ vowel.oneOrMore()
@@ -88,7 +91,7 @@ export const H = /* @__PURE__ */ seq(
  */
 export const CG = /* @__PURE__ */ seq(
   /* @__PURE__ */ seq(standardConsonant, consonant.zeroOrMore()).optional(),
-  geminate,
+  GEMINATE,
   /* @__PURE__ */ consonant.zeroOrMore(),
 )
 
@@ -97,7 +100,7 @@ export const CG = /* @__PURE__ */ seq(
  * geminated consonant.
  */
 export const CNG = /* @__PURE__ */ seq(
-  /* @__PURE__ */ seq(consonant.zeroOrMore(), geminate).not(),
+  /* @__PURE__ */ seq(consonant.zeroOrMore(), GEMINATE).not(),
   standardConsonant,
   /* @__PURE__ */ consonant.zeroOrMore(),
 )
