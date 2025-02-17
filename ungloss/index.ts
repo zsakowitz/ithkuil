@@ -68,11 +68,11 @@ import {
   type Version,
 } from "../generate/index.js"
 import {
+  N,
   any,
   anyText,
   anyTextArray,
   charIn,
-  N,
   n,
   seq,
   text,
@@ -385,8 +385,8 @@ function parseCaseRelatedGloss(gloss: string): Affix {
   throw new Error("Invalid case-accessor gloss: '" + original + "'.")
 }
 
-function parseCaGloss(ca: string): PartialCA {
-  if (["ca", "cA", "Ca", "CA", "{ca}", "{cA}", "{Ca}", "{CA}"].includes(ca)) {
+export function parseCaGloss(ca: string): PartialCA {
+  if (["ca", "{ca}"].includes(ca.toLowerCase())) {
     return {}
   }
 
@@ -429,6 +429,8 @@ function parseCaGloss(ca: string): PartialCA {
       }
 
       essence = segment
+    } else {
+      throw new Error(`The segment '${segment}' isn't a valid CA segment.`)
     }
   }
 
@@ -711,11 +713,7 @@ function parseTailSegments(segments: readonly string[]) {
     }
 
     if (caRegex.test(segment)) {
-      if (
-        ["ca", "cA", "Ca", "CA", "{ca}", "{cA}", "{Ca}", "{CA}"].includes(
-          segment,
-        )
-      ) {
+      if (["ca", "{ca}"].includes(segment.toLowerCase())) {
         return { type: "emptyCa" as const }
       }
 
@@ -883,18 +881,18 @@ function unglossTailSegments(
  *   It may also have these items, but only before the root:
  *
  *   - Affix shortcuts, marked with `(NEG/4)`, `(DCD/4)`, or `(DCD/5)`
- *   - Ca shortcuts, marked with `Ca` (for a default Ca), `PRX`, `G`, `RPV`, `N`,
+ *   - CA shortcuts, marked with `Ca` (for a default Ca), `PRX`, `G`, `RPV`, `N`,
  *       `A`, `PRX.RPV`, or `G.RPV`.
  *
  *   The standard morphological restrictions apply, meaning that...
  *
- *   - You may not specify a Ca shortcut with non-BSC specification, non-STA
+ *   - You may not specify a CA shortcut with non-BSC specification, non-STA
  *       function, or non-EXS context.
- *   - You may not specify an affixual-root formative with a Ca shortcut, non-BSC
+ *   - You may not specify an affixual-root formative with a CA shortcut, non-BSC
  *       specification, or non-Stem 1.
- *   - You may not specify a personal-reference root formative with a Ca shortcut
+ *   - You may not specify a personal-reference root formative with a CA shortcut
  *       other than [default] or PRX, non-STA function, or non-Stem 1.
- *   - You may not specify a Ca shortcut and an affix shortcut.
+ *   - You may not specify a CA shortcut and an affix shortcut.
  *
  *   ### The Tail
  *
@@ -906,7 +904,7 @@ function unglossTailSegments(
  *       to 1.
  *   - Ca information, such as `MSF`, `DFC.G.RPV`, or `COA.PRX`. To specify where
  *       the split between slot V and VII affixes should be when no Ca is
- *       present, or when it is specified as a Ca shortcut, write `Ca`, as in
+ *       present, or when it is specified as a CA shortcut, write `Ca`, as in
  *       `G-l-r/2-Ca-cč/1`.
  *   - Vn information, such as `2:BEN`, `RTR`, or `FLC`.
  *   - Cn information, such as `CCA` or `HYP`.
@@ -933,11 +931,11 @@ function unglossTailSegments(
  *   they will instead be rewritten to be affixes. For example, the gloss
  *   `l-OBS-c/1-ERG` will be rewritten as `l-nļ/1-c/1-ERG`.
  *
- *   If a Ca shortcut is present, the split between slots V and VII is determined
+ *   If a CA shortcut is present, the split between slots V and VII is determined
  *   by the first "{Ca}" segment (that is, an empty Ca slot). If none is
  *   present, all affixes are assumed to be in Slot VII.
  *
- *   If no Ca shortcut is present, the split between slots V and VII is determined
+ *   If no CA shortcut is present, the split between slots V and VII is determined
  *   by the following, in order of precedence:
  *
  *   1. The first curly-bracketed mood/case-scope (if no Vn is present).
@@ -948,7 +946,7 @@ function unglossTailSegments(
  *
  *   ## Shortcuts
  *
- *   To specify a Ca shortcut, write the Ca before the main root. To specify an
+ *   To specify a CA shortcut, write the Ca before the main root. To specify an
  *   affix shortcut, write (NEG/4), (DCD/4), or (DCD/5) before the main root. To
  *   specify a mood/case-scope shortcut, surround the mood or case-scope with
  *   curly brackets, as in `{HYP}` or `{CCV}`.
@@ -1044,7 +1042,7 @@ export function unglossFormative(gloss: string): PartialFormative | undefined {
         }
 
         if (caShortcut) {
-          throw new Error("Cannot specify a Ca shortcut and an affix shortcut.")
+          throw new Error("Cannot specify a CA shortcut and an affix shortcut.")
         } else {
           throw new Error("Affix shortcuts are specified twice.")
         }
@@ -1080,25 +1078,25 @@ export function unglossFormative(gloss: string): PartialFormative | undefined {
         }
 
         if (function_ == "DYN") {
-          throw new Error("Cannot specify a Ca shortcut and non-STA function.")
+          throw new Error("Cannot specify a CA shortcut and non-STA function.")
         }
 
         if ((specification || "BSC") != "BSC") {
           throw new Error(
-            "Cannot specify a Ca shortcut and non-BSC specification.",
+            "Cannot specify a CA shortcut and non-BSC specification.",
           )
         }
 
         if ((context || "EXS") != "EXS") {
-          throw new Error("Cannot specify a Ca shortcut and non-EXS context.")
+          throw new Error("Cannot specify a CA shortcut and non-EXS context.")
         }
 
         if (affixShortcut) {
-          throw new Error("Cannot specify a Ca shortcut and an affix shortcut.")
+          throw new Error("Cannot specify a CA shortcut and an affix shortcut.")
         }
 
         if (caShortcut) {
-          throw new Error("Ca shortcuts are specified twice.")
+          throw new Error("CA shortcuts are specified twice.")
         }
 
         const ca = parseCaGloss(segment)
@@ -1114,7 +1112,7 @@ export function unglossFormative(gloss: string): PartialFormative | undefined {
               ca.extension == "DEL" ||
               ca.extension == "PRX")
           : typeof root == "object" ?
-            // Specialized Cs-root formatives cannot take Ca shortcuts.
+            // Specialized Cs-root formatives cannot take CA shortcuts.
             false
           : ((ca.affiliation || "CSL") == "CSL" &&
               (ca.configuration || "UPX") == "UPX" &&
@@ -1132,7 +1130,7 @@ export function unglossFormative(gloss: string): PartialFormative | undefined {
         ) {
           caShortcut = ca
         } else {
-          throw new Error("Invalid Ca shortcut: '" + segment + "'.")
+          throw new Error("Invalid CA shortcut: '" + segment + "'.")
         }
       } else if (referentListRegex.test(segment)) {
         if (root) {
@@ -1172,15 +1170,15 @@ export function unglossFormative(gloss: string): PartialFormative | undefined {
   }
 
   if (caShortcut && function_ == "DYN") {
-    throw new Error("Cannot specify a Ca shortcut and non-STA function.")
+    throw new Error("Cannot specify a CA shortcut and non-STA function.")
   }
 
   if (caShortcut && (specification || "BSC") != "BSC") {
-    throw new Error("Cannot specify a Ca shortcut and non-BSC specification.")
+    throw new Error("Cannot specify a CA shortcut and non-BSC specification.")
   }
 
   if (caShortcut && (context || "EXS") != "EXS") {
-    throw new Error("Cannot specify a Ca shortcut and non-EXS context.")
+    throw new Error("Cannot specify a CA shortcut and non-EXS context.")
   }
 
   if (Array.isArray(root)) {
@@ -1209,7 +1207,7 @@ export function unglossFormative(gloss: string): PartialFormative | undefined {
         )
       ) {
         throw new Error(
-          "Invalid Ca shortcut on a specialized personal-reference root formative. Only [default] and PRX are allowed.",
+          "Invalid CA shortcut on a specialized personal-reference root formative. Only [default] and PRX are allowed.",
         )
       }
     }
@@ -1228,13 +1226,13 @@ export function unglossFormative(gloss: string): PartialFormative | undefined {
 
     if (caShortcut) {
       throw new Error(
-        "Cannot specify a Ca shortcut on a specialized affixual-root formative.",
+        "Cannot specify a CA shortcut on a specialized affixual-root formative.",
       )
     }
   }
 
   if (affixShortcut && caShortcut) {
-    throw new Error("Cannot specify an affix shortcut and a Ca shortcut.")
+    throw new Error("Cannot specify an affix shortcut and a CA shortcut.")
   }
 
   let type: "UNF/C" | "UNF/K" | "FRM" = "UNF/C"
