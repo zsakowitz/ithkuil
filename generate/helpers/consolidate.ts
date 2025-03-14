@@ -101,7 +101,7 @@ export function mergeAdjunctsAndFormative(
   slotVAffixes.push(...affixes[1])
   slotVIIAffixes.unshift(...affixes[2])
   slotVIIAffixes.push(...affixes[3])
-  slotVIIAffixes.push(...affixes[4])
+  slotXIAffixes.push(...affixes[4])
   slotXIAffixes.push(...affixes[5])
   slotXIAffixes.push(...affixes[6])
   slotXIAffixes.push(...affixes[7])

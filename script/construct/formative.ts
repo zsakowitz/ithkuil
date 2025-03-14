@@ -12,6 +12,7 @@ import {
   ALL_PHASES,
   ALL_VALENCES,
   ALL_VALIDATIONS,
+  ALL_VALIDATIONS_DIACRITIC_ORDER,
   AP1,
   AP2,
   AP3,
@@ -522,7 +523,9 @@ export function formativeToScript(
         QUATERNARY_DIACRITIC_MAP[ALL_ILLOCUTIONS.indexOf(finalQuaternary.value)]
     } else if (has(ALL_VALIDATIONS, finalQuaternary.value)) {
       initialCrRoot.underposed =
-        QUATERNARY_DIACRITIC_MAP[ALL_VALIDATIONS.indexOf(finalQuaternary.value)]
+        QUATERNARY_DIACRITIC_MAP[
+          ALL_VALIDATIONS_DIACRITIC_ORDER.indexOf(finalQuaternary.value)
+        ]
     } else {
       const index = ALL_CASES_SKIPPING_DEGREE_8.indexOf(finalQuaternary.value)
 
