@@ -5,7 +5,7 @@ export type Level =
   | "MIN"
   | "SBE"
   | "IFR"
-  | "DFC"
+  | "DFT"
   | "EQU"
   | "SUR"
   | "SPL"
@@ -17,7 +17,7 @@ export const ALL_LEVELS: readonly Level[] = /* @__PURE__ */ deepFreeze([
   "MIN",
   "SBE",
   "IFR",
-  "DFC",
+  "DFT",
   "EQU",
   "SUR",
   "SPL",
@@ -30,7 +30,7 @@ export const LEVEL_TO_ITHKUIL_MAP = /* @__PURE__ */ deepFreeze({
   MIN: "ao",
   SBE: "aö",
   IFR: "eo",
-  DFC: "eö",
+  DFT: "eö",
   EQU: "oë",
   SUR: "öe",
   SPL: "oe",
@@ -43,7 +43,7 @@ export const LEVEL_TO_NAME_MAP = /* @__PURE__ */ deepFreeze({
   MIN: "Minimal",
   SBE: "Subequative",
   IFR: "Inferior",
-  DFC: "Deficient",
+  DFT: "Deficient",
   EQU: "Equative",
   SUR: "Surpassive",
   SPL: "Superlative",

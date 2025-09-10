@@ -3858,7 +3858,7 @@ export const affixes = /* @__PURE__ */ deepFreeze<AffixEntry[]>([
       "(MIN) Minimal",
       "(SBE) Subequative",
       "(IFR) Inferior",
-      "(DFC) Deficient",
+      "(DFT) Deficient",
       "(EQU) Equative",
       "(SUR) Surpassive",
       "(SPL) Superlative",

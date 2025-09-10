@@ -335,7 +335,7 @@ function sentenceToScript(
             ao: "MIN",
             aö: "SBE",
             eo: "IFR",
-            eö: "DFC",
+            eö: "DFT",
             oë: "EQU",
             öe: "SUR",
             oe: "SPL",
